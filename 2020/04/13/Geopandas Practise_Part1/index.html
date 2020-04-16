@@ -29,7 +29,7 @@
     
 
     <!--Open Graph Site Name-->
-    <meta property="og:site_name" content="Ford Yang&#39;s Notes"/>
+    <meta property="og:site_name" content="Ford Yang&#39;s Blog"/>
 
     <!--Type page-->
     
@@ -44,7 +44,7 @@
 
     <!-- Title -->
     
-    <title>Geopandas Practise_Part1 - Ford Yang&#39;s Notes</title>
+    <title>Geopandas Practise_Part1 - Ford Yang&#39;s Blog</title>
 
     <!-- Tachyons Core CSS -->
     <link rel="stylesheet" href="https://unpkg.com/tachyons/css/tachyons.min.css">
@@ -79,8 +79,8 @@
 <div class="w-100 bg-1 ph5-ns ph3 text-light">
     
     <nav class="db dt-l w-100 mw8 center border-box pv3">
-        <a class="db dtc-l v-mid link dim w-100 w-25-l tc tl-l mb2 mb0-l white" href="/" title="Ford Yang's Notes">
-            <img src="http://www.codeblocq.com/assets/projects/hexo-theme-anodyne/assets/anodyne.svg" class="dib h3" alt="Ford Yang's Notes">
+        <a class="db dtc-l v-mid link dim w-100 w-25-l tc tl-l mb2 mb0-l white" href="/" title="Ford Yang's Blog">
+            <img src="http://www.codeblocq.com/assets/projects/hexo-theme-anodyne/assets/anodyne.svg" class="dib h3" alt="Ford Yang's Blog">
         </a>
         <div class="db dtc-l v-mid w-100 w-75-l tc tr-l">
             
@@ -97,21 +97,27 @@
                 </a>
             
                 <a class="link dim f6 f5-l dib mr3 mr4-l white" 
-                    href="/tags" 
+                    href="/Tags" 
                     title="Tags">
                     Tags
                 </a>
             
                 <a class="link dim f6 f5-l dib mr3 mr4-l white" 
-                    href="/categories" 
+                    href="/Categories" 
                     title="Categories">
                     Categories
                 </a>
             
                 <a class="link dim f6 f5-l dib mr3 mr4-l white" 
-                    href="/about.html" 
+                    href="/about" 
                     title="About">
                     About
+                </a>
+            
+                <a class="link dim f6 f5-l dib mr3 mr4-l white" 
+                    href="/Contact" 
+                    title="Contact">
+                    Contact
                 </a>
             
         </div>
@@ -121,7 +127,7 @@
     <div class="w-100 mw8 center vh-40 dt">
         <div class="dtc v-mid white">
             <h1 class="f1-l f2-m tc tc-m tl-ns">Geopandas Practise_Part1</h1>
-            <p class="f4 fw3 pab-100px tc tc-m tl-ns">2020-04-14</p>
+            <p class="f4 fw3 pab-100px tc tc-m tl-ns">2020-04-13</p>
         </div>
     </div>
 
@@ -227,13 +233,13 @@
 
 
 
-<pre><code>&lt;matplotlib.axes._subplots.AxesSubplot at 0x1d7968f8e48&gt;</code></pre><p><img src="/2020/04/14/Geopandas%20Practise_Part1/output_14_1.png" alt="png"></p>
+<pre><code>&lt;matplotlib.axes._subplots.AxesSubplot at 0x1d7968f8e48&gt;</code></pre><p><img src="/2020/04/13/Geopandas%20Practise_Part1/output_14_1.png" alt="png"></p>
 <figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Districts = gpd.read_file(<span class="string">r'D:\ARCGIS\mygeodata\nz_ta-polygon.shp'</span>)</span><br><span class="line">Districts.plot()</span><br></pre></td></tr></tbody></table></figure>
 
 
 
 
-<pre><code>&lt;matplotlib.axes._subplots.AxesSubplot at 0x1d794570be0&gt;</code></pre><p><img src="/2020/04/14/Geopandas%20Practise_Part1/output_15_1.png" alt="png"></p>
+<pre><code>&lt;matplotlib.axes._subplots.AxesSubplot at 0x1d794570be0&gt;</code></pre><p><img src="/2020/04/13/Geopandas%20Practise_Part1/output_15_1.png" alt="png"></p>
 <figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Districts.head(<span class="number">5</span>)</span><br></pre></td></tr></tbody></table></figure>
 
 
@@ -387,7 +393,7 @@
 
 
 
-<pre><code>&lt;matplotlib.axes._subplots.AxesSubplot at 0x1d7985a87b8&gt;</code></pre><p><img src="/2020/04/14/Geopandas%20Practise_Part1/output_21_1.png" alt="png"></p>
+<pre><code>&lt;matplotlib.axes._subplots.AxesSubplot at 0x1d7985a87b8&gt;</code></pre><p><img src="/2020/04/13/Geopandas%20Practise_Part1/output_21_1.png" alt="png"></p>
 <h6 id="Select-the-District-with-the-name-starting-with-‘A’"><a href="#Select-the-District-with-the-name-starting-with-‘A’" class="headerlink" title="Select the District with the name starting with ‘A’"></a>Select the District with the name starting with ‘A’</h6><figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Districts[Districts.TA2016_NAM.str.startswith(<span class="string">'A'</span>)]</span><br></pre></td></tr></tbody></table></figure>
 
 
@@ -449,7 +455,7 @@
 
 
 
-<pre><code>&lt;matplotlib.axes._subplots.AxesSubplot at 0x1d7985d5c50&gt;</code></pre><p><img src="/2020/04/14/Geopandas%20Practise_Part1/output_24_1.png" alt="png"></p>
+<pre><code>&lt;matplotlib.axes._subplots.AxesSubplot at 0x1d7985d5c50&gt;</code></pre><p><img src="/2020/04/13/Geopandas%20Practise_Part1/output_24_1.png" alt="png"></p>
 <h3 id="Write-the-info-into-files"><a href="#Write-the-info-into-files" class="headerlink" title="Write the info into files"></a>Write the info into files</h3><h4 id="Writing-to-shp-files"><a href="#Writing-to-shp-files" class="headerlink" title="Writing to shp files"></a>Writing to shp files</h4><figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cities.to_file(<span class="string">'D:\ARCGIS\Covid-19 Cases in New Zealand\output\DHI_POINTS_COPY.shp'</span>)</span><br></pre></td></tr></tbody></table></figure>
 
 <h4 id="Writing-to-GeoJason"><a href="#Writing-to-GeoJason" class="headerlink" title="Writing to GeoJason"></a>Writing to GeoJason</h4><figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cities.to_file(<span class="string">'D:\ARCGIS\Covid-19 Cases in New Zealand\output\DHI_POINTS.geojson'</span>, driver = <span class="string">'GeoJSON'</span>)</span><br></pre></td></tr></tbody></table></figure>
@@ -640,7 +646,7 @@
 
 
 
-<p><img src="/2020/04/14/Geopandas%20Practise_Part1/output_37_0.svg" alt="svg"></p>
+<p><img src="/2020/04/13/Geopandas%20Practise_Part1/output_37_0.svg" alt="svg"></p>
 <h4 id="Creating-shapely-Points-from-latitude-and-longtitude"><a href="#Creating-shapely-Points-from-latitude-and-longtitude" class="headerlink" title="Creating shapely Points from latitude and longtitude"></a>Creating shapely Points from latitude and longtitude</h4><figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">points = df2.apply(<span class="keyword">lambda</span> row:Point(row.Longitude,row.Latitude), axis =<span class="number">1</span>)<span class="comment"># Attention: axis =1</span></span><br><span class="line">points.head()</span><br></pre></td></tr></tbody></table></figure>
 
 
@@ -707,7 +713,7 @@ dtype: object</code></pre><h4 id="Making-a-geodataframe-by-dataframe-and-geo-poi
 
 
 
-<pre><code>&lt;matplotlib.axes._subplots.AxesSubplot at 0x1d7967c0390&gt;</code></pre><p><img src="/2020/04/14/Geopandas%20Practise_Part1/output_42_1.png" alt="png"></p>
+<pre><code>&lt;matplotlib.axes._subplots.AxesSubplot at 0x1d7967c0390&gt;</code></pre><p><img src="/2020/04/13/Geopandas%20Practise_Part1/output_42_1.png" alt="png"></p>
 <h1 id="04-What-is-a-Coordinate-Reference-Systems"><a href="#04-What-is-a-Coordinate-Reference-Systems" class="headerlink" title="04. What is a Coordinate Reference Systems"></a>04. What is a Coordinate Reference Systems</h1><h3 id="Coordinate-Reference-Systems-Geographic-Coordinate-Systems"><a href="#Coordinate-Reference-Systems-Geographic-Coordinate-Systems" class="headerlink" title="Coordinate Reference Systems Geographic Coordinate Systems"></a><li>Coordinate Reference Systems</li><li> Geographic Coordinate Systems</li></h3><p>Ellipsoid - shape of the earth<br><br>Datum - where is the ellipsoid  goes</p>
 <p><a href="http://epsg.io/" target="_blank" rel="noopener">http://epsg.io/</a> to get the EPSG No. for certain address<br><br>EPSG standards for European petroleum survey group</p>
 <p>WGS84 – EPSG:4326</p>
@@ -719,20 +725,20 @@ dtype: object</code></pre><h4 id="Making-a-geodataframe-by-dataframe-and-geo-poi
 
 
 
-<pre><code>&lt;matplotlib.axes._subplots.AxesSubplot at 0x1d796447e80&gt;</code></pre><p><img src="/2020/04/14/Geopandas%20Practise_Part1/output_50_1.png" alt="png"></p>
+<pre><code>&lt;matplotlib.axes._subplots.AxesSubplot at 0x1d796447e80&gt;</code></pre><p><img src="/2020/04/13/Geopandas%20Practise_Part1/output_50_1.png" alt="png"></p>
 <figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Districts.to_crs({<span class="string">'proj'</span>:<span class="string">'merc'</span>}).plot(figsize = (<span class="number">10</span>,<span class="number">10</span>))</span><br></pre></td></tr></tbody></table></figure>
 
 
 
 
-<pre><code>&lt;matplotlib.axes._subplots.AxesSubplot at 0x1d79605efd0&gt;</code></pre><p><img src="/2020/04/14/Geopandas%20Practise_Part1/output_51_1.png" alt="png"></p>
+<pre><code>&lt;matplotlib.axes._subplots.AxesSubplot at 0x1d79605efd0&gt;</code></pre><p><img src="/2020/04/13/Geopandas%20Practise_Part1/output_51_1.png" alt="png"></p>
 <h4 id="We-can-see-although-the-shape-is-still-similar-the-X-Y-axes-are-different-since-the-coordinate-system-has-changed"><a href="#We-can-see-although-the-shape-is-still-similar-the-X-Y-axes-are-different-since-the-coordinate-system-has-changed" class="headerlink" title="We can see although the shape is still similar, the X,Y axes are different  since the coordinate system has changed."></a>We can see although the shape is still similar, the X,Y axes are different  since the coordinate system has changed.</h4><h1 id="06-Customizing-basic-map-styles-with-geopandas"><a href="#06-Customizing-basic-map-styles-with-geopandas" class="headerlink" title="06. Customizing basic map styles with geopandas"></a>06. Customizing basic map styles with geopandas</h1><p>pass parameter to .plot<br>work with the ax variable</p>
 <figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ax = Districts.plot(figsize = (<span class="number">20</span>,<span class="number">20</span>))</span><br><span class="line">ax.axis(<span class="string">'off'</span>)</span><br></pre></td></tr></tbody></table></figure>
 
 
 
 
-<pre><code>(165.81877500000002, 179.184325, -47.934870000000004, -33.747730000000004)</code></pre><p><img src="/2020/04/14/Geopandas%20Practise_Part1/output_55_1.png" alt="png"></p>
+<pre><code>(165.81877500000002, 179.184325, -47.934870000000004, -33.747730000000004)</code></pre><p><img src="/2020/04/13/Geopandas%20Practise_Part1/output_55_1.png" alt="png"></p>
 <p>coloring shape</p>
 <p>1.fill - inside part<br>2. strike/line/edge - outline </p>
 <figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ax = Districts.plot(figsize = (<span class="number">10</span>,<span class="number">10</span>), color = <span class="string">'grey'</span>, edgecolor = <span class="string">'white'</span>)</span><br><span class="line">ax.axis(<span class="string">'off'</span>)</span><br></pre></td></tr></tbody></table></figure>
@@ -740,13 +746,13 @@ dtype: object</code></pre><h4 id="Making-a-geodataframe-by-dataframe-and-geo-poi
 
 
 
-<pre><code>(165.81877500000002, 179.184325, -47.934870000000004, -33.747730000000004)</code></pre><p><img src="/2020/04/14/Geopandas%20Practise_Part1/output_57_1.png" alt="png"></p>
+<pre><code>(165.81877500000002, 179.184325, -47.934870000000004, -33.747730000000004)</code></pre><p><img src="/2020/04/13/Geopandas%20Practise_Part1/output_57_1.png" alt="png"></p>
 <figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ax = Districts.plot(figsize = (<span class="number">10</span>,<span class="number">10</span>), color = <span class="string">'#CCCCCC'</span>, edgecolor = <span class="string">'#FF0000'</span>)</span><br><span class="line">ax.axis(<span class="string">'off'</span>)</span><br></pre></td></tr></tbody></table></figure>
 
 
 
 
-<pre><code>(165.81877500000002, 179.184325, -47.934870000000004, -33.747730000000004)</code></pre><p><img src="/2020/04/14/Geopandas%20Practise_Part1/output_58_1.png" alt="png"></p>
+<pre><code>(165.81877500000002, 179.184325, -47.934870000000004, -33.747730000000004)</code></pre><p><img src="/2020/04/13/Geopandas%20Practise_Part1/output_58_1.png" alt="png"></p>
 <figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ax = cities.plot(figsize = (<span class="number">10</span>,<span class="number">10</span>), color = <span class="string">'#CCCCCC'</span>, edgecolor = <span class="string">'#FF0000'</span>, linewidth = <span class="number">5</span>)</span><br><span class="line">ax.axis(<span class="string">'off'</span>)</span><br></pre></td></tr></tbody></table></figure>
 
 
@@ -755,13 +761,13 @@ dtype: object</code></pre><h4 id="Making-a-geodataframe-by-dataframe-and-geo-poi
 <pre><code>(168.32748359957623,
  178.38357246311102,
  -45.94570795960331,
- -34.986255336266005)</code></pre><p><img src="/2020/04/14/Geopandas%20Practise_Part1/output_59_1.png" alt="png"></p>
+ -34.986255336266005)</code></pre><p><img src="/2020/04/13/Geopandas%20Practise_Part1/output_59_1.png" alt="png"></p>
 <figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ax = Districts.plot(figsize = (<span class="number">10</span>,<span class="number">10</span>), color = <span class="string">'#CCCCCC'</span>, edgecolor = <span class="string">'#FF0000'</span>, linewidth = <span class="number">0.25</span>)</span><br><span class="line">ax.axis(<span class="string">'off'</span>)</span><br></pre></td></tr></tbody></table></figure>
 
 
 
 
-<pre><code>(165.81877500000002, 179.184325, -47.934870000000004, -33.747730000000004)</code></pre><p><img src="/2020/04/14/Geopandas%20Practise_Part1/output_60_1.png" alt="png"></p>
+<pre><code>(165.81877500000002, 179.184325, -47.934870000000004, -33.747730000000004)</code></pre><p><img src="/2020/04/13/Geopandas%20Practise_Part1/output_60_1.png" alt="png"></p>
 <figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Districts.head()</span><br></pre></td></tr></tbody></table></figure>
 
 
@@ -850,29 +856,29 @@ dtype: object</code></pre><h4 id="Making-a-geodataframe-by-dataframe-and-geo-poi
 
 
 
-<pre><code>(165.81877500000002, 179.184325, -47.934870000000004, -33.747730000000004)</code></pre><p><img src="/2020/04/14/Geopandas%20Practise_Part1/output_62_1.png" alt="png"></p>
+<pre><code>(165.81877500000002, 179.184325, -47.934870000000004, -33.747730000000004)</code></pre><p><img src="/2020/04/13/Geopandas%20Practise_Part1/output_62_1.png" alt="png"></p>
 <figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ax = Districts.plot(figsize = (<span class="number">10</span>,<span class="number">10</span>), color = <span class="string">'green'</span>)</span><br><span class="line">ax.axis(<span class="string">'off'</span>)</span><br></pre></td></tr></tbody></table></figure>
 
 
 
 
-<pre><code>(165.81877500000002, 179.184325, -47.934870000000004, -33.747730000000004)</code></pre><p><img src="/2020/04/14/Geopandas%20Practise_Part1/output_63_1.png" alt="png"></p>
+<pre><code>(165.81877500000002, 179.184325, -47.934870000000004, -33.747730000000004)</code></pre><p><img src="/2020/04/13/Geopandas%20Practise_Part1/output_63_1.png" alt="png"></p>
 <figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ax = Districts.plot(figsize = (<span class="number">10</span>,<span class="number">10</span>), color = <span class="string">'green'</span>,  markersize =<span class="number">100</span> ,alpha =<span class="number">0.5</span>)</span><br><span class="line">ax.axis(<span class="string">'off'</span>)</span><br></pre></td></tr></tbody></table></figure>
 
 
 
 
-<pre><code>(165.81877500000002, 179.184325, -47.934870000000004, -33.747730000000004)</code></pre><p><img src="/2020/04/14/Geopandas%20Practise_Part1/output_64_1.png" alt="png"></p>
+<pre><code>(165.81877500000002, 179.184325, -47.934870000000004, -33.747730000000004)</code></pre><p><img src="/2020/04/13/Geopandas%20Practise_Part1/output_64_1.png" alt="png"></p>
 <figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ax = cities.plot(figsize = (<span class="number">10</span>,<span class="number">10</span>), color = <span class="string">'green'</span>,  markersize =<span class="number">100</span> ,alpha =<span class="number">0.5</span>)</span><br></pre></td></tr></tbody></table></figure>
 
 
-<p><img src="/2020/04/14/Geopandas%20Practise_Part1/output_65_0.png" alt="png"></p>
+<p><img src="/2020/04/13/Geopandas%20Practise_Part1/output_65_0.png" alt="png"></p>
 <figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ax = cities.plot(figsize = (<span class="number">10</span>,<span class="number">10</span>), color = <span class="string">'green'</span>,  markersize =<span class="number">100</span> ,alpha =<span class="number">0.5</span>)</span><br><span class="line">ax.axis(<span class="string">'off'</span>)</span><br><span class="line">ax.set_xlim([<span class="number">170</span>,<span class="number">176</span>])</span><br><span class="line">ax.set_ylim([<span class="number">-42</span>,<span class="number">-36</span>])</span><br></pre></td></tr></tbody></table></figure>
 
 
 
 
-<pre><code>(-42, -36)</code></pre><p><img src="/2020/04/14/Geopandas%20Practise_Part1/output_66_1.png" alt="png"></p>
+<pre><code>(-42, -36)</code></pre><p><img src="/2020/04/13/Geopandas%20Practise_Part1/output_66_1.png" alt="png"></p>
 <h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference:"></a>Reference:</h1><li>https://www.youtube.com/watch?v=JN35I8EYD4M&amp;list=PLewNEVDy7gq3DjrPDxGFLbHE4G2QWe8Qh&amp;index=9
 </li><li>https://geopandas.org/
 </li><li>http://epsg.io/
@@ -953,7 +959,7 @@ dtype: object</code></pre><h4 id="Making-a-geodataframe-by-dataframe-and-geo-poi
         </p>
     
         <p>
-            <a href="/2020/04/14/Geopandas%20Practise_Part1/">Geopandas Practise_Part1</a>
+            <a href="/2020/04/13/Geopandas%20Practise_Part1/">Geopandas Practise_Part1</a>
         </p>
     
         <p>
