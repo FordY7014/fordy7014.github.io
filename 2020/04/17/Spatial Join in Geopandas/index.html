@@ -1,0 +1,986 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!--Description-->
+    
+        <meta name="description" content="Just to take notes for what I have learnt, and I will be very happy if it helps anyone.">
+    
+
+    <!--Author-->
+    
+        <meta name="author" content="Ford Yang">
+    
+
+    <!--Open Graph Title-->
+    
+        <meta property="og:title" content="Spatial Join in Geopandas"/>
+    
+
+    <!--Open Graph Description-->
+    
+        <meta property="og:description" content="Just to take notes for what I have learnt, and I will be very happy if it helps anyone." />
+    
+
+    <!--Open Graph Site Name-->
+    <meta property="og:site_name" content="Ford Yang&#39;s Blog"/>
+
+    <!--Type page-->
+    
+        <meta property="og:type" content="article" />
+    
+
+    <!--Page Cover-->
+    
+
+    <meta name="twitter:card" content="summary" />
+    
+
+    <!-- Title -->
+    
+    <title>Spatial Join in Geopandas - Ford Yang&#39;s Blog</title>
+
+    <!-- Tachyons Core CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/tachyons/css/tachyons.min.css">
+
+    <!-- Custom Fonts -->
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="//oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="//oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Custom CSS -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    <!-- Google Analytics -->
+    
+
+
+<meta name="generator" content="Hexo 4.2.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+
+
+<body>
+
+<!-- Main Content -->
+<!-- Banner -->
+<!-- Banner -->
+<div class="w-100 bg-1 ph5-ns ph3 text-light">
+    
+    <nav class="db dt-l w-100 mw8 center border-box pv3">
+        <a class="db dtc-l v-mid link dim w-100 w-25-l tc tl-l mb2 mb0-l white" href="/" title="Ford Yang's Blog">
+            <img src="http://www.codeblocq.com/assets/projects/hexo-theme-anodyne/assets/anodyne.svg" class="dib h3" alt="Ford Yang's Blog">
+        </a>
+        <div class="db dtc-l v-mid w-100 w-75-l tc tr-l">
+            
+                <a class="link dim f6 f5-l dib mr3 mr4-l white" 
+                    href="/" 
+                    title="Home">
+                    Home
+                </a>
+            
+                <a class="link dim f6 f5-l dib mr3 mr4-l white" 
+                    href="/archives" 
+                    title="Archives">
+                    Archives
+                </a>
+            
+                <a class="link dim f6 f5-l dib mr3 mr4-l white" 
+                    href="/Tags" 
+                    title="Tags">
+                    Tags
+                </a>
+            
+                <a class="link dim f6 f5-l dib mr3 mr4-l white" 
+                    href="/Categories" 
+                    title="Categories">
+                    Categories
+                </a>
+            
+                <a class="link dim f6 f5-l dib mr3 mr4-l white" 
+                    href="/about" 
+                    title="About">
+                    About
+                </a>
+            
+                <a class="link dim f6 f5-l dib mr3 mr4-l white" 
+                    href="/Contact" 
+                    title="Contact">
+                    Contact
+                </a>
+            
+        </div>
+    </nav>
+
+    <!-- Title -->
+    <div class="w-100 mw8 center vh-40 dt">
+        <div class="dtc v-mid white">
+            <h1 class="f1-l f2-m tc tc-m tl-ns">Spatial Join in Geopandas</h1>
+            <p class="f4 fw3 pab-100px tc tc-m tl-ns">2020-04-17</p>
+        </div>
+    </div>
+
+    <!-- Icon -->
+    <div class="relative w-100 mw8 center white dn dn-m db-ns">
+        <i class="header-icon fa fa-file-text-o"></i>
+    </div>
+</div>
+
+<!-- Content -->
+<div class="w-100 ph2 ph4-m ph5-l mv5 mv6-l">
+    <div class="content">
+        <div class="mw8 center">
+            <div class="cf">
+                <div class="fl w-100 w-70-l mw7 left fw3 lh-copy pr4-ns pr0-m post-content">
+                    <!-- Tags Vertical -->
+                    
+                        <div class="tags-container-vertical">
+                            <div class="tags-sub-container">
+                                <a class="fw3 ph1 dib" href="/tags/Spatial-Analysis/">#Spatial Analysis</a> <a class="fw3 ph1 dib" href="/tags/Geopandas/">#Geopandas</a>
+                            </div>
+                        </div>
+                    
+
+                    <!-- Main Post Content -->
+                    <figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">%matplotlib inline</span><br></pre></td></tr></tbody></table></figure>
+
+
+<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> geopandas <span class="keyword">as</span> gpd</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot  <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">from</span> shapely.geometry <span class="keyword">import</span> Point</span><br></pre></td></tr></tbody></table></figure>
+
+
+<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">states = gpd.read_file(<span class="string">'D:\ARCGIS\Covid-19 Cases in New Zealand\output\DHI_POINTS.shp'</span>)</span><br><span class="line">cities = gpd.read_file(<span class="string">'D:\ARCGIS\Covid-19 Cases in New Zealand\output\Export_Output_3.shp'</span>)</span><br></pre></td></tr></tbody></table></figure>
+
+
+<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">states = states.iloc[:,[<span class="number">3</span>,<span class="number">4</span>,<span class="number">-1</span>]]</span><br><span class="line">states.head(<span class="number">2</span>)</span><br></pre></td></tr></tbody></table></figure>
+
+
+
+
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}</code></pre><p></style><p></p>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>DHB2015_Na</th>
+      <th>Shape_Leng</th>
+      <th>geometry</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>Northland</td>
+      <td>1.651929e+06</td>
+      <td>POINT (173.82591 -35.48993)</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>Waitemata</td>
+      <td>9.273920e+05</td>
+      <td>POINT (174.54665 -36.56396)</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+
+<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">states.index</span><br></pre></td></tr></tbody></table></figure>
+
+
+
+
+<pre><code>RangeIndex(start=0, stop=20, step=1)</code></pre><figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">states.plot()</span><br></pre></td></tr></tbody></table></figure>
+
+
+
+
+<pre><code>&lt;matplotlib.axes._subplots.AxesSubplot at 0x1c22a6044e0&gt;</code></pre><p><img src="/2020/04/17/Spatial%20Join%20in%20Geopandas/output_5_1.png" alt="png"></p>
+<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cities</span><br></pre></td></tr></tbody></table></figure>
+
+
+
+
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}</code></pre><p></style><p></p>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>OBJECTID</th>
+      <th>DHB2015_Co</th>
+      <th>DHB2015_Na</th>
+      <th>Shape_Leng</th>
+      <th>Shape_Le_1</th>
+      <th>Shape_Area</th>
+      <th>geometry</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>1</td>
+      <td>01</td>
+      <td>Northland</td>
+      <td>1.651929e+06</td>
+      <td>16.524423</td>
+      <td>1.320491</td>
+      <td>MULTIPOLYGON (((174.23335 -36.19077, 174.23809...</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>2</td>
+      <td>02</td>
+      <td>Waitemata</td>
+      <td>9.273920e+05</td>
+      <td>9.301324</td>
+      <td>0.295480</td>
+      <td>MULTIPOLYGON (((174.77898 -36.82617, 174.77303...</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>3</td>
+      <td>03</td>
+      <td>Auckland</td>
+      <td>7.781903e+05</td>
+      <td>7.848241</td>
+      <td>0.063644</td>
+      <td>MULTIPOLYGON (((175.16845 -36.90380, 175.15541...</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>4</td>
+      <td>04</td>
+      <td>Counties Manukau</td>
+      <td>6.642233e+05</td>
+      <td>6.732029</td>
+      <td>0.303391</td>
+      <td>POLYGON ((174.72654 -37.15219, 174.74646 -37.1...</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>5</td>
+      <td>05</td>
+      <td>Waikato</td>
+      <td>1.498296e+06</td>
+      <td>15.120324</td>
+      <td>2.201743</td>
+      <td>MULTIPOLYGON (((175.95463 -37.04760, 175.93959...</td>
+    </tr>
+    <tr>
+      <td>5</td>
+      <td>6</td>
+      <td>06</td>
+      <td>Lakes</td>
+      <td>6.236689e+05</td>
+      <td>6.356743</td>
+      <td>0.990685</td>
+      <td>POLYGON ((176.60295 -38.01159, 176.57811 -38.4...</td>
+    </tr>
+    <tr>
+      <td>6</td>
+      <td>7</td>
+      <td>07</td>
+      <td>Bay of Plenty</td>
+      <td>9.468737e+05</td>
+      <td>9.636408</td>
+      <td>1.014598</td>
+      <td>MULTIPOLYGON (((176.43654 -37.62005, 176.40701...</td>
+    </tr>
+    <tr>
+      <td>7</td>
+      <td>8</td>
+      <td>08</td>
+      <td>Tairawhiti</td>
+      <td>6.895486e+05</td>
+      <td>7.001250</td>
+      <td>0.860188</td>
+      <td>MULTIPOLYGON (((178.35631 -38.17577, 178.36485...</td>
+    </tr>
+    <tr>
+      <td>8</td>
+      <td>9</td>
+      <td>09</td>
+      <td>Taranaki</td>
+      <td>5.657958e+05</td>
+      <td>5.886723</td>
+      <td>0.830015</td>
+      <td>POLYGON ((174.98759 -39.66387, 174.78429 -39.8...</td>
+    </tr>
+    <tr>
+      <td>9</td>
+      <td>10</td>
+      <td>10</td>
+      <td>Hawke's Bay</td>
+      <td>9.454397e+05</td>
+      <td>9.687377</td>
+      <td>1.335790</td>
+      <td>MULTIPOLYGON (((177.87052 -39.27876, 177.86687...</td>
+    </tr>
+    <tr>
+      <td>10</td>
+      <td>11</td>
+      <td>11</td>
+      <td>Whanganui</td>
+      <td>6.694279e+05</td>
+      <td>6.927098</td>
+      <td>1.003196</td>
+      <td>POLYGON ((176.29008 -39.24717, 176.26502 -39.3...</td>
+    </tr>
+    <tr>
+      <td>11</td>
+      <td>12</td>
+      <td>12</td>
+      <td>MidCentral</td>
+      <td>6.167762e+05</td>
+      <td>6.345139</td>
+      <td>0.937664</td>
+      <td>POLYGON ((176.49213 -40.53208, 176.26669 -40.7...</td>
+    </tr>
+    <tr>
+      <td>12</td>
+      <td>13</td>
+      <td>13</td>
+      <td>Hutt Valley</td>
+      <td>2.106983e+05</td>
+      <td>2.184028</td>
+      <td>0.098310</td>
+      <td>MULTIPOLYGON (((174.86764 -41.25918, 174.86522...</td>
+    </tr>
+    <tr>
+      <td>13</td>
+      <td>14</td>
+      <td>14</td>
+      <td>Capital and Coast</td>
+      <td>2.923868e+05</td>
+      <td>3.012962</td>
+      <td>0.080068</td>
+      <td>MULTIPOLYGON (((174.78879 -41.09057, 174.77354...</td>
+    </tr>
+    <tr>
+      <td>14</td>
+      <td>15</td>
+      <td>15</td>
+      <td>Wairarapa</td>
+      <td>4.554528e+05</td>
+      <td>4.751018</td>
+      <td>0.636207</td>
+      <td>POLYGON ((176.27048 -40.74387, 176.26669 -40.7...</td>
+    </tr>
+    <tr>
+      <td>15</td>
+      <td>16</td>
+      <td>16</td>
+      <td>Nelson Marlborough</td>
+      <td>1.188104e+06</td>
+      <td>12.372261</td>
+      <td>2.986687</td>
+      <td>POLYGON ((173.36103 -40.80538, 173.20652 -41.2...</td>
+    </tr>
+    <tr>
+      <td>16</td>
+      <td>17</td>
+      <td>17</td>
+      <td>West Coast</td>
+      <td>1.602904e+06</td>
+      <td>17.070329</td>
+      <td>2.569502</td>
+      <td>POLYGON ((172.31080 -41.01154, 172.32531 -41.0...</td>
+    </tr>
+    <tr>
+      <td>17</td>
+      <td>19</td>
+      <td>19</td>
+      <td>South Canterbury</td>
+      <td>5.492453e+05</td>
+      <td>5.835052</td>
+      <td>1.547516</td>
+      <td>POLYGON ((170.61509 -43.43343, 170.59805 -43.4...</td>
+    </tr>
+    <tr>
+      <td>18</td>
+      <td>20</td>
+      <td>22</td>
+      <td>Southern</td>
+      <td>2.725169e+06</td>
+      <td>30.268153</td>
+      <td>7.932661</td>
+      <td>MULTIPOLYGON (((167.39897 -47.26532, 167.39639...</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+
+<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cities.drop(axis=<span class="number">0</span>,  columns=[<span class="string">'DHB2015_Co'</span>],inplace=<span class="literal">True</span>)</span><br><span class="line">cities.head(<span class="number">2</span>)</span><br></pre></td></tr></tbody></table></figure>
+
+
+
+
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}</code></pre><p></style><p></p>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>OBJECTID</th>
+      <th>DHB2015_Na</th>
+      <th>Shape_Leng</th>
+      <th>Shape_Le_1</th>
+      <th>Shape_Area</th>
+      <th>geometry</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>1</td>
+      <td>Northland</td>
+      <td>1.651929e+06</td>
+      <td>16.524423</td>
+      <td>1.320491</td>
+      <td>MULTIPOLYGON (((174.23335 -36.19077, 174.23809...</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>2</td>
+      <td>Waitemata</td>
+      <td>9.273920e+05</td>
+      <td>9.301324</td>
+      <td>0.295480</td>
+      <td>MULTIPOLYGON (((174.77898 -36.82617, 174.77303...</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+
+<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cities.index</span><br></pre></td></tr></tbody></table></figure>
+
+
+
+
+<pre><code>RangeIndex(start=0, stop=19, step=1)</code></pre><figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cities.plot()</span><br></pre></td></tr></tbody></table></figure>
+
+
+
+
+<pre><code>&lt;matplotlib.axes._subplots.AxesSubplot at 0x1c22a63b5f8&gt;</code></pre><p><img src="/2020/04/17/Spatial%20Join%20in%20Geopandas/output_9_1.png" alt="png"></p>
+<h2 id="Spatial-Join"><a href="#Spatial-Join" class="headerlink" title="Spatial Join"></a>Spatial Join</h2><h4 id="Column-join-in-Pandas–-take-dataset-A-B-based-on-a-common-column"><a href="#Column-join-in-Pandas–-take-dataset-A-B-based-on-a-common-column" class="headerlink" title="Column join in Pandas– take dataset A+ B based on a common column"></a>Column join in Pandas– take dataset A+ B based on a common column</h4><h4 id="Spatial-Join-take-dataset-A-B-Dataset-AB-based-on-space-geographic-relationship"><a href="#Spatial-Join-take-dataset-A-B-Dataset-AB-based-on-space-geographic-relationship" class="headerlink" title="Spatial Join -take dataset A+B = Dataset AB,based on space/geographic relationship"></a>Spatial Join -take dataset A+B = Dataset AB,based on space/geographic relationship</h4><p>same as the spatial join in ArcGis, but it much more convient to use than Arcpy</p>
+<h4 id="Check-the-coordinate-systems-of-the-to-two-taget-file-if-they-are-not-in-the-same-coordinate-system-then-project-them-into-the-same-coordinate-system"><a href="#Check-the-coordinate-systems-of-the-to-two-taget-file-if-they-are-not-in-the-same-coordinate-system-then-project-them-into-the-same-coordinate-system" class="headerlink" title="Check the coordinate systems of the to two taget file, if they are not in the same coordinate system, then project them into the same coordinate system"></a>Check the coordinate systems of the to two taget file, if they are not in the same coordinate system, then project them into the same coordinate system</h4><figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">print(states.crs, cities.crs)</span><br></pre></td></tr></tbody></table></figure>
+
+<pre><code>epsg:4326 epsg:4326</code></pre><figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">states.to_crs(cities.crs, inplace =<span class="literal">True</span>)</span><br></pre></td></tr></tbody></table></figure>
+
+
+<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">len(states)</span><br></pre></td></tr></tbody></table></figure>
+
+
+
+
+<pre><code>20</code></pre><figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">states_with_cities = gpd.sjoin(states, cities, how = <span class="string">'inner'</span>, op = <span class="string">'within'</span>)</span><br><span class="line">states_with_cities.head(<span class="number">2</span>)</span><br></pre></td></tr></tbody></table></figure>
+
+
+
+
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}</code></pre><p></style><p></p>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>DHB2015_Na_left</th>
+      <th>Shape_Leng_left</th>
+      <th>geometry</th>
+      <th>index_right</th>
+      <th>OBJECTID</th>
+      <th>DHB2015_Na_right</th>
+      <th>Shape_Leng_right</th>
+      <th>Shape_Le_1</th>
+      <th>Shape_Area</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>Northland</td>
+      <td>1.651929e+06</td>
+      <td>POINT (173.82591 -35.48993)</td>
+      <td>0</td>
+      <td>1</td>
+      <td>Northland</td>
+      <td>1.651929e+06</td>
+      <td>16.524423</td>
+      <td>1.320491</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>Waitemata</td>
+      <td>9.273920e+05</td>
+      <td>POINT (174.54665 -36.56396)</td>
+      <td>1</td>
+      <td>2</td>
+      <td>Waitemata</td>
+      <td>9.273920e+05</td>
+      <td>9.301324</td>
+      <td>0.295480</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+
+<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">states_with_cities.shape</span><br></pre></td></tr></tbody></table></figure>
+
+
+
+
+<pre><code>(18, 9)</code></pre><figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">states.shape</span><br></pre></td></tr></tbody></table></figure>
+
+
+
+
+<pre><code>(20, 3)</code></pre><h5 id="The-order-here-is-very-important-similar-as-the-join-in-pandas"><a href="#The-order-here-is-very-important-similar-as-the-join-in-pandas" class="headerlink" title="The order here is very important, similar as the join in pandas."></a>The order here is very important, similar as the join in pandas.</h5><p>The geometry of the first file(cities here) is  will be kept.<br></p>
+<h4 id="how"><a href="#how" class="headerlink" title="how:"></a>how:</h4><ul>
+<li>‘Left’ means to keep all the information in the first file even they do not have matching state <br></li>
+<li>‘inner’ means to drop the information in the first file if they do not have matching state<br></li>
+</ul>
+<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cities_with_states = gpd.sjoin(cities, states, how = <span class="string">'inner'</span>, op = <span class="string">'contains'</span>)</span><br><span class="line">cities_with_states.head(<span class="number">2</span>)</span><br></pre></td></tr></tbody></table></figure>
+
+
+
+
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}</code></pre><p></style><p></p>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>OBJECTID</th>
+      <th>DHB2015_Na_left</th>
+      <th>Shape_Leng_left</th>
+      <th>Shape_Le_1</th>
+      <th>Shape_Area</th>
+      <th>geometry</th>
+      <th>index_right</th>
+      <th>DHB2015_Na_right</th>
+      <th>Shape_Leng_right</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>1</td>
+      <td>Northland</td>
+      <td>1.651929e+06</td>
+      <td>16.524423</td>
+      <td>1.320491</td>
+      <td>MULTIPOLYGON (((174.23335 -36.19077, 174.23809...</td>
+      <td>0</td>
+      <td>Northland</td>
+      <td>1.651929e+06</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>2</td>
+      <td>Waitemata</td>
+      <td>9.273920e+05</td>
+      <td>9.301324</td>
+      <td>0.295480</td>
+      <td>MULTIPOLYGON (((174.77898 -36.82617, 174.77303...</td>
+      <td>1</td>
+      <td>Waitemata</td>
+      <td>9.273920e+05</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+
+<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cities_with_states.shape</span><br></pre></td></tr></tbody></table></figure>
+
+
+
+
+<pre><code>(18, 9)</code></pre><figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gpd.sjoin(cities, states, how = <span class="string">'inner'</span>, op = <span class="string">'contains'</span>).plot()</span><br></pre></td></tr></tbody></table></figure>
+
+
+
+
+<pre><code>&lt;matplotlib.axes._subplots.AxesSubplot at 0x1c22a6cdbe0&gt;</code></pre><p><img src="/2020/04/17/Spatial%20Join%20in%20Geopandas/output_22_1.png" alt="png"></p>
+<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gpd.sjoin(cities, states, how = <span class="string">'left'</span>, op = <span class="string">'contains'</span>).plot()</span><br></pre></td></tr></tbody></table></figure>
+
+
+
+
+<pre><code>&lt;matplotlib.axes._subplots.AxesSubplot at 0x1c22a3f0710&gt;</code></pre><p><img src="/2020/04/17/Spatial%20Join%20in%20Geopandas/output_23_1.png" alt="png"></p>
+<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gpd.sjoin(cities, states, how = <span class="string">'left'</span>, op = <span class="string">'contains'</span>).shape</span><br></pre></td></tr></tbody></table></figure>
+
+
+
+
+<pre><code>(19, 9)</code></pre><h5 id="Another-way"><a href="#Another-way" class="headerlink" title="Another way"></a>Another way</h5><figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">states_with_cities = gpd.sjoin(states, cities, how = <span class="string">'inner'</span>, op = <span class="string">'within'</span>)</span><br><span class="line">states_with_cities.head()</span><br></pre></td></tr></tbody></table></figure>
+
+
+
+
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}</code></pre><p></style><p></p>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>DHB2015_Na_left</th>
+      <th>Shape_Leng_left</th>
+      <th>geometry</th>
+      <th>index_right</th>
+      <th>OBJECTID</th>
+      <th>DHB2015_Na_right</th>
+      <th>Shape_Leng_right</th>
+      <th>Shape_Le_1</th>
+      <th>Shape_Area</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>Northland</td>
+      <td>1.651929e+06</td>
+      <td>POINT (173.82591 -35.48993)</td>
+      <td>0</td>
+      <td>1</td>
+      <td>Northland</td>
+      <td>1.651929e+06</td>
+      <td>16.524423</td>
+      <td>1.320491</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>Waitemata</td>
+      <td>9.273920e+05</td>
+      <td>POINT (174.54665 -36.56396)</td>
+      <td>1</td>
+      <td>2</td>
+      <td>Waitemata</td>
+      <td>9.273920e+05</td>
+      <td>9.301324</td>
+      <td>0.295480</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>Auckland</td>
+      <td>7.781903e+05</td>
+      <td>POINT (175.15511 -36.78522)</td>
+      <td>2</td>
+      <td>3</td>
+      <td>Auckland</td>
+      <td>7.781903e+05</td>
+      <td>7.848241</td>
+      <td>0.063644</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>Counties Manukau</td>
+      <td>6.642233e+05</td>
+      <td>POINT (174.93239 -37.18770)</td>
+      <td>3</td>
+      <td>4</td>
+      <td>Counties Manukau</td>
+      <td>6.642233e+05</td>
+      <td>6.732029</td>
+      <td>0.303391</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>Waikato</td>
+      <td>1.498296e+06</td>
+      <td>POINT (175.35693 -38.04867)</td>
+      <td>4</td>
+      <td>5</td>
+      <td>Waikato</td>
+      <td>1.498296e+06</td>
+      <td>15.120324</td>
+      <td>2.201743</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+
+<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">states_with_cities.shape</span><br></pre></td></tr></tbody></table></figure>
+
+
+
+
+<pre><code>(18, 9)</code></pre><figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">states_with_cities.plot()</span><br></pre></td></tr></tbody></table></figure>
+
+
+
+
+<pre><code>&lt;matplotlib.axes._subplots.AxesSubplot at 0x1c22a7317f0&gt;</code></pre><p><img src="/2020/04/17/Spatial%20Join%20in%20Geopandas/output_28_1.png" alt="png"></p>
+<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gpd.sjoin(states, cities, how = <span class="string">'left'</span>, op = <span class="string">'within'</span>).shape</span><br></pre></td></tr></tbody></table></figure>
+
+
+
+
+<pre><code>(20, 9)</code></pre><h5 id="Here-the-shape-is-different-from-the-previous-one-19-9-since-the-data-of-all-the-states-is-kept-then-final-joined-result-is-same-as-the-source-data-states"><a href="#Here-the-shape-is-different-from-the-previous-one-19-9-since-the-data-of-all-the-states-is-kept-then-final-joined-result-is-same-as-the-source-data-states" class="headerlink" title="Here, the shape is different from the previous one(19,9), since the data of all the states is kept, then final joined result is same as the source data(states)."></a>Here, the shape is different from the previous one(19,9), since the data of all the states is kept, then final joined result is same as the source data(states).</h5><h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><p><a href="https://geopandas.org/install.html#dependencies" target="_blank" rel="noopener">https://geopandas.org/install.html#dependencies</a><br><a href="https://www.youtube.com/watch?v=mV8bqV2j46M&amp;list=PLewNEVDy7gq3DjrPDxGFLbHE4G2QWe8Qh&amp;index=12" target="_blank" rel="noopener">https://www.youtube.com/watch?v=mV8bqV2j46M&amp;list=PLewNEVDy7gq3DjrPDxGFLbHE4G2QWe8Qh&amp;index=12</a></p>
+<script>
+        document.querySelectorAll('.github-emoji')
+          .forEach(el => {
+            if (!el.dataset.src) { return; }
+            const img = document.createElement('img');
+            img.style = 'display:none !important;';
+            img.src = el.dataset.src;
+            img.addEventListener('error', () => {
+              img.remove();
+              el.style.color = 'inherit';
+              el.style.backgroundImage = 'none';
+              el.style.background = 'none';
+            });
+            img.addEventListener('load', () => {
+              img.remove();
+            });
+            document.body.appendChild(img);
+          });
+      </script>
+                    
+                    <!-- Tags Bottom -->
+                    
+                        <div class="tags-container-bottom">
+                            <i class="fa fa-tag pr3 text-main-color"></i><a class="fw3 ph1 dib" href="/tags/Spatial-Analysis/">#Spatial Analysis</a> <a class="fw3 ph1 dib" href="/tags/Geopandas/">#Geopandas</a>
+                        </div>
+                    
+
+                    <!-- Comments -->
+                    
+
+
+
+                </div>
+                <div class="fl w-100 w-30-l center fw3 lh-copy pl4-ns tl black-50">
+                    
+                    <hr class="dn-l mw4 black-50 mt5" />
+                    
+                    <!-- Widget 1: About -->
+                    <div class="mt5 mt0-l">
+    <article class="dt db-l mw8 mw8-m mw5-ns center ml0-l bg-white mv3">
+        <div class="dn dtc-m db-l v-mid tc pr4 pr0-l" style="min-width: 6rem;">
+            <img src="http://tachyons.io/img/avatar_1.jpg" class="mb4-l br-100 h3 w3 h4-l w4-l dib" title="Ford Yang">
+        </div>
+        <div class="dtc db-l v-mid lh-copy measure center f6 black-50 tj">
+            My name is Ford(Fan) Yang and this is my blog.I am a civil engineer with strong interest in data analysis.This blog is to make a record for what I am doing. <br>I currently live and work in New Zealand, hit me up if you are in the region. 
+        </div>
+    </article>
+</div>
+
+                    <hr class="dn-l mw4 black-50 mt5" />
+                    
+                    <!-- Widget 2: Categories -->
+                    
+                        <div class="mt5 tc tl-l">
+    <h3>Categories</h3>
+    
+        <p>
+            <a href="/categories/Data-Analysis/">Data Analysis</a>
+        </p>
+    
+</div>
+
+
+                        <hr class="dn-l mw4 black-50 mt5" />
+                    
+
+                    <!-- Widget 3: Recent Posts -->
+                    <div class="mt5 tc tl-l">
+    <h3>Recent Posts</h3>
+    
+        <p>
+            <a href="/2020/04/17/Spatial%20Join%20in%20Geopandas/">Spatial Join in Geopandas</a>
+        </p>
+    
+        <p>
+            <a href="/2020/04/15/Introduction-to-Matplotlib-and-Line-Plots/">Introduction to Matplotlib and Line Plots</a>
+        </p>
+    
+        <p>
+            <a href="/2020/04/14/How%20to%20make%20Choropleth%20map%20about%20Covid-19%20Cases%20in%20New%20Zealand/">How to make Choropleth map about Covid-19 Cases in</a>
+        </p>
+    
+        <p>
+            <a href="/2020/04/13/Geopandas%20Practise_Part1/">Geopandas Practise_Part1</a>
+        </p>
+    
+        <p>
+            <a href="/2020/04/10/hello-world/">Hello World</a>
+        </p>
+    
+</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Footer -->
+<div class="bg-1 ph2 ph5-ns pv5">
+        <div class="mv8">
+            <div class="center tc">
+                
+                    <div class="dib mh3">
+                        <a class="f3 f2-ns white dim" href="https://twitter.com/?lang=en" target="_blank">
+                            <i class="fa fa-twitter"></i>
+                        </a>
+                    </div>
+                
+                    <div class="dib mh3">
+                        <a class="f3 f2-ns white dim" href="https://www.facebook.com/" target="_blank">
+                            <i class="fa fa-facebook"></i>
+                        </a>
+                    </div>
+                
+                    <div class="dib mh3">
+                        <a class="f3 f2-ns white dim" href="https://dribbble.com/" target="_blank">
+                            <i class="fa fa-dribbble"></i>
+                        </a>
+                    </div>
+                
+                    <div class="dib mh3">
+                        <a class="f3 f2-ns white dim" href="https://github.com/klugjo/hexo-theme-anodyne" target="_blank">
+                            <i class="fa fa-github"></i>
+                        </a>
+                    </div>
+                
+                    <div class="dib mh3">
+                        <a class="f3 f2-ns white dim" href="https://plus.google.com/" target="_blank">
+                            <i class="fa fa-google-plus"></i>
+                        </a>
+                    </div>
+                
+                    <div class="dib mh3">
+                        <a class="f3 f2-ns white dim" href="https://www.behance.net/" target="_blank">
+                            <i class="fa fa-behance"></i>
+                        </a>
+                    </div>
+                
+                    <div class="dib mh3">
+                        <a class="f3 f2-ns white dim" href="https://www.linkedin.com/" target="_blank">
+                            <i class="fa fa-linkedin"></i>
+                        </a>
+                    </div>
+                
+                    <div class="dib mh3">
+                        <a class="f3 f2-ns white dim" href="mailto:test@example.com" target="_blank">
+                            <i class="fa fa-envelope"></i>
+                        </a>
+                    </div>
+                
+                    <div class="dib mh3">
+                        <a class="f3 f2-ns white dim" href="/#" target="_blank">
+                            <i class="fa fa-rss"></i>
+                        </a>
+                    </div>
+                
+            </div>
+            <div class="f6 f5-ns center tc white pt5 fw3">
+                @The passage is by Ford. All right reserved | Hexo Theme is by Jonathan Klughertz
+            </div>
+        </div>
+    </div>
+
+<!-- After Footer -->
+<!-- Disqus Comments -->
+
+
+
+</body>
+
+</html>
