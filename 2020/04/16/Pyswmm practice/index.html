@@ -153,31 +153,39 @@
                     
 
                     <!-- Main Post Content -->
-                    <figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">from</span> pandas <span class="keyword">import</span> DataFrame, Series</span><br></pre></td></tr></tbody></table></figure>
-
-
-<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pyswmm <span class="keyword">import</span> Simulation, Subcatchments</span><br><span class="line"><span class="keyword">from</span> swmm5.swmm5tools <span class="keyword">import</span> SWMM5Simulation</span><br></pre></td></tr></tbody></table></figure>
-
-
-<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">%matplotlib inline</span><br><span class="line"><span class="keyword">import</span> matplotlib <span class="keyword">as</span> mpl</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br></pre></td></tr></tbody></table></figure>
-
+                    <pre class=" language-language-python"><code class="language-language-python">import pandas as pd
+from pandas import DataFrame, Series
+</code></pre>
+<pre class=" language-language-python"><code class="language-language-python">from pyswmm import Simulation, Subcatchments
+from swmm5.swmm5tools import SWMM5Simulation
+</code></pre>
+<pre class=" language-language-python"><code class="language-language-python">%matplotlib inline
+import matplotlib as mpl
+import matplotlib.pyplot as plt
+</code></pre>
 <p>There are three options to load a model. If there is no desire to interact with the simulation then the simplest way to run the model is the following:</p>
-<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">filename = <span class="string">r'testmodel\Example2-Post.inp'</span></span><br></pre></td></tr></tbody></table></figure>
-
-<h2 id="Fastest-way-to-run-the-model"><a href="#Fastest-way-to-run-the-model" class="headerlink" title="Fastest way to run the model"></a>Fastest way to run the model</h2><figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sim = Simulation(filename)</span><br><span class="line">sim.execute()</span><br></pre></td></tr></tbody></table></figure>
-
-
+<pre class=" language-language-python"><code class="language-language-python">filename = r'testmodel\Example2-Post.inp'
+</code></pre>
+<h2 id="Fastest-way-to-run-the-model">Fastest way to run the model</h2>
+<pre class=" language-language-python"><code class="language-language-python">sim = Simulation(filename)
+sim.execute()    
+</code></pre>
 <pre><code>... SWMM Version 5.3.0.dev0
-... Run Complete</code></pre><h2 id="Input-file-info-and-the-reulst-analysis"><a href="#Input-file-info-and-the-reulst-analysis" class="headerlink" title="Input file info and the reulst analysis"></a>Input file info and the reulst analysis</h2><figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">st=SWMM5Simulation(filename)</span><br></pre></td></tr></tbody></table></figure>
-
-
-<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">st.SWMM5_Version()</span><br></pre></td></tr></tbody></table></figure>
-
-
-
-
-<pre><code>'5.1.011'</code></pre><h3 id="Basic-Infomation-in-the-input-file"><a href="#Basic-Infomation-in-the-input-file" class="headerlink" title="Basic Infomation in the input file"></a>Basic Infomation in the input file</h3><figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> key, values <span class="keyword">in</span> st._ids.items():</span><br><span class="line">    print(key,<span class="string">':'</span>,values[<span class="number">1</span>].keys())</span><br><span class="line">    print(len(values[<span class="number">1</span>].keys()))</span><br><span class="line">    print(<span class="string">'*******************'</span>)</span><br></pre></td></tr></tbody></table></figure>
-
+... Run Complete
+</code></pre>
+<h2 id="Input-file-info-and-the-reulst-analysis">Input file info and the reulst analysis</h2>
+<pre class=" language-language-python"><code class="language-language-python">st=SWMM5Simulation(filename)
+</code></pre>
+<pre class=" language-language-python"><code class="language-language-python">st.SWMM5_Version()
+</code></pre>
+<pre><code>'5.1.011'
+</code></pre>
+<h3 id="Basic-Infomation-in-the-input-file">Basic Infomation in the input file</h3>
+<pre class=" language-language-python"><code class="language-language-python">for key, values in st._ids.items():
+    print(key,':',values[1].keys())
+    print(len(values[1].keys()))
+    print('*******************')
+</code></pre>
 <pre><code>SUBCATCH : odict_keys(['S1', 'S2', 'S3', 'S4', 'S5', 'S6', 'S7'])
 7
 *******************
@@ -189,58 +197,49 @@ LINK : odict_keys(['C1', 'C2', 'C3', 'C4', 'C5', 'C6', 'C7', 'C8', 'C9', 'C10', 
 *******************
 SYS : odict_keys(['SYS'])
 1
-*******************</code></pre><figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">st.Flow_Units()</span><br></pre></td></tr></tbody></table></figure>
-
-
-
-
-<pre><code>'CFS'</code></pre><figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">st.entityList()</span><br></pre></td></tr></tbody></table></figure>
-
-
-
-
-<pre><code>['SUBCATCH', 'NODE', 'LINK', 'SYS']</code></pre><figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">st.entityList()[<span class="number">2</span>]</span><br></pre></td></tr></tbody></table></figure>
-
-
-
-
-<pre><code>'LINK'</code></pre><figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">st.Subcatch()</span><br></pre></td></tr></tbody></table></figure>
-
-
-
-
-<pre><code>['S1', 'S2', 'S3', 'S4', 'S5', 'S6', 'S7']</code></pre><figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">st.Node()</span><br></pre></td></tr></tbody></table></figure>
-
-
-
-
-<pre><code>['J1', 'J2', 'J3', 'J4', 'J5', 'J6', 'J7', 'J8', 'J9', 'J10', 'J11', 'O1']</code></pre><figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">st.Link()</span><br></pre></td></tr></tbody></table></figure>
-
-
-
-
-<pre><code>['C1', 'C2', 'C3', 'C4', 'C5', 'C6', 'C7', 'C8', 'C9', 'C10', 'C11']</code></pre><figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">st.Sys()</span><br></pre></td></tr></tbody></table></figure>
-
-
-
-
-<pre><code>['SYS']</code></pre><figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">st.SWMM_Nperiods</span><br></pre></td></tr></tbody></table></figure>
-
-
-
-
-<pre><code>720</code></pre><figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">st.getFiles()</span><br></pre></td></tr></tbody></table></figure>
-
-
-
-
+*******************
+</code></pre>
+<pre class=" language-language-python"><code class="language-language-python">st.Flow_Units()
+</code></pre>
+<pre><code>'CFS'
+</code></pre>
+<pre class=" language-language-python"><code class="language-language-python">st.entityList()
+</code></pre>
+<pre><code>['SUBCATCH', 'NODE', 'LINK', 'SYS']
+</code></pre>
+<pre class=" language-language-python"><code class="language-language-python">st.entityList()[2]
+</code></pre>
+<pre><code>'LINK'
+</code></pre>
+<pre class=" language-language-python"><code class="language-language-python">st.Subcatch()
+</code></pre>
+<pre><code>['S1', 'S2', 'S3', 'S4', 'S5', 'S6', 'S7']
+</code></pre>
+<pre class=" language-language-python"><code class="language-language-python">st.Node()
+</code></pre>
+<pre><code>['J1', 'J2', 'J3', 'J4', 'J5', 'J6', 'J7', 'J8', 'J9', 'J10', 'J11', 'O1']
+</code></pre>
+<pre class=" language-language-python"><code class="language-language-python">st.Link()
+</code></pre>
+<pre><code>['C1', 'C2', 'C3', 'C4', 'C5', 'C6', 'C7', 'C8', 'C9', 'C10', 'C11']
+</code></pre>
+<pre class=" language-language-python"><code class="language-language-python">st.Sys()
+</code></pre>
+<pre><code>['SYS']
+</code></pre>
+<pre class=" language-language-python"><code class="language-language-python">st.SWMM_Nperiods
+</code></pre>
+<pre><code>720
+</code></pre>
+<pre class=" language-language-python"><code class="language-language-python">st.getFiles()
+</code></pre>
 <pre><code>['testmodel\\Example2-Post.inp',
  'C:\\Users\\YNGFAN~1\\AppData\\Local\\Temp\\Example2-Postjk8nnu48.rpt',
- 'C:\\Users\\YNGFAN~1\\AppData\\Local\\Temp\\Example2-Postbwudsbdt.dat']</code></pre><h4 id="Others"><a href="#Others" class="headerlink" title="Others"></a>Others</h4><figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">st._variables[<span class="string">"SUBCATCH"</span>]</span><br></pre></td></tr></tbody></table></figure>
-
-
-
-
+ 'C:\\Users\\YNGFAN~1\\AppData\\Local\\Temp\\Example2-Postbwudsbdt.dat']
+</code></pre>
+<h4 id="Others">Others</h4>
+<pre class=" language-language-python"><code class="language-language-python">st._variables["SUBCATCH"]
+</code></pre>
 <pre><code>['Rainfall (in/hr or mm/hr)',
  'Snow depth (in or mm)',
  'Evaporation loss (in/hr or mm/hr)',
@@ -248,52 +247,55 @@ SYS : odict_keys(['SYS'])
  'Runoff rate (flow units)',
  'Groundwater outflow rate (flow units)',
  'Groundwater water table elevation (ft or m)',
- 'Soil Moisture (volumetric fraction, less or equal tosoil porosity)']</code></pre><figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">st._variables[<span class="string">"LINK"</span>]</span><br></pre></td></tr></tbody></table></figure>
-
-
-
-
+ 'Soil Moisture (volumetric fraction, less or equal tosoil porosity)']
+</code></pre>
+<pre class=" language-language-python"><code class="language-language-python">st._variables["LINK"]
+</code></pre>
 <pre><code>['Flow rate (flow units)',
  'Flow depth (ft or m)',
  'Flow velocity (ft/s or m/s)',
  'Froude number',
- 'Capacity (fraction of conduit filled)']</code></pre><figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">st._variables[<span class="string">"NODE"</span>]</span><br></pre></td></tr></tbody></table></figure>
-
-
-
-
+ 'Capacity (fraction of conduit filled)']
+</code></pre>
+<pre class=" language-language-python"><code class="language-language-python">st._variables["NODE"]
+</code></pre>
 <pre><code>['Depth of water above invert (ft or m)',
  'Hydraulic head (ft or m)',
  'Volume of stored + ponded water (ft3 or m3)',
  'Lateral inflow (flow units)',
  'Total inflow (lateral + upstream) (flow units)',
- 'Flow lost to flooding (flow units)']</code></pre><h3 id="Information-in-the-result"><a href="#Information-in-the-result" class="headerlink" title="Information in the result:"></a>Information in the result:</h3><h3 id="Subcatchment"><a href="#Subcatchment" class="headerlink" title="Subcatchment"></a>Subcatchment</h3><figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">TimeSeries = pd.date_range(start=<span class="string">'1/1/2007'</span>,  periods = <span class="number">721</span>, freq=<span class="string">'1min'</span>)</span><br><span class="line">TimeSeries = TimeSeries[<span class="number">1</span>:]</span><br></pre></td></tr></tbody></table></figure>
-
-
-<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CatchIndex = st._variables[<span class="string">"SUBCATCH"</span>]</span><br></pre></td></tr></tbody></table></figure>
-
-
-<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">content = []</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(len(CatchIndex)):</span><br><span class="line">    content.append(list(st.Results(<span class="string">'SUBCATCH'</span>,<span class="string">'S1'</span>,i )))</span><br><span class="line">df_S1 = DataFrame(content, index = CatchIndex)</span><br><span class="line">df_S1 = df_S1.T</span><br><span class="line">df_S1.index = TimeSeries</span><br></pre></td></tr></tbody></table></figure>
-
-
-<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">df_S1.head()</span><br></pre></td></tr></tbody></table></figure>
-
-
-
-
+ 'Flow lost to flooding (flow units)']
+</code></pre>
+<h3 id="Information-in-the-result">Information in the result:</h3>
+<h3 id="Subcatchment">Subcatchment</h3>
+<pre class=" language-language-python"><code class="language-language-python">TimeSeries = pd.date_range(start='1/1/2007',  periods = 721, freq='1min')
+TimeSeries = TimeSeries[1:]
+</code></pre>
+<pre class=" language-language-python"><code class="language-language-python">CatchIndex = st._variables["SUBCATCH"]
+</code></pre>
+<pre class=" language-language-python"><code class="language-language-python">content = []
+for i in range(len(CatchIndex)):
+    content.append(list(st.Results('SUBCATCH','S1',i )))
+df_S1 = DataFrame(content, index = CatchIndex)
+df_S1 = df_S1.T
+df_S1.index = TimeSeries
+</code></pre>
+<pre class=" language-language-python"><code class="language-language-python">df_S1.head()
+</code></pre>
 <div>
 <style scoped="">
     .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
     }
-
 <pre><code>.dataframe tbody tr th {
     vertical-align: top;
 }
 
 .dataframe thead th {
     text-align: right;
-}</code></pre><p></style><p></p>
+}
+</code></pre>
+</style>
 <table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
@@ -367,15 +369,8 @@ SYS : odict_keys(['SYS'])
   </tbody>
 </table>
 </div>
-
-
-
-
-<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">df_S1.apply(max)</span><br></pre></td></tr></tbody></table></figure>
-
-
-
-
+<pre class=" language-language-python"><code class="language-language-python">df_S1.apply(max)
+</code></pre>
 <pre><code>Rainfall (in/hr or mm/hr)                                              9.95000
 Snow depth (in or mm)                                                  0.00000
 Evaporation loss (in/hr or mm/hr)                                      0.00000
@@ -384,36 +379,40 @@ Runoff rate (flow units)                                              37.92503
 Groundwater outflow rate (flow units)                                  0.00000
 Groundwater water table elevation (ft or m)                            0.00000
 Soil Moisture (volumetric fraction, less or equal tosoil porosity)     0.00000
-dtype: float64</code></pre><figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mpl.style.use([<span class="string">'ggplot'</span>]) <span class="comment"># optional: for ggplot-like style</span></span><br></pre></td></tr></tbody></table></figure>
-
-
-<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">df_S1.iloc[:,[<span class="number">0</span>,<span class="number">3</span>,<span class="number">4</span>]].plot(figsize=(<span class="number">14</span>,<span class="number">7</span>))</span><br></pre></td></tr></tbody></table></figure>
-
-
-
-
-<pre><code>&lt;matplotlib.axes._subplots.AxesSubplot at 0x235e1735240&gt;</code></pre><p><img src="/2020/04/16/Pyswmm%20practice/output_33_1.png" alt="png"></p>
-<h3 id="Node"><a href="#Node" class="headerlink" title="Node"></a>Node</h3><figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">NodeIndex = st._variables[<span class="string">"NODE"</span>]</span><br></pre></td></tr></tbody></table></figure>
-
-
-<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">content = []</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">6</span>):</span><br><span class="line">    content.append(list(st.Results(<span class="string">'NODE'</span>,<span class="string">'J1'</span>,i )))</span><br><span class="line">df_J1 = DataFrame(content, index = NodeIndex)</span><br><span class="line">df_J1 = df_J1.T</span><br><span class="line">df_J1.index = TimeSeries</span><br><span class="line">df_J1</span><br></pre></td></tr></tbody></table></figure>
-
-
-
-
+dtype: float64
+</code></pre>
+<pre class=" language-language-python"><code class="language-language-python">mpl.style.use(['ggplot']) # optional: for ggplot-like style
+</code></pre>
+<pre class=" language-language-python"><code class="language-language-python">df_S1.iloc[:,[0,3,4]].plot(figsize=(14,7))
+</code></pre>
+<pre><code>&lt;matplotlib.axes._subplots.AxesSubplot at 0x235e1735240&gt;
+</code></pre>
+<p><img src="/2020/04/16/Pyswmm%20practice/output_33_1.png" alt="png"></p>
+<h3 id="Node">Node</h3>
+<pre class=" language-language-python"><code class="language-language-python">NodeIndex = st._variables["NODE"]
+</code></pre>
+<pre class=" language-language-python"><code class="language-language-python">content = []
+for i in range(6):
+    content.append(list(st.Results('NODE','J1',i )))
+df_J1 = DataFrame(content, index = NodeIndex)
+df_J1 = df_J1.T
+df_J1.index = TimeSeries
+df_J1
+</code></pre>
 <div>
 <style scoped="">
     .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
     }
-
 <pre><code>.dataframe tbody tr th {
     vertical-align: top;
 }
 
 .dataframe thead th {
     text-align: right;
-}</code></pre><p></style><p></p>
+}
+</code></pre>
+</style>
 <table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
@@ -530,44 +529,42 @@ dtype: float64</code></pre><figure class="highlight python"><table><tbody><tr><t
 </table>
 <p>720 rows × 6 columns</p>
 </div>
-
-
-
-
-<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">df_J1.apply(max)</span><br></pre></td></tr></tbody></table></figure>
-
-
-
-
+<pre class=" language-language-python"><code class="language-language-python">df_J1.apply(max)
+</code></pre>
 <pre><code>Depth of water above invert (ft or m)                1.121220
 Hydraulic head (ft or m)                          4974.121094
 Volume of stored + ponded water (ft3 or m3)          0.000000
 Lateral inflow (flow units)                         37.466915
 Total inflow (lateral + upstream) (flow units)      37.466915
 Flow lost to flooding (flow units)                   0.000000
-dtype: float64</code></pre><h3 id="Link-result"><a href="#Link-result" class="headerlink" title="Link result"></a>Link result</h3><figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">st.entityList()</span><br></pre></td></tr></tbody></table></figure>
-
-
-
-
-<pre><code>['SUBCATCH', 'NODE', 'LINK', 'SYS']</code></pre><figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">LinkIndex = [<span class="string">'Flow'</span>,<span class="string">'Depth'</span>, <span class="string">'Velocity'</span>,<span class="string">'Volume'</span>,<span class="string">'Capacity'</span>]</span><br><span class="line">content = []</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">5</span>):</span><br><span class="line">    content.append(list(st.Results(<span class="string">'LINK'</span>,<span class="string">'C1'</span>,i )))</span><br><span class="line">df = DataFrame(content, index = LinkIndex)</span><br><span class="line">df.T</span><br></pre></td></tr></tbody></table></figure>
-
-
-
-
+dtype: float64
+</code></pre>
+<h3 id="Link-result">Link result</h3>
+<pre class=" language-language-python"><code class="language-language-python">st.entityList()
+</code></pre>
+<pre><code>['SUBCATCH', 'NODE', 'LINK', 'SYS']
+</code></pre>
+<pre class=" language-language-python"><code class="language-language-python">LinkIndex = ['Flow','Depth', 'Velocity','Volume','Capacity']
+content = []
+for i in range(5):
+    content.append(list(st.Results('LINK','C1',i )))
+df = DataFrame(content, index = LinkIndex)
+df.T
+</code></pre>
 <div>
 <style scoped="">
     .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
     }
-
 <pre><code>.dataframe tbody tr th {
     vertical-align: top;
 }
 
 .dataframe thead th {
     text-align: right;
-}</code></pre><p></style><p></p>
+}
+</code></pre>
+</style>
 <table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
@@ -672,24 +669,31 @@ dtype: float64</code></pre><h3 id="Link-result"><a href="#Link-result" class="he
 </table>
 <p>720 rows × 5 columns</p>
 </div>
+<h3 id="Sys-result">Sys result</h3>
+<pre class=" language-language-python"><code class="language-language-python">a = list(st.Results('SYS','SYS',0 ))
 
+</code></pre>
+<pre class=" language-language-python"><code class="language-language-python">len(a)
+</code></pre>
+<pre><code>720
+</code></pre>
+<h2 id="Modelling-control">Modelling control</h2>
+<p>The following method allows the user to read in a model and manually step through the simulation and get/set parameters and results. This scenario is the cleanest solution using a with statement. It automatically cleans up after the simulation is complete.</p>
+<pre class=" language-language-python"><code class="language-language-python">from swmm5.swmm5tools import SWMM5Simulation
 
+with Simulation(filename) as sim:
+    for step in sim:
+        pass
 
-<h3 id="Sys-result"><a href="#Sys-result" class="headerlink" title="Sys result"></a>Sys result</h3><figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">a = list(st.Results(<span class="string">'SYS'</span>,<span class="string">'SYS'</span>,<span class="number">0</span> ))</span><br></pre></td></tr></tbody></table></figure>
-
-
-<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">len(a)</span><br></pre></td></tr></tbody></table></figure>
-
-
-
-
-<pre><code>720</code></pre><h2 id="Modelling-control"><a href="#Modelling-control" class="headerlink" title="Modelling control"></a>Modelling control</h2><p>The following method allows the user to read in a model and manually step through the simulation and get/set parameters and results. This scenario is the cleanest solution using a with statement. It automatically cleans up after the simulation is complete.</p>
-<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> swmm5.swmm5tools <span class="keyword">import</span> SWMM5Simulation</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> Simulation(filename) <span class="keyword">as</span> sim:</span><br><span class="line">    <span class="keyword">for</span> step <span class="keyword">in</span> sim:</span><br><span class="line">        <span class="keyword">pass</span></span><br></pre></td></tr></tbody></table></figure>
-
+</code></pre>
 <p>One feature that pyswmm adds to the modeling world is the simulation stride function step_advance. Assuming a user has developed all of their control rules in in a Python script, to reduce simulation time a user can specify how often Python controls should be evaluated.</p>
 <p>For example, let’s assume testmodel.inp has a 30 second routing step (using the dynamic wave solver, this step could vary significantly). If complex control scenarios are developed, evaluating rules could add significant time to the simulation.</p>
-<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> swmm5.swmm5tools <span class="keyword">import</span> SWMM5Simulation</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> Simulation(filename) <span class="keyword">as</span> sim:</span><br><span class="line">    <span class="keyword">for</span> step <span class="keyword">in</span> sim:</span><br><span class="line">        print(sim.current_time)</span><br></pre></td></tr></tbody></table></figure>
+<pre class=" language-language-python"><code class="language-language-python">from swmm5.swmm5tools import SWMM5Simulation
 
+with Simulation(filename) as sim:
+    for step in sim:
+        print(sim.current_time)
+</code></pre>
 <pre><code>2007-01-01 00:00:15
 2007-01-01 00:00:30
 2007-01-01 00:00:45
@@ -3568,17 +3572,32 @@ dtype: float64</code></pre><h3 id="Link-result"><a href="#Link-result" class="he
 2007-01-01 11:59:00
 2007-01-01 11:59:15
 2007-01-01 11:59:30
-2007-01-01 11:59:45</code></pre><figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">time = []</span><br><span class="line"><span class="keyword">with</span> Simulation(filename) <span class="keyword">as</span> sim:</span><br><span class="line">    sim.step_advance(<span class="number">180</span>)</span><br><span class="line">    <span class="keyword">for</span> step <span class="keyword">in</span> sim:</span><br><span class="line">        time.append(sim.current_time)</span><br><span class="line">        <span class="comment"># or here! sim.step_advance(newvalue)</span></span><br><span class="line">time[:<span class="number">5</span>]</span><br></pre></td></tr></tbody></table></figure>
-
-
-
-
+2007-01-01 11:59:45
+</code></pre>
+<pre class=" language-language-python"><code class="language-language-python">time = []
+with Simulation(filename) as sim:
+    sim.step_advance(180)
+    for step in sim:
+        time.append(sim.current_time)
+        # or here! sim.step_advance(newvalue)
+time[:5]
+</code></pre>
 <pre><code>[datetime.datetime(2007, 1, 1, 0, 3),
  datetime.datetime(2007, 1, 1, 0, 6),
  datetime.datetime(2007, 1, 1, 0, 9),
  datetime.datetime(2007, 1, 1, 0, 12),
- datetime.datetime(2007, 1, 1, 0, 15)]</code></pre><h1 id="Node-1"><a href="#Node-1" class="headerlink" title="Node"></a>Node</h1><figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pyswmm <span class="keyword">import</span> Simulation, Nodes</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> Simulation(filename) <span class="keyword">as</span> sim:</span><br><span class="line">    nodes = Nodes(sim)</span><br><span class="line">    <span class="keyword">for</span> node <span class="keyword">in</span> nodes:</span><br><span class="line">        print(node.nodeid)</span><br><span class="line">    print(<span class="string">'J1'</span> <span class="keyword">in</span> nodes)  <span class="comment">#Testing Existence</span></span><br></pre></td></tr></tbody></table></figure>
+ datetime.datetime(2007, 1, 1, 0, 15)]
+</code></pre>
+<h1>Node</h1>
+<pre class=" language-language-python"><code class="language-language-python">from pyswmm import Simulation, Nodes
 
+with Simulation(filename) as sim:
+    nodes = Nodes(sim)
+    for node in nodes:
+        print(node.nodeid)
+    print('J1' in nodes)  #Testing Existence
+
+</code></pre>
 <pre><code>J1
 J2
 J3
@@ -3591,8 +3610,24 @@ J9
 J10
 J11
 O1
-True</code></pre><figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">with</span> Simulation(filename) <span class="keyword">as</span> sim:</span><br><span class="line">    nodes = Nodes(sim)</span><br><span class="line">    <span class="comment">#J1 node instantiation</span></span><br><span class="line">    J1 = nodes[<span class="string">"J1"</span>]</span><br><span class="line">    print(<span class="string">'J1 IL(before):'</span>,J1.invert_elevation)</span><br><span class="line">    J1.invert_elevation = J1.invert_elevation+ <span class="number">1</span></span><br><span class="line">    print(<span class="string">'J1 IL(after):'</span>,J1.invert_elevation)</span><br><span class="line">    print(<span class="string">'J1 Initial Deptj:'</span>,J1.initial_depth)</span><br><span class="line">    print(J1.is_junction())</span><br><span class="line">    print(J1.is_outfall())</span><br><span class="line"></span><br><span class="line">    <span class="comment">#Step through a simulation</span></span><br><span class="line">    print(<span class="string">"********* inflow information********"</span>)</span><br><span class="line">    <span class="keyword">for</span> step <span class="keyword">in</span> sim:</span><br><span class="line">        print(J1.total_inflow, J1.head)</span><br></pre></td></tr></tbody></table></figure>
+True
+</code></pre>
+<pre class=" language-language-python"><code class="language-language-python">with Simulation(filename) as sim:
+    nodes = Nodes(sim)
+    #J1 node instantiation
+    J1 = nodes["J1"]
+    print('J1 IL(before):',J1.invert_elevation)
+    J1.invert_elevation = J1.invert_elevation+ 1
+    print('J1 IL(after):',J1.invert_elevation)
+    print('J1 Initial Deptj:',J1.initial_depth)
+    print(J1.is_junction())
+    print(J1.is_outfall())
 
+    #Step through a simulation
+    print("********* inflow information********")
+    for step in sim:
+        print(J1.total_inflow, J1.head)
+</code></pre>
 <pre><code>J1 IL(before): 4973.0
 J1 IL(after): 4974.0
 J1 Initial Deptj: 0.0
@@ -6477,44 +6512,82 @@ False
 1.4064558030532435e-05 4974.000491300109
 1.4049990247139533e-05 4974.000491247986
 1.4035506561505774e-05 4974.000491196162
-1.4021022875872014e-05 4974.0004911443375</code></pre><h1 id="Links"><a href="#Links" class="headerlink" title="Links"></a>Links</h1><figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pyswmm <span class="keyword">import</span> Simulation, Links</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> Simulation(filename) <span class="keyword">as</span> sim:</span><br><span class="line">    link_object = Links(sim)</span><br><span class="line"></span><br><span class="line">    <span class="comment">#C3 link instantiation</span></span><br><span class="line">    c3 = link_object[<span class="string">"C3"</span>]</span><br><span class="line">    print(c3.flow_limit)</span><br><span class="line">    print(c3.is_conduit())</span><br><span class="line"></span><br><span class="line">    <span class="comment">#Step through a simulation</span></span><br><span class="line">    <span class="keyword">for</span> step <span class="keyword">in</span> sim:</span><br><span class="line">        <span class="keyword">if</span> c3.flow &gt; <span class="number">10.0</span>:</span><br><span class="line">            print(<span class="string">'%.1f'</span>%c3.flow, end = <span class="string">''</span>)</span><br><span class="line">            c3.target_setting = <span class="number">0.5</span></span><br></pre></td></tr></tbody></table></figure>
+1.4021022875872014e-05 4974.0004911443375
+</code></pre>
+<h1>Links</h1>
+<pre class=" language-language-python"><code class="language-language-python">from pyswmm import Simulation, Links
 
+with Simulation(filename) as sim:
+    link_object = Links(sim)
+
+    #C3 link instantiation
+    c3 = link_object["C3"]
+    print(c3.flow_limit)
+    print(c3.is_conduit())
+
+    #Step through a simulation
+    for step in sim:
+        if c3.flow > 10.0:
+            print('%.1f'%c3.flow, end = '')
+            c3.target_setting = 0.5
+</code></pre>
 <pre><code>0.0
 True
-10.612.614.616.618.319.120.020.921.722.423.123.824.425.025.626.226.727.227.828.327.925.723.721.620.119.619.118.618.117.917.717.517.217.117.016.816.716.616.516.416.115.314.714.013.413.112.812.512.212.011.811.611.511.311.211.110.910.910.810.610.410.0</code></pre><figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">time = []</span><br><span class="line"><span class="keyword">with</span> Simulation(<span class="string">'swmm_example.inp'</span>) <span class="keyword">as</span> sim:</span><br><span class="line">    sim.step_advance(<span class="number">300</span>)</span><br><span class="line">    <span class="keyword">for</span> step <span class="keyword">in</span> sim:</span><br><span class="line">        time.append(sim.current_time)</span><br><span class="line">time[:<span class="number">5</span>]</span><br></pre></td></tr></tbody></table></figure>
-
-
-
-
+10.612.614.616.618.319.120.020.921.722.423.123.824.425.025.626.226.727.227.828.327.925.723.721.620.119.619.118.618.117.917.717.517.217.117.016.816.716.616.516.416.115.314.714.013.413.112.812.512.212.011.811.611.511.311.211.110.910.910.810.610.410.0
+</code></pre>
+<pre class=" language-language-python"><code class="language-language-python">time = []
+with Simulation('swmm_example.inp') as sim:
+    sim.step_advance(300)
+    for step in sim:
+        time.append(sim.current_time)
+time[:5]
+</code></pre>
 <pre><code>[datetime.datetime(2017, 11, 1, 0, 5),
  datetime.datetime(2017, 11, 1, 0, 10),
  datetime.datetime(2017, 11, 1, 0, 15),
  datetime.datetime(2017, 11, 1, 0, 20),
- datetime.datetime(2017, 11, 1, 0, 25)]</code></pre><h1 id="Nodes"><a href="#Nodes" class="headerlink" title="Nodes"></a>Nodes</h1><figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pyswmm <span class="keyword">import</span> Nodes</span><br></pre></td></tr></tbody></table></figure>
-
-
-<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">inflow = []</span><br></pre></td></tr></tbody></table></figure>
-
-
-<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">with</span> Simulation(<span class="string">'swmm_example.inp'</span>) <span class="keyword">as</span> sim:</span><br><span class="line">    node_object = Nodes(sim)</span><br><span class="line">    J1 = node_object[<span class="string">'J1'</span>]</span><br><span class="line">    print(J1.invert_elevation)</span><br><span class="line">    print(J1.is_junction())</span><br><span class="line">    <span class="keyword">for</span> step <span class="keyword">in</span> sim:</span><br><span class="line">        <span class="keyword">pass</span></span><br></pre></td></tr></tbody></table></figure>
-
+ datetime.datetime(2017, 11, 1, 0, 25)]
+</code></pre>
+<h1>Nodes</h1>
+<pre class=" language-language-python"><code class="language-language-python">from pyswmm import Nodes
+</code></pre>
+<pre class=" language-language-python"><code class="language-language-python">inflow = []
+</code></pre>
+<pre class=" language-language-python"><code class="language-language-python">
+with Simulation('swmm_example.inp') as sim:
+    node_object = Nodes(sim)
+    J1 = node_object['J1']
+    print(J1.invert_elevation)
+    print(J1.is_junction())
+    for step in sim:
+        pass
+</code></pre>
 <pre><code>96.0
-True</code></pre><h1 id="Printing-Subcatchment-Runoff"><a href="#Printing-Subcatchment-Runoff" class="headerlink" title="Printing Subcatchment Runoff"></a>Printing Subcatchment Runoff</h1><figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br></pre></td></tr></tbody></table></figure>
+True
+</code></pre>
+<h1>Printing Subcatchment Runoff</h1>
+<pre class=" language-language-python"><code class="language-language-python">import matplotlib.pyplot as plt
+</code></pre>
+<pre class=" language-language-python"><code class="language-language-python">from pyswmm import Simulation, Subcatchments
 
+time = []
+runoff = []
+with Simulation(filename) as sim:
+    S1 = Subcatchments(sim)["S1"]
 
-<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pyswmm <span class="keyword">import</span> Simulation, Subcatchments</span><br><span class="line"></span><br><span class="line">time = []</span><br><span class="line">runoff = []</span><br><span class="line"><span class="keyword">with</span> Simulation(filename) <span class="keyword">as</span> sim:</span><br><span class="line">    S1 = Subcatchments(sim)[<span class="string">"S1"</span>]</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> step <span class="keyword">in</span> sim:</span><br><span class="line">            time.append(sim.current_time)</span><br><span class="line">            runoff.append(S1.runoff)</span><br></pre></td></tr></tbody></table></figure>
-
-
-<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Srunoff = pd.Series(runoff, index = time)</span><br></pre></td></tr></tbody></table></figure>
-
-
-<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Srunoff.plot()</span><br></pre></td></tr></tbody></table></figure>
-
-
-
-
-<pre><code>&lt;matplotlib.axes._subplots.AxesSubplot at 0x235e16442e8&gt;</code></pre><p><img src="/2020/04/16/Pyswmm%20practice/output_64_1.png" alt="png"></p>
-<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference:"></a>Reference:</h2><p><a href="https://pypi.org/project/pyswmm/" target="_blank" rel="noopener">https://pypi.org/project/pyswmm/</a></p>
+    for step in sim:
+            time.append(sim.current_time)
+            runoff.append(S1.runoff)
+</code></pre>
+<pre class=" language-language-python"><code class="language-language-python">Srunoff = pd.Series(runoff, index = time)
+</code></pre>
+<pre class=" language-language-python"><code class="language-language-python">Srunoff.plot()
+</code></pre>
+<pre><code>&lt;matplotlib.axes._subplots.AxesSubplot at 0x235e16442e8&gt;
+</code></pre>
+<p><img src="/2020/04/16/Pyswmm%20practice/output_64_1.png" alt="png"></p>
+<h2 id="Reference">Reference:</h2>
+<p><a href="https://pypi.org/project/pyswmm/" target="_blank" rel="noopener">https://pypi.org/project/pyswmm/</a></p>
 <script>
         document.querySelectorAll('.github-emoji')
           .forEach(el => {
