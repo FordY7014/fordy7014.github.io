@@ -20,7 +20,7 @@
 
     <!--Open Graph Title-->
     
-        <meta property="og:title" content="Ford Yang&#39;s Blog"/>
+        <meta property="og:title" content="Present 3D DEM and Building in ArcScene"/>
     
 
     <!--Open Graph Description-->
@@ -33,7 +33,7 @@
 
     <!--Type page-->
     
-        <meta property="og:type" content="website" />
+        <meta property="og:type" content="article" />
     
 
     <!--Page Cover-->
@@ -44,7 +44,7 @@
 
     <!-- Title -->
     
-    <title>Modelling - Ford Yang&#39;s Blog</title>
+    <title>Present 3D DEM and Building in ArcScene - Ford Yang&#39;s Blog</title>
 
     <!-- Tachyons Core CSS -->
     <link rel="stylesheet" href="https://unpkg.com/tachyons/css/tachyons.min.css">
@@ -74,8 +74,6 @@
 <body>
 
 <!-- Main Content -->
-
-
 <!-- Banner -->
 <!-- Banner -->
 <div class="w-100 bg-1 ph5-ns ph3 text-light">
@@ -128,63 +126,149 @@
     <!-- Title -->
     <div class="w-100 mw8 center vh-40 dt">
         <div class="dtc v-mid white">
-            <h1 class="f1-l f2-m tc tc-m tl-ns">Modelling</h1>
-            <p class="f4 fw3 pab-100px tc tc-m tl-ns"></p>
+            <h1 class="f1-l f2-m tc tc-m tl-ns">Present 3D DEM and Building in ArcScene</h1>
+            <p class="f4 fw3 pab-100px tc tc-m tl-ns">2020-04-22</p>
         </div>
     </div>
 
     <!-- Icon -->
     <div class="relative w-100 mw8 center white dn dn-m db-ns">
-        <i class="header-icon fa fa-folder-open"></i>
+        <i class="header-icon fa fa-file-text-o"></i>
     </div>
 </div>
 
+<!-- Content -->
 <div class="w-100 ph2 ph4-m ph5-l mv5 mv6-l">
     <div class="content">
         <div class="mw8 center">
-            
-                <a href="/2020/04/20/How%20to%20take%20many%20different%20rasters%20into%20one%20raster/">
-    <div class="dt w-100 hover-border-main-color pointer pa3 border-color bl mv3">
-        <div class="dtc v-mid w-20 black-50">
-            
-                <span class="f4 fw3 lh-copy">Apr 2020</span> 
-            
+            <div class="cf">
+                <div class="fl w-100 w-70-l mw7 left fw3 lh-copy pr4-ns pr0-m post-content">
+                    <!-- Tags Vertical -->
+                    
+                        <div class="tags-container-vertical">
+                            <div class="tags-sub-container">
+                                <a class="fw3 ph1 dib" href="/tags/Arcmap/">#Arcmap</a>
+                            </div>
+                        </div>
+                    
+
+                    <!-- Main Post Content -->
+                    <p>If we want to have an 3D overview of DEM with Building or flooding data, we can use ArcScene.</p>
+<hr>
+<h3 id="Load-DEM">Load DEM</h3>
+<p>Firstly, we need to load the DEM raster files in ArcScene, and right-click the DEM layer and choose “Property”. Select the “Base Height” Tab as the figure below.</p>
+<p><img src="/2020/04/22/Present%20the%20results%20in%20ArcScene/11.PNG" alt="DEM Load"></p>
+<hr>
+<h3 id="Load-Building-Footprint-Dataset">Load Building Footprint Dataset</h3>
+<p>Same as the DEM loading, right-click the “Building Footprint” layer and choose “Property”. Select the “Extrustion” Tab as the figure below. Select the building height filed in the “Expression” box.</p>
+<p><img src="/2020/04/22/Present%20the%20results%20in%20ArcScene/22.PNG" alt="Building Extrusion"></p>
+<p>The result is as shown below.</p>
+<p><img src="/2020/04/22/Present%20the%20results%20in%20ArcScene/33.PNG" alt="Building Extrusion result.png"></p>
+<hr>
+<h3 id="Load-the-buiding-on-the-DEM">Load the buiding on the DEM</h3>
+<p>Select the “Base Height” Tab as the figure below. Select the DEM Dataset.</p>
+<p><img src="/2020/04/22/Present%20the%20results%20in%20ArcScene/44.PNG" alt="Mosaic Dataset.png"></p>
+<hr>
+<h3 id="Final-result">Final result</h3>
+<p>In a similar way, we can load Road, water pipe or flooding.</p>
+<p><img src="/2020/04/22/Present%20the%20results%20in%20ArcScene/55.PNG" alt="result.png"></p>
+<script>
+        document.querySelectorAll('.github-emoji')
+          .forEach(el => {
+            if (!el.dataset.src) { return; }
+            const img = document.createElement('img');
+            img.style = 'display:none !important;';
+            img.src = el.dataset.src;
+            img.addEventListener('error', () => {
+              img.remove();
+              el.style.color = 'inherit';
+              el.style.backgroundImage = 'none';
+              el.style.background = 'none';
+            });
+            img.addEventListener('load', () => {
+              img.remove();
+            });
+            document.body.appendChild(img);
+          });
+      </script>
+                    
+                    <!-- Tags Bottom -->
+                    
+                        <div class="tags-container-bottom">
+                            <i class="fa fa-tag pr3 text-main-color"></i><a class="fw3 ph1 dib" href="/tags/Arcmap/">#Arcmap</a>
+                        </div>
+                    
+
+                    <!-- Comments -->
+                    
+
+
+
+                </div>
+                <div class="fl w-100 w-30-l center fw3 lh-copy pl4-ns tl black-50">
+                    
+                    <hr class="dn-l mw4 black-50 mt5" />
+                    
+                    <!-- Widget 1: About -->
+                    <div class="mt5 mt0-l">
+    <article class="dt db-l mw8 mw8-m mw5-ns center ml0-l bg-white mv3">
+        <div class="dn dtc-m db-l v-mid tc pr4 pr0-l" style="min-width: 6rem;">
+            <img src="http://tachyons.io/img/avatar_1.jpg" class="mb4-l br-100 h3 w3 h4-l w4-l dib" title="Ford Yang">
         </div>
-        <div class="dtc v-mid w-80 black-70">
-            <span class="f4 fw3 lh-copy">How to take many different raster files into one raster<span>
+        <div class="dtc db-l v-mid lh-copy measure center f6 black-50 tj">
+            My name is Ford(Fan) Yang and this is my blog.I am a civil engineer with strong interest in data analysis.This blog is to make a record for what I am doing. <br>I currently live and work in New Zealand, hit me up if you are in the region. 
         </div>
-    </div>
-</a>
-            
-                <a href="/2020/04/22/Present%20the%20results%20in%20ArcScene/">
-    <div class="dt w-100 hover-border-main-color pointer pa3 border-color bl mv3">
-        <div class="dtc v-mid w-20 black-50">
-            
-                <span class="f4 fw3 lh-copy">Apr 2020</span> 
-            
-        </div>
-        <div class="dtc v-mid w-80 black-70">
-            <span class="f4 fw3 lh-copy">Present 3D DEM and Building in ArcScene<span>
-        </div>
-    </div>
-</a>
-            
-                <a href="/2020/04/16/Pyswmm%20practice/">
-    <div class="dt w-100 hover-border-main-color pointer pa3 border-color bl mv3">
-        <div class="dtc v-mid w-20 black-50">
-            
-                <span class="f4 fw3 lh-copy">Apr 2020</span> 
-            
-        </div>
-        <div class="dtc v-mid w-80 black-70">
-            <span class="f4 fw3 lh-copy">Pyswmm Learning<span>
-        </div>
-    </div>
-</a>
-            
+    </article>
+</div>
+
+                    <hr class="dn-l mw4 black-50 mt5" />
+                    
+                    <!-- Widget 2: Categories -->
+                    
+                        <div class="mt5 tc tl-l">
+    <h3>Categories</h3>
+    
+        <p>
+            <a href="/categories/Modelling/">Modelling</a>
+        </p>
+    
+</div>
+
+
+                        <hr class="dn-l mw4 black-50 mt5" />
+                    
+
+                    <!-- Widget 3: Recent Posts -->
+                    <div class="mt5 tc tl-l">
+    <h3>Recent Posts</h3>
+    
+        <p>
+            <a href="/2020/04/22/Present%20the%20results%20in%20ArcScene/">Present 3D DEM and Building in ArcScene</a>
+        </p>
+    
+        <p>
+            <a href="/2020/04/20/How%20to%20take%20many%20different%20rasters%20into%20one%20raster/">How to take many different raster files into one r</a>
+        </p>
+    
+        <p>
+            <a href="/2020/04/17/Spatial%20Join%20in%20Geopandas/">Spatial Join in Geopandas</a>
+        </p>
+    
+        <p>
+            <a href="/2020/04/16/Pyswmm%20practice/">Pyswmm Learning</a>
+        </p>
+    
+        <p>
+            <a href="/2020/04/15/Introduction-to-Matplotlib-and-Line-Plots/">Introduction to Matplotlib and Line Plots</a>
+        </p>
+    
+</div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
+
 
 <!-- Footer -->
 <div class="bg-1 ph2 ph5-ns pv5">
