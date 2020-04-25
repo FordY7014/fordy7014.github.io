@@ -240,13 +240,13 @@ The geometry includes: Point, Line, Ploygon</p>
 </code></pre>
 <pre><code>&lt;matplotlib.axes._subplots.AxesSubplot at 0x1d7968f8e48&gt;
 </code></pre>
-<p><img src="/2020/04/13/Geopandas%20Practise_Part1/output_14_1.png" alt="png"></p>
+<p><img src="/2020/04/13/Spatial%20Join%20in%20Geopandas/Geopandas%20Practise_Part1/output_14_1.png" alt="png"></p>
 <pre class=" language-language-python"><code class="language-language-python">Districts = gpd.read_file(r'D:\ARCGIS\mygeodata\nz_ta-polygon.shp')
 Districts.plot()
 </code></pre>
 <pre><code>&lt;matplotlib.axes._subplots.AxesSubplot at 0x1d794570be0&gt;
 </code></pre>
-<p><img src="/2020/04/13/Geopandas%20Practise_Part1/output_15_1.png" alt="png"></p>
+<p><img src="/2020/04/13/Spatial%20Join%20in%20Geopandas/Geopandas%20Practise_Part1/output_15_1.png" alt="png"></p>
 <pre class=" language-language-python"><code class="language-language-python">Districts.head(5)
 </code></pre>
 <div>
@@ -390,7 +390,7 @@ Districts.plot()
 </code></pre>
 <pre><code>&lt;matplotlib.axes._subplots.AxesSubplot at 0x1d7985a87b8&gt;
 </code></pre>
-<p><img src="/2020/04/13/Geopandas%20Practise_Part1/output_21_1.png" alt="png"></p>
+<p><img src="/2020/04/13/Spatial%20Join%20in%20Geopandas/Geopandas%20Practise_Part1/output_21_1.png" alt="png"></p>
 <h6 id="Select-the-District-with-the-name-starting-with-‘A’">Select the District with the name starting with ‘A’</h6>
 <pre class=" language-language-python"><code class="language-language-python">Districts[Districts.TA2016_NAM.str.startswith('A')]
 </code></pre>
@@ -446,7 +446,7 @@ Districts.plot()
 </code></pre>
 <pre><code>&lt;matplotlib.axes._subplots.AxesSubplot at 0x1d7985d5c50&gt;
 </code></pre>
-<p><img src="/2020/04/13/Geopandas%20Practise_Part1/output_24_1.png" alt="png"></p>
+<p><img src="/2020/04/13/Spatial%20Join%20in%20Geopandas/Geopandas%20Practise_Part1/output_24_1.png" alt="png"></p>
 <h3 id="Write-the-info-into-files">Write the info into files</h3>
 <h4 id="Writing-to-shp-files">Writing to shp files</h4>
 <pre class=" language-language-python"><code class="language-language-python">cities.to_file('D:\ARCGIS\Covid-19 Cases in New Zealand\output\DHI_POINTS_COPY.shp')
@@ -629,7 +629,7 @@ df.head(2)
 </div>
 <pre class=" language-language-python"><code class="language-language-python">Point(-78,40)
 </code></pre>
-<p><img src="/2020/04/13/Geopandas%20Practise_Part1/output_37_0.svg" alt="svg"></p>
+<p><img src="/2020/04/13/Spatial%20Join%20in%20Geopandas/Geopandas%20Practise_Part1/output_37_0.svg" alt="svg"></p>
 <h4 id="Creating-shapely-Points-from-latitude-and-longtitude">Creating shapely Points from latitude and longtitude</h4>
 <pre class=" language-language-python"><code class="language-language-python">points = df2.apply(lambda row:Point(row.Longitude,row.Latitude), axis =1)# Attention: axis =1
 points.head()
@@ -698,7 +698,7 @@ schools.head(2)
 </code></pre>
 <pre><code>&lt;matplotlib.axes._subplots.AxesSubplot at 0x1d7967c0390&gt;
 </code></pre>
-<p><img src="/2020/04/13/Geopandas%20Practise_Part1/output_42_1.png" alt="png"></p>
+<p><img src="/2020/04/13/Spatial%20Join%20in%20Geopandas/Geopandas%20Practise_Part1/output_42_1.png" alt="png"></p>
 <h1>04. What is a Coordinate Reference Systems</h1>
 <h3 id="li-Coordinate-Reference-Systems-li-Geographic-Coordinate-Systems"><li>Coordinate Reference Systems</li><li> Geographic Coordinate Systems</li></h3>
 <p>Ellipsoid - shape of the earth<br>
@@ -714,12 +714,12 @@ EPSG standards for European petroleum survey group</p>
 </code></pre>
 <pre><code>&lt;matplotlib.axes._subplots.AxesSubplot at 0x1d796447e80&gt;
 </code></pre>
-<p><img src="/2020/04/13/Geopandas%20Practise_Part1/output_50_1.png" alt="png"></p>
+<p><img src="/2020/04/13/Spatial%20Join%20in%20Geopandas/Geopandas%20Practise_Part1/output_50_1.png" alt="png"></p>
 <pre class=" language-language-python"><code class="language-language-python">Districts.to_crs({'proj':'merc'}).plot(figsize = (10,10))
 </code></pre>
 <pre><code>&lt;matplotlib.axes._subplots.AxesSubplot at 0x1d79605efd0&gt;
 </code></pre>
-<p><img src="/2020/04/13/Geopandas%20Practise_Part1/output_51_1.png" alt="png"></p>
+<p><img src="/2020/04/13/Spatial%20Join%20in%20Geopandas/Geopandas%20Practise_Part1/output_51_1.png" alt="png"></p>
 <h4 id="We-can-see-although-the-shape-is-still-similar-the-X-Y-axes-are-different-since-the-coordinate-system-has-changed">We can see although the shape is still similar, the X,Y axes are different  since the coordinate system has changed.</h4>
 <h1>06. Customizing basic map styles with geopandas</h1>
 <p>pass parameter to .plot<br>
@@ -730,7 +730,7 @@ ax.axis('off')
 </code></pre>
 <pre><code>(165.81877500000002, 179.184325, -47.934870000000004, -33.747730000000004)
 </code></pre>
-<p><img src="/2020/04/13/Geopandas%20Practise_Part1/output_55_1.png" alt="png"></p>
+<p><img src="/2020/04/13/Spatial%20Join%20in%20Geopandas/Geopandas%20Practise_Part1/output_55_1.png" alt="png"></p>
 <p>coloring shape</p>
 <p>1.fill - inside part<br>
 2. strike/line/edge - outline</p>
@@ -740,14 +740,14 @@ ax.axis('off')
 </code></pre>
 <pre><code>(165.81877500000002, 179.184325, -47.934870000000004, -33.747730000000004)
 </code></pre>
-<p><img src="/2020/04/13/Geopandas%20Practise_Part1/output_57_1.png" alt="png"></p>
+<p><img src="/2020/04/13/Spatial%20Join%20in%20Geopandas/Geopandas%20Practise_Part1/output_57_1.png" alt="png"></p>
 <pre class=" language-language-python"><code class="language-language-python">ax = Districts.plot(figsize = (10,10), color = '#CCCCCC', edgecolor = '#FF0000')
 ax.axis('off')
 
 </code></pre>
 <pre><code>(165.81877500000002, 179.184325, -47.934870000000004, -33.747730000000004)
 </code></pre>
-<p><img src="/2020/04/13/Geopandas%20Practise_Part1/output_58_1.png" alt="png"></p>
+<p><img src="/2020/04/13/Spatial%20Join%20in%20Geopandas/Geopandas%20Practise_Part1/output_58_1.png" alt="png"></p>
 <pre class=" language-language-python"><code class="language-language-python">ax = cities.plot(figsize = (10,10), color = '#CCCCCC', edgecolor = '#FF0000', linewidth = 5)
 ax.axis('off')
 
@@ -757,13 +757,13 @@ ax.axis('off')
  -45.94570795960331,
  -34.986255336266005)
 </code></pre>
-<p><img src="/2020/04/13/Geopandas%20Practise_Part1/output_59_1.png" alt="png"></p>
+<p><img src="/2020/04/13/Spatial%20Join%20in%20Geopandas/Geopandas%20Practise_Part1/output_59_1.png" alt="png"></p>
 <pre class=" language-language-python"><code class="language-language-python">ax = Districts.plot(figsize = (10,10), color = '#CCCCCC', edgecolor = '#FF0000', linewidth = 0.25)
 ax.axis('off')
 </code></pre>
 <pre><code>(165.81877500000002, 179.184325, -47.934870000000004, -33.747730000000004)
 </code></pre>
-<p><img src="/2020/04/13/Geopandas%20Practise_Part1/output_60_1.png" alt="png"></p>
+<p><img src="/2020/04/13/Spatial%20Join%20in%20Geopandas/Geopandas%20Practise_Part1/output_60_1.png" alt="png"></p>
 <pre class=" language-language-python"><code class="language-language-python">Districts.head()
 </code></pre>
 <div>
@@ -846,22 +846,22 @@ ax.axis('off')
 </code></pre>
 <pre><code>(165.81877500000002, 179.184325, -47.934870000000004, -33.747730000000004)
 </code></pre>
-<p><img src="/2020/04/13/Geopandas%20Practise_Part1/output_62_1.png" alt="png"></p>
+<p><img src="/2020/04/13/Spatial%20Join%20in%20Geopandas/Geopandas%20Practise_Part1/output_62_1.png" alt="png"></p>
 <pre class=" language-language-python"><code class="language-language-python">ax = Districts.plot(figsize = (10,10), color = 'green')
 ax.axis('off')
 </code></pre>
 <pre><code>(165.81877500000002, 179.184325, -47.934870000000004, -33.747730000000004)
 </code></pre>
-<p><img src="/2020/04/13/Geopandas%20Practise_Part1/output_63_1.png" alt="png"></p>
+<p><img src="/2020/04/13/Spatial%20Join%20in%20Geopandas/Geopandas%20Practise_Part1/output_63_1.png" alt="png"></p>
 <pre class=" language-language-python"><code class="language-language-python">ax = Districts.plot(figsize = (10,10), color = 'green',  markersize =100 ,alpha =0.5)
 ax.axis('off')
 </code></pre>
 <pre><code>(165.81877500000002, 179.184325, -47.934870000000004, -33.747730000000004)
 </code></pre>
-<p><img src="/2020/04/13/Geopandas%20Practise_Part1/output_64_1.png" alt="png"></p>
+<p><img src="/2020/04/13/Spatial%20Join%20in%20Geopandas/Geopandas%20Practise_Part1/output_64_1.png" alt="png"></p>
 <pre class=" language-language-python"><code class="language-language-python">ax = cities.plot(figsize = (10,10), color = 'green',  markersize =100 ,alpha =0.5)
 </code></pre>
-<p><img src="/2020/04/13/Geopandas%20Practise_Part1/output_65_0.png" alt="png"></p>
+<p><img src="/2020/04/13/Spatial%20Join%20in%20Geopandas/Geopandas%20Practise_Part1/output_65_0.png" alt="png"></p>
 <pre class=" language-language-python"><code class="language-language-python">ax = cities.plot(figsize = (10,10), color = 'green',  markersize =100 ,alpha =0.5)
 ax.axis('off')
 ax.set_xlim([170,176])
@@ -869,7 +869,7 @@ ax.set_ylim([-42,-36])
 </code></pre>
 <pre><code>(-42, -36)
 </code></pre>
-<p><img src="/2020/04/13/Geopandas%20Practise_Part1/output_66_1.png" alt="png"></p>
+<p><img src="/2020/04/13/Spatial%20Join%20in%20Geopandas/Geopandas%20Practise_Part1/output_66_1.png" alt="png"></p>
 <h1>Reference:</h1>
 <li>https://www.youtube.com/watch?v=JN35I8EYD4M&amp;list=PLewNEVDy7gq3DjrPDxGFLbHE4G2QWe8Qh&amp;index=9
 </li><li>https://geopandas.org/
