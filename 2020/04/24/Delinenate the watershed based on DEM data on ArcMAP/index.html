@@ -153,12 +153,12 @@
                     
 
                     <!-- Main Post Content -->
-                    <p>Before input data into hydrologic or hydraulic data, we need to know the catchment boundary first. Arcmap has wonderful tool suite to proceed this.<br>
-The basic step flow is as below:</p>
+                    <p>Before input data into hydrologic or hydraulic data, we need to know the catchment boundary first. Arcmap has wonderful tool suite to proceed this</p>
+<p>The basic step flow is as below:</p>
 <blockquote>
 <p>dem-- fill–flow direction–flow accumulation–raster calculator or reclassify --stream link–watershed</p>
 </blockquote>
-<p>After knowing the basic workflow, we can generate our own defined workflow by <em>Model Builder</em> in ArcGIS as the figure below, or we can use the existing tool, for example, <em>ArcHydro</em>.</p>
+<p>After knowing the basic workflow, we can generate our own defined workflow by <em>Model Builder</em> in ArcGIS as the figure below, or we can use the existing tool, for example, <em>ArcHydro</em>. However, we should know how to achieve it by ArcMAP first to understand the basic theory.</p>
 <p><img src="/2020/04/24/Delinenate%20the%20watershed%20based%20on%20DEM%20data%20on%20ArcMAP/1.PNG" alt="Create Streamlines"></p>
 <hr>
 <h3 id="Fill">Fill</h3>
@@ -169,29 +169,26 @@ The basic step flow is as below:</p>
 <img src="/2020/04/24/Delinenate%20the%20watershed%20based%20on%20DEM%20data%20on%20ArcMAP/3.PNG" alt="dem difference"></p>
 <hr>
 <h3 id="Flow-Direction">Flow Direction</h3>
-<p>The we can click <em>Fill</em> and apply the filled DEM dataset.</p>
+<p>The we can click <em>Flow direction</em> and apply the filled DEM dataset.</p>
 <p>The result is as shown below.</p>
 <p><img src="/2020/04/24/Delinenate%20the%20watershed%20based%20on%20DEM%20data%20on%20ArcMAP/4.PNG" alt="flow direction"></p>
 <hr>
 <h3 id="Flow-Accumulation">Flow Accumulation</h3>
-<p>similarly, we choose <em>Flow Direction</em> and select the datasets <em>Filled DEM</em> and <em>Flow Accumulation</em>, then the raster of flow Accumulation will be generated.</p>
-<p>But we do not need to care about those raster with small No. of accumulation. We need to classify the result to separate the data.</p>
-<p><img src="/2020/04/24/Delinenate%20the%20watershed%20based%20on%20DEM%20data%20on%20ArcMAP/5.PNG" alt="flow Accumulation"></p>
+<p>Similarly, we choose <em>Flow Accumulation</em> and select the datasets <em>Filled DEM</em> and <em>Flow Accumulation</em>, then the raster of flow Accumulation will be generated.</p>
+<p>But we do not need to care about those raster with small No. of accumulation. We need to classify the result to select the data we are interested.</p>
+<p><img src="/2020/04/24/Delinenate%20the%20watershed%20based%20on%20DEM%20data%20on%20ArcMAP/5.png" alt="flow Accumulation"></p>
 <hr>
 <h3 id="Flow-Length">Flow Length</h3>
-<p>Flow Length is an important factor to calculate the catchment time of concentration(<em>tc</em>) , we choose <em>Flow Length</em> and select the datasets from <em>Flow Accumulation</em>, then we can get a raster map of concentration.</p>
+<p>Flow Length is an important factor to calculate the catchment time of concentration(<em>tc</em>) , we choose <em>Flow Length</em> tool and select the datasets from <em>Flow Accumulation</em>, then we can get a raster map of concentration.</p>
 <p>If we choose downstream, each raster value will record the length to the discharge point.</p>
-<p><img src="/2020/04/24/Delinenate%20the%20watershed%20based%20on%20DEM%20data%20on%20ArcMAP/6.PNG" alt="flow Length"></p>
+<p><img src="/2020/04/24/Delinenate%20the%20watershed%20based%20on%20DEM%20data%20on%20ArcMAP/6.png" alt="flow Length"></p>
 <hr>
 <h3 id="Reclassify">Reclassify</h3>
-<p>We assume the line with catchment of over 900,000 will have apparent stream flow. We choose <em>Arctool boxes\3D Analyst Tools.tbx\Raster Reclass\Reclassify</em>.</p>
+<p>We assume the line with catchment of over 900,000 m2 will have apparent stream flow. We choose <em>Arctool boxes\3D Analyst Tools.tbx\Raster Reclass\Reclassify</em>.</p>
 <p><img src="/2020/04/24/Delinenate%20the%20watershed%20based%20on%20DEM%20data%20on%20ArcMAP/7.PNG" alt="Reclassifing Flow"></p>
 <hr>
 <h3 id="Stream-Link">Stream Link</h3>
-<p><img src="/2020/04/24/Delinenate%20the%20watershed%20based%20on%20DEM%20data%20on%20ArcMAP/8.PNG" alt="Stream Link"></p>
-<p>In a similar way, we can load Road, drainage pipe or flooding, and have a 3D view for the Dataset.</p>
-<hr>
-<h3 id="Stream-Link-2">Stream Link</h3>
+<p>After reclassifying, we can get the discharge link with large catchment of over 900000 square meter.</p>
 <p><img src="/2020/04/24/Delinenate%20the%20watershed%20based%20on%20DEM%20data%20on%20ArcMAP/8.PNG" alt="Stream Link"></p>
 <hr>
 <h3 id="Watershed">Watershed</h3>
