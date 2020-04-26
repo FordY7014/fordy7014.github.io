@@ -20,7 +20,7 @@
 
     <!--Open Graph Title-->
     
-        <meta property="og:title" content="Hello World"/>
+        <meta property="og:title" content="Delineate watershed based on DEM data on ArcMAP"/>
     
 
     <!--Open Graph Description-->
@@ -44,7 +44,7 @@
 
     <!-- Title -->
     
-    <title>Hello World - Ford Yang&#39;s Blog</title>
+    <title>Delineate watershed based on DEM data on ArcMAP - Ford Yang&#39;s Blog</title>
 
     <!-- Tachyons Core CSS -->
     <link rel="stylesheet" href="https://unpkg.com/tachyons/css/tachyons.min.css">
@@ -126,8 +126,8 @@
     <!-- Title -->
     <div class="w-100 mw8 center vh-40 dt">
         <div class="dtc v-mid white">
-            <h1 class="f1-l f2-m tc tc-m tl-ns">Hello World</h1>
-            <p class="f4 fw3 pab-100px tc tc-m tl-ns">2020-04-10</p>
+            <h1 class="f1-l f2-m tc tc-m tl-ns">Delineate watershed based on DEM data on ArcMAP</h1>
+            <p class="f4 fw3 pab-100px tc tc-m tl-ns">2020-04-24</p>
         </div>
     </div>
 
@@ -145,26 +145,60 @@
                 <div class="fl w-100 w-70-l mw7 left fw3 lh-copy pr4-ns pr0-m post-content">
                     <!-- Tags Vertical -->
                     
+                        <div class="tags-container-vertical">
+                            <div class="tags-sub-container">
+                                <a class="fw3 ph1 dib" href="/tags/Arcmap/">#Arcmap</a>
+                            </div>
+                        </div>
+                    
 
                     <!-- Main Post Content -->
-                    <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start">Quick Start</h2>
-<h3 id="Create-a-new-post">Create a new post</h3>
-<pre class=" language-language-bash"><code class="language-language-bash">$ hexo new "My New Post"
-</code></pre>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server">Run server</h3>
-<pre class=" language-language-bash"><code class="language-language-bash">$ hexo server
-</code></pre>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files">Generate static files</h3>
-<pre class=" language-language-bash"><code class="language-language-bash">$ hexo generate
-</code></pre>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites">Deploy to remote sites</h3>
-<pre class=" language-language-bash"><code class="language-language-bash">$ hexo deploy
-</code></pre>
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html" target="_blank" rel="noopener">Deployment</a></p>
+                    <p>Before input data into hydrologic or hydraulic data, we need to know the catchment boundary first. Arcmap has wonderful tool suite to proceed this.<br>
+The basic step flow is as below:</p>
+<blockquote>
+<p>dem-- fill–flow direction–flow accumulation–raster calculator or reclassify --stream link–watershed</p>
+</blockquote>
+<p>After knowing the basic workflow, we can generate our own defined workflow by <em>Model Builder</em> in ArcGIS as the figure below, or we can use the existing tool, for example, <em>ArcHydro</em>.</p>
+<p><img src="/2020/04/24/Delinenate%20the%20watershed%20based%20on%20DEM%20data%20on%20ArcMAP/1.PNG" alt="Create Streamlines"></p>
+<hr>
+<h3 id="Fill">Fill</h3>
+<p>Firstly, we need to load the DEM raster files into ArcMAP, and then select fill tool as followed:<em>Arctool boxes/spatial Analyst Tools/Hydrology/Fill</em></p>
+<p>The window as followed figure will pop out:<br>
+<img src="/2020/04/24/Delinenate%20the%20watershed%20based%20on%20DEM%20data%20on%20ArcMAP/2.PNG" alt="DEM FILL"></p>
+<p>Then a new DEM data will be generated, it seems that there is no difference between the two raster datasets. But we can select the <em>Arctool boxes\Spatial Analyst Tools.tbx\Map Algebra\Raster Calculator</em> and calculate the difference between the two DEM datasets.<br>
+<img src="/2020/04/24/Delinenate%20the%20watershed%20based%20on%20DEM%20data%20on%20ArcMAP/3.PNG" alt="dem difference"></p>
+<hr>
+<h3 id="Flow-Direction">Flow Direction</h3>
+<p>The we can click <em>Fill</em> and apply the filled DEM dataset.</p>
+<p>The result is as shown below.</p>
+<p><img src="/2020/04/24/Delinenate%20the%20watershed%20based%20on%20DEM%20data%20on%20ArcMAP/4.PNG" alt="flow direction"></p>
+<hr>
+<h3 id="Flow-Accumulation">Flow Accumulation</h3>
+<p>similarly, we choose <em>Flow Direction</em> and select the datasets <em>Filled DEM</em> and <em>Flow Accumulation</em>, then the raster of flow Accumulation will be generated.</p>
+<p>But we do not need to care about those raster with small No. of accumulation. We need to classify the result to separate the data.</p>
+<p><img src="/2020/04/24/Delinenate%20the%20watershed%20based%20on%20DEM%20data%20on%20ArcMAP/5.PNG" alt="flow Accumulation"></p>
+<hr>
+<h3 id="Flow-Length">Flow Length</h3>
+<p>Flow Length is an important factor to calculate the catchment time of concentration(<em>tc</em>) , we choose <em>Flow Length</em> and select the datasets from <em>Flow Accumulation</em>, then we can get a raster map of concentration.</p>
+<p>If we choose downstream, each raster value will record the length to the discharge point.</p>
+<p><img src="/2020/04/24/Delinenate%20the%20watershed%20based%20on%20DEM%20data%20on%20ArcMAP/6.PNG" alt="flow Length"></p>
+<hr>
+<h3 id="Reclassify">Reclassify</h3>
+<p>We assume the line with catchment of over 900,000 will have apparent stream flow. We choose <em>Arctool boxes\3D Analyst Tools.tbx\Raster Reclass\Reclassify</em>.</p>
+<p><img src="/2020/04/24/Delinenate%20the%20watershed%20based%20on%20DEM%20data%20on%20ArcMAP/7.PNG" alt="Reclassifing Flow"></p>
+<hr>
+<h3 id="Stream-Link">Stream Link</h3>
+<p><img src="/2020/04/24/Delinenate%20the%20watershed%20based%20on%20DEM%20data%20on%20ArcMAP/8.PNG" alt="Stream Link"></p>
+<p>In a similar way, we can load Road, drainage pipe or flooding, and have a 3D view for the Dataset.</p>
+<hr>
+<h3 id="Stream-Link-2">Stream Link</h3>
+<p><img src="/2020/04/24/Delinenate%20the%20watershed%20based%20on%20DEM%20data%20on%20ArcMAP/8.PNG" alt="Stream Link"></p>
+<hr>
+<h3 id="Watershed">Watershed</h3>
+<p>we choose <em>Watershed</em> and select the corresponding data from datasets, then we can get a raster map of watershed. We can use <em>Arctool boxes\Conversion Tools.tbx\From Raster\Raster to Polygon</em> to change to result to polygon.</p>
+<p>We can also input point data for <em>Input raster or feature pour point data</em>, this will be useful when we have the stormwater discharge point, like manholes.</p>
+<p><img src="/2020/04/24/Delinenate%20the%20watershed%20based%20on%20DEM%20data%20on%20ArcMAP/9.PNG" alt="result.png"></p>
+<p><img src="/2020/04/24/Delinenate%20the%20watershed%20based%20on%20DEM%20data%20on%20ArcMAP/10.PNG" alt="Watershed.png"></p>
 <script>
         document.querySelectorAll('.github-emoji')
           .forEach(el => {
@@ -186,6 +220,10 @@
       </script>
                     
                     <!-- Tags Bottom -->
+                    
+                        <div class="tags-container-bottom">
+                            <i class="fa fa-tag pr3 text-main-color"></i><a class="fw3 ph1 dib" href="/tags/Arcmap/">#Arcmap</a>
+                        </div>
                     
 
                     <!-- Comments -->
@@ -218,7 +256,7 @@
     <h3>Categories</h3>
     
         <p>
-            <a href="/categories/Others/">Others</a>
+            <a href="/categories/Modelling/">Modelling</a>
         </p>
     
 </div>
