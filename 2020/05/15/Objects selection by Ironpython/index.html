@@ -20,7 +20,7 @@
 
     <!--Open Graph Title-->
     
-        <meta property="og:title" content="Objects selection by Ironpython(.NET API) in Dynamo"/>
+        <meta property="og:title" content="Objects selection by Ironpython(.NET API in Civil3D) in Dynamo"/>
     
 
     <!--Open Graph Description-->
@@ -44,7 +44,7 @@
 
     <!-- Title -->
     
-    <title>Objects selection by Ironpython(.NET API) in Dynamo - Ford Yang&#39;s Blog</title>
+    <title>Objects selection by Ironpython(.NET API in Civil3D) in Dynamo - Ford Yang&#39;s Blog</title>
 
     <!-- Tachyons Core CSS -->
     <link rel="stylesheet" href="https://unpkg.com/tachyons/css/tachyons.min.css">
@@ -126,7 +126,7 @@
     <!-- Title -->
     <div class="w-100 mw8 center vh-40 dt">
         <div class="dtc v-mid white">
-            <h1 class="f1-l f2-m tc tc-m tl-ns">Objects selection by Ironpython(.NET API) in Dynamo</h1>
+            <h1 class="f1-l f2-m tc tc-m tl-ns">Objects selection by Ironpython(.NET API in Civil3D) in Dynamo</h1>
             <p class="f4 fw3 pab-100px tc tc-m tl-ns">2020-05-15</p>
         </div>
     </div>
@@ -147,14 +147,15 @@
                     
                         <div class="tags-container-vertical">
                             <div class="tags-sub-container">
-                                <a class="fw3 ph1 dib" href="/tags/AutoCAD/">#AutoCAD</a> <a class="fw3 ph1 dib" href="/tags/Civil3D/">#Civil3D</a>
+                                <a class="fw3 ph1 dib" href="/tags/Civil3D/">#Civil3D</a>
                             </div>
                         </div>
                     
 
                     <!-- Main Post Content -->
-                    <p>Several ways tp select objects According to the type.</p>
-<p>According to TypeName:</p>
+                    <p>Several ways to select objects According to the type as the result below.</p>
+<p><img src="/2020/05/15/Objects%20selection%20by%20Ironpython/Capture.PNG" alt="Selection Result.png"></p>
+<h1>Based on TypeName:</h1>
 <pre><code>
 output = []
 
@@ -181,7 +182,7 @@ with adoc.LockDocument():
 
 ed.WriteMessage("Done")
 </code></pre>
-<p>Type of the object</p>
+<h1>Type of the object</h1>
 <pre><code>
 adoc = acapp.DocumentManager.MdiActiveDocument
 cdoc = CivilApplication.ActiveDocument
@@ -201,11 +202,22 @@ with adoc.LockDocument():
 			for objectid in btr:
 				obj1 = t.GetObject(objectid, OpenMode.ForRead)
 				if obj1.GetType()==Line and obj1.Layer == "Ramps-Side":
+				# or we can use  "obj1.GetType() == clr.GetClrType(Line)" to ensure get the same type by .Net types
 					rList.append(str(obj1.Handle))
 				else:
 					pass
 </code></pre>
-<p>Select via the class of the object and we donot need to get the object.</p>
+<h3 id="Notes">Notes:</h3>
+<pre><code>if obj1.GetType()==Line and obj1.Layer == "Ramps-Side":
+	rList.append((obj1.GetType() is clr.GetClrType(Line))) #result is true
+</code></pre>
+<pre><code>if obj1.GetType()==Line and obj1.Layer == "Ramps-Side":
+	rList.append((obj1.GetType() is Line)) #result is false
+</code></pre>
+<pre><code>if obj1.GetType()==Line and obj1.Layer == "Ramps-Side":
+	rList.append((obj1.GetType() is Line)) #result is True
+</code></pre>
+<h1>Select via the class of the object and we donot need to get the object.</h1>
 <pre><code>adoc = acapp.DocumentManager.MdiActiveDocument
 cdoc = CivilApplication.ActiveDocument
 ed = adoc.Editor
@@ -251,7 +263,7 @@ with adoc.LockDocument():
                     <!-- Tags Bottom -->
                     
                         <div class="tags-container-bottom">
-                            <i class="fa fa-tag pr3 text-main-color"></i><a class="fw3 ph1 dib" href="/tags/AutoCAD/">#AutoCAD</a> <a class="fw3 ph1 dib" href="/tags/Civil3D/">#Civil3D</a>
+                            <i class="fa fa-tag pr3 text-main-color"></i><a class="fw3 ph1 dib" href="/tags/Civil3D/">#Civil3D</a>
                         </div>
                     
 
@@ -285,7 +297,7 @@ with adoc.LockDocument():
     <h3>Categories</h3>
     
         <p>
-            <a href="/categories/NetAPI/">.NetAPI</a>
+            <a href="/categories/Dynamo/">Dynamo</a>
         </p>
     
 </div>
@@ -299,7 +311,7 @@ with adoc.LockDocument():
     <h3>Recent Posts</h3>
     
         <p>
-            <a href="/2020/05/15/Objects%20selection%20by%20Ironpython/">Objects selection by Ironpython(.NET API) in Dynam</a>
+            <a href="/2020/05/15/Objects%20selection%20by%20Ironpython/">Objects selection by Ironpython(.NET API in Civil3</a>
         </p>
     
         <p>
@@ -311,11 +323,11 @@ with adoc.LockDocument():
         </p>
     
         <p>
-            <a href="/2020/04/20/Land-use%20TIF%20file%20making%20for%20HEC-RAS%202D/">Land-use TIF file making for HEC-RAS 2D</a>
+            <a href="/2020/04/20/How%20to%20take%20many%20different%20rasters%20into%20one%20raster/">How to take many different raster files into one r</a>
         </p>
     
         <p>
-            <a href="/2020/04/20/How%20to%20take%20many%20different%20rasters%20into%20one%20raster/">How to take many different raster files into one r</a>
+            <a href="/2020/04/20/Land-use%20TIF%20file%20making%20for%20HEC-RAS%202D/">Land-use TIF file making for HEC-RAS 2D</a>
         </p>
     
 </div>
