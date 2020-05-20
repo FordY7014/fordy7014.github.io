@@ -20,7 +20,7 @@
 
     <!--Open Graph Title-->
     
-        <meta property="og:title" content="Ford Yang&#39;s Blog"/>
+        <meta property="og:title" content="Add boundary Line to Surface by using API"/>
     
 
     <!--Open Graph Description-->
@@ -33,7 +33,7 @@
 
     <!--Type page-->
     
-        <meta property="og:type" content="website" />
+        <meta property="og:type" content="article" />
     
 
     <!--Page Cover-->
@@ -44,7 +44,7 @@
 
     <!-- Title -->
     
-    <title>page - Ford Yang&#39;s Blog</title>
+    <title>Add boundary Line to Surface by using API - Ford Yang&#39;s Blog</title>
 
     <!-- Tachyons Core CSS -->
     <link rel="stylesheet" href="https://unpkg.com/tachyons/css/tachyons.min.css">
@@ -126,14 +126,14 @@
     <!-- Title -->
     <div class="w-100 mw8 center vh-40 dt">
         <div class="dtc v-mid white">
-            <h1 class="f1-l f2-m tc tc-m tl-ns">Hello World</h1>
-            <p class="f4 fw3 pab-100px tc tc-m tl-ns">You may forget what you  have learnt, but you need to know where to find it.</p>
+            <h1 class="f1-l f2-m tc tc-m tl-ns">Add boundary Line to Surface by using API</h1>
+            <p class="f4 fw3 pab-100px tc tc-m tl-ns">2020-05-13</p>
         </div>
     </div>
 
     <!-- Icon -->
     <div class="relative w-100 mw8 center white dn dn-m db-ns">
-        <i class="header-icon fa fa fa-magic"></i>
+        <i class="header-icon fa fa-file-text-o"></i>
     </div>
 </div>
 
@@ -141,59 +141,153 @@
 <div class="w-100 ph2 ph4-m ph5-l mv5 mv6-l">
     <div class="content">
         <div class="mw8 center">
-            
-                <a href="/2020/04/13/Geopandas%20Practise_Part1/">
-    <div class="dt w-100 hover-border-main-color pointer pa3 border-color bl mv4">
-        <div class="dtc v-mid w-90 black-70">
-            <div>
-                
-                    <span class="f5 fw3 lh-copy pr4">2020-04-13</span> 
-                
-                
-                <span class="fake-link fw3 ph1 dib" onclick="location.href = '/tags/Spatial-Analysis/'; return false;">#Spatial Analysis</span> <span class="fake-link fw3 ph1 dib" onclick="location.href = '/tags/Geopandas/'; return false;">#Geopandas</span>
-                
-            </div>
-            <span class="f3 fw3 lh-copy">Geopandas Practise_Part1<span>
-        </div>
-        <div class="dtc v-mid w-10 f1 black-50 tr">
-            <i class="fa fa-file-text-o"></i>
-        </div>
-    </div>
-</a>
-            
-                <a href="/2020/04/10/hello-world/">
-    <div class="dt w-100 hover-border-main-color pointer pa3 border-color bl mv4">
-        <div class="dtc v-mid w-90 black-70">
-            <div>
-                
-                    <span class="f5 fw3 lh-copy pr4">2020-04-10</span> 
-                
-                
-            </div>
-            <span class="f3 fw3 lh-copy">Hello World<span>
-        </div>
-        <div class="dtc v-mid w-10 f1 black-50 tr">
-            <i class="fa fa-file-text-o"></i>
-        </div>
-    </div>
-</a>
-            
-        </div>
-    </div>
-    
-    <div class="flex items-center justify-center pa4">
-        <a href="/" 
-            class="f5 no-underline inline-flex items-center pa3 ba border-box mr4 gray hover-border-main-color hover-text-main-color">
-            <i class="w1 pr2 fa fa-chevron-left" aria-hidden="true"></i>
-            <span class="pl1">Previous</span>
-        </a>
-        <a href="/" 
-            class="f5 no-underline inline-flex items-center pa3 ba border-box light-gray cursor-default">
-            <span class="pr1">Next</span>
-            <i class="w1 pl2 fa fa-chevron-right" aria-hidden="true"></i>
-        </a>
-    </div>
+            <div class="cf">
+                <div class="fl w-100 w-70-l mw7 left fw3 lh-copy pr4-ns pr0-m post-content">
+                    <!-- Tags Vertical -->
+                    
+                        <div class="tags-container-vertical">
+                            <div class="tags-sub-container">
+                                <a class="fw3 ph1 dib" href="/tags/Civil3D/">#Civil3D</a>
+                            </div>
+                        </div>
+                    
 
+                    <!-- Main Post Content -->
+                    <p>Today, I saw a post from Dynamo forum that mentioned how to add boundaryline to the surface. Just make a note for future use.  The original post link is listed in the Reference.</p>
+<h1>.NETAPI-C#</h1>
+<pre><code>[CommandMethod("AddSurfaceBoundary")]
+public void AddSurfaceBoundary()
+{
+    using (Transaction ts = Application.DocumentManager.MdiActiveDocument.Database.TransactionManager.StartTransaction())
+    {
+        // Prompt the user to select a surface and a polyline
+        ObjectId surfaceId = promptForEntity("Select the surface to add a boundary to", typeof(TinSurface));
+        ObjectId polyId = promptForEntity("Select the object to use as a boundary", typeof(Polyline));
+
+        // The boundary or boundaries must be added to an ObjectIdCollection for the AddBoundaries method:
+        ObjectId[] boundaries = { polyId };
+        TinSurface oSurface = surfaceId.GetObject(OpenMode.ForWrite) as TinSurface;
+
+        try
+        {
+            oSurface.BoundariesDefinition.AddBoundaries(new ObjectIdCollection(boundaries), 100, Autodesk.Civil.Land.SurfaceBoundaryType.Outer, true);
+            oSurface.Rebuild();
+        }
+
+        catch (System.Exception e)
+        {
+            editor.WriteMessage("Failed to add the boundary: {0}", e.Message);
+        }
+
+        // commit the transaction
+        ts.Commit();
+    }
+}
+
+</code></pre>
+<h1>IronPython in Dynamo</h1>
+<pre><code>
+surface.BoundariesDefinition.AddBoundaries(col, 100, SurfaceBoundaryType.Outer, True)
+
+</code></pre>
+<h1>Reference:</h1>
+<p><a href="http://help.autodesk.com/view/CIV3D/2020/ENU/?guid=GUID-7C32E309-9B54-42A0-A4DC-C6FD592071F2" target="_blank" rel="noopener">http://help.autodesk.com/view/CIV3D/2020/ENU/?guid=GUID-7C32E309-9B54-42A0-A4DC-C6FD592071F2</a><br>
+<a href="https://forum.dynamobim.com/t/create-object-id-collection/49472" target="_blank" rel="noopener">https://forum.dynamobim.com/t/create-object-id-collection/49472</a></p>
+<script>
+        document.querySelectorAll('.github-emoji')
+          .forEach(el => {
+            if (!el.dataset.src) { return; }
+            const img = document.createElement('img');
+            img.style = 'display:none !important;';
+            img.src = el.dataset.src;
+            img.addEventListener('error', () => {
+              img.remove();
+              el.style.color = 'inherit';
+              el.style.backgroundImage = 'none';
+              el.style.background = 'none';
+            });
+            img.addEventListener('load', () => {
+              img.remove();
+            });
+            document.body.appendChild(img);
+          });
+      </script>
+                    
+                    <!-- Tags Bottom -->
+                    
+                        <div class="tags-container-bottom">
+                            <i class="fa fa-tag pr3 text-main-color"></i><a class="fw3 ph1 dib" href="/tags/Civil3D/">#Civil3D</a>
+                        </div>
+                    
+
+                    <!-- Comments -->
+                    
+
+
+
+                </div>
+                <div class="fl w-100 w-30-l center fw3 lh-copy pl4-ns tl black-50">
+                    
+                    <hr class="dn-l mw4 black-50 mt5" />
+                    
+                    <!-- Widget 1: About -->
+                    <div class="mt5 mt0-l">
+    <article class="dt db-l mw8 mw8-m mw5-ns center ml0-l bg-white mv3">
+        <div class="dn dtc-m db-l v-mid tc pr4 pr0-l" style="min-width: 6rem;">
+            <img src="http://tachyons.io/img/avatar_1.jpg" class="mb4-l br-100 h3 w3 h4-l w4-l dib" title="Ford Yang">
+        </div>
+        <div class="dtc db-l v-mid lh-copy measure center f6 black-50 tj">
+            My name is Ford(Fan) Yang and this is my blog.I am a civil engineer with strong interest in data analysis.This blog is to make a record for what I am doing. <br>I currently live and work in New Zealand, hit me up if you are in the region. 
+        </div>
+    </article>
+</div>
+
+                    <hr class="dn-l mw4 black-50 mt5" />
+                    
+                    <!-- Widget 2: Categories -->
+                    
+                        <div class="mt5 tc tl-l">
+    <h3>Categories</h3>
+    
+        <p>
+            <a href="/categories/Dynamo/">Dynamo</a>
+        </p>
+    
+</div>
+
+
+                        <hr class="dn-l mw4 black-50 mt5" />
+                    
+
+                    <!-- Widget 3: Recent Posts -->
+                    <div class="mt5 tc tl-l">
+    <h3>Recent Posts</h3>
+    
+        <p>
+            <a href="/2020/05/15/Objects%20selection%20by%20Ironpython/">Objects selection by Ironpython(.NET API in Civil3</a>
+        </p>
+    
+        <p>
+            <a href="/2020/05/13/Add%20boundary%20Line%20to%20Surface%20by%20using%20API/">Add boundary Line to Surface by using API</a>
+        </p>
+    
+        <p>
+            <a href="/2020/04/24/Delinenate%20the%20watershed%20based%20on%20DEM%20data%20on%20ArcMAP/">Delineate watershed based on DEM data on ArcMAP</a>
+        </p>
+    
+        <p>
+            <a href="/2020/04/22/Present%20the%20results%20in%20ArcScene/">Present 3D DEM and Building in ArcScene</a>
+        </p>
+    
+        <p>
+            <a href="/2020/04/20/How%20to%20take%20many%20different%20rasters%20into%20one%20raster/">How to merge many different raster files into one </a>
+        </p>
+    
+</div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 

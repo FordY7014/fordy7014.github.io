@@ -29,6 +29,31 @@
     
     
     <entry>
+      <title>Add boundary Line to Surface by using API</title>
+      <link href="/2020/05/13/Add%20boundary%20Line%20to%20Surface%20by%20using%20API/"/>
+      <url>/2020/05/13/Add%20boundary%20Line%20to%20Surface%20by%20using%20API/</url>
+      
+        <content type="html"><![CDATA[<p>Today, I saw a post from Dynamo forum that mentioned how to add boundaryline to the surface. Just make a note for future use.  The original post link is listed in the Reference.</p><h1>.NETAPI-C#</h1><pre><code>[CommandMethod("AddSurfaceBoundary")]public void AddSurfaceBoundary(){    using (Transaction ts = Application.DocumentManager.MdiActiveDocument.Database.TransactionManager.StartTransaction())    {        // Prompt the user to select a surface and a polyline        ObjectId surfaceId = promptForEntity("Select the surface to add a boundary to", typeof(TinSurface));        ObjectId polyId = promptForEntity("Select the object to use as a boundary", typeof(Polyline));        // The boundary or boundaries must be added to an ObjectIdCollection for the AddBoundaries method:        ObjectId[] boundaries = { polyId };        TinSurface oSurface = surfaceId.GetObject(OpenMode.ForWrite) as TinSurface;        try        {            oSurface.BoundariesDefinition.AddBoundaries(new ObjectIdCollection(boundaries), 100, Autodesk.Civil.Land.SurfaceBoundaryType.Outer, true);            oSurface.Rebuild();        }        catch (System.Exception e)        {            editor.WriteMessage("Failed to add the boundary: {0}", e.Message);        }        // commit the transaction        ts.Commit();    }}</code></pre><h1>IronPython in Dynamo</h1><pre><code>surface.BoundariesDefinition.AddBoundaries(col, 100, SurfaceBoundaryType.Outer, True)</code></pre><h1>Reference:</h1><p><a href="http://help.autodesk.com/view/CIV3D/2020/ENU/?guid=GUID-7C32E309-9B54-42A0-A4DC-C6FD592071F2" target="_blank" rel="noopener">http://help.autodesk.com/view/CIV3D/2020/ENU/?guid=GUID-7C32E309-9B54-42A0-A4DC-C6FD592071F2</a><br><a href="https://forum.dynamobim.com/t/create-object-id-collection/49472" target="_blank" rel="noopener">https://forum.dynamobim.com/t/create-object-id-collection/49472</a></p><script>        document.querySelectorAll('.github-emoji')          .forEach(el => {            if (!el.dataset.src) { return; }            const img = document.createElement('img');            img.style = 'display:none !important;';            img.src = el.dataset.src;            img.addEventListener('error', () => {              img.remove();              el.style.color = 'inherit';              el.style.backgroundImage = 'none';              el.style.background = 'none';            });            img.addEventListener('load', () => {              img.remove();            });            document.body.appendChild(img);          });      </script>]]></content>
+      
+      
+      <categories>
+          
+          <category> Dynamo </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Civil3D </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>Delineate watershed based on DEM data on ArcMAP</title>
       <link href="/2020/04/24/Delinenate%20the%20watershed%20based%20on%20DEM%20data%20on%20ArcMAP/"/>
       <url>/2020/04/24/Delinenate%20the%20watershed%20based%20on%20DEM%20data%20on%20ArcMAP/</url>
@@ -79,35 +104,6 @@
     
     
     <entry>
-      <title>Land-use TIF file making for HEC-RAS 2D</title>
-      <link href="/2020/04/20/Land-use%20TIF%20file%20making%20for%20HEC-RAS%202D/"/>
-      <url>/2020/04/20/Land-use%20TIF%20file%20making%20for%20HEC-RAS%202D/</url>
-      
-        <content type="html"><![CDATA[<p>For 2D analysis in HEC-RAS, we may need to a land use map to assign the manning factor as . How to make it? Of course we can make the detailed land use map by analyzing satellite imagery. But for a simple model, sometime we do not need such a detailed plan. Today I would like to introduce a way to make simple land use map</p><p><img src="/2020/04/20/Land-use%20TIF%20file%20making%20for%20HEC-RAS%202D/11.PNG" alt="HEC-RAS manning.png"></p><p>First, we should download DEM data, building footprint and road information from <a href="https://geomapspublic.aucklandcouncil.govt.nz/viewer/index.html" target="_blank" rel="noopener">Auckland Council Geomap</a>.</p><hr><h3 id="Data-Loading">Data Loading</h3><p>After loading all the data, we can have a map as below.</p><p><img src="/2020/04/20/Land-use%20TIF%20file%20making%20for%20HEC-RAS%202D/22.PNG" alt="HEC-RAS manning.png"></p><p>Now we need to assign different area with different values, and then merge them together.</p><hr><h3 id="Raster-Calculator">Raster Calculator</h3><p>Firstly, we treat the whole catchment area by assigning “1”.</p><p><img src="/2020/04/20/Land-use%20TIF%20file%20making%20for%20HEC-RAS%202D/catchment.PNG" alt="catchment.png"></p><p>Secondly, we apply <em>.\3D Analyst Tools.tbx\Triangulated Surface\Interpolate Polygon to Multipatch</em> to assign the footprint area with value “4”.<br><img src="/2020/04/20/Land-use%20TIF%20file%20making%20for%20HEC-RAS%202D/BFraster.PNG" alt="building footprint.png"></p><p>Similarly, we apply <em>.\3D Analyst Tools.tbx\Triangulated Surface\Interpolate Polygon to Multipatch</em> to assign the roading area with value “4”.<br><img src="/2020/04/20/Land-use%20TIF%20file%20making%20for%20HEC-RAS%202D/roadraster.PNG" alt="road.png"></p><hr><h3 id="Merging-the-files">Merging the files</h3><p><em>.\Spatial Analyst Tools.tbx\Local\Cell Statistics</em> is used to merge the three raster together.Final result will be as the First Photo.</p><p>We just finished a simple one, but the complex one is same, just to merge more seperate raster files.</p><script>        document.querySelectorAll('.github-emoji')          .forEach(el => {            if (!el.dataset.src) { return; }            const img = document.createElement('img');            img.style = 'display:none !important;';            img.src = el.dataset.src;            img.addEventListener('error', () => {              img.remove();              el.style.color = 'inherit';              el.style.backgroundImage = 'none';              el.style.background = 'none';            });            img.addEventListener('load', () => {              img.remove();            });            document.body.appendChild(img);          });      </script>]]></content>
-      
-      
-      <categories>
-          
-          <category> Modelling </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> Arcmap </tag>
-            
-            <tag> HEC-RAS </tag>
-            
-            <tag> Raster </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
       <title>How to merge many different raster files into one raster</title>
       <link href="/2020/04/20/How%20to%20take%20many%20different%20rasters%20into%20one%20raster/"/>
       <url>/2020/04/20/How%20to%20take%20many%20different%20rasters%20into%20one%20raster/</url>
@@ -127,6 +123,35 @@
             <tag> Arcmap </tag>
             
             <tag> Raster </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Land-use TIF file making for HEC-RAS 2D</title>
+      <link href="/2020/04/20/Land-use%20TIF%20file%20making%20for%20HEC-RAS%202D/"/>
+      <url>/2020/04/20/Land-use%20TIF%20file%20making%20for%20HEC-RAS%202D/</url>
+      
+        <content type="html"><![CDATA[<p>For 2D analysis in HEC-RAS, we may need to a land use map to assign the manning factor as . How to make it? Of course we can make the detailed land use map by analyzing satellite imagery. But for a simple model, sometime we do not need such a detailed plan. Today I would like to introduce a way to make simple land use map</p><p><img src="/2020/04/20/Land-use%20TIF%20file%20making%20for%20HEC-RAS%202D/11.PNG" alt="HEC-RAS manning.png"></p><p>First, we should download DEM data, building footprint and road information from <a href="https://geomapspublic.aucklandcouncil.govt.nz/viewer/index.html" target="_blank" rel="noopener">Auckland Council Geomap</a>.</p><hr><h3 id="Data-Loading">Data Loading</h3><p>After loading all the data, we can have a map as below.</p><p><img src="/2020/04/20/Land-use%20TIF%20file%20making%20for%20HEC-RAS%202D/22.PNG" alt="HEC-RAS manning.png"></p><p>Now we need to assign different area with different values, and then merge them together.</p><hr><h3 id="Raster-Calculator">Raster Calculator</h3><p>Firstly, we treat the whole catchment area by assigning “1”.</p><p><img src="/2020/04/20/Land-use%20TIF%20file%20making%20for%20HEC-RAS%202D/catchment.PNG" alt="catchment.png"></p><p>Secondly, we apply <em>.\3D Analyst Tools.tbx\Triangulated Surface\Interpolate Polygon to Multipatch</em> to assign the footprint area with value “4”.<br><img src="/2020/04/20/Land-use%20TIF%20file%20making%20for%20HEC-RAS%202D/BFraster.PNG" alt="building footprint.png"></p><p>Similarly, we apply <em>.\3D Analyst Tools.tbx\Triangulated Surface\Interpolate Polygon to Multipatch</em> to assign the roading area with value “3”.<br><img src="/2020/04/20/Land-use%20TIF%20file%20making%20for%20HEC-RAS%202D/roadraster.PNG" alt="road.png"></p><hr><h3 id="Merging-the-files">Merging the files</h3><p><em>.\Spatial Analyst Tools.tbx\Local\Cell Statistics</em> is used to merge the three raster together.Final result will be as the First Photo.</p><p>We just finished a simple one, but the complex one is same, just to merge more seperate raster files.</p><script>        document.querySelectorAll('.github-emoji')          .forEach(el => {            if (!el.dataset.src) { return; }            const img = document.createElement('img');            img.style = 'display:none !important;';            img.src = el.dataset.src;            img.addEventListener('error', () => {              img.remove();              el.style.color = 'inherit';              el.style.backgroundImage = 'none';              el.style.background = 'none';            });            img.addEventListener('load', () => {              img.remove();            });            document.body.appendChild(img);          });      </script>]]></content>
+      
+      
+      <categories>
+          
+          <category> Modelling </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Arcmap </tag>
+            
+            <tag> Raster </tag>
+            
+            <tag> HEC-RAS </tag>
             
         </tags>
       
