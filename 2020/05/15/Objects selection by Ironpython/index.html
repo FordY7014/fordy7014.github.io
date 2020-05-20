@@ -215,7 +215,7 @@ with adoc.LockDocument():
 	rList.append((obj1.GetType() is Line)) #result is false
 </code></pre>
 <pre><code>if obj1.GetType()==Line and obj1.Layer == "Ramps-Side":
-	rList.append((obj1.GetType() is Line)) #result is True
+	rList.append((obj1.GetType() == Line)) #result is True
 </code></pre>
 <h1>Select via the class of the object and we donot need to get the object.</h1>
 <pre><code>adoc = acapp.DocumentManager.MdiActiveDocument
@@ -323,11 +323,11 @@ with adoc.LockDocument():
         </p>
     
         <p>
-            <a href="/2020/04/20/How%20to%20take%20many%20different%20rasters%20into%20one%20raster/">How to take many different raster files into one r</a>
+            <a href="/2020/04/20/Land-use%20TIF%20file%20making%20for%20HEC-RAS%202D/">Land-use TIF file making for HEC-RAS 2D</a>
         </p>
     
         <p>
-            <a href="/2020/04/20/Land-use%20TIF%20file%20making%20for%20HEC-RAS%202D/">Land-use TIF file making for HEC-RAS 2D</a>
+            <a href="/2020/04/20/How%20to%20take%20many%20different%20rasters%20into%20one%20raster/">How to merge many different raster files into one </a>
         </p>
     
 </div>

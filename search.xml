@@ -8,7 +8,7 @@
       <link href="/2020/05/15/Objects%20selection%20by%20Ironpython/"/>
       <url>/2020/05/15/Objects%20selection%20by%20Ironpython/</url>
       
-        <content type="html"><![CDATA[<p>Several ways to select objects According to the type as the result below.</p><p><img src="/2020/05/15/Objects%20selection%20by%20Ironpython/Capture.PNG" alt="Selection Result.png"></p><h1>Based on TypeName:</h1><pre><code>output = []adoc = Application.DocumentManager.MdiActiveDocumented = adoc.Editorwith adoc.LockDocument():with adoc.Database as db:with db.TransactionManager.StartTransaction() as t:  bt = t.GetObject(db.BlockTableId, OpenMode.ForWrite)  btr = t.GetObject(bt[BlockTableRecord.ModelSpace], OpenMode.ForWrite)        rList = []  #Get the Lines on Layer"Ramps". TypeName could be "Dbtext", "Line"  for objectid in btr:obj1 = t.GetObject(objectid, OpenMode.ForRead)if obj1.GetType().Name.ToString() == "Line" and obj1.Layer == "Ramps-Side":rList.append(str(obj1.Handle))else:  passed.WriteMessage("Done")</code></pre><h1>Type of the object</h1><pre><code>adoc = acapp.DocumentManager.MdiActiveDocumentcdoc = CivilApplication.ActiveDocumented = adoc.Editor# The inputs to this node will be stored as a list in the IN variables.with adoc.LockDocument():with adoc.Database as db:with db.TransactionManager.StartTransaction() as t:bt = t.GetObject(db.BlockTableId, OpenMode.ForWrite)btr = t.GetObject(bt[BlockTableRecord.ModelSpace], OpenMode.ForWrite)rList = []#Get the Lines on Layer"Ramps"for objectid in btr:obj1 = t.GetObject(objectid, OpenMode.ForRead)if obj1.GetType()==Line and obj1.Layer == "Ramps-Side":# or we can use  "obj1.GetType() == clr.GetClrType(Line)" to ensure get the same type by .Net typesrList.append(str(obj1.Handle))else:pass</code></pre><h3 id="Notes">Notes:</h3><pre><code>if obj1.GetType()==Line and obj1.Layer == "Ramps-Side":rList.append((obj1.GetType() is clr.GetClrType(Line))) #result is true</code></pre><pre><code>if obj1.GetType()==Line and obj1.Layer == "Ramps-Side":rList.append((obj1.GetType() is Line)) #result is false</code></pre><pre><code>if obj1.GetType()==Line and obj1.Layer == "Ramps-Side":rList.append((obj1.GetType() is Line)) #result is True</code></pre><h1>Select via the class of the object and we donot need to get the object.</h1><pre><code>adoc = acapp.DocumentManager.MdiActiveDocumentcdoc = CivilApplication.ActiveDocumented = adoc.Editor# The inputs to this node will be stored as a list in the IN variables.with adoc.LockDocument():with adoc.Database as db:with db.TransactionManager.StartTransaction() as t:bt = t.GetObject(db.BlockTableId, OpenMode.ForWrite)btr = t.GetObject(bt[BlockTableRecord.ModelSpace], OpenMode.ForWrite)rList = []#Get the Lines on Layer"Ramps"for objectid in btr:obj1 = t.GetObject(objectid, OpenMode.ForRead)if (obj1.ObjectId.ObjectClass)==(RXClass.GetClass(Line)) and obj1.Layer == "Ramps-Side":rList.append(str(obj1.Handle))else:pass</code></pre><script>        document.querySelectorAll('.github-emoji')          .forEach(el => {            if (!el.dataset.src) { return; }            const img = document.createElement('img');            img.style = 'display:none !important;';            img.src = el.dataset.src;            img.addEventListener('error', () => {              img.remove();              el.style.color = 'inherit';              el.style.backgroundImage = 'none';              el.style.background = 'none';            });            img.addEventListener('load', () => {              img.remove();            });            document.body.appendChild(img);          });      </script>]]></content>
+        <content type="html"><![CDATA[<p>Several ways to select objects According to the type as the result below.</p><p><img src="/2020/05/15/Objects%20selection%20by%20Ironpython/Capture.PNG" alt="Selection Result.png"></p><h1>Based on TypeName:</h1><pre><code>output = []adoc = Application.DocumentManager.MdiActiveDocumented = adoc.Editorwith adoc.LockDocument():with adoc.Database as db:with db.TransactionManager.StartTransaction() as t:  bt = t.GetObject(db.BlockTableId, OpenMode.ForWrite)  btr = t.GetObject(bt[BlockTableRecord.ModelSpace], OpenMode.ForWrite)        rList = []  #Get the Lines on Layer"Ramps". TypeName could be "Dbtext", "Line"  for objectid in btr:obj1 = t.GetObject(objectid, OpenMode.ForRead)if obj1.GetType().Name.ToString() == "Line" and obj1.Layer == "Ramps-Side":rList.append(str(obj1.Handle))else:  passed.WriteMessage("Done")</code></pre><h1>Type of the object</h1><pre><code>adoc = acapp.DocumentManager.MdiActiveDocumentcdoc = CivilApplication.ActiveDocumented = adoc.Editor# The inputs to this node will be stored as a list in the IN variables.with adoc.LockDocument():with adoc.Database as db:with db.TransactionManager.StartTransaction() as t:bt = t.GetObject(db.BlockTableId, OpenMode.ForWrite)btr = t.GetObject(bt[BlockTableRecord.ModelSpace], OpenMode.ForWrite)rList = []#Get the Lines on Layer"Ramps"for objectid in btr:obj1 = t.GetObject(objectid, OpenMode.ForRead)if obj1.GetType()==Line and obj1.Layer == "Ramps-Side":# or we can use  "obj1.GetType() == clr.GetClrType(Line)" to ensure get the same type by .Net typesrList.append(str(obj1.Handle))else:pass</code></pre><h3 id="Notes">Notes:</h3><pre><code>if obj1.GetType()==Line and obj1.Layer == "Ramps-Side":rList.append((obj1.GetType() is clr.GetClrType(Line))) #result is true</code></pre><pre><code>if obj1.GetType()==Line and obj1.Layer == "Ramps-Side":rList.append((obj1.GetType() is Line)) #result is false</code></pre><pre><code>if obj1.GetType()==Line and obj1.Layer == "Ramps-Side":rList.append((obj1.GetType() == Line)) #result is True</code></pre><h1>Select via the class of the object and we donot need to get the object.</h1><pre><code>adoc = acapp.DocumentManager.MdiActiveDocumentcdoc = CivilApplication.ActiveDocumented = adoc.Editor# The inputs to this node will be stored as a list in the IN variables.with adoc.LockDocument():with adoc.Database as db:with db.TransactionManager.StartTransaction() as t:bt = t.GetObject(db.BlockTableId, OpenMode.ForWrite)btr = t.GetObject(bt[BlockTableRecord.ModelSpace], OpenMode.ForWrite)rList = []#Get the Lines on Layer"Ramps"for objectid in btr:obj1 = t.GetObject(objectid, OpenMode.ForRead)if (obj1.ObjectId.ObjectClass)==(RXClass.GetClass(Line)) and obj1.Layer == "Ramps-Side":rList.append(str(obj1.Handle))else:pass</code></pre><script>        document.querySelectorAll('.github-emoji')          .forEach(el => {            if (!el.dataset.src) { return; }            const img = document.createElement('img');            img.style = 'display:none !important;';            img.src = el.dataset.src;            img.addEventListener('error', () => {              img.remove();              el.style.color = 'inherit';              el.style.backgroundImage = 'none';              el.style.background = 'none';            });            img.addEventListener('load', () => {              img.remove();            });            document.body.appendChild(img);          });      </script>]]></content>
       
       
       <categories>
@@ -79,33 +79,6 @@
     
     
     <entry>
-      <title>How to take many different raster files into one raster</title>
-      <link href="/2020/04/20/How%20to%20take%20many%20different%20rasters%20into%20one%20raster/"/>
-      <url>/2020/04/20/How%20to%20take%20many%20different%20rasters%20into%20one%20raster/</url>
-      
-        <content type="html"><![CDATA[<p>On <a href="https://geomapspublic.aucklandcouncil.govt.nz/viewer/index.html" target="_blank" rel="noopener">Auckland Council Geomap</a>, we can download the high resolution DEM data, but the uplimit area is 6 Square Km. What if the catchment area we are interested in is more than the number, than we can download the DEM data from <a href="https://data.linz.govt.nz/search/?q=DEM" target="_blank" rel="noopener">LINZ</a>.</p><hr><h3 id="Raster-files-check">Raster files check</h3><p>After download the DEM data in Auckland area, we will find that there will be many different raster files, which is not available for analysis. So we need to merge many raster files into one raster file.</p><hr><h3 id="Location-check">Location check</h3><p>Firstly, we need to check the name of related raster files in our interested catchment, find all the raster files and then move them into one folder.</p><p><img src="/2020/04/20/How%20to%20take%20many%20different%20rasters%20into%20one%20raster/1.PNG" alt="Location.png"></p><hr><h3 id="Create-an-empty-Mosaic-Dataset">Create an empty Mosaic Dataset</h3><p>Create an empty Mosaic Dataset as the route in the figure below.</p><p><img src="/2020/04/20/How%20to%20take%20many%20different%20rasters%20into%20one%20raster/22.PNG" alt="Mosaic Dataset.png"></p><p>Then we need to add the raster data into the empty Mosaic. Directly right-click the file and choose “add raster”.</p><p>Select the files we have picked from the last steps, remember to check the “Upload Overview” box.<br><img src="/2020/04/20/How%20to%20take%20many%20different%20rasters%20into%20one%20raster/44.PNG" alt="Add Dataset.png"></p><hr><h3 id="Final-result">Final result</h3><p>Wait for several seconds or minutes, the raster will output.</p><p><img src="/2020/04/20/How%20to%20take%20many%20different%20rasters%20into%20one%20raster/55.PNG" alt="Mosaic Dataset.png"></p><hr><h3 id="Reference">Reference</h3><p><a href="https://data.linz.govt.nz/" target="_blank" rel="noopener">https://data.linz.govt.nz/</a></p><script>        document.querySelectorAll('.github-emoji')          .forEach(el => {            if (!el.dataset.src) { return; }            const img = document.createElement('img');            img.style = 'display:none !important;';            img.src = el.dataset.src;            img.addEventListener('error', () => {              img.remove();              el.style.color = 'inherit';              el.style.backgroundImage = 'none';              el.style.background = 'none';            });            img.addEventListener('load', () => {              img.remove();            });            document.body.appendChild(img);          });      </script>]]></content>
-      
-      
-      <categories>
-          
-          <category> Modelling </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> Arcmap </tag>
-            
-            <tag> Raster </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
       <title>Land-use TIF file making for HEC-RAS 2D</title>
       <link href="/2020/04/20/Land-use%20TIF%20file%20making%20for%20HEC-RAS%202D/"/>
       <url>/2020/04/20/Land-use%20TIF%20file%20making%20for%20HEC-RAS%202D/</url>
@@ -124,9 +97,36 @@
             
             <tag> Arcmap </tag>
             
+            <tag> HEC-RAS </tag>
+            
             <tag> Raster </tag>
             
-            <tag> HEC-RAS </tag>
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>How to merge many different raster files into one raster</title>
+      <link href="/2020/04/20/How%20to%20take%20many%20different%20rasters%20into%20one%20raster/"/>
+      <url>/2020/04/20/How%20to%20take%20many%20different%20rasters%20into%20one%20raster/</url>
+      
+        <content type="html"><![CDATA[<p>On <a href="https://geomapspublic.aucklandcouncil.govt.nz/viewer/index.html" target="_blank" rel="noopener">Auckland Council Geomap</a>, we can download the high resolution DEM data, but the uplimit area is 6 Square Km. What if the catchment area we are interested in is more than the number, than we can download the DEM data from <a href="https://data.linz.govt.nz/search/?q=DEM" target="_blank" rel="noopener">LINZ</a>.</p><hr><h3 id="Raster-files-check">Raster files check</h3><p>After download the DEM data in Auckland area, we will find that there will be many different raster files, which is not available for analysis. So we need to merge many raster files into one raster file.</p><hr><h3 id="Location-check">Location check</h3><p>Firstly, we need to check the name of related raster files in our interested catchment, find all the raster files and then move them into one folder.</p><p><img src="/2020/04/20/How%20to%20take%20many%20different%20rasters%20into%20one%20raster/1.PNG" alt="Location.png"></p><hr><h3 id="Create-an-empty-Mosaic-Dataset">Create an empty Mosaic Dataset</h3><p>Create an empty Mosaic Dataset as the route in the figure below.</p><p><img src="/2020/04/20/How%20to%20take%20many%20different%20rasters%20into%20one%20raster/22.png" alt="Mosaic Dataset.png"></p><p>Then we need to add the raster data into the empty Mosaic. Directly right-click the file and choose “add raster”.</p><p>Select the files we have picked from the last steps, remember to check the “Upload Overview” box.<br><img src="/2020/04/20/How%20to%20take%20many%20different%20rasters%20into%20one%20raster/44.png" alt="Add Dataset.png"></p><hr><h3 id="Final-result">Final result</h3><p>Wait for several seconds or minutes, the raster will output.</p><p><img src="/2020/04/20/How%20to%20take%20many%20different%20rasters%20into%20one%20raster/55.png" alt="Mosaic Dataset.png"></p><hr><h3 id="Reference">Reference</h3><p><a href="https://data.linz.govt.nz/" target="_blank" rel="noopener">https://data.linz.govt.nz/</a></p><script>        document.querySelectorAll('.github-emoji')          .forEach(el => {            if (!el.dataset.src) { return; }            const img = document.createElement('img');            img.style = 'display:none !important;';            img.src = el.dataset.src;            img.addEventListener('error', () => {              img.remove();              el.style.color = 'inherit';              el.style.backgroundImage = 'none';              el.style.background = 'none';            });            img.addEventListener('load', () => {              img.remove();            });            document.body.appendChild(img);          });      </script>]]></content>
+      
+      
+      <categories>
+          
+          <category> Modelling </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Arcmap </tag>
+            
+            <tag> Raster </tag>
             
         </tags>
       
