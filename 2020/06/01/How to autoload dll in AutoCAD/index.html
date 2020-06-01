@@ -20,7 +20,7 @@
 
     <!--Open Graph Title-->
     
-        <meta property="og:title" content="Objects selection by Ironpython(.NET API in Civil3D) in Dynamo"/>
+        <meta property="og:title" content="How to autoload *.dll in AutoCAD"/>
     
 
     <!--Open Graph Description-->
@@ -44,7 +44,7 @@
 
     <!-- Title -->
     
-    <title>Objects selection by Ironpython(.NET API in Civil3D) in Dynamo - Ford Yang&#39;s Blog</title>
+    <title>How to autoload *.dll in AutoCAD - Ford Yang&#39;s Blog</title>
 
     <!-- Tachyons Core CSS -->
     <link rel="stylesheet" href="https://unpkg.com/tachyons/css/tachyons.min.css">
@@ -126,8 +126,8 @@
     <!-- Title -->
     <div class="w-100 mw8 center vh-40 dt">
         <div class="dtc v-mid white">
-            <h1 class="f1-l f2-m tc tc-m tl-ns">Objects selection by Ironpython(.NET API in Civil3D) in Dynamo</h1>
-            <p class="f4 fw3 pab-100px tc tc-m tl-ns">2020-05-15</p>
+            <h1 class="f1-l f2-m tc tc-m tl-ns">How to autoload *.dll in AutoCAD</h1>
+            <p class="f4 fw3 pab-100px tc tc-m tl-ns">2020-06-01</p>
         </div>
     </div>
 
@@ -147,99 +147,48 @@
                     
                         <div class="tags-container-vertical">
                             <div class="tags-sub-container">
-                                <a class="fw3 ph1 dib" href="/tags/Civil3D/">#Civil3D</a>
+                                <a class="fw3 ph1 dib" href="/tags/Civil3d/">#Civil3d</a>
                             </div>
                         </div>
                     
 
                     <!-- Main Post Content -->
-                    <p>Several ways to select objects According to the type as the result below.</p>
-<p><img src="/2020/05/15/Objects%20selection%20by%20Ironpython/Capture.PNG" alt="Selection Result.png"></p>
-<h1>Based on TypeName:</h1>
-<pre><code>
-output = []
-
-adoc = Application.DocumentManager.MdiActiveDocument
-ed = adoc.Editor
-
-
-with adoc.LockDocument():
-	with adoc.Database as db:
-		with db.TransactionManager.StartTransaction() as t:
-  			bt = t.GetObject(db.BlockTableId, OpenMode.ForWrite)
-  			btr = t.GetObject(bt[BlockTableRecord.ModelSpace], OpenMode.ForWrite)
-
-        rList = []
-
-
-  			#Get the Lines on Layer"Ramps". TypeName could be "Dbtext", "Line"
-  			for objectid in btr:
-				obj1 = t.GetObject(objectid, OpenMode.ForRead)
-				if obj1.GetType().Name.ToString() == "Line" and obj1.Layer == "Ramps-Side":
-						rList.append(str(obj1.Handle))
-				else:
-  					pass
-
-ed.WriteMessage("Done")
+                    <hr>
+<h3 id="Enter-the-folder">Enter the folder</h3>
+<p>First step is to create a bundle folder in “%ProgramData%/Autodesk/ApplicationPlugins”. the bundle folder is a normal windows folder that ends with .bundle (ex. MyApp.bundle)</p>
+<p><img src="/2020/06/01/How%20to%20autoload%20dll%20in%20AutoCAD/11.PNG" alt="FlolderLocation"></p>
+<hr>
+<h3 id="Folder-contents">Folder contents</h3>
+<p>Inside this folder there should be a folder named (“Contents”) and a file named (“PackageContents.xml”).</p>
+<p>Place *.dll inside the contents folder</p>
+<p><img src="/2020/06/01/How%20to%20autoload%20dll%20in%20AutoCAD/22.PNG" alt="folderContent"></p>
+<hr>
+<h3 id="Modify-the-XML-file">Modify the XML file</h3>
+<p>code inside PackageContents.xml can be as simple as the following (Change things like “MyApp”, “MyName”, etc… and it works):</p>
+<pre><code>&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;ApplicationPackage SchemaVersion="1.0" ProductType="Application" Name="MyAPP" AppVersion="1.0" Description="MyAPP, My description" Author="My Name" Icon="./Contents/MyAPPIcon.ico" OnlineDocumentation="http://MyWebSite.com" HelpFile="" ProductCode="{xxxxxx-xxxx-xxxx-xxxx-xxxxxxxxx}" FriendlyVersion="1.0" SupportedLocales="Enu" AutodeskProduct="AutoCAD"&gt;
+  &lt;CompanyDetails Name="My Name" Phone=" " Url="http://MyWebsite.com" Email="MyName@MyWebSite.com" /&gt;
+  &lt;Components Description="Main"&gt;
+    &lt;RuntimeRequirements SupportPath="./Contents" OS="Win32|Win64" Platform="AutoCAD*" SeriesMin="R19.0" SeriesMax="R22.0" /&gt;
+    &lt;ComponentEntry AppName="MyAPP" Version="1.0" ModuleName="./Contents/MyAPP.dll" AppDescription="My description" LoadOnAppearance="True" LoadOnAutoCADStartup="True" LoadOnCommandInvocation="True"&gt;
+    &lt;/ComponentEntry&gt;
+  &lt;/Components&gt;
+&lt;/ApplicationPackage&gt;
 </code></pre>
-<h1>Type of the object</h1>
-<pre><code>
-adoc = acapp.DocumentManager.MdiActiveDocument
-cdoc = CivilApplication.ActiveDocument
-ed = adoc.Editor
-# The inputs to this node will be stored as a list in the IN variables.
-with adoc.LockDocument():
-	with adoc.Database as db:
-		with db.TransactionManager.StartTransaction() as t:
-			bt = t.GetObject(db.BlockTableId, OpenMode.ForWrite)
-			btr = t.GetObject(bt[BlockTableRecord.ModelSpace], OpenMode.ForWrite)
-
-
-			rList = []
-
-
-			#Get the Lines on Layer"Ramps"
-			for objectid in btr:
-				obj1 = t.GetObject(objectid, OpenMode.ForRead)
-				if obj1.GetType()==Line and obj1.Layer == "Ramps-Side":
-				# or we can use  "obj1.GetType() == clr.GetClrType(Line)" to ensure get the same type by .Net types
-					rList.append(str(obj1.Handle))
-				else:
-					pass
+<p>Put the *.dll file inside the contents folder.</p>
+<hr>
+<h3 id="ProductCode-GUID">ProductCode(GUID)</h3>
+<pre><code>private string getGUID()
+   {
+       System.Guid guid = new Guid();
+       guid = Guid.NewGuid();
+       string str = guid.ToString();
+       return str;
+   }
 </code></pre>
-<h3 id="Notes">Notes:</h3>
-<pre><code>if obj1.GetType()==Line and obj1.Layer == "Ramps-Side":
-	rList.append((obj1.GetType() is clr.GetClrType(Line))) #result is true
-</code></pre>
-<pre><code>if obj1.GetType()==Line and obj1.Layer == "Ramps-Side":
-	rList.append((obj1.GetType() is Line)) #result is false
-</code></pre>
-<pre><code>if obj1.GetType()==Line and obj1.Layer == "Ramps-Side":
-	rList.append((obj1.GetType() == Line)) #result is True
-</code></pre>
-<h1>Select via the class of the object and we donot need to get the object.</h1>
-<pre><code>adoc = acapp.DocumentManager.MdiActiveDocument
-cdoc = CivilApplication.ActiveDocument
-ed = adoc.Editor
-# The inputs to this node will be stored as a list in the IN variables.
-with adoc.LockDocument():
-	with adoc.Database as db:
-		with db.TransactionManager.StartTransaction() as t:
-			bt = t.GetObject(db.BlockTableId, OpenMode.ForWrite)
-			btr = t.GetObject(bt[BlockTableRecord.ModelSpace], OpenMode.ForWrite)
-
-
-			rList = []
-
-
-			#Get the Lines on Layer"Ramps"
-			for objectid in btr:
-				obj1 = t.GetObject(objectid, OpenMode.ForRead)
-				if (obj1.ObjectId.ObjectClass)==(RXClass.GetClass(Line)) and obj1.Layer == "Ramps-Side":
-					rList.append(str(obj1.Handle))
-				else:
-					pass
-</code></pre>
+<h1>Reference</h1>
+<p><a href="https://stackoverflow.com/questions/46282189/autocad-2018-autoload-dll" target="_blank" rel="noopener">https://stackoverflow.com/questions/46282189/autocad-2018-autoload-dll</a><br>
+<a href="https://www.cnblogs.com/linzheng/archive/2010/12/14/1905906.html" target="_blank" rel="noopener">https://www.cnblogs.com/linzheng/archive/2010/12/14/1905906.html</a></p>
 <script>
         document.querySelectorAll('.github-emoji')
           .forEach(el => {
@@ -263,7 +212,7 @@ with adoc.LockDocument():
                     <!-- Tags Bottom -->
                     
                         <div class="tags-container-bottom">
-                            <i class="fa fa-tag pr3 text-main-color"></i><a class="fw3 ph1 dib" href="/tags/Civil3D/">#Civil3D</a>
+                            <i class="fa fa-tag pr3 text-main-color"></i><a class="fw3 ph1 dib" href="/tags/Civil3d/">#Civil3d</a>
                         </div>
                     
 
@@ -297,7 +246,7 @@ with adoc.LockDocument():
     <h3>Categories</h3>
     
         <p>
-            <a href="/categories/May-2020/">May 2020</a>
+            <a href="/categories/June-2020/">June 2020</a>
         </p>
     
 </div>

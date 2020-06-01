@@ -154,7 +154,7 @@
 
                     <!-- Main Post Content -->
                     <p>Today, I saw a post from Dynamo forum that mentioned how to add boundaryline to the surface. Just make a note for future use.  The original post link is listed in the Reference.</p>
-<h1>.NETAPI-C#</h1>
+<h2 id="NETAPI-C">.NETAPI-C#</h2>
 <pre><code>[CommandMethod("AddSurfaceBoundary")]
 public void AddSurfaceBoundary()
 {
@@ -184,11 +184,35 @@ public void AddSurfaceBoundary()
     }
 }
 
-</code></pre>
-<h1>IronPython in Dynamo</h1>
-<pre><code>
-surface.BoundariesDefinition.AddBoundaries(col, 100, SurfaceBoundaryType.Outer, True)
+private ObjectId promptForTinSurface(String prompt)
+{
+    PromptEntityOptions options = new PromptEntityOptions(
+        String.Format("\n{0}: ", prompt));
+    options.SetRejectMessage(
+        "\nThe selected object is not a TIN Surface.");
+    options.AddAllowedClass(typeof(TinSurface), true);
 
+    PromptEntityResult result = editor.GetEntity(options);
+    if (result.Status == PromptStatus.OK)
+    {
+        // We have the correct object type
+        return result.ObjectId;
+    }
+    return ObjectId.Null;   // Indicating error.
+}
+
+</code></pre>
+<h2 id="IronPython-in-Dynamo">IronPython in Dynamo</h2>
+<pre><code>surfaceId = promptForEntity("Select the surface to add a boundary to", clr.GetClrType(TinSurface))
+polyId = promptForEntity("Select the object to use as a boundary", clr.GetClrType(Polyline))
+
+coll = ObjectIdCollection()
+coll.Add(plineId)
+
+oSurface = surfaceId.GetObject(OpenMode.ForWrite)
+
+osurface.BoundariesDefinition.AddBoundaries(coll, 100, SurfaceBoundaryType.Outer, True)
+osurface.Rebuild()
 </code></pre>
 <h1>Reference:</h1>
 <p><a href="http://help.autodesk.com/view/CIV3D/2020/ENU/?guid=GUID-7C32E309-9B54-42A0-A4DC-C6FD592071F2" target="_blank" rel="noopener">http://help.autodesk.com/view/CIV3D/2020/ENU/?guid=GUID-7C32E309-9B54-42A0-A4DC-C6FD592071F2</a><br>
@@ -250,7 +274,7 @@ surface.BoundariesDefinition.AddBoundaries(col, 100, SurfaceBoundaryType.Outer, 
     <h3>Categories</h3>
     
         <p>
-            <a href="/categories/Dynamo/">Dynamo</a>
+            <a href="/categories/May-2020/">May 2020</a>
         </p>
     
 </div>
@@ -264,6 +288,10 @@ surface.BoundariesDefinition.AddBoundaries(col, 100, SurfaceBoundaryType.Outer, 
     <h3>Recent Posts</h3>
     
         <p>
+            <a href="/2020/06/01/How%20to%20autoload%20dll%20in%20AutoCAD/">How to autoload *.dll in AutoCAD</a>
+        </p>
+    
+        <p>
             <a href="/2020/05/15/Objects%20selection%20by%20Ironpython/">Objects selection by Ironpython(.NET API in Civil3</a>
         </p>
     
@@ -272,15 +300,11 @@ surface.BoundariesDefinition.AddBoundaries(col, 100, SurfaceBoundaryType.Outer, 
         </p>
     
         <p>
+            <a href="/2020/05/13/Visual%20Studio%20C#%20Code%20Snippet/">Visual Studio C#</a>
+        </p>
+    
+        <p>
             <a href="/2020/04/24/Delinenate%20the%20watershed%20based%20on%20DEM%20data%20on%20ArcMAP/">Delineate watershed based on DEM data on ArcMAP</a>
-        </p>
-    
-        <p>
-            <a href="/2020/04/22/Present%20the%20results%20in%20ArcScene/">Present 3D DEM and Building in ArcScene</a>
-        </p>
-    
-        <p>
-            <a href="/2020/04/20/How%20to%20take%20many%20different%20rasters%20into%20one%20raster/">How to merge many different raster files into one </a>
         </p>
     
 </div>

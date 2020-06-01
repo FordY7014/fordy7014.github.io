@@ -20,7 +20,7 @@
 
     <!--Open Graph Title-->
     
-        <meta property="og:title" content="Objects selection by Ironpython(.NET API in Civil3D) in Dynamo"/>
+        <meta property="og:title" content="Visual Studio C#"/>
     
 
     <!--Open Graph Description-->
@@ -44,7 +44,7 @@
 
     <!-- Title -->
     
-    <title>Objects selection by Ironpython(.NET API in Civil3D) in Dynamo - Ford Yang&#39;s Blog</title>
+    <title>Visual Studio C# - Ford Yang&#39;s Blog</title>
 
     <!-- Tachyons Core CSS -->
     <link rel="stylesheet" href="https://unpkg.com/tachyons/css/tachyons.min.css">
@@ -126,8 +126,8 @@
     <!-- Title -->
     <div class="w-100 mw8 center vh-40 dt">
         <div class="dtc v-mid white">
-            <h1 class="f1-l f2-m tc tc-m tl-ns">Objects selection by Ironpython(.NET API in Civil3D) in Dynamo</h1>
-            <p class="f4 fw3 pab-100px tc tc-m tl-ns">2020-05-15</p>
+            <h1 class="f1-l f2-m tc tc-m tl-ns">Visual Studio C#</h1>
+            <p class="f4 fw3 pab-100px tc tc-m tl-ns">2020-05-13</p>
         </div>
     </div>
 
@@ -147,123 +147,26 @@
                     
                         <div class="tags-container-vertical">
                             <div class="tags-sub-container">
-                                <a class="fw3 ph1 dib" href="/tags/Civil3D/">#Civil3D</a>
+                                <a class="fw3 ph1 dib" href="/tags/C/">#C#</a>
                             </div>
                         </div>
                     
 
                     <!-- Main Post Content -->
-                    <p>Several ways to select objects According to the type as the result below.</p>
-<p><img src="/2020/05/15/Objects%20selection%20by%20Ironpython/Capture.PNG" alt="Selection Result.png"></p>
-<h1>Based on TypeName:</h1>
-<pre><code>
-output = []
-
-adoc = Application.DocumentManager.MdiActiveDocument
-ed = adoc.Editor
-
-
-with adoc.LockDocument():
-	with adoc.Database as db:
-		with db.TransactionManager.StartTransaction() as t:
-  			bt = t.GetObject(db.BlockTableId, OpenMode.ForWrite)
-  			btr = t.GetObject(bt[BlockTableRecord.ModelSpace], OpenMode.ForWrite)
-
-        rList = []
-
-
-  			#Get the Lines on Layer"Ramps". TypeName could be "Dbtext", "Line"
-  			for objectid in btr:
-				obj1 = t.GetObject(objectid, OpenMode.ForRead)
-				if obj1.GetType().Name.ToString() == "Line" and obj1.Layer == "Ramps-Side":
-						rList.append(str(obj1.Handle))
-				else:
-  					pass
-
-ed.WriteMessage("Done")
-</code></pre>
-<h1>Type of the object</h1>
-<pre><code>
-adoc = acapp.DocumentManager.MdiActiveDocument
-cdoc = CivilApplication.ActiveDocument
-ed = adoc.Editor
-# The inputs to this node will be stored as a list in the IN variables.
-with adoc.LockDocument():
-	with adoc.Database as db:
-		with db.TransactionManager.StartTransaction() as t:
-			bt = t.GetObject(db.BlockTableId, OpenMode.ForWrite)
-			btr = t.GetObject(bt[BlockTableRecord.ModelSpace], OpenMode.ForWrite)
-
-
-			rList = []
-
-
-			#Get the Lines on Layer"Ramps"
-			for objectid in btr:
-				obj1 = t.GetObject(objectid, OpenMode.ForRead)
-				if obj1.GetType()==Line and obj1.Layer == "Ramps-Side":
-				# or we can use  "obj1.GetType() == clr.GetClrType(Line)" to ensure get the same type by .Net types
-					rList.append(str(obj1.Handle))
-				else:
-					pass
-</code></pre>
-<h3 id="Notes">Notes:</h3>
-<pre><code>if obj1.GetType()==Line and obj1.Layer == "Ramps-Side":
-	rList.append((obj1.GetType() is clr.GetClrType(Line))) #result is true
-</code></pre>
-<pre><code>if obj1.GetType()==Line and obj1.Layer == "Ramps-Side":
-	rList.append((obj1.GetType() is Line)) #result is false
-</code></pre>
-<pre><code>if obj1.GetType()==Line and obj1.Layer == "Ramps-Side":
-	rList.append((obj1.GetType() == Line)) #result is True
-</code></pre>
-<h1>Select via the class of the object and we donot need to get the object.</h1>
-<pre><code>adoc = acapp.DocumentManager.MdiActiveDocument
-cdoc = CivilApplication.ActiveDocument
-ed = adoc.Editor
-# The inputs to this node will be stored as a list in the IN variables.
-with adoc.LockDocument():
-	with adoc.Database as db:
-		with db.TransactionManager.StartTransaction() as t:
-			bt = t.GetObject(db.BlockTableId, OpenMode.ForWrite)
-			btr = t.GetObject(bt[BlockTableRecord.ModelSpace], OpenMode.ForWrite)
-
-
-			rList = []
-
-
-			#Get the Lines on Layer"Ramps"
-			for objectid in btr:
-				obj1 = t.GetObject(objectid, OpenMode.ForRead)
-				if (obj1.ObjectId.ObjectClass)==(RXClass.GetClass(Line)) and obj1.Layer == "Ramps-Side":
-					rList.append(str(obj1.Handle))
-				else:
-					pass
-</code></pre>
-<script>
-        document.querySelectorAll('.github-emoji')
-          .forEach(el => {
-            if (!el.dataset.src) { return; }
-            const img = document.createElement('img');
-            img.style = 'display:none !important;';
-            img.src = el.dataset.src;
-            img.addEventListener('error', () => {
-              img.remove();
-              el.style.color = 'inherit';
-              el.style.backgroundImage = 'none';
-              el.style.background = 'none';
-            });
-            img.addEventListener('load', () => {
-              img.remove();
-            });
-            document.body.appendChild(img);
-          });
-      </script>
+                    <div id="hexo-blog-encrypt" data-wpm="Oh, this is an invalid password. Check and try again, please." data-whm="OOPS, these decrypted content may changed, but you can still have a look.">
+  <div class="hbe-input-container">
+  <input type="password" id="hbePass" placeholder="" />
+    <label for="hbePass">Hey, password is required here.</label>
+    <div class="bottom-line"></div>
+  </div>
+  <script id="hbeData" type="hbeData" data-hmacdigest="538b6531e0237710b320fee16d7d789e5caa3c8a3f4aaeec3f43332f50ec706a">9de2bca640594eca6ed1dadc2e01134b0525c95aa26a0402ec735a12452cfee7968bf482fe17d7e3240cf3a3f4afffa91140a41813d3b853c81ad14e25372d033d2a3b3f05517c2ff9003975d22f2d2578f9f0401c1de212a81f017749364f7eaea8a7ba41fecb3539d9083f65e22a3d575cd0cf143872f173dfec043d50d8a4c962affc9b48947873b395ee207b65a367231143e0af9c2dcb3d1ca96a5c72407210c9f42ac6267b75ece25b8bd18fc67d8c07530dcf59ecd83c7914181050d04aaca579dfe206a089712fe603004e8bb25f871107c7fe396e360d96fe8e83c7c6a5753de838c81848c0b03d889ec7e4d65ae28ee81a357d1bee6b4eedcf9d90bda19c50f1e3c00cbbf24be59f6abec9c50d319b97c762344300a9a11829749630aa37f243d55c0b286b2d0bb5a06cbb676154a4659e7e752947c3486b5805201abe0870b5468f8c13d094c21a53cfb5e34e8bce2b055e9ef14a5cdfc65528f99dccc4a9d36e457bc0461713ee6a7936f146eb99c71fe9886a56b40f895d76b35115157231e912d61f16d5e1f9c8bb5eff45c7140fe7625b95edc271ff4bf5bd21b1ef9091dbccbc48b794c8cc0e6697152bd0714db6e64ddb6400256ed77f0d4c41aaedcfaebb5b7de0b2d69e90da3f3ad62e0b4d1fd376c39da452956e4b8795d43c3bce73d8d08fee7ba9a8796989a17ed3081baa2e5783019780fb855a04e3c9ebe2990de8bef7f1849ffc2947631a40807d818787ebddf5e74aee15bc26b5bda08518333e34dbf129cd16857163335b769a818aa5c5cbdee412196956d31d38d90da9dff6e5214fb46d00fb7f97d0ec5b5de1d94b5a8c96d115fa2c409a77593b6f2c15cc1aaa3e6551824f38301668c6ef8b8612424429256d86361cfc142cf2691c4f27299a94b096d25e292155f8e13dbbf9153436b8cad54814bee3327c056d0e07e59a0018d3862f7039bbfd0a94627ff87c136824611fc44e8250f74ea927b2e9ae3ecfad048af14267814625974bbdf8a9a7effdd56bde0157f7f2f27c8650a167906cf197899a5db9edc2f1972d2a6befc4714031f477d06c7f61d30c99b74c8e315880ff0cd35813bd763feb8b3afc36b7294706025d7194eab45ef625a753f3e672fd9b955fefbe824e46830d6dd1e1f836b73ee3e73e795e95aba8f519fb2c828d41998423d3300af6e97649666fecc7780073930e50403f0c0bba37e81aad2b2f68530ef23ad13388f50442df5d69fe88eaecbf713f8f9f4784281ce2356d45fd89f4d81a7a589bedcbe5ba5134b0f472ebbeb4b13aa497dbfbb5c017402417ffcfad905b739cfefc14f86f40c991b817a6e5b4c4a846a39004ba38c61d1c5a53571962bd608c1c76e1764e889961b6e364e7a5a45936aa5e35e4c853fc402e13ec21d97eb44d945812ed3f156e0bdbb60160dc83b8604de98db736bed777c47f3bcdcfb2f57fcbe11e8baeee4d94d019d94686e008c3f60baf0f8e68126e4b9d0f7d0c08254e401eccf088fb4938cc0c08fc9090045d68d23f8a02f1a86bbb66465bfde59798a5ab6b748155aca38b25badfb21e3d154da10b0ef4fac781b198e655fd172008a8</script>
+</div>
+<script src="/lib/blog-encrypt.js"></script><link href="/css/blog-encrypt.css" rel="stylesheet" type="text/css">
                     
                     <!-- Tags Bottom -->
                     
                         <div class="tags-container-bottom">
-                            <i class="fa fa-tag pr3 text-main-color"></i><a class="fw3 ph1 dib" href="/tags/Civil3D/">#Civil3D</a>
+                            <i class="fa fa-tag pr3 text-main-color"></i><a class="fw3 ph1 dib" href="/tags/C/">#C#</a>
                         </div>
                     
 
