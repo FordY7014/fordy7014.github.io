@@ -94,30 +94,51 @@ osurface.Rebuild()
       </tags>
   </entry>
   <entry>
-    <title>How to merge many different raster files into one raster</title>
-    <url>/2020/04/20/How%20to%20take%20many%20different%20rasters%20into%20one%20raster/</url>
-    <content><![CDATA[<p>On <a href="https://geomapspublic.aucklandcouncil.govt.nz/viewer/index.html" target="_blank" rel="noopener">Auckland Council Geomap</a>, we can download the high resolution DEM data, but the uplimit area is 6 Square Km. What if the catchment area we are interested in is more than the number, than we can download the DEM data from <a href="https://data.linz.govt.nz/search/?q=DEM" target="_blank" rel="noopener">LINZ</a>.</p>
+    <title>Delineate watershed based on DEM data on ArcMAP</title>
+    <url>/2020/04/24/Delinenate%20the%20watershed%20based%20on%20DEM%20data%20on%20ArcMAP/</url>
+    <content><![CDATA[<p>Before input data into hydrologic or hydraulic data, we need to know the catchment boundary first. Arcmap has wonderful tool suite to proceed this</p>
+<p>The basic step flow is as below:</p>
+<blockquote>
+<p>dem-- fill–flow direction–flow accumulation–raster calculator or reclassify --stream link–watershed</p>
+</blockquote>
+<p>After knowing the basic workflow, we can generate our own defined workflow by <em>Model Builder</em> in ArcGIS as the figure below, or we can use the existing tool, for example, <em>ArcHydro</em>. However, we should know how to achieve it by ArcMAP first to understand the basic theory.</p>
+<p><img src="/2020/04/24/Delinenate%20the%20watershed%20based%20on%20DEM%20data%20on%20ArcMAP/1.PNG" alt="Create Streamlines"></p>
 <hr>
-<h3 id="Raster-files-check">Raster files check</h3>
-<p>After download the DEM data in Auckland area, we will find that there will be many different raster files, which is not available for analysis. So we need to merge many raster files into one raster file.</p>
+<h3 id="Fill">Fill</h3>
+<p>Firstly, we need to load the DEM raster files into ArcMAP, and then select fill tool as followed:<em>Arctool boxes/spatial Analyst Tools/Hydrology/Fill</em></p>
+<p>The window as followed figure will pop out:<br>
+<img src="/2020/04/24/Delinenate%20the%20watershed%20based%20on%20DEM%20data%20on%20ArcMAP/2.PNG" alt="DEM FILL"></p>
+<p>Then a new DEM data will be generated, it seems that there is no difference between the two raster datasets. But we can select the <em>Arctool boxes\Spatial Analyst Tools.tbx\Map Algebra\Raster Calculator</em> and calculate the difference between the two DEM datasets.<br>
+<img src="/2020/04/24/Delinenate%20the%20watershed%20based%20on%20DEM%20data%20on%20ArcMAP/3.PNG" alt="dem difference"></p>
 <hr>
-<h3 id="Location-check">Location check</h3>
-<p>Firstly, we need to check the name of related raster files in our interested catchment, find all the raster files and then move them into one folder.</p>
-<p><img src="/2020/04/20/How%20to%20take%20many%20different%20rasters%20into%20one%20raster/1.PNG" alt="Location.png"></p>
+<h3 id="Flow-Direction">Flow Direction</h3>
+<p>The we can click <em>Flow direction</em> and apply the filled DEM dataset.</p>
+<p>The result is as shown below.</p>
+<p><img src="/2020/04/24/Delinenate%20the%20watershed%20based%20on%20DEM%20data%20on%20ArcMAP/4.PNG" alt="flow direction"></p>
 <hr>
-<h3 id="Create-an-empty-Mosaic-Dataset">Create an empty Mosaic Dataset</h3>
-<p>Create an empty Mosaic Dataset as the route in the figure below.</p>
-<p><img src="/2020/04/20/How%20to%20take%20many%20different%20rasters%20into%20one%20raster/22.png" alt="Mosaic Dataset.png"></p>
-<p>Then we need to add the raster data into the empty Mosaic. Directly right-click the file and choose “add raster”.</p>
-<p>Select the files we have picked from the last steps, remember to check the “Upload Overview” box.<br>
-<img src="/2020/04/20/How%20to%20take%20many%20different%20rasters%20into%20one%20raster/44.png" alt="Add Dataset.png"></p>
+<h3 id="Flow-Accumulation">Flow Accumulation</h3>
+<p>Similarly, we choose <em>Flow Accumulation</em> and select the datasets <em>Filled DEM</em> and <em>Flow Accumulation</em>, then the raster of flow Accumulation will be generated.</p>
+<p>But we do not need to care about those raster with small No. of accumulation. We need to classify the result to select the data we are interested.</p>
+<p><img src="/2020/04/24/Delinenate%20the%20watershed%20based%20on%20DEM%20data%20on%20ArcMAP/5.png" alt="flow Accumulation"></p>
 <hr>
-<h3 id="Final-result">Final result</h3>
-<p>Wait for several seconds or minutes, the raster will output.</p>
-<p><img src="/2020/04/20/How%20to%20take%20many%20different%20rasters%20into%20one%20raster/55.png" alt="Mosaic Dataset.png"></p>
+<h3 id="Flow-Length">Flow Length</h3>
+<p>Flow Length is an important factor to calculate the catchment time of concentration(<em>tc</em>) , we choose <em>Flow Length</em> tool and select the datasets from <em>Flow Accumulation</em>, then we can get a raster map of concentration.</p>
+<p>If we choose downstream, each raster value will record the length to the discharge point.</p>
+<p><img src="/2020/04/24/Delinenate%20the%20watershed%20based%20on%20DEM%20data%20on%20ArcMAP/6.png" alt="flow Length"></p>
 <hr>
-<h3 id="Reference">Reference</h3>
-<p><a href="https://data.linz.govt.nz/" target="_blank" rel="noopener">https://data.linz.govt.nz/</a></p>
+<h3 id="Reclassify">Reclassify</h3>
+<p>We assume the line with catchment of over 900,000 m2 will have apparent stream flow. We choose <em>Arctool boxes\3D Analyst Tools.tbx\Raster Reclass\Reclassify</em>.</p>
+<p><img src="/2020/04/24/Delinenate%20the%20watershed%20based%20on%20DEM%20data%20on%20ArcMAP/7.PNG" alt="Reclassifing Flow"></p>
+<hr>
+<h3 id="Stream-Link">Stream Link</h3>
+<p>After reclassifying, we can get the discharge link with large catchment of over 900000 square meter.</p>
+<p><img src="/2020/04/24/Delinenate%20the%20watershed%20based%20on%20DEM%20data%20on%20ArcMAP/8.PNG" alt="Stream Link"></p>
+<hr>
+<h3 id="Watershed">Watershed</h3>
+<p>we choose <em>Watershed</em> and select the corresponding data from datasets, then we can get a raster map of watershed. We can use <em>Arctool boxes\Conversion Tools.tbx\From Raster\Raster to Polygon</em> to change to result to polygon.</p>
+<p>We can also input point data for <em>Input raster or feature pour point data</em>, this will be useful when we have the stormwater discharge point, like manholes.</p>
+<p><img src="/2020/04/24/Delinenate%20the%20watershed%20based%20on%20DEM%20data%20on%20ArcMAP/9.PNG" alt="result.png"></p>
+<p><img src="/2020/04/24/Delinenate%20the%20watershed%20based%20on%20DEM%20data%20on%20ArcMAP/10.PNG" alt="Watershed.png"></p>
 <script>
         document.querySelectorAll('.github-emoji')
           .forEach(el => {
@@ -142,7 +163,6 @@ osurface.Rebuild()
       </categories>
       <tags>
         <tag>Arcmap</tag>
-        <tag>Raster</tag>
       </tags>
   </entry>
   <entry>
@@ -922,7 +942,7 @@ ax.set_ylim([-42,-36])
   &lt;/Components&gt;
 &lt;/ApplicationPackage&gt;
 </code></pre>
-<p>Put the *.dll file inside the contents folder.</p>
+<p>Put the *.dll file inside the Contents folder.</p>
 <hr>
 <h3 id="ProductCode-GUID">ProductCode(GUID)</h3>
 <pre><code>private string getGUID()
@@ -933,8 +953,38 @@ ax.set_ylim([-42,-36])
        return str;
    }
 </code></pre>
+<p>or on the visual Studio</p>
+<pre><code>Tools ----Create GUID
+</code></pre>
+<hr>
+<h3 id="Auto-Run-Command-when-loading-dll-file">Auto Run Command when loading .dll file</h3>
+<pre><code>&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;ApplicationPackage SchemaVersion="1.0" AppVersion="1.0.0" ProductType="Application"
+    ProductCode="{6A1C1EAE-3744-4BD8-AF08-F322E92D9B3B}"
+    Name="RibbonTest"  Description="MyAPP, My description"  SupportedLocales="Enu" AutodeskProduct="AutoCAD"&gt;
+  &lt;CompanyDetails Name="myribbontest" Email="yangfan7014@gmail.com" /&gt;
+  &lt;RuntimeRequirements SupportPath="./Contents" OS="Win32|Win64" Platform="AutoCAD*|AutoCAD" SeriesMin="R20.1" SeriesMax="R24.0"/&gt;
+  &lt;Components Description="Main"&gt;
+
+    &lt;ComponentEntry  AppName="MyAPP" Version="1.0.0" ModuleName="./Contents/18RibbonT.dll" LoadOnAppearance="True" LoadOnAutoCADStartup="True" LoadOnCommandInvocation="True"&gt;
+      &lt;Commands GroupName="_18RibbonT"&gt;
+        &lt;Command Local="RibbonDemo" Global="RibbonDemo" StartupCommand = "True" /&gt;
+      &lt;/Commands&gt;
+	  &lt;/ComponentEntry&gt;
+
+    &lt;ComponentEntry  AppName="Ramps" Version="1.0.0" ModuleName="./Contents/Ramps.dll" LoadOnAutoCADStartup="True"&gt;
+      &lt;Commands GroupName="Commands"&gt;
+        &lt;Command Local="CRAMPS" Global="CRAMPS" /&gt;
+      &lt;/Commands&gt;
+    &lt;/ComponentEntry&gt;		
+
+  &lt;/Components&gt;
+&lt;/ApplicationPackage&gt;
+</code></pre>
 <h1>Reference</h1>
-<p><a href="https://stackoverflow.com/questions/46282189/autocad-2018-autoload-dll" target="_blank" rel="noopener">https://stackoverflow.com/questions/46282189/autocad-2018-autoload-dll</a><br>
+<p><a href="https://adndevblog.typepad.com/autocad/2013/01/autodesk-autoloader-white-paper.html" target="_blank" rel="noopener">https://adndevblog.typepad.com/autocad/2013/01/autodesk-autoloader-white-paper.html</a><br>
+<a href="https://stackoverflow.com/questions/46282189/autocad-2018-autoload-dll" target="_blank" rel="noopener">https://stackoverflow.com/questions/46282189/autocad-2018-autoload-dll</a><br>
+<a href="https://stackoverflow.com/questions/46282189/autocad-2018-autoload-dll" target="_blank" rel="noopener">https://stackoverflow.com/questions/46282189/autocad-2018-autoload-dll</a><br>
 <a href="https://www.cnblogs.com/linzheng/archive/2010/12/14/1905906.html" target="_blank" rel="noopener">https://www.cnblogs.com/linzheng/archive/2010/12/14/1905906.html</a></p>
 <script>
         document.querySelectorAll('.github-emoji')
@@ -963,51 +1013,28 @@ ax.set_ylim([-42,-36])
       </tags>
   </entry>
   <entry>
-    <title>Delineate watershed based on DEM data on ArcMAP</title>
-    <url>/2020/04/24/Delinenate%20the%20watershed%20based%20on%20DEM%20data%20on%20ArcMAP/</url>
-    <content><![CDATA[<p>Before input data into hydrologic or hydraulic data, we need to know the catchment boundary first. Arcmap has wonderful tool suite to proceed this</p>
-<p>The basic step flow is as below:</p>
-<blockquote>
-<p>dem-- fill–flow direction–flow accumulation–raster calculator or reclassify --stream link–watershed</p>
-</blockquote>
-<p>After knowing the basic workflow, we can generate our own defined workflow by <em>Model Builder</em> in ArcGIS as the figure below, or we can use the existing tool, for example, <em>ArcHydro</em>. However, we should know how to achieve it by ArcMAP first to understand the basic theory.</p>
-<p><img src="/2020/04/24/Delinenate%20the%20watershed%20based%20on%20DEM%20data%20on%20ArcMAP/1.PNG" alt="Create Streamlines"></p>
+    <title>Land-use TIF file making for HEC-RAS 2D</title>
+    <url>/2020/04/20/Land-use%20TIF%20file%20making%20for%20HEC-RAS%202D/</url>
+    <content><![CDATA[<p>For 2D analysis in HEC-RAS, we may need to a land use map to assign the manning factor as . How to make it? Of course we can make the detailed land use map by analyzing satellite imagery. But for a simple model, sometime we do not need such a detailed plan. Today I would like to introduce a way to make simple land use map</p>
+<p><img src="/2020/04/20/Land-use%20TIF%20file%20making%20for%20HEC-RAS%202D/11.PNG" alt="HEC-RAS manning.png"></p>
+<p>First, we should download DEM data, building footprint and road information from <a href="https://geomapspublic.aucklandcouncil.govt.nz/viewer/index.html" target="_blank" rel="noopener">Auckland Council Geomap</a>.</p>
 <hr>
-<h3 id="Fill">Fill</h3>
-<p>Firstly, we need to load the DEM raster files into ArcMAP, and then select fill tool as followed:<em>Arctool boxes/spatial Analyst Tools/Hydrology/Fill</em></p>
-<p>The window as followed figure will pop out:<br>
-<img src="/2020/04/24/Delinenate%20the%20watershed%20based%20on%20DEM%20data%20on%20ArcMAP/2.PNG" alt="DEM FILL"></p>
-<p>Then a new DEM data will be generated, it seems that there is no difference between the two raster datasets. But we can select the <em>Arctool boxes\Spatial Analyst Tools.tbx\Map Algebra\Raster Calculator</em> and calculate the difference between the two DEM datasets.<br>
-<img src="/2020/04/24/Delinenate%20the%20watershed%20based%20on%20DEM%20data%20on%20ArcMAP/3.PNG" alt="dem difference"></p>
+<h3 id="Data-Loading">Data Loading</h3>
+<p>After loading all the data, we can have a map as below.</p>
+<p><img src="/2020/04/20/Land-use%20TIF%20file%20making%20for%20HEC-RAS%202D/22.PNG" alt="HEC-RAS manning.png"></p>
+<p>Now we need to assign different area with different values, and then merge them together.</p>
 <hr>
-<h3 id="Flow-Direction">Flow Direction</h3>
-<p>The we can click <em>Flow direction</em> and apply the filled DEM dataset.</p>
-<p>The result is as shown below.</p>
-<p><img src="/2020/04/24/Delinenate%20the%20watershed%20based%20on%20DEM%20data%20on%20ArcMAP/4.PNG" alt="flow direction"></p>
+<h3 id="Raster-Calculator">Raster Calculator</h3>
+<p>Firstly, we treat the whole catchment area by assigning “1”.</p>
+<p><img src="/2020/04/20/Land-use%20TIF%20file%20making%20for%20HEC-RAS%202D/catchment.PNG" alt="catchment.png"></p>
+<p>Secondly, we apply <em>.\3D Analyst Tools.tbx\Triangulated Surface\Interpolate Polygon to Multipatch</em> to assign the footprint area with value “4”.<br>
+<img src="/2020/04/20/Land-use%20TIF%20file%20making%20for%20HEC-RAS%202D/BFraster.PNG" alt="building footprint.png"></p>
+<p>Similarly, we apply <em>.\3D Analyst Tools.tbx\Triangulated Surface\Interpolate Polygon to Multipatch</em> to assign the roading area with value “3”.<br>
+<img src="/2020/04/20/Land-use%20TIF%20file%20making%20for%20HEC-RAS%202D/roadraster.PNG" alt="road.png"></p>
 <hr>
-<h3 id="Flow-Accumulation">Flow Accumulation</h3>
-<p>Similarly, we choose <em>Flow Accumulation</em> and select the datasets <em>Filled DEM</em> and <em>Flow Accumulation</em>, then the raster of flow Accumulation will be generated.</p>
-<p>But we do not need to care about those raster with small No. of accumulation. We need to classify the result to select the data we are interested.</p>
-<p><img src="/2020/04/24/Delinenate%20the%20watershed%20based%20on%20DEM%20data%20on%20ArcMAP/5.png" alt="flow Accumulation"></p>
-<hr>
-<h3 id="Flow-Length">Flow Length</h3>
-<p>Flow Length is an important factor to calculate the catchment time of concentration(<em>tc</em>) , we choose <em>Flow Length</em> tool and select the datasets from <em>Flow Accumulation</em>, then we can get a raster map of concentration.</p>
-<p>If we choose downstream, each raster value will record the length to the discharge point.</p>
-<p><img src="/2020/04/24/Delinenate%20the%20watershed%20based%20on%20DEM%20data%20on%20ArcMAP/6.png" alt="flow Length"></p>
-<hr>
-<h3 id="Reclassify">Reclassify</h3>
-<p>We assume the line with catchment of over 900,000 m2 will have apparent stream flow. We choose <em>Arctool boxes\3D Analyst Tools.tbx\Raster Reclass\Reclassify</em>.</p>
-<p><img src="/2020/04/24/Delinenate%20the%20watershed%20based%20on%20DEM%20data%20on%20ArcMAP/7.PNG" alt="Reclassifing Flow"></p>
-<hr>
-<h3 id="Stream-Link">Stream Link</h3>
-<p>After reclassifying, we can get the discharge link with large catchment of over 900000 square meter.</p>
-<p><img src="/2020/04/24/Delinenate%20the%20watershed%20based%20on%20DEM%20data%20on%20ArcMAP/8.PNG" alt="Stream Link"></p>
-<hr>
-<h3 id="Watershed">Watershed</h3>
-<p>we choose <em>Watershed</em> and select the corresponding data from datasets, then we can get a raster map of watershed. We can use <em>Arctool boxes\Conversion Tools.tbx\From Raster\Raster to Polygon</em> to change to result to polygon.</p>
-<p>We can also input point data for <em>Input raster or feature pour point data</em>, this will be useful when we have the stormwater discharge point, like manholes.</p>
-<p><img src="/2020/04/24/Delinenate%20the%20watershed%20based%20on%20DEM%20data%20on%20ArcMAP/9.PNG" alt="result.png"></p>
-<p><img src="/2020/04/24/Delinenate%20the%20watershed%20based%20on%20DEM%20data%20on%20ArcMAP/10.PNG" alt="Watershed.png"></p>
+<h3 id="Merging-the-files">Merging the files</h3>
+<p><em>.\Spatial Analyst Tools.tbx\Local\Cell Statistics</em> is used to merge the three raster together.Final result will be as the First Photo.</p>
+<p>We just finished a simple one, but the complex one is same, just to merge more seperate raster files.</p>
 <script>
         document.querySelectorAll('.github-emoji')
           .forEach(el => {
@@ -1032,6 +1059,60 @@ ax.set_ylim([-42,-36])
       </categories>
       <tags>
         <tag>Arcmap</tag>
+        <tag>HEC-RAS</tag>
+        <tag>Raster</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>How to merge many different raster files into one raster</title>
+    <url>/2020/04/20/How%20to%20take%20many%20different%20rasters%20into%20one%20raster/</url>
+    <content><![CDATA[<p>On <a href="https://geomapspublic.aucklandcouncil.govt.nz/viewer/index.html" target="_blank" rel="noopener">Auckland Council Geomap</a>, we can download the high resolution DEM data, but the uplimit area is 6 Square Km. What if the catchment area we are interested in is more than the number, than we can download the DEM data from <a href="https://data.linz.govt.nz/search/?q=DEM" target="_blank" rel="noopener">LINZ</a>.</p>
+<hr>
+<h3 id="Raster-files-check">Raster files check</h3>
+<p>After download the DEM data in Auckland area, we will find that there will be many different raster files, which is not available for analysis. So we need to merge many raster files into one raster file.</p>
+<hr>
+<h3 id="Location-check">Location check</h3>
+<p>Firstly, we need to check the name of related raster files in our interested catchment, find all the raster files and then move them into one folder.</p>
+<p><img src="/2020/04/20/How%20to%20take%20many%20different%20rasters%20into%20one%20raster/1.PNG" alt="Location.png"></p>
+<hr>
+<h3 id="Create-an-empty-Mosaic-Dataset">Create an empty Mosaic Dataset</h3>
+<p>Create an empty Mosaic Dataset as the route in the figure below.</p>
+<p><img src="/2020/04/20/How%20to%20take%20many%20different%20rasters%20into%20one%20raster/22.png" alt="Mosaic Dataset.png"></p>
+<p>Then we need to add the raster data into the empty Mosaic. Directly right-click the file and choose “add raster”.</p>
+<p>Select the files we have picked from the last steps, remember to check the “Upload Overview” box.<br>
+<img src="/2020/04/20/How%20to%20take%20many%20different%20rasters%20into%20one%20raster/44.png" alt="Add Dataset.png"></p>
+<hr>
+<h3 id="Final-result">Final result</h3>
+<p>Wait for several seconds or minutes, the raster will output.</p>
+<p><img src="/2020/04/20/How%20to%20take%20many%20different%20rasters%20into%20one%20raster/55.png" alt="Mosaic Dataset.png"></p>
+<hr>
+<h3 id="Reference">Reference</h3>
+<p><a href="https://data.linz.govt.nz/" target="_blank" rel="noopener">https://data.linz.govt.nz/</a></p>
+<script>
+        document.querySelectorAll('.github-emoji')
+          .forEach(el => {
+            if (!el.dataset.src) { return; }
+            const img = document.createElement('img');
+            img.style = 'display:none !important;';
+            img.src = el.dataset.src;
+            img.addEventListener('error', () => {
+              img.remove();
+              el.style.color = 'inherit';
+              el.style.backgroundImage = 'none';
+              el.style.background = 'none';
+            });
+            img.addEventListener('load', () => {
+              img.remove();
+            });
+            document.body.appendChild(img);
+          });
+      </script>]]></content>
+      <categories>
+        <category>April 2020</category>
+      </categories>
+      <tags>
+        <tag>Arcmap</tag>
+        <tag>Raster</tag>
       </tags>
   </entry>
   <entry>
@@ -1199,28 +1280,69 @@ with adoc.LockDocument():
       </tags>
   </entry>
   <entry>
-    <title>Land-use TIF file making for HEC-RAS 2D</title>
-    <url>/2020/04/20/Land-use%20TIF%20file%20making%20for%20HEC-RAS%202D/</url>
-    <content><![CDATA[<p>For 2D analysis in HEC-RAS, we may need to a land use map to assign the manning factor as . How to make it? Of course we can make the detailed land use map by analyzing satellite imagery. But for a simple model, sometime we do not need such a detailed plan. Today I would like to introduce a way to make simple land use map</p>
-<p><img src="/2020/04/20/Land-use%20TIF%20file%20making%20for%20HEC-RAS%202D/11.PNG" alt="HEC-RAS manning.png"></p>
-<p>First, we should download DEM data, building footprint and road information from <a href="https://geomapspublic.aucklandcouncil.govt.nz/viewer/index.html" target="_blank" rel="noopener">Auckland Council Geomap</a>.</p>
-<hr>
-<h3 id="Data-Loading">Data Loading</h3>
-<p>After loading all the data, we can have a map as below.</p>
-<p><img src="/2020/04/20/Land-use%20TIF%20file%20making%20for%20HEC-RAS%202D/22.PNG" alt="HEC-RAS manning.png"></p>
-<p>Now we need to assign different area with different values, and then merge them together.</p>
-<hr>
-<h3 id="Raster-Calculator">Raster Calculator</h3>
-<p>Firstly, we treat the whole catchment area by assigning “1”.</p>
-<p><img src="/2020/04/20/Land-use%20TIF%20file%20making%20for%20HEC-RAS%202D/catchment.PNG" alt="catchment.png"></p>
-<p>Secondly, we apply <em>.\3D Analyst Tools.tbx\Triangulated Surface\Interpolate Polygon to Multipatch</em> to assign the footprint area with value “4”.<br>
-<img src="/2020/04/20/Land-use%20TIF%20file%20making%20for%20HEC-RAS%202D/BFraster.PNG" alt="building footprint.png"></p>
-<p>Similarly, we apply <em>.\3D Analyst Tools.tbx\Triangulated Surface\Interpolate Polygon to Multipatch</em> to assign the roading area with value “3”.<br>
-<img src="/2020/04/20/Land-use%20TIF%20file%20making%20for%20HEC-RAS%202D/roadraster.PNG" alt="road.png"></p>
-<hr>
-<h3 id="Merging-the-files">Merging the files</h3>
-<p><em>.\Spatial Analyst Tools.tbx\Local\Cell Statistics</em> is used to merge the three raster together.Final result will be as the First Photo.</p>
-<p>We just finished a simple one, but the complex one is same, just to merge more seperate raster files.</p>
+    <title>Set Viewport in AutoCad DOTNet API</title>
+    <url>/2020/06/01/Set%20Viewport%20in%20AutoCad%20.Net%20API/</url>
+    <content><![CDATA[<hr>
+<h3 id="Auto-Run-Command-when-loading-dll-file">Auto Run Command when loading .dll file</h3>
+<pre><code>with adoc.LockDocument():
+  with adoc.Database as db:
+    with db.TransactionManager.StartTransaction() as t:
+      bt = t.GetObject(db.BlockTableId, OpenMode.ForWrite)
+      btr = t.GetObject(bt[BlockTableRecord.ModelSpace], OpenMode.ForWrite)
+
+      #Get the dict object and layouts object
+      Dict = t.GetObject(db.NamedObjectsDictionaryId, OpenMode.ForWrite)
+      obj = t.GetObject(Dict.GetAt('ACAD_LAYOUT'),  OpenMode.ForWrite);  
+      obj2 = t.GetObject(Dict['ACAD_LAYOUT'],  OpenMode.ForWrite);
+
+      #Get the layout
+      layout1 = t.GetObject(obj["01"], OpenMode.ForRead)
+
+      #Get viewports
+      vps = layout1.GetViewports()
+
+      #Setting the viewport
+      vp1 = t.GetObject(vps[1], OpenMode.ForWrite)
+      vp2 = t.GetObject(vps[2], OpenMode.ForWrite)
+      vp1.Ucs = vp2.Ucs
+      vp1.CustomScale = vp2.CustomScale
+      vp1.ViewCenter = vp2.ViewCenter 
+      vp1.ViewTarget = vp2.ViewTarget
+      vp1.ViewDirection = vp2.ViewDirection
+      vp1.TwistAngle = vp2.TwistAngle
+
+
+      vp1.UpdateDisplay()
+      t.Commit()
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>Properties</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ViewCenter</td>
+<td>the view center of the view in the viewport</td>
+</tr>
+<tr>
+<td>ViewTarget</td>
+<td>location of the model space in the viewport</td>
+</tr>
+<tr>
+<td>ViewDirection</td>
+<td>the vector from the target to the camera of the view in the viewport</td>
+</tr>
+<tr>
+<td>CenterPoint</td>
+<td>the centerpoint of viewport in paperspace</td>
+</tr>
+</tbody>
+</table>
+<h1>Reference</h1>
+<p><a href="http://docs.autodesk.com/ACD/2010/ENU/AutoCAD%20.NET%20Developer%27s%20Guide/index.html?url=WS1a9193826455f5ff2566ffd511ff6f8c7ca-3416.htm,topicNumber=d0e50529" target="_blank" rel="noopener">http://docs.autodesk.com/ACD/2010/ENU/AutoCAD .NET Developer's Guide/index.html?url=WS1a9193826455f5ff2566ffd511ff6f8c7ca-3416.htm,topicNumber=d0e50529</a></p>
 <script>
         document.querySelectorAll('.github-emoji')
           .forEach(el => {
@@ -1241,31 +1363,11 @@ with adoc.LockDocument():
           });
       </script>]]></content>
       <categories>
-        <category>April 2020</category>
+        <category>June 2020</category>
       </categories>
       <tags>
-        <tag>Arcmap</tag>
-        <tag>Raster</tag>
-        <tag>HEC-RAS</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Visual Studio C#</title>
-    <url>/2020/05/13/Visual%20Studio%20C#%20Code%20Snippet/</url>
-    <content><![CDATA[<div id="hexo-blog-encrypt" data-wpm="Oh, this is an invalid password. Check and try again, please." data-whm="OOPS, these decrypted content may changed, but you can still have a look.">
-  <div class="hbe-input-container">
-  <input type="password" id="hbePass" placeholder="" />
-    <label for="hbePass">Hey, password is required here.</label>
-    <div class="bottom-line"></div>
-  </div>
-  <script id="hbeData" type="hbeData" data-hmacdigest="538b6531e0237710b320fee16d7d789e5caa3c8a3f4aaeec3f43332f50ec706a">9de2bca640594eca6ed1dadc2e01134b0525c95aa26a0402ec735a12452cfee7968bf482fe17d7e3240cf3a3f4afffa91140a41813d3b853c81ad14e25372d033d2a3b3f05517c2ff9003975d22f2d2578f9f0401c1de212a81f017749364f7eaea8a7ba41fecb3539d9083f65e22a3d575cd0cf143872f173dfec043d50d8a4c962affc9b48947873b395ee207b65a367231143e0af9c2dcb3d1ca96a5c72407210c9f42ac6267b75ece25b8bd18fc67d8c07530dcf59ecd83c7914181050d04aaca579dfe206a089712fe603004e8bb25f871107c7fe396e360d96fe8e83c7c6a5753de838c81848c0b03d889ec7e4d65ae28ee81a357d1bee6b4eedcf9d90bda19c50f1e3c00cbbf24be59f6abec9c50d319b97c762344300a9a11829749630aa37f243d55c0b286b2d0bb5a06cbb676154a4659e7e752947c3486b5805201abe0870b5468f8c13d094c21a53cfb5e34e8bce2b055e9ef14a5cdfc65528f99dccc4a9d36e457bc0461713ee6a7936f146eb99c71fe9886a56b40f895d76b35115157231e912d61f16d5e1f9c8bb5eff45c7140fe7625b95edc271ff4bf5bd21b1ef9091dbccbc48b794c8cc0e6697152bd0714db6e64ddb6400256ed77f0d4c41aaedcfaebb5b7de0b2d69e90da3f3ad62e0b4d1fd376c39da452956e4b8795d43c3bce73d8d08fee7ba9a8796989a17ed3081baa2e5783019780fb855a04e3c9ebe2990de8bef7f1849ffc2947631a40807d818787ebddf5e74aee15bc26b5bda08518333e34dbf129cd16857163335b769a818aa5c5cbdee412196956d31d38d90da9dff6e5214fb46d00fb7f97d0ec5b5de1d94b5a8c96d115fa2c409a77593b6f2c15cc1aaa3e6551824f38301668c6ef8b8612424429256d86361cfc142cf2691c4f27299a94b096d25e292155f8e13dbbf9153436b8cad54814bee3327c056d0e07e59a0018d3862f7039bbfd0a94627ff87c136824611fc44e8250f74ea927b2e9ae3ecfad048af14267814625974bbdf8a9a7effdd56bde0157f7f2f27c8650a167906cf197899a5db9edc2f1972d2a6befc4714031f477d06c7f61d30c99b74c8e315880ff0cd35813bd763feb8b3afc36b7294706025d7194eab45ef625a753f3e672fd9b955fefbe824e46830d6dd1e1f836b73ee3e73e795e95aba8f519fb2c828d41998423d3300af6e97649666fecc7780073930e50403f0c0bba37e81aad2b2f68530ef23ad13388f50442df5d69fe88eaecbf713f8f9f4784281ce2356d45fd89f4d81a7a589bedcbe5ba5134b0f472ebbeb4b13aa497dbfbb5c017402417ffcfad905b739cfefc14f86f40c991b817a6e5b4c4a846a39004ba38c61d1c5a53571962bd608c1c76e1764e889961b6e364e7a5a45936aa5e35e4c853fc402e13ec21d97eb44d945812ed3f156e0bdbb60160dc83b8604de98db736bed777c47f3bcdcfb2f57fcbe11e8baeee4d94d019d94686e008c3f60baf0f8e68126e4b9d0f7d0c08254e401eccf088fb4938cc0c08fc9090045d68d23f8a02f1a86bbb66465bfde59798a5ab6b748155aca38b25badfb21e3d154da10b0ef4fac781b198e655fd172008a8</script>
-</div>
-<script src="/lib/blog-encrypt.js"></script><link href="/css/blog-encrypt.css" rel="stylesheet" type="text/css">]]></content>
-      <categories>
-        <category>May 2020</category>
-      </categories>
-      <tags>
-        <tag>C#</tag>
+        <tag>Civil3d</tag>
+        <tag>AutoCAD API</tag>
       </tags>
   </entry>
   <entry>
@@ -1923,6 +2025,25 @@ states_with_cities.head()
       <tags>
         <tag>Spatial Analysis</tag>
         <tag>Geopandas</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Visual Studio Shortcut in C#</title>
+    <url>/2020/05/13/Visual%20Studio%20C#%20Code%20Snippet/</url>
+    <content><![CDATA[<div id="hexo-blog-encrypt" data-wpm="Oh, this is an invalid password. Check and try again, please." data-whm="OOPS, these decrypted content may changed, but you can still have a look.">
+  <div class="hbe-input-container">
+  <input type="password" id="hbePass" placeholder="" />
+    <label for="hbePass">Hey, password is required here.</label>
+    <div class="bottom-line"></div>
+  </div>
+  <script id="hbeData" type="hbeData" data-hmacdigest="f4e230db7f895e83807b4683001f0ca385e6e51b963ab46395c16289cfa20e68">9818994cc23b9627459a1ad4ecd373487638ddb07293fb7afd06e1bca8f3e84dc718f85f9e72843f57195504930d2c9269181f17dca7ae6a4d27de71c5a4bc060f012b9390ea49ec79b0465e40f99594178b4b9d53fda2cbf44aace39b34069c6fce4a20ec7bc3cefe84269ba302ec3e490a8921a680bc9190d5eba091b8359ab16cb1db098f39fd1e30921c8f82f2bff703299a4a7f9d485184b43f6941c3e1e4fecc284d9610ea910e2098bce49cf286823809eaf685d1db7a84ef11e8b5ab0778e6028bd8ddc7c13c4f1a94d051780cdd6f240f142ca64192dc91583a8f98bb508d7f6b228bdc4dfc65decbc12c82ee8d71779180a0fb1329efda94440ee7985dc4277f8e7f1c61a38c11a732b271d97720572bfce5e1ad0095ded10492dbe4c6f7dcd8030804db276eeeef97a5e0a9542d785b627d6b7db96502d01db77bd3104843309d787c2e28426f7b02701373db7bcf2a9bce27018502f4092947dfb91384e158574cc2cb53c2cd1cf1344b55490e54920851f14ccf5919cd535eaa02c31f7bbdc13ff7d81f0e25850129f9f7980eff266b659002170164f5e0163ca45f123f6f0bf3c77a3ae0b39c0a86a2903670fca80f7d2f5fc50a568e34c91247359b32d0bd1be23a5592cad29dc373fed7e4e0dacdea1b56d4f1b46c7a1e8be747948f8a63851c92cf904161d4cbb982cbd840035c5fcbdbde59153e86633211f9aa26805307da7882fae89bc9f5b4b880a74184b49b496690f8c561e71e87ef2106a757cd1aca0f23316a1bac1a5059d1a211c4126d159e1570ddf90a46846d9bc0773175096bc986fe7ce352c1c4459482abcc4494a3c06a494ccdab6ead3b3dbbbe81bc370e1f5d400c0784d83f42136fb0b0aed60b5f973d6a08e7149ffce35cd1bde65c1991494865ce696657d15f5aa926e20d4dd510838fca103c8dc75b9f7a1207c1357be1ffe9afa3a11d2befd0a6993b64d5d880ae0a4ca7da20aed206db1e595a65ce216c50b180929489b5fbd92c1ea342d522c64d9562f29f09a8e5c36ee6b3369c2c12895448a7c1988056b2ad3597fcb604ab1d959457bf5f4f37944bba968fab98b7e3c9e6cdb2ef80e2990621b2b33dd2578753ce8b355785f3a20aaa428c455c9d8d1e53c10e2a9c0220e8f99d94db1cf7e8fb367450e20285b6ff69f41e302d8178a7cce2f821cb7ffb78896cb625c554bdfe62098fe5b632aea251ab88a05874536071007b4d7648748bfa19fbd1082dcea1bc67f983a1cb82cf003efb46a00ee4b6c9efa3f00971e4505df9baa6e418eb26fa8bf679454183e53d1f9ae62928702e0cf551</script>
+</div>
+<script src="/lib/blog-encrypt.js"></script><link href="/css/blog-encrypt.css" rel="stylesheet" type="text/css">]]></content>
+      <categories>
+        <category>May 2020</category>
+      </categories>
+      <tags>
+        <tag>C#</tag>
       </tags>
   </entry>
   <entry>

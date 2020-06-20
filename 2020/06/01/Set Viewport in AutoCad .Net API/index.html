@@ -20,7 +20,7 @@
 
     <!--Open Graph Title-->
     
-        <meta property="og:title" content="How to autoload *.dll in AutoCAD"/>
+        <meta property="og:title" content="Set Viewport in AutoCad DOTNet API"/>
     
 
     <!--Open Graph Description-->
@@ -44,7 +44,7 @@
 
     <!-- Title -->
     
-    <title>How to autoload *.dll in AutoCAD - Ford Yang&#39;s Blog</title>
+    <title>Set Viewport in AutoCad DOTNet API - Ford Yang&#39;s Blog</title>
 
     <!-- Tachyons Core CSS -->
     <link rel="stylesheet" href="https://unpkg.com/tachyons/css/tachyons.min.css">
@@ -126,7 +126,7 @@
     <!-- Title -->
     <div class="w-100 mw8 center vh-40 dt">
         <div class="dtc v-mid white">
-            <h1 class="f1-l f2-m tc tc-m tl-ns">How to autoload *.dll in AutoCAD</h1>
+            <h1 class="f1-l f2-m tc tc-m tl-ns">Set Viewport in AutoCad DOTNet API</h1>
             <p class="f4 fw3 pab-100px tc tc-m tl-ns">2020-06-01</p>
         </div>
     </div>
@@ -147,78 +147,73 @@
                     
                         <div class="tags-container-vertical">
                             <div class="tags-sub-container">
-                                <a class="fw3 ph1 dib" href="/tags/Civil3d/">#Civil3d</a>
+                                <a class="fw3 ph1 dib" href="/tags/Civil3d/">#Civil3d</a> <a class="fw3 ph1 dib" href="/tags/AutoCAD-API/">#AutoCAD API</a>
                             </div>
                         </div>
                     
 
                     <!-- Main Post Content -->
                     <hr>
-<h3 id="Enter-the-folder">Enter the folder</h3>
-<p>First step is to create a bundle folder in “%ProgramData%/Autodesk/ApplicationPlugins”. the bundle folder is a normal windows folder that ends with .bundle (ex. MyApp.bundle)</p>
-<p><img src="/2020/06/01/How%20to%20autoload%20dll%20in%20AutoCAD/11.PNG" alt="FlolderLocation"></p>
-<hr>
-<h3 id="Folder-contents">Folder contents</h3>
-<p>Inside this folder there should be a folder named (“Contents”) and a file named (“PackageContents.xml”).</p>
-<p>Place *.dll inside the contents folder</p>
-<p><img src="/2020/06/01/How%20to%20autoload%20dll%20in%20AutoCAD/22.PNG" alt="folderContent"></p>
-<hr>
-<h3 id="Modify-the-XML-file">Modify the XML file</h3>
-<p>code inside PackageContents.xml can be as simple as the following (Change things like “MyApp”, “MyName”, etc… and it works):</p>
-<pre><code>&lt;?xml version="1.0" encoding="utf-8"?&gt;
-&lt;ApplicationPackage SchemaVersion="1.0" ProductType="Application" Name="MyAPP" AppVersion="1.0" Description="MyAPP, My description" Author="My Name" Icon="./Contents/MyAPPIcon.ico" OnlineDocumentation="http://MyWebSite.com" HelpFile="" ProductCode="{xxxxxx-xxxx-xxxx-xxxx-xxxxxxxxx}" FriendlyVersion="1.0" SupportedLocales="Enu" AutodeskProduct="AutoCAD"&gt;
-  &lt;CompanyDetails Name="My Name" Phone=" " Url="http://MyWebsite.com" Email="MyName@MyWebSite.com" /&gt;
-  &lt;Components Description="Main"&gt;
-    &lt;RuntimeRequirements SupportPath="./Contents" OS="Win32|Win64" Platform="AutoCAD*" SeriesMin="R19.0" SeriesMax="R22.0" /&gt;
-    &lt;ComponentEntry AppName="MyAPP" Version="1.0" ModuleName="./Contents/MyAPP.dll" AppDescription="My description" LoadOnAppearance="True" LoadOnAutoCADStartup="True" LoadOnCommandInvocation="True"&gt;
-    &lt;/ComponentEntry&gt;
-  &lt;/Components&gt;
-&lt;/ApplicationPackage&gt;
-</code></pre>
-<p>Put the *.dll file inside the Contents folder.</p>
-<hr>
-<h3 id="ProductCode-GUID">ProductCode(GUID)</h3>
-<pre><code>private string getGUID()
-   {
-       System.Guid guid = new Guid();
-       guid = Guid.NewGuid();
-       string str = guid.ToString();
-       return str;
-   }
-</code></pre>
-<p>or on the visual Studio</p>
-<pre><code>Tools ----Create GUID
-</code></pre>
-<hr>
 <h3 id="Auto-Run-Command-when-loading-dll-file">Auto Run Command when loading .dll file</h3>
-<pre><code>&lt;?xml version="1.0" encoding="utf-8"?&gt;
-&lt;ApplicationPackage SchemaVersion="1.0" AppVersion="1.0.0" ProductType="Application"
-    ProductCode="{6A1C1EAE-3744-4BD8-AF08-F322E92D9B3B}"
-    Name="RibbonTest"  Description="MyAPP, My description"  SupportedLocales="Enu" AutodeskProduct="AutoCAD"&gt;
-  &lt;CompanyDetails Name="myribbontest" Email="yangfan7014@gmail.com" /&gt;
-  &lt;RuntimeRequirements SupportPath="./Contents" OS="Win32|Win64" Platform="AutoCAD*|AutoCAD" SeriesMin="R20.1" SeriesMax="R24.0"/&gt;
-  &lt;Components Description="Main"&gt;
+<pre><code>with adoc.LockDocument():
+  with adoc.Database as db:
+    with db.TransactionManager.StartTransaction() as t:
+      bt = t.GetObject(db.BlockTableId, OpenMode.ForWrite)
+      btr = t.GetObject(bt[BlockTableRecord.ModelSpace], OpenMode.ForWrite)
 
-    &lt;ComponentEntry  AppName="MyAPP" Version="1.0.0" ModuleName="./Contents/18RibbonT.dll" LoadOnAppearance="True" LoadOnAutoCADStartup="True" LoadOnCommandInvocation="True"&gt;
-      &lt;Commands GroupName="_18RibbonT"&gt;
-        &lt;Command Local="RibbonDemo" Global="RibbonDemo" StartupCommand = "True" /&gt;
-      &lt;/Commands&gt;
-	  &lt;/ComponentEntry&gt;
+      #Get the dict object and layouts object
+      Dict = t.GetObject(db.NamedObjectsDictionaryId, OpenMode.ForWrite)
+      obj = t.GetObject(Dict.GetAt('ACAD_LAYOUT'),  OpenMode.ForWrite);  
+      obj2 = t.GetObject(Dict['ACAD_LAYOUT'],  OpenMode.ForWrite);
 
-    &lt;ComponentEntry  AppName="Ramps" Version="1.0.0" ModuleName="./Contents/Ramps.dll" LoadOnAutoCADStartup="True"&gt;
-      &lt;Commands GroupName="Commands"&gt;
-        &lt;Command Local="CRAMPS" Global="CRAMPS" /&gt;
-      &lt;/Commands&gt;
-    &lt;/ComponentEntry&gt;		
+      #Get the layout
+      layout1 = t.GetObject(obj["01"], OpenMode.ForRead)
 
-  &lt;/Components&gt;
-&lt;/ApplicationPackage&gt;
+      #Get viewports
+      vps = layout1.GetViewports()
+
+      #Setting the viewport
+      vp1 = t.GetObject(vps[1], OpenMode.ForWrite)
+      vp2 = t.GetObject(vps[2], OpenMode.ForWrite)
+      vp1.Ucs = vp2.Ucs
+      vp1.CustomScale = vp2.CustomScale
+      vp1.ViewCenter = vp2.ViewCenter 
+      vp1.ViewTarget = vp2.ViewTarget
+      vp1.ViewDirection = vp2.ViewDirection
+      vp1.TwistAngle = vp2.TwistAngle
+
+
+      vp1.UpdateDisplay()
+      t.Commit()
 </code></pre>
+<table>
+<thead>
+<tr>
+<th>Properties</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ViewCenter</td>
+<td>the view center of the view in the viewport</td>
+</tr>
+<tr>
+<td>ViewTarget</td>
+<td>location of the model space in the viewport</td>
+</tr>
+<tr>
+<td>ViewDirection</td>
+<td>the vector from the target to the camera of the view in the viewport</td>
+</tr>
+<tr>
+<td>CenterPoint</td>
+<td>the centerpoint of viewport in paperspace</td>
+</tr>
+</tbody>
+</table>
 <h1>Reference</h1>
-<p><a href="https://adndevblog.typepad.com/autocad/2013/01/autodesk-autoloader-white-paper.html" target="_blank" rel="noopener">https://adndevblog.typepad.com/autocad/2013/01/autodesk-autoloader-white-paper.html</a><br>
-<a href="https://stackoverflow.com/questions/46282189/autocad-2018-autoload-dll" target="_blank" rel="noopener">https://stackoverflow.com/questions/46282189/autocad-2018-autoload-dll</a><br>
-<a href="https://stackoverflow.com/questions/46282189/autocad-2018-autoload-dll" target="_blank" rel="noopener">https://stackoverflow.com/questions/46282189/autocad-2018-autoload-dll</a><br>
-<a href="https://www.cnblogs.com/linzheng/archive/2010/12/14/1905906.html" target="_blank" rel="noopener">https://www.cnblogs.com/linzheng/archive/2010/12/14/1905906.html</a></p>
+<p><a href="http://docs.autodesk.com/ACD/2010/ENU/AutoCAD%20.NET%20Developer%27s%20Guide/index.html?url=WS1a9193826455f5ff2566ffd511ff6f8c7ca-3416.htm,topicNumber=d0e50529" target="_blank" rel="noopener">http://docs.autodesk.com/ACD/2010/ENU/AutoCAD .NET Developer's Guide/index.html?url=WS1a9193826455f5ff2566ffd511ff6f8c7ca-3416.htm,topicNumber=d0e50529</a></p>
 <script>
         document.querySelectorAll('.github-emoji')
           .forEach(el => {
@@ -242,7 +237,7 @@
                     <!-- Tags Bottom -->
                     
                         <div class="tags-container-bottom">
-                            <i class="fa fa-tag pr3 text-main-color"></i><a class="fw3 ph1 dib" href="/tags/Civil3d/">#Civil3d</a>
+                            <i class="fa fa-tag pr3 text-main-color"></i><a class="fw3 ph1 dib" href="/tags/Civil3d/">#Civil3d</a> <a class="fw3 ph1 dib" href="/tags/AutoCAD-API/">#AutoCAD API</a>
                         </div>
                     
 
