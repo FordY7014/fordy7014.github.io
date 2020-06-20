@@ -127,7 +127,7 @@
     <div class="w-100 mw8 center vh-40 dt">
         <div class="dtc v-mid white">
             <h1 class="f1-l f2-m tc tc-m tl-ns">Prompt to Select one type of object in .NetAPI(Ironpython)</h1>
-            <p class="f4 fw3 pab-100px tc tc-m tl-ns">2020-06-15</p>
+            <p class="f4 fw3 pab-100px tc tc-m tl-ns">2020-06-16</p>
         </div>
     </div>
 
@@ -153,7 +153,8 @@
                     
 
                     <!-- Main Post Content -->
-                    <pre><code>def PromptForEntity( prompt, filetype):
+                    <h2 id="Function">Function</h2>
+<pre><code>def PromptForEntity( prompt, filetype):
 	global adoc
 	global ed
 
@@ -174,6 +175,27 @@
 
 	ed.WriteMessage("I will return Null  ")
 	return ObjectId.Null
+</code></pre>
+<h2 id="Example">Example</h2>
+<pre><code>ed.WriteMessage("\n The wanted target is %s\n\n\n\n"%str(clr.GetClrType(TinSurface)))
+surfaceId = PromptForEntity("Select the surface to add a boundary to", TinSurface)
+plineId = PromptForEntity("Select the object to use as a boundary", Polyline)
+
+coll = ObjectIdCollection()
+coll.Add(plineId)
+ed.WriteMessage("pLINE COLLECTION HAS BEEN MADE")
+
+oSurface = t.GetObject(surfaceId, OpenMode.ForWrite)
+			#
+oSurface.BoundariesDefinition.AddBoundaries(coll, 100, SurfaceBoundaryType.Outer, True)
+
+oSurface.Rebuild()
+ed.WriteMessage("Rebuilt Done")
+
+			# Commit before end transaction
+t.Commit()
+
+
 </code></pre>
 <h1>Reference</h1>
 <p><a href="http://help.autodesk.com/view/CIV3D/2020/ENU/?guid=GUID-7C32E309-9B54-42A0-A4DC-C6FD592071F2" target="_blank" rel="noopener">http://help.autodesk.com/view/CIV3D/2020/ENU/?guid=GUID-7C32E309-9B54-42A0-A4DC-C6FD592071F2</a></p>
@@ -248,11 +270,11 @@
     <h3>Recent Posts</h3>
     
         <p>
-            <a href="/2020/06/15/20200615Set%20Viewport%20in%20AutoCad%20.Net%20API/">Set Viewport in AutoCad .Net API</a>
+            <a href="/2020/06/16/20200616Prompt%20to%20Select%20one%20type%20of%20object/">Prompt to Select one type of object in .NetAPI(Iro</a>
         </p>
     
         <p>
-            <a href="/2020/06/15/20200616Prompt%20to%20Select%20one%20type%20of%20object/">Prompt to Select one type of object in .NetAPI(Iro</a>
+            <a href="/2020/06/15/20200615Set%20Viewport%20in%20AutoCad%20.Net%20API/">Set Viewport in AutoCad .Net API</a>
         </p>
     
         <p>
