@@ -20,7 +20,7 @@
 
     <!--Open Graph Title-->
     
-        <meta property="og:title" content="Set Viewport in AutoCad .Net API"/>
+        <meta property="og:title" content="FilterType[] in dotNetAPI.md"/>
     
 
     <!--Open Graph Description-->
@@ -44,7 +44,7 @@
 
     <!-- Title -->
     
-    <title>Set Viewport in AutoCad .Net API - Ford Yang&#39;s Blog</title>
+    <title>FilterType[] in dotNetAPI.md - Ford Yang&#39;s Blog</title>
 
     <!-- Tachyons Core CSS -->
     <link rel="stylesheet" href="https://unpkg.com/tachyons/css/tachyons.min.css">
@@ -126,8 +126,8 @@
     <!-- Title -->
     <div class="w-100 mw8 center vh-40 dt">
         <div class="dtc v-mid white">
-            <h1 class="f1-l f2-m tc tc-m tl-ns">Set Viewport in AutoCad .Net API</h1>
-            <p class="f4 fw3 pab-100px tc tc-m tl-ns">2020-06-15</p>
+            <h1 class="f1-l f2-m tc tc-m tl-ns">FilterType[] in dotNetAPI.md</h1>
+            <p class="f4 fw3 pab-100px tc tc-m tl-ns">2020-06-18</p>
         </div>
     </div>
 
@@ -147,72 +147,81 @@
                     
                         <div class="tags-container-vertical">
                             <div class="tags-sub-container">
-                                <a class="fw3 ph1 dib" href="/tags/Civil3d/">#Civil3d</a> <a class="fw3 ph1 dib" href="/tags/AutoCAD-API/">#AutoCAD API</a> <a class="fw3 ph1 dib" href="/tags/Ironpython/">#Ironpython</a>
+                                <a class="fw3 ph1 dib" href="/tags/Civil3d/">#Civil3d</a> <a class="fw3 ph1 dib" href="/tags/AutoCAD-API/">#AutoCAD API</a> <a class="fw3 ph1 dib" href="/tags/C/">#C#</a>
                             </div>
                         </div>
                     
 
                     <!-- Main Post Content -->
-                    <pre><code>with adoc.LockDocument():
-  with adoc.Database as db:
-    with db.TransactionManager.StartTransaction() as t:
-      bt = t.GetObject(db.BlockTableId, OpenMode.ForWrite)
-      btr = t.GetObject(bt[BlockTableRecord.ModelSpace], OpenMode.ForWrite)
-
-      #Get the dict object and layouts object
-      Dict = t.GetObject(db.NamedObjectsDictionaryId, OpenMode.ForWrite)
-      obj = t.GetObject(Dict.GetAt('ACAD_LAYOUT'),  OpenMode.ForWrite);  
-      obj2 = t.GetObject(Dict['ACAD_LAYOUT'],  OpenMode.ForWrite);
-
-      #Get the layout
-      layout1 = t.GetObject(obj["01"], OpenMode.ForRead)
-
-      #Get viewports
-      vps = layout1.GetViewports()
-
-      #Setting the viewport
-      vp1 = t.GetObject(vps[1], OpenMode.ForWrite)
-      vp2 = t.GetObject(vps[2], OpenMode.ForWrite)
-      vp1.Ucs = vp2.Ucs
-      vp1.CustomScale = vp2.CustomScale
-      vp1.ViewCenter = vp2.ViewCenter
-      vp1.ViewTarget = vp2.ViewTarget
-      vp1.ViewDirection = vp2.ViewDirection
-      vp1.TwistAngle = vp2.TwistAngle
-
-
-      vp1.UpdateDisplay()
-      t.Commit()
+                    <p>This one is just to make a record for the passage in the Reference. The content and code are all from <a href="https://mp.weixin.qq.com/s/f1UU9ihNL1B0UUKzMFgDAg" target="_blank" rel="noopener">this passage</a>.</p>
+<h2 id="Aim">Aim</h2>
+<pre><code>&lt; or
+    &lt; and
+             Layer == "lay01"
+             Color == "1"    // 红色索引值为1
+             Entity type == "TEXT"
+    and &gt;
+    &lt; and
+             &lt; or
+             Layer == "lay02"
+             Layer == "lay03"
+             or &gt;
+             Color == "5"     // 蓝色索引值为5
+             Entity type == "POLYLINE"
+    and &gt;
+or &gt;
 </code></pre>
-<h3 id="Meaning-of-the-Viewport-Properties">Meaning of the Viewport Properties</h3>
-<table>
-<thead>
-<tr>
-<th>Properties</th>
-<th>Meaning</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>ViewCenter</td>
-<td>the view center of the view in the viewport</td>
-</tr>
-<tr>
-<td>ViewTarget</td>
-<td>location of the model space in the viewport</td>
-</tr>
-<tr>
-<td>ViewDirection</td>
-<td>the vector from the target to the camera of the view in the viewport</td>
-</tr>
-<tr>
-<td>CenterPoint</td>
-<td>the centerpoint of viewport in paperspace</td>
-</tr>
-</tbody>
-</table>
+<h2 id="Code">Code</h2>
+<pre><code>
+public static void MultipleSelectionFilter()
+{
+    // 获取当前文档编辑器
+    Editor ed = Autodesk.AutoCAD.ApplicationServices.Core.Application.DocumentManager.MdiActiveDocument.Editor;
+
+    // 创建一个数组定义筛选条件
+
+    // 定义筛选条件
+    TypedValue[] typeValue = {
+     new TypedValue((int) DxfCode.Operator, "&lt;or"),
+     // 选择标准1
+     new TypedValue((int) DxfCode.Operator, "&lt;and"),
+     new TypedValue((int) DxfCode.Start, "TEXT"),
+     new TypedValue((int) DxfCode.LayerName, "lay01"),
+     new TypedValue((int) DxfCode.Color, "1"),
+     new TypedValue((int) DxfCode.Operator, "and&gt;"),
+     // 选择标准2
+     new TypedValue((int) DxfCode.Operator, "&lt;and"),
+     new TypedValue((int) DxfCode.Start, "LWPOLYLINE"),
+     new TypedValue((int) DxfCode.Color, "5"),
+     new TypedValue((int) DxfCode.Operator, "&lt;or"),
+     new TypedValue((int) DxfCode.LayerName, "lay02"),
+     new TypedValue((int) DxfCode.LayerName, "lay03"),
+     new TypedValue((int) DxfCode.Operator, "or&gt;"),
+     new TypedValue((int) DxfCode.Operator, "and&gt;"),
+     new TypedValue((int) DxfCode.Operator, "or&gt;")
+    };
+
+    // 将筛选条件传到过滤器
+    SelectionFilter selFiter = new SelectionFilter(typeValue);
+
+    // 获取选择对象
+    PromptSelectionResult psr = ed.GetSelection(selFiter);
+
+
+    // 判断选择是否成功
+    if (psr.Status == PromptStatus.OK)
+    {
+        SelectionSet sSet = psr.Value;
+        Autodesk.AutoCAD.ApplicationServices.Core.Application.ShowAlertDialog("Number of objects selected: " + sSet.Count.ToString());
+    }
+    else
+    {
+        Autodesk.AutoCAD.ApplicationServices.Core.Application.ShowAlertDialog("Number of objects selected: 0");
+    }
+}
+</code></pre>
 <h1>Reference</h1>
-<p><a href="http://docs.autodesk.com/ACD/2010/ENU/AutoCAD%20.NET%20Developer%27s%20Guide/index.html?url=WS1a9193826455f5ff2566ffd511ff6f8c7ca-3416.htm,topicNumber=d0e50529" target="_blank" rel="noopener">http://docs.autodesk.com/ACD/2010/ENU/AutoCAD .NET Developer's Guide/index.html?url=WS1a9193826455f5ff2566ffd511ff6f8c7ca-3416.htm,topicNumber=d0e50529</a></p>
+<p><a href="https://mp.weixin.qq.com/s/f1UU9ihNL1B0UUKzMFgDAg" target="_blank" rel="noopener">https://mp.weixin.qq.com/s/f1UU9ihNL1B0UUKzMFgDAg</a></p>
 <script>
         document.querySelectorAll('.github-emoji')
           .forEach(el => {
@@ -236,7 +245,7 @@
                     <!-- Tags Bottom -->
                     
                         <div class="tags-container-bottom">
-                            <i class="fa fa-tag pr3 text-main-color"></i><a class="fw3 ph1 dib" href="/tags/Civil3d/">#Civil3d</a> <a class="fw3 ph1 dib" href="/tags/AutoCAD-API/">#AutoCAD API</a> <a class="fw3 ph1 dib" href="/tags/Ironpython/">#Ironpython</a>
+                            <i class="fa fa-tag pr3 text-main-color"></i><a class="fw3 ph1 dib" href="/tags/Civil3d/">#Civil3d</a> <a class="fw3 ph1 dib" href="/tags/AutoCAD-API/">#AutoCAD API</a> <a class="fw3 ph1 dib" href="/tags/C/">#C#</a>
                         </div>
                     
 

@@ -147,7 +147,7 @@
                     
                         <div class="tags-container-vertical">
                             <div class="tags-sub-container">
-                                <a class="fw3 ph1 dib" href="/tags/Civil3d/">#Civil3d</a> <a class="fw3 ph1 dib" href="/tags/AutoCAD-API/">#AutoCAD API</a>
+                                <a class="fw3 ph1 dib" href="/tags/Civil3d/">#Civil3d</a> <a class="fw3 ph1 dib" href="/tags/AutoCAD-API/">#AutoCAD API</a> <a class="fw3 ph1 dib" href="/tags/Ironpython/">#Ironpython</a>
                             </div>
                         </div>
                     
@@ -177,24 +177,26 @@
 	return ObjectId.Null
 </code></pre>
 <h2 id="Example">Example</h2>
-<pre><code>ed.WriteMessage("\n The wanted target is %s\n\n\n\n"%str(clr.GetClrType(TinSurface)))
-surfaceId = PromptForEntity("Select the surface to add a boundary to", TinSurface)
-plineId = PromptForEntity("Select the object to use as a boundary", Polyline)
+<pre><code>try:
+	surfaceId = PromptForEntity("Select the surface to add a boundary to", TinSurface)
+	plineId = PromptForEntity("Select the object to use as a boundary", Polyline)
 
-coll = ObjectIdCollection()
-coll.Add(plineId)
-ed.WriteMessage("pLINE COLLECTION HAS BEEN MADE")
+	coll = ObjectIdCollection()
+	coll.Add(plineId)
+	ed.WriteMessage("pLINE COLLECTION HAS BEEN MADE")
 
-oSurface = t.GetObject(surfaceId, OpenMode.ForWrite)
-			#
-oSurface.BoundariesDefinition.AddBoundaries(coll, 100, SurfaceBoundaryType.Outer, True)
+	oSurface = t.GetObject(surfaceId, OpenMode.ForWrite)
 
-oSurface.Rebuild()
-ed.WriteMessage("Rebuilt Done")
+	#
+	oSurface.BoundariesDefinition.AddBoundaries(coll, 100, SurfaceBoundaryType.Outer, True)
 
-			# Commit before end transaction
-t.Commit()
+	oSurface.Rebuild()
+	ed.WriteMessage("Rebuilt Done")
 
+	# Commit before end transaction
+	t.Commit()
+except:
+	ed.WriteMessage("Failed to add the boundary")
 
 </code></pre>
 <h1>Reference</h1>
@@ -222,7 +224,7 @@ t.Commit()
                     <!-- Tags Bottom -->
                     
                         <div class="tags-container-bottom">
-                            <i class="fa fa-tag pr3 text-main-color"></i><a class="fw3 ph1 dib" href="/tags/Civil3d/">#Civil3d</a> <a class="fw3 ph1 dib" href="/tags/AutoCAD-API/">#AutoCAD API</a>
+                            <i class="fa fa-tag pr3 text-main-color"></i><a class="fw3 ph1 dib" href="/tags/Civil3d/">#Civil3d</a> <a class="fw3 ph1 dib" href="/tags/AutoCAD-API/">#AutoCAD API</a> <a class="fw3 ph1 dib" href="/tags/Ironpython/">#Ironpython</a>
                         </div>
                     
 
@@ -270,6 +272,14 @@ t.Commit()
     <h3>Recent Posts</h3>
     
         <p>
+            <a href="/2020/06/18/20200618FilterType%5B%5D%20in%20dotNetAPI/">FilterType[] in dotNetAPI.md</a>
+        </p>
+    
+        <p>
+            <a href="/2020/06/17/20200617Move%20the%20selected%20objects%20to%20the%20current%20layer/">Move the selected objects to the current layer</a>
+        </p>
+    
+        <p>
             <a href="/2020/06/16/20200616Prompt%20to%20Select%20one%20type%20of%20object/">Prompt to Select one type of object in .NetAPI(Iro</a>
         </p>
     
@@ -279,14 +289,6 @@ t.Commit()
     
         <p>
             <a href="/2020/06/01/20200601How%20to%20autoload%20dll%20in%20AutoCAD/">How to autoload *.dll in AutoCAD</a>
-        </p>
-    
-        <p>
-            <a href="/2020/05/15/Objects%20selection%20by%20Ironpython/">Objects selection by Ironpython(.NET API in Civil3</a>
-        </p>
-    
-        <p>
-            <a href="/2020/05/13/Add%20boundary%20Line%20to%20Surface%20by%20using%20API/">Add boundary Line to Surface by using API</a>
         </p>
     
 </div>
