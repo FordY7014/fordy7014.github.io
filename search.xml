@@ -1,6 +1,107 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>FilterType[] in dotNetAPI</title>
+    <url>/2020/06/18/20200618FilterType%5B%5D%20in%20dotNetAPI/</url>
+    <content><![CDATA[<h2 id="This-one-is-just-to-make-a-record-for-the-passage-in-the-Reference-The-content-and-code-are-all-from-this-passage">This one is just to make a record for the passage in the Reference. The content and code are all from <a href="https://mp.weixin.qq.com/s/f1UU9ihNL1B0UUKzMFgDAg" target="_blank" rel="noopener">this passage</a>.</h2>
+<h2 id="Aim">Aim</h2>
+<pre><code>&lt; or
+    &lt; and
+             Layer == "lay01"
+             Color == "1"    // 红色索引值为1
+             Entity type == "TEXT"
+    and &gt;
+    &lt; and
+             &lt; or
+             Layer == "lay02"
+             Layer == "lay03"
+             or &gt;
+             Color == "5"     // 蓝色索引值为5
+             Entity type == "POLYLINE"
+    and &gt;
+or &gt;
+</code></pre>
+<hr>
+<h2 id="Code">Code</h2>
+<pre><code>
+public static void MultipleSelectionFilter()
+{
+    // 获取当前文档编辑器
+    Editor ed = Autodesk.AutoCAD.ApplicationServices.Core.Application.DocumentManager.MdiActiveDocument.Editor;
+
+    // 创建一个数组定义筛选条件
+
+    // 定义筛选条件
+    TypedValue[] typeValue = {
+     new TypedValue((int) DxfCode.Operator, "&lt;or"),
+     // 选择标准1
+     new TypedValue((int) DxfCode.Operator, "&lt;and"),
+     new TypedValue((int) DxfCode.Start, "TEXT"),
+     new TypedValue((int) DxfCode.LayerName, "lay01"),
+     new TypedValue((int) DxfCode.Color, "1"),
+     new TypedValue((int) DxfCode.Operator, "and&gt;"),
+     // 选择标准2
+     new TypedValue((int) DxfCode.Operator, "&lt;and"),
+     new TypedValue((int) DxfCode.Start, "LWPOLYLINE"),
+     new TypedValue((int) DxfCode.Color, "5"),
+     new TypedValue((int) DxfCode.Operator, "&lt;or"),
+     new TypedValue((int) DxfCode.LayerName, "lay02"),
+     new TypedValue((int) DxfCode.LayerName, "lay03"),
+     new TypedValue((int) DxfCode.Operator, "or&gt;"),
+     new TypedValue((int) DxfCode.Operator, "and&gt;"),
+     new TypedValue((int) DxfCode.Operator, "or&gt;")
+    };
+
+    // 将筛选条件传到过滤器
+    SelectionFilter selFiter = new SelectionFilter(typeValue);
+
+    // 获取选择对象
+    PromptSelectionResult psr = ed.GetSelection(selFiter);
+
+
+    // 判断选择是否成功
+    if (psr.Status == PromptStatus.OK)
+    {
+        SelectionSet sSet = psr.Value;
+        Autodesk.AutoCAD.ApplicationServices.Core.Application.ShowAlertDialog("Number of objects selected: " + sSet.Count.ToString());
+    }
+    else
+    {
+        Autodesk.AutoCAD.ApplicationServices.Core.Application.ShowAlertDialog("Number of objects selected: 0");
+    }
+}
+</code></pre>
+<h1>Reference</h1>
+<p><a href="https://mp.weixin.qq.com/s/f1UU9ihNL1B0UUKzMFgDAg" target="_blank" rel="noopener">https://mp.weixin.qq.com/s/f1UU9ihNL1B0UUKzMFgDAg</a></p>
+<script>
+        document.querySelectorAll('.github-emoji')
+          .forEach(el => {
+            if (!el.dataset.src) { return; }
+            const img = document.createElement('img');
+            img.style = 'display:none !important;';
+            img.src = el.dataset.src;
+            img.addEventListener('error', () => {
+              img.remove();
+              el.style.color = 'inherit';
+              el.style.backgroundImage = 'none';
+              el.style.background = 'none';
+            });
+            img.addEventListener('load', () => {
+              img.remove();
+            });
+            document.body.appendChild(img);
+          });
+      </script>]]></content>
+      <categories>
+        <category>June 2020</category>
+      </categories>
+      <tags>
+        <tag>Civil3d</tag>
+        <tag>AutoCAD API</tag>
+        <tag>C#</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>How to autoload *.dll in AutoCAD</title>
     <url>/2020/06/01/20200602How%20to%20autoload%20dll%20in%20AutoCAD/</url>
     <content><![CDATA[<hr>
@@ -97,81 +198,16 @@
       </tags>
   </entry>
   <entry>
-    <title>Move the selected objects to the current layer</title>
-    <url>/2020/06/17/20200617Move%20the%20selected%20objects%20to%20the%20current%20layer/</url>
-    <content><![CDATA[<h2 id="Build-a-FilterType-to-select">Build a FilterType[] to select</h2>
-<pre><code>public enum FilterType
-    {
-        Curve, Dimension, Polyline, BlockRef, Circle, Line, Arc, Text, MText
-    }
-
-
-public static DBObjectCollection GetSelection(FilterType[] tps)
-        {
-            Document doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
-            Database db = doc.Database;
-            Editor ed = doc.Editor;
-            Entity entity = null;
-            DBObjectCollection EntityCollection = new DBObjectCollection();
-            PromptSelectionOptions selops = new PromptSelectionOptions();
-
-            // Name the filter contents
-            TypedValue[] filList = new TypedValue[tps.Length + 2];
-            filList[0] = new TypedValue((int)DxfCode.Operator, "&lt;or");
-            filList[tps.Length + 1] = new TypedValue((int)DxfCode.Operator, "or&gt;");
-            for (int i = 0; i &lt; tps.Length; i++)
-            {
-                filList[i + 1] = new TypedValue((int)DxfCode.Start, tps[i].ToString());
-            }
-
-
-             // Build the filter
-            SelectionFilter filter = new SelectionFilter(filList);
-            // 按照过滤器进行选择
-            PromptSelectionResult ents = ed.GetSelection(selops, filter);
-            if  (ents.Status == PromptStatus.OK)  
-            {
-                using  (Transaction transaction = db.TransactionManager.StartTransaction())
-                 {
-                    SelectionSet SS = ents.Value;
-                    foreach (ObjectId id in   SS.GetObjectIds())
-                    {
-                        entity = (Entity) transaction.GetObject(id, OpenMode.ForWrite,  true );  
-                        if(entity!=null)
-                        {
-                            LayerTableRecord ltr = LayerTools.GetCurrentLayer(db);
-                            entity.Layer = ltr.Name;
-                            EntityCollection.Add(entity);
-                            ed = Autodesk.AutoCAD.ApplicationServices. Application .DocumentManager.MdiActiveDocument.Editor;
-                            ed.SelectPrevious();
-                        }
-                    }
-                    transaction.Commit( );  
-                }
-            }
-            return   EntityCollection;
-        }
-</code></pre>
-<h2 id="Select-Lines-and-Polylines">Select Lines and Polylines</h2>
-<pre><code>public void SelectLines()
-        {
-            Database db = HostApplicationServices.WorkingDatabase;
-            LayerTableRecord ltr = new LayerTableRecord();
-            ltr = LayerTools.GetCurrentLayer(db);
-
-
-            FilterType LineType = FilterType.Line;
-            FilterType PolyLineType = FilterType.Polyline;
-            FilterType CircleType = FilterType.Circle;
-
-            FilterType[] Types = new FilterType[3];
-            Types[0] = LineType;
-            Types[1] = PolyLineType;
-            Types[2] = CircleType;
-            DBObjectCollection EntityCollection = Selection.GetSelection(Types);
-        }
-
-</code></pre>
+    <title>Civil3d Ribbon Demo</title>
+    <url>/2020/06/22/20200622Civil3D%20Ribbon%20Demo/</url>
+    <content><![CDATA[<p>Recently I create a custom #Civil3D ribbon menu with #.NET API for the script I wrote. Now it is easier to use and can save us time for repetitive tasks.</p>
+<hr>
+<h2 id="Edit-Reference-Surface-Of-Network">Edit Reference Surface Of Network</h2>
+<h2 id="Edit-Reference-Surface-Of-Network-2"><img src="https://raw.githubusercontent.com/FordY7014/YangWeb/gh-pages/EditReferenceSurfaceOfNetwork.gif" alt="Edit Reference Surface Of Network"></h2>
+<h2 id="Adjust-the-multiple-viewports-by-several-clicks">Adjust the multiple viewports by several clicks</h2>
+<p><img src="https://raw.githubusercontent.com/FordY7014/YangWeb/gh-pages/Adjust%20the%20multiple%20viewports%20in%20seconds2.gif" alt="Adjust the multiple viewports by several clicks"></p>
+<h2 id="get-Lot-Area-Info-and-export-to-Excel-file">get Lot Area Info and export to Excel file</h2>
+<p><img src="https://raw.githubusercontent.com/FordY7014/YangWeb/gh-pages/LotAreaTableGeneration3.gif" alt="get Lot Area Info and export to Excel file"></p>
 <script>
         document.querySelectorAll('.github-emoji')
           .forEach(el => {
@@ -201,77 +237,70 @@ public static DBObjectCollection GetSelection(FilterType[] tps)
       </tags>
   </entry>
   <entry>
-    <title>FilterType[] in dotNetAPI.md</title>
-    <url>/2020/06/18/20200618FilterType%5B%5D%20in%20dotNetAPI/</url>
-    <content><![CDATA[<p>This one is just to make a record for the passage in the Reference. The content and code are all from <a href="https://mp.weixin.qq.com/s/f1UU9ihNL1B0UUKzMFgDAg" target="_blank" rel="noopener">this passage</a>.</p>
-<h2 id="Aim">Aim</h2>
-<pre><code>&lt; or
-    &lt; and
-             Layer == "lay01"
-             Color == "1"    // 红色索引值为1
-             Entity type == "TEXT"
-    and &gt;
-    &lt; and
-             &lt; or
-             Layer == "lay02"
-             Layer == "lay03"
-             or &gt;
-             Color == "5"     // 蓝色索引值为5
-             Entity type == "POLYLINE"
-    and &gt;
-or &gt;
+    <title>Set Viewport in AutoCad .Net API</title>
+    <url>/2020/06/15/20200615Set%20Viewport%20in%20AutoCad%20.Net%20API/</url>
+    <content><![CDATA[<hr>
+<pre><code>with adoc.LockDocument():
+  with adoc.Database as db:
+    with db.TransactionManager.StartTransaction() as t:
+      bt = t.GetObject(db.BlockTableId, OpenMode.ForWrite)
+      btr = t.GetObject(bt[BlockTableRecord.ModelSpace], OpenMode.ForWrite)
+
+      #Get the dict object and layouts object
+      Dict = t.GetObject(db.NamedObjectsDictionaryId, OpenMode.ForWrite)
+      obj = t.GetObject(Dict.GetAt('ACAD_LAYOUT'),  OpenMode.ForWrite);  
+      obj2 = t.GetObject(Dict['ACAD_LAYOUT'],  OpenMode.ForWrite);
+
+      #Get the layout
+      layout1 = t.GetObject(obj["01"], OpenMode.ForRead)
+
+      #Get viewports
+      vps = layout1.GetViewports()
+
+      #Setting the viewport
+      vp1 = t.GetObject(vps[1], OpenMode.ForWrite)
+      vp2 = t.GetObject(vps[2], OpenMode.ForWrite)
+      vp1.Ucs = vp2.Ucs
+      vp1.CustomScale = vp2.CustomScale
+      vp1.ViewCenter = vp2.ViewCenter
+      vp1.ViewTarget = vp2.ViewTarget
+      vp1.ViewDirection = vp2.ViewDirection
+      vp1.TwistAngle = vp2.TwistAngle
+
+
+      vp1.UpdateDisplay()
+      t.Commit()
 </code></pre>
-<h2 id="Code">Code</h2>
-<pre><code>
-public static void MultipleSelectionFilter()
-{
-    // 获取当前文档编辑器
-    Editor ed = Autodesk.AutoCAD.ApplicationServices.Core.Application.DocumentManager.MdiActiveDocument.Editor;
-
-    // 创建一个数组定义筛选条件
-
-    // 定义筛选条件
-    TypedValue[] typeValue = {
-     new TypedValue((int) DxfCode.Operator, "&lt;or"),
-     // 选择标准1
-     new TypedValue((int) DxfCode.Operator, "&lt;and"),
-     new TypedValue((int) DxfCode.Start, "TEXT"),
-     new TypedValue((int) DxfCode.LayerName, "lay01"),
-     new TypedValue((int) DxfCode.Color, "1"),
-     new TypedValue((int) DxfCode.Operator, "and&gt;"),
-     // 选择标准2
-     new TypedValue((int) DxfCode.Operator, "&lt;and"),
-     new TypedValue((int) DxfCode.Start, "LWPOLYLINE"),
-     new TypedValue((int) DxfCode.Color, "5"),
-     new TypedValue((int) DxfCode.Operator, "&lt;or"),
-     new TypedValue((int) DxfCode.LayerName, "lay02"),
-     new TypedValue((int) DxfCode.LayerName, "lay03"),
-     new TypedValue((int) DxfCode.Operator, "or&gt;"),
-     new TypedValue((int) DxfCode.Operator, "and&gt;"),
-     new TypedValue((int) DxfCode.Operator, "or&gt;")
-    };
-
-    // 将筛选条件传到过滤器
-    SelectionFilter selFiter = new SelectionFilter(typeValue);
-
-    // 获取选择对象
-    PromptSelectionResult psr = ed.GetSelection(selFiter);
-
-
-    // 判断选择是否成功
-    if (psr.Status == PromptStatus.OK)
-    {
-        SelectionSet sSet = psr.Value;
-        Autodesk.AutoCAD.ApplicationServices.Core.Application.ShowAlertDialog("Number of objects selected: " + sSet.Count.ToString());
-    }
-    else
-    {
-        Autodesk.AutoCAD.ApplicationServices.Core.Application.ShowAlertDialog("Number of objects selected: 0");
-    }
-}
-</code></pre>
+<hr>
+<h3 id="Meaning-of-the-Viewport-Properties">Meaning of the Viewport Properties</h3>
+<table>
+<thead>
+<tr>
+<th>Properties</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ViewCenter</td>
+<td>the view center of the view in the viewport</td>
+</tr>
+<tr>
+<td>ViewTarget</td>
+<td>location of the model space in the viewport</td>
+</tr>
+<tr>
+<td>ViewDirection</td>
+<td>the vector from the target to the camera of the view in the viewport</td>
+</tr>
+<tr>
+<td>CenterPoint</td>
+<td>the centerpoint of viewport in paperspace</td>
+</tr>
+</tbody>
+</table>
 <h1>Reference</h1>
-<p><a href="https://mp.weixin.qq.com/s/f1UU9ihNL1B0UUKzMFgDAg" target="_blank" rel="noopener">https://mp.weixin.qq.com/s/f1UU9ihNL1B0UUKzMFgDAg</a></p>
+<p><a href="http://docs.autodesk.com/ACD/2010/ENU/AutoCAD%20.NET%20Developer%27s%20Guide/index.html?url=WS1a9193826455f5ff2566ffd511ff6f8c7ca-3416.htm,topicNumber=d0e50529" target="_blank" rel="noopener">http://docs.autodesk.com/ACD/2010/ENU/AutoCAD .NET Developer's Guide/index.html?url=WS1a9193826455f5ff2566ffd511ff6f8c7ca-3416.htm,topicNumber=d0e50529</a></p>
 <script>
         document.querySelectorAll('.github-emoji')
           .forEach(el => {
@@ -297,13 +326,14 @@ public static void MultipleSelectionFilter()
       <tags>
         <tag>Civil3d</tag>
         <tag>AutoCAD API</tag>
-        <tag>C#</tag>
+        <tag>Ironpython</tag>
       </tags>
   </entry>
   <entry>
     <title>Prompt to Select one type of object in .NetAPI(Ironpython)</title>
     <url>/2020/06/16/20200616Prompt%20to%20Select%20one%20type%20of%20object/</url>
-    <content><![CDATA[<h2 id="Function">Function</h2>
+    <content><![CDATA[<hr>
+<h2 id="Function">Function</h2>
 <pre><code>def PromptForEntity( prompt, filetype):
 	global adoc
 	global ed
@@ -326,6 +356,7 @@ public static void MultipleSelectionFilter()
 	ed.WriteMessage("I will return Null  ")
 	return ObjectId.Null
 </code></pre>
+<hr>
 <h2 id="Example">Example</h2>
 <pre><code>try:
 	surfaceId = PromptForEntity("Select the surface to add a boundary to", TinSurface)
@@ -473,51 +504,83 @@ osurface.Rebuild()
       </tags>
   </entry>
   <entry>
-    <title>Delineate watershed based on DEM data on ArcMAP</title>
-    <url>/2020/04/24/Delinenate%20the%20watershed%20based%20on%20DEM%20data%20on%20ArcMAP/</url>
-    <content><![CDATA[<p>Before input data into hydrologic or hydraulic data, we need to know the catchment boundary first. Arcmap has wonderful tool suite to proceed this</p>
-<p>The basic step flow is as below:</p>
-<blockquote>
-<p>dem-- fill–flow direction–flow accumulation–raster calculator or reclassify --stream link–watershed</p>
-</blockquote>
-<p>After knowing the basic workflow, we can generate our own defined workflow by <em>Model Builder</em> in ArcGIS as the figure below, or we can use the existing tool, for example, <em>ArcHydro</em>. However, we should know how to achieve it by ArcMAP first to understand the basic theory.</p>
-<p><img src="/2020/04/24/Delinenate%20the%20watershed%20based%20on%20DEM%20data%20on%20ArcMAP/1.PNG" alt="Create Streamlines"></p>
+    <title>Move the selected objects to the current layer</title>
+    <url>/2020/06/17/20200617Move%20the%20selected%20objects%20to%20the%20current%20layer/</url>
+    <content><![CDATA[<hr>
+<h2 id="Build-a-FilterType-to-select">Build a FilterType[] to select</h2>
+<pre><code>public enum FilterType
+    {
+        Curve, Dimension, Polyline, BlockRef, Circle, Line, Arc, Text, MText
+    }
+
+
+public static DBObjectCollection GetSelection(FilterType[] tps)
+        {
+            Document doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
+            Database db = doc.Database;
+            Editor ed = doc.Editor;
+            Entity entity = null;
+            DBObjectCollection EntityCollection = new DBObjectCollection();
+            PromptSelectionOptions selops = new PromptSelectionOptions();
+
+            // Name the filter contents
+            TypedValue[] filList = new TypedValue[tps.Length + 2];
+            filList[0] = new TypedValue((int)DxfCode.Operator, "&lt;or");
+            filList[tps.Length + 1] = new TypedValue((int)DxfCode.Operator, "or&gt;");
+            for (int i = 0; i &lt; tps.Length; i++)
+            {
+                filList[i + 1] = new TypedValue((int)DxfCode.Start, tps[i].ToString());
+            }
+
+
+             // Build the filter
+            SelectionFilter filter = new SelectionFilter(filList);
+            // 按照过滤器进行选择
+            PromptSelectionResult ents = ed.GetSelection(selops, filter);
+            if  (ents.Status == PromptStatus.OK)  
+            {
+                using  (Transaction transaction = db.TransactionManager.StartTransaction())
+                 {
+                    SelectionSet SS = ents.Value;
+                    foreach (ObjectId id in   SS.GetObjectIds())
+                    {
+                        entity = (Entity) transaction.GetObject(id, OpenMode.ForWrite,  true );  
+                        if(entity!=null)
+                        {
+                            LayerTableRecord ltr = LayerTools.GetCurrentLayer(db);
+                            entity.Layer = ltr.Name;
+                            EntityCollection.Add(entity);
+                            ed = Autodesk.AutoCAD.ApplicationServices. Application .DocumentManager.MdiActiveDocument.Editor;
+                            ed.SelectPrevious();
+                        }
+                    }
+                    transaction.Commit( );  
+                }
+            }
+            return   EntityCollection;
+        }
+</code></pre>
 <hr>
-<h3 id="Fill">Fill</h3>
-<p>Firstly, we need to load the DEM raster files into ArcMAP, and then select fill tool as followed:<em>Arctool boxes/spatial Analyst Tools/Hydrology/Fill</em></p>
-<p>The window as followed figure will pop out:<br>
-<img src="/2020/04/24/Delinenate%20the%20watershed%20based%20on%20DEM%20data%20on%20ArcMAP/2.PNG" alt="DEM FILL"></p>
-<p>Then a new DEM data will be generated, it seems that there is no difference between the two raster datasets. But we can select the <em>Arctool boxes\Spatial Analyst Tools.tbx\Map Algebra\Raster Calculator</em> and calculate the difference between the two DEM datasets.<br>
-<img src="/2020/04/24/Delinenate%20the%20watershed%20based%20on%20DEM%20data%20on%20ArcMAP/3.PNG" alt="dem difference"></p>
-<hr>
-<h3 id="Flow-Direction">Flow Direction</h3>
-<p>The we can click <em>Flow direction</em> and apply the filled DEM dataset.</p>
-<p>The result is as shown below.</p>
-<p><img src="/2020/04/24/Delinenate%20the%20watershed%20based%20on%20DEM%20data%20on%20ArcMAP/4.PNG" alt="flow direction"></p>
-<hr>
-<h3 id="Flow-Accumulation">Flow Accumulation</h3>
-<p>Similarly, we choose <em>Flow Accumulation</em> and select the datasets <em>Filled DEM</em> and <em>Flow Accumulation</em>, then the raster of flow Accumulation will be generated.</p>
-<p>But we do not need to care about those raster with small No. of accumulation. We need to classify the result to select the data we are interested.</p>
-<p><img src="/2020/04/24/Delinenate%20the%20watershed%20based%20on%20DEM%20data%20on%20ArcMAP/5.png" alt="flow Accumulation"></p>
-<hr>
-<h3 id="Flow-Length">Flow Length</h3>
-<p>Flow Length is an important factor to calculate the catchment time of concentration(<em>tc</em>) , we choose <em>Flow Length</em> tool and select the datasets from <em>Flow Accumulation</em>, then we can get a raster map of concentration.</p>
-<p>If we choose downstream, each raster value will record the length to the discharge point.</p>
-<p><img src="/2020/04/24/Delinenate%20the%20watershed%20based%20on%20DEM%20data%20on%20ArcMAP/6.png" alt="flow Length"></p>
-<hr>
-<h3 id="Reclassify">Reclassify</h3>
-<p>We assume the line with catchment of over 900,000 m2 will have apparent stream flow. We choose <em>Arctool boxes\3D Analyst Tools.tbx\Raster Reclass\Reclassify</em>.</p>
-<p><img src="/2020/04/24/Delinenate%20the%20watershed%20based%20on%20DEM%20data%20on%20ArcMAP/7.PNG" alt="Reclassifing Flow"></p>
-<hr>
-<h3 id="Stream-Link">Stream Link</h3>
-<p>After reclassifying, we can get the discharge link with large catchment of over 900000 square meter.</p>
-<p><img src="/2020/04/24/Delinenate%20the%20watershed%20based%20on%20DEM%20data%20on%20ArcMAP/8.PNG" alt="Stream Link"></p>
-<hr>
-<h3 id="Watershed">Watershed</h3>
-<p>we choose <em>Watershed</em> and select the corresponding data from datasets, then we can get a raster map of watershed. We can use <em>Arctool boxes\Conversion Tools.tbx\From Raster\Raster to Polygon</em> to change to result to polygon.</p>
-<p>We can also input point data for <em>Input raster or feature pour point data</em>, this will be useful when we have the stormwater discharge point, like manholes.</p>
-<p><img src="/2020/04/24/Delinenate%20the%20watershed%20based%20on%20DEM%20data%20on%20ArcMAP/9.PNG" alt="result.png"></p>
-<p><img src="/2020/04/24/Delinenate%20the%20watershed%20based%20on%20DEM%20data%20on%20ArcMAP/10.PNG" alt="Watershed.png"></p>
+<h2 id="Select-Lines-and-Polylines">Select Lines and Polylines</h2>
+<pre><code>public void SelectLines()
+        {
+            Database db = HostApplicationServices.WorkingDatabase;
+            LayerTableRecord ltr = new LayerTableRecord();
+            ltr = LayerTools.GetCurrentLayer(db);
+
+
+            FilterType LineType = FilterType.Line;
+            FilterType PolyLineType = FilterType.Polyline;
+            FilterType CircleType = FilterType.Circle;
+
+            FilterType[] Types = new FilterType[3];
+            Types[0] = LineType;
+            Types[1] = PolyLineType;
+            Types[2] = CircleType;
+            DBObjectCollection EntityCollection = Selection.GetSelection(Types);
+        }
+
+</code></pre>
 <script>
         document.querySelectorAll('.github-emoji')
           .forEach(el => {
@@ -538,10 +601,12 @@ osurface.Rebuild()
           });
       </script>]]></content>
       <categories>
-        <category>April 2020</category>
+        <category>June 2020</category>
       </categories>
       <tags>
-        <tag>Arcmap</tag>
+        <tag>Civil3d</tag>
+        <tag>AutoCAD API</tag>
+        <tag>C#</tag>
       </tags>
   </entry>
   <entry>
@@ -1297,30 +1362,51 @@ ax.set_ylim([-42,-36])
       </tags>
   </entry>
   <entry>
-    <title>How to merge many different raster files into one raster</title>
-    <url>/2020/04/20/How%20to%20take%20many%20different%20rasters%20into%20one%20raster/</url>
-    <content><![CDATA[<p>On <a href="https://geomapspublic.aucklandcouncil.govt.nz/viewer/index.html" target="_blank" rel="noopener">Auckland Council Geomap</a>, we can download the high resolution DEM data, but the uplimit area is 6 Square Km. What if the catchment area we are interested in is more than the number, than we can download the DEM data from <a href="https://data.linz.govt.nz/search/?q=DEM" target="_blank" rel="noopener">LINZ</a>.</p>
+    <title>Delineate watershed based on DEM data on ArcMAP</title>
+    <url>/2020/04/24/Delinenate%20the%20watershed%20based%20on%20DEM%20data%20on%20ArcMAP/</url>
+    <content><![CDATA[<p>Before input data into hydrologic or hydraulic data, we need to know the catchment boundary first. Arcmap has wonderful tool suite to proceed this</p>
+<p>The basic step flow is as below:</p>
+<blockquote>
+<p>dem-- fill–flow direction–flow accumulation–raster calculator or reclassify --stream link–watershed</p>
+</blockquote>
+<p>After knowing the basic workflow, we can generate our own defined workflow by <em>Model Builder</em> in ArcGIS as the figure below, or we can use the existing tool, for example, <em>ArcHydro</em>. However, we should know how to achieve it by ArcMAP first to understand the basic theory.</p>
+<p><img src="/2020/04/24/Delinenate%20the%20watershed%20based%20on%20DEM%20data%20on%20ArcMAP/1.PNG" alt="Create Streamlines"></p>
 <hr>
-<h3 id="Raster-files-check">Raster files check</h3>
-<p>After download the DEM data in Auckland area, we will find that there will be many different raster files, which is not available for analysis. So we need to merge many raster files into one raster file.</p>
+<h3 id="Fill">Fill</h3>
+<p>Firstly, we need to load the DEM raster files into ArcMAP, and then select fill tool as followed:<em>Arctool boxes/spatial Analyst Tools/Hydrology/Fill</em></p>
+<p>The window as followed figure will pop out:<br>
+<img src="/2020/04/24/Delinenate%20the%20watershed%20based%20on%20DEM%20data%20on%20ArcMAP/2.PNG" alt="DEM FILL"></p>
+<p>Then a new DEM data will be generated, it seems that there is no difference between the two raster datasets. But we can select the <em>Arctool boxes\Spatial Analyst Tools.tbx\Map Algebra\Raster Calculator</em> and calculate the difference between the two DEM datasets.<br>
+<img src="/2020/04/24/Delinenate%20the%20watershed%20based%20on%20DEM%20data%20on%20ArcMAP/3.PNG" alt="dem difference"></p>
 <hr>
-<h3 id="Location-check">Location check</h3>
-<p>Firstly, we need to check the name of related raster files in our interested catchment, find all the raster files and then move them into one folder.</p>
-<p><img src="/2020/04/20/How%20to%20take%20many%20different%20rasters%20into%20one%20raster/1.PNG" alt="Location.png"></p>
+<h3 id="Flow-Direction">Flow Direction</h3>
+<p>The we can click <em>Flow direction</em> and apply the filled DEM dataset.</p>
+<p>The result is as shown below.</p>
+<p><img src="/2020/04/24/Delinenate%20the%20watershed%20based%20on%20DEM%20data%20on%20ArcMAP/4.PNG" alt="flow direction"></p>
 <hr>
-<h3 id="Create-an-empty-Mosaic-Dataset">Create an empty Mosaic Dataset</h3>
-<p>Create an empty Mosaic Dataset as the route in the figure below.</p>
-<p><img src="/2020/04/20/How%20to%20take%20many%20different%20rasters%20into%20one%20raster/22.png" alt="Mosaic Dataset.png"></p>
-<p>Then we need to add the raster data into the empty Mosaic. Directly right-click the file and choose “add raster”.</p>
-<p>Select the files we have picked from the last steps, remember to check the “Upload Overview” box.<br>
-<img src="/2020/04/20/How%20to%20take%20many%20different%20rasters%20into%20one%20raster/44.png" alt="Add Dataset.png"></p>
+<h3 id="Flow-Accumulation">Flow Accumulation</h3>
+<p>Similarly, we choose <em>Flow Accumulation</em> and select the datasets <em>Filled DEM</em> and <em>Flow Accumulation</em>, then the raster of flow Accumulation will be generated.</p>
+<p>But we do not need to care about those raster with small No. of accumulation. We need to classify the result to select the data we are interested.</p>
+<p><img src="/2020/04/24/Delinenate%20the%20watershed%20based%20on%20DEM%20data%20on%20ArcMAP/5.png" alt="flow Accumulation"></p>
 <hr>
-<h3 id="Final-result">Final result</h3>
-<p>Wait for several seconds or minutes, the raster will output.</p>
-<p><img src="/2020/04/20/How%20to%20take%20many%20different%20rasters%20into%20one%20raster/55.png" alt="Mosaic Dataset.png"></p>
+<h3 id="Flow-Length">Flow Length</h3>
+<p>Flow Length is an important factor to calculate the catchment time of concentration(<em>tc</em>) , we choose <em>Flow Length</em> tool and select the datasets from <em>Flow Accumulation</em>, then we can get a raster map of concentration.</p>
+<p>If we choose downstream, each raster value will record the length to the discharge point.</p>
+<p><img src="/2020/04/24/Delinenate%20the%20watershed%20based%20on%20DEM%20data%20on%20ArcMAP/6.png" alt="flow Length"></p>
 <hr>
-<h3 id="Reference">Reference</h3>
-<p><a href="https://data.linz.govt.nz/" target="_blank" rel="noopener">https://data.linz.govt.nz/</a></p>
+<h3 id="Reclassify">Reclassify</h3>
+<p>We assume the line with catchment of over 900,000 m2 will have apparent stream flow. We choose <em>Arctool boxes\3D Analyst Tools.tbx\Raster Reclass\Reclassify</em>.</p>
+<p><img src="/2020/04/24/Delinenate%20the%20watershed%20based%20on%20DEM%20data%20on%20ArcMAP/7.PNG" alt="Reclassifing Flow"></p>
+<hr>
+<h3 id="Stream-Link">Stream Link</h3>
+<p>After reclassifying, we can get the discharge link with large catchment of over 900000 square meter.</p>
+<p><img src="/2020/04/24/Delinenate%20the%20watershed%20based%20on%20DEM%20data%20on%20ArcMAP/8.PNG" alt="Stream Link"></p>
+<hr>
+<h3 id="Watershed">Watershed</h3>
+<p>we choose <em>Watershed</em> and select the corresponding data from datasets, then we can get a raster map of watershed. We can use <em>Arctool boxes\Conversion Tools.tbx\From Raster\Raster to Polygon</em> to change to result to polygon.</p>
+<p>We can also input point data for <em>Input raster or feature pour point data</em>, this will be useful when we have the stormwater discharge point, like manholes.</p>
+<p><img src="/2020/04/24/Delinenate%20the%20watershed%20based%20on%20DEM%20data%20on%20ArcMAP/9.PNG" alt="result.png"></p>
+<p><img src="/2020/04/24/Delinenate%20the%20watershed%20based%20on%20DEM%20data%20on%20ArcMAP/10.PNG" alt="Watershed.png"></p>
 <script>
         document.querySelectorAll('.github-emoji')
           .forEach(el => {
@@ -1345,149 +1431,6 @@ ax.set_ylim([-42,-36])
       </categories>
       <tags>
         <tag>Arcmap</tag>
-        <tag>Raster</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Set Viewport in AutoCad .Net API</title>
-    <url>/2020/06/15/20200615Set%20Viewport%20in%20AutoCad%20.Net%20API/</url>
-    <content><![CDATA[<pre><code>with adoc.LockDocument():
-  with adoc.Database as db:
-    with db.TransactionManager.StartTransaction() as t:
-      bt = t.GetObject(db.BlockTableId, OpenMode.ForWrite)
-      btr = t.GetObject(bt[BlockTableRecord.ModelSpace], OpenMode.ForWrite)
-
-      #Get the dict object and layouts object
-      Dict = t.GetObject(db.NamedObjectsDictionaryId, OpenMode.ForWrite)
-      obj = t.GetObject(Dict.GetAt('ACAD_LAYOUT'),  OpenMode.ForWrite);  
-      obj2 = t.GetObject(Dict['ACAD_LAYOUT'],  OpenMode.ForWrite);
-
-      #Get the layout
-      layout1 = t.GetObject(obj["01"], OpenMode.ForRead)
-
-      #Get viewports
-      vps = layout1.GetViewports()
-
-      #Setting the viewport
-      vp1 = t.GetObject(vps[1], OpenMode.ForWrite)
-      vp2 = t.GetObject(vps[2], OpenMode.ForWrite)
-      vp1.Ucs = vp2.Ucs
-      vp1.CustomScale = vp2.CustomScale
-      vp1.ViewCenter = vp2.ViewCenter
-      vp1.ViewTarget = vp2.ViewTarget
-      vp1.ViewDirection = vp2.ViewDirection
-      vp1.TwistAngle = vp2.TwistAngle
-
-
-      vp1.UpdateDisplay()
-      t.Commit()
-</code></pre>
-<h3 id="Meaning-of-the-Viewport-Properties">Meaning of the Viewport Properties</h3>
-<table>
-<thead>
-<tr>
-<th>Properties</th>
-<th>Meaning</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>ViewCenter</td>
-<td>the view center of the view in the viewport</td>
-</tr>
-<tr>
-<td>ViewTarget</td>
-<td>location of the model space in the viewport</td>
-</tr>
-<tr>
-<td>ViewDirection</td>
-<td>the vector from the target to the camera of the view in the viewport</td>
-</tr>
-<tr>
-<td>CenterPoint</td>
-<td>the centerpoint of viewport in paperspace</td>
-</tr>
-</tbody>
-</table>
-<h1>Reference</h1>
-<p><a href="http://docs.autodesk.com/ACD/2010/ENU/AutoCAD%20.NET%20Developer%27s%20Guide/index.html?url=WS1a9193826455f5ff2566ffd511ff6f8c7ca-3416.htm,topicNumber=d0e50529" target="_blank" rel="noopener">http://docs.autodesk.com/ACD/2010/ENU/AutoCAD .NET Developer's Guide/index.html?url=WS1a9193826455f5ff2566ffd511ff6f8c7ca-3416.htm,topicNumber=d0e50529</a></p>
-<script>
-        document.querySelectorAll('.github-emoji')
-          .forEach(el => {
-            if (!el.dataset.src) { return; }
-            const img = document.createElement('img');
-            img.style = 'display:none !important;';
-            img.src = el.dataset.src;
-            img.addEventListener('error', () => {
-              img.remove();
-              el.style.color = 'inherit';
-              el.style.backgroundImage = 'none';
-              el.style.background = 'none';
-            });
-            img.addEventListener('load', () => {
-              img.remove();
-            });
-            document.body.appendChild(img);
-          });
-      </script>]]></content>
-      <categories>
-        <category>June 2020</category>
-      </categories>
-      <tags>
-        <tag>Civil3d</tag>
-        <tag>AutoCAD API</tag>
-        <tag>Ironpython</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Land-use TIF file making for HEC-RAS 2D</title>
-    <url>/2020/04/20/Land-use%20TIF%20file%20making%20for%20HEC-RAS%202D/</url>
-    <content><![CDATA[<p>For 2D analysis in HEC-RAS, we may need to a land use map to assign the manning factor as . How to make it? Of course we can make the detailed land use map by analyzing satellite imagery. But for a simple model, sometime we do not need such a detailed plan. Today I would like to introduce a way to make simple land use map</p>
-<p><img src="/2020/04/20/Land-use%20TIF%20file%20making%20for%20HEC-RAS%202D/11.PNG" alt="HEC-RAS manning.png"></p>
-<p>First, we should download DEM data, building footprint and road information from <a href="https://geomapspublic.aucklandcouncil.govt.nz/viewer/index.html" target="_blank" rel="noopener">Auckland Council Geomap</a>.</p>
-<hr>
-<h3 id="Data-Loading">Data Loading</h3>
-<p>After loading all the data, we can have a map as below.</p>
-<p><img src="/2020/04/20/Land-use%20TIF%20file%20making%20for%20HEC-RAS%202D/22.PNG" alt="HEC-RAS manning.png"></p>
-<p>Now we need to assign different area with different values, and then merge them together.</p>
-<hr>
-<h3 id="Raster-Calculator">Raster Calculator</h3>
-<p>Firstly, we treat the whole catchment area by assigning “1”.</p>
-<p><img src="/2020/04/20/Land-use%20TIF%20file%20making%20for%20HEC-RAS%202D/catchment.PNG" alt="catchment.png"></p>
-<p>Secondly, we apply <em>.\3D Analyst Tools.tbx\Triangulated Surface\Interpolate Polygon to Multipatch</em> to assign the footprint area with value “4”.<br>
-<img src="/2020/04/20/Land-use%20TIF%20file%20making%20for%20HEC-RAS%202D/BFraster.PNG" alt="building footprint.png"></p>
-<p>Similarly, we apply <em>.\3D Analyst Tools.tbx\Triangulated Surface\Interpolate Polygon to Multipatch</em> to assign the roading area with value “3”.<br>
-<img src="/2020/04/20/Land-use%20TIF%20file%20making%20for%20HEC-RAS%202D/roadraster.PNG" alt="road.png"></p>
-<hr>
-<h3 id="Merging-the-files">Merging the files</h3>
-<p><em>.\Spatial Analyst Tools.tbx\Local\Cell Statistics</em> is used to merge the three raster together.Final result will be as the First Photo.</p>
-<p>We just finished a simple one, but the complex one is same, just to merge more seperate raster files.</p>
-<script>
-        document.querySelectorAll('.github-emoji')
-          .forEach(el => {
-            if (!el.dataset.src) { return; }
-            const img = document.createElement('img');
-            img.style = 'display:none !important;';
-            img.src = el.dataset.src;
-            img.addEventListener('error', () => {
-              img.remove();
-              el.style.color = 'inherit';
-              el.style.backgroundImage = 'none';
-              el.style.background = 'none';
-            });
-            img.addEventListener('load', () => {
-              img.remove();
-            });
-            document.body.appendChild(img);
-          });
-      </script>]]></content>
-      <categories>
-        <category>April 2020</category>
-      </categories>
-      <tags>
-        <tag>Arcmap</tag>
-        <tag>Raster</tag>
-        <tag>HEC-RAS</tag>
       </tags>
   </entry>
   <entry>
@@ -1605,6 +1548,153 @@ with adoc.LockDocument():
       <tags>
         <tag>Civil3D</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>Land-use TIF file making for HEC-RAS 2D</title>
+    <url>/2020/04/20/Land-use%20TIF%20file%20making%20for%20HEC-RAS%202D/</url>
+    <content><![CDATA[<p>For 2D analysis in HEC-RAS, we may need to a land use map to assign the manning factor as . How to make it? Of course we can make the detailed land use map by analyzing satellite imagery. But for a simple model, sometime we do not need such a detailed plan. Today I would like to introduce a way to make simple land use map</p>
+<p><img src="/2020/04/20/Land-use%20TIF%20file%20making%20for%20HEC-RAS%202D/11.PNG" alt="HEC-RAS manning.png"></p>
+<p>First, we should download DEM data, building footprint and road information from <a href="https://geomapspublic.aucklandcouncil.govt.nz/viewer/index.html" target="_blank" rel="noopener">Auckland Council Geomap</a>.</p>
+<hr>
+<h3 id="Data-Loading">Data Loading</h3>
+<p>After loading all the data, we can have a map as below.</p>
+<p><img src="/2020/04/20/Land-use%20TIF%20file%20making%20for%20HEC-RAS%202D/22.PNG" alt="HEC-RAS manning.png"></p>
+<p>Now we need to assign different area with different values, and then merge them together.</p>
+<hr>
+<h3 id="Raster-Calculator">Raster Calculator</h3>
+<p>Firstly, we treat the whole catchment area by assigning “1”.</p>
+<p><img src="/2020/04/20/Land-use%20TIF%20file%20making%20for%20HEC-RAS%202D/catchment.PNG" alt="catchment.png"></p>
+<p>Secondly, we apply <em>.\3D Analyst Tools.tbx\Triangulated Surface\Interpolate Polygon to Multipatch</em> to assign the footprint area with value “4”.<br>
+<img src="/2020/04/20/Land-use%20TIF%20file%20making%20for%20HEC-RAS%202D/BFraster.PNG" alt="building footprint.png"></p>
+<p>Similarly, we apply <em>.\3D Analyst Tools.tbx\Triangulated Surface\Interpolate Polygon to Multipatch</em> to assign the roading area with value “3”.<br>
+<img src="/2020/04/20/Land-use%20TIF%20file%20making%20for%20HEC-RAS%202D/roadraster.PNG" alt="road.png"></p>
+<hr>
+<h3 id="Merging-the-files">Merging the files</h3>
+<p><em>.\Spatial Analyst Tools.tbx\Local\Cell Statistics</em> is used to merge the three raster together.Final result will be as the First Photo.</p>
+<p>We just finished a simple one, but the complex one is same, just to merge more seperate raster files.</p>
+<script>
+        document.querySelectorAll('.github-emoji')
+          .forEach(el => {
+            if (!el.dataset.src) { return; }
+            const img = document.createElement('img');
+            img.style = 'display:none !important;';
+            img.src = el.dataset.src;
+            img.addEventListener('error', () => {
+              img.remove();
+              el.style.color = 'inherit';
+              el.style.backgroundImage = 'none';
+              el.style.background = 'none';
+            });
+            img.addEventListener('load', () => {
+              img.remove();
+            });
+            document.body.appendChild(img);
+          });
+      </script>]]></content>
+      <categories>
+        <category>April 2020</category>
+      </categories>
+      <tags>
+        <tag>Arcmap</tag>
+        <tag>HEC-RAS</tag>
+        <tag>Raster</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>How to merge many different raster files into one raster</title>
+    <url>/2020/04/20/How%20to%20take%20many%20different%20rasters%20into%20one%20raster/</url>
+    <content><![CDATA[<p>On <a href="https://geomapspublic.aucklandcouncil.govt.nz/viewer/index.html" target="_blank" rel="noopener">Auckland Council Geomap</a>, we can download the high resolution DEM data, but the uplimit area is 6 Square Km. What if the catchment area we are interested in is more than the number, than we can download the DEM data from <a href="https://data.linz.govt.nz/search/?q=DEM" target="_blank" rel="noopener">LINZ</a>.</p>
+<hr>
+<h3 id="Raster-files-check">Raster files check</h3>
+<p>After download the DEM data in Auckland area, we will find that there will be many different raster files, which is not available for analysis. So we need to merge many raster files into one raster file.</p>
+<hr>
+<h3 id="Location-check">Location check</h3>
+<p>Firstly, we need to check the name of related raster files in our interested catchment, find all the raster files and then move them into one folder.</p>
+<p><img src="/2020/04/20/How%20to%20take%20many%20different%20rasters%20into%20one%20raster/1.PNG" alt="Location.png"></p>
+<hr>
+<h3 id="Create-an-empty-Mosaic-Dataset">Create an empty Mosaic Dataset</h3>
+<p>Create an empty Mosaic Dataset as the route in the figure below.</p>
+<p><img src="/2020/04/20/How%20to%20take%20many%20different%20rasters%20into%20one%20raster/22.png" alt="Mosaic Dataset.png"></p>
+<p>Then we need to add the raster data into the empty Mosaic. Directly right-click the file and choose “add raster”.</p>
+<p>Select the files we have picked from the last steps, remember to check the “Upload Overview” box.<br>
+<img src="/2020/04/20/How%20to%20take%20many%20different%20rasters%20into%20one%20raster/44.png" alt="Add Dataset.png"></p>
+<hr>
+<h3 id="Final-result">Final result</h3>
+<p>Wait for several seconds or minutes, the raster will output.</p>
+<p><img src="/2020/04/20/How%20to%20take%20many%20different%20rasters%20into%20one%20raster/55.png" alt="Mosaic Dataset.png"></p>
+<hr>
+<h3 id="Reference">Reference</h3>
+<p><a href="https://data.linz.govt.nz/" target="_blank" rel="noopener">https://data.linz.govt.nz/</a></p>
+<script>
+        document.querySelectorAll('.github-emoji')
+          .forEach(el => {
+            if (!el.dataset.src) { return; }
+            const img = document.createElement('img');
+            img.style = 'display:none !important;';
+            img.src = el.dataset.src;
+            img.addEventListener('error', () => {
+              img.remove();
+              el.style.color = 'inherit';
+              el.style.backgroundImage = 'none';
+              el.style.background = 'none';
+            });
+            img.addEventListener('load', () => {
+              img.remove();
+            });
+            document.body.appendChild(img);
+          });
+      </script>]]></content>
+      <categories>
+        <category>April 2020</category>
+      </categories>
+      <tags>
+        <tag>Arcmap</tag>
+        <tag>Raster</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Hello World</title>
+    <url>/2020/04/10/hello-world/</url>
+    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
+<h2 id="Quick-Start">Quick Start</h2>
+<h3 id="Create-a-new-post">Create a new post</h3>
+<pre class=" language-language-bash"><code class="language-language-bash">$ hexo new "My New Post"
+</code></pre>
+<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
+<h3 id="Run-server">Run server</h3>
+<pre class=" language-language-bash"><code class="language-language-bash">$ hexo server
+</code></pre>
+<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
+<h3 id="Generate-static-files">Generate static files</h3>
+<pre class=" language-language-bash"><code class="language-language-bash">$ hexo generate
+</code></pre>
+<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
+<h3 id="Deploy-to-remote-sites">Deploy to remote sites</h3>
+<pre class=" language-language-bash"><code class="language-language-bash">$ hexo deploy
+</code></pre>
+<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html" target="_blank" rel="noopener">Deployment</a></p>
+<script>
+        document.querySelectorAll('.github-emoji')
+          .forEach(el => {
+            if (!el.dataset.src) { return; }
+            const img = document.createElement('img');
+            img.style = 'display:none !important;';
+            img.src = el.dataset.src;
+            img.addEventListener('error', () => {
+              img.remove();
+              el.style.color = 'inherit';
+              el.style.backgroundImage = 'none';
+              el.style.background = 'none';
+            });
+            img.addEventListener('load', () => {
+              img.remove();
+            });
+            document.body.appendChild(img);
+          });
+      </script>]]></content>
+      <categories>
+        <category>April 2020</category>
+      </categories>
   </entry>
   <entry>
     <title>Present 3D DEM and Building in ArcScene</title>
@@ -2329,50 +2419,6 @@ states_with_cities.head()
         <tag>Spatial Analysis</tag>
         <tag>Geopandas</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>Hello World</title>
-    <url>/2020/04/10/hello-world/</url>
-    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start">Quick Start</h2>
-<h3 id="Create-a-new-post">Create a new post</h3>
-<pre class=" language-language-bash"><code class="language-language-bash">$ hexo new "My New Post"
-</code></pre>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server">Run server</h3>
-<pre class=" language-language-bash"><code class="language-language-bash">$ hexo server
-</code></pre>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files">Generate static files</h3>
-<pre class=" language-language-bash"><code class="language-language-bash">$ hexo generate
-</code></pre>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites">Deploy to remote sites</h3>
-<pre class=" language-language-bash"><code class="language-language-bash">$ hexo deploy
-</code></pre>
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html" target="_blank" rel="noopener">Deployment</a></p>
-<script>
-        document.querySelectorAll('.github-emoji')
-          .forEach(el => {
-            if (!el.dataset.src) { return; }
-            const img = document.createElement('img');
-            img.style = 'display:none !important;';
-            img.src = el.dataset.src;
-            img.addEventListener('error', () => {
-              img.remove();
-              el.style.color = 'inherit';
-              el.style.backgroundImage = 'none';
-              el.style.background = 'none';
-            });
-            img.addEventListener('load', () => {
-              img.remove();
-            });
-            document.body.appendChild(img);
-          });
-      </script>]]></content>
-      <categories>
-        <category>April 2020</category>
-      </categories>
   </entry>
   <entry>
     <title>Introduction to Matplotlib and Line Plots</title>
