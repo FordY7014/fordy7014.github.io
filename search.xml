@@ -1,99 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>Set Viewport in AutoCad .Net API</title>
-    <url>/2020/06/15/20200615Set%20Viewport%20in%20AutoCad%20.Net%20API/</url>
-    <content><![CDATA[<hr>
-<pre><code>with adoc.LockDocument():
-  with adoc.Database as db:
-    with db.TransactionManager.StartTransaction() as t:
-      bt = t.GetObject(db.BlockTableId, OpenMode.ForWrite)
-      btr = t.GetObject(bt[BlockTableRecord.ModelSpace], OpenMode.ForWrite)
-
-      #Get the dict object and layouts object
-      Dict = t.GetObject(db.NamedObjectsDictionaryId, OpenMode.ForWrite)
-      obj = t.GetObject(Dict.GetAt('ACAD_LAYOUT'),  OpenMode.ForWrite);  
-      obj2 = t.GetObject(Dict['ACAD_LAYOUT'],  OpenMode.ForWrite);
-
-      #Get the layout
-      layout1 = t.GetObject(obj["01"], OpenMode.ForRead)
-
-      #Get viewports
-      vps = layout1.GetViewports()
-
-      #Setting the viewport
-      vp1 = t.GetObject(vps[1], OpenMode.ForWrite)
-      vp2 = t.GetObject(vps[2], OpenMode.ForWrite)
-      vp1.Ucs = vp2.Ucs
-      vp1.CustomScale = vp2.CustomScale
-      vp1.ViewCenter = vp2.ViewCenter
-      vp1.ViewTarget = vp2.ViewTarget
-      vp1.ViewDirection = vp2.ViewDirection
-      vp1.TwistAngle = vp2.TwistAngle
-
-
-      vp1.UpdateDisplay()
-      t.Commit()
-</code></pre>
-<hr>
-<h3 id="Meaning-of-the-Viewport-Properties">Meaning of the Viewport Properties</h3>
-<table>
-<thead>
-<tr>
-<th>Properties</th>
-<th>Meaning</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>ViewCenter</td>
-<td>the view center of the view in the viewport</td>
-</tr>
-<tr>
-<td>ViewTarget</td>
-<td>location of the model space in the viewport</td>
-</tr>
-<tr>
-<td>ViewDirection</td>
-<td>the vector from the target to the camera of the view in the viewport</td>
-</tr>
-<tr>
-<td>CenterPoint</td>
-<td>the centerpoint of viewport in paperspace</td>
-</tr>
-</tbody>
-</table>
-<h1>Reference</h1>
-<p><a href="http://docs.autodesk.com/ACD/2010/ENU/AutoCAD%20.NET%20Developer%27s%20Guide/index.html?url=WS1a9193826455f5ff2566ffd511ff6f8c7ca-3416.htm,topicNumber=d0e50529" target="_blank" rel="noopener">http://docs.autodesk.com/ACD/2010/ENU/AutoCAD .NET Developer's Guide/index.html?url=WS1a9193826455f5ff2566ffd511ff6f8c7ca-3416.htm,topicNumber=d0e50529</a></p>
-<script>
-        document.querySelectorAll('.github-emoji')
-          .forEach(el => {
-            if (!el.dataset.src) { return; }
-            const img = document.createElement('img');
-            img.style = 'display:none !important;';
-            img.src = el.dataset.src;
-            img.addEventListener('error', () => {
-              img.remove();
-              el.style.color = 'inherit';
-              el.style.backgroundImage = 'none';
-              el.style.background = 'none';
-            });
-            img.addEventListener('load', () => {
-              img.remove();
-            });
-            document.body.appendChild(img);
-          });
-      </script>]]></content>
-      <categories>
-        <category>June 2020</category>
-      </categories>
-      <tags>
-        <tag>Civil3d</tag>
-        <tag>AutoCAD API</tag>
-        <tag>Ironpython</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>How to autoload *.dll in AutoCAD</title>
     <url>/2020/06/01/20200602How%20to%20autoload%20dll%20in%20AutoCAD/</url>
     <content><![CDATA[<hr>
@@ -271,6 +178,99 @@ except:
       </tags>
   </entry>
   <entry>
+    <title>Set Viewport in AutoCad .Net API</title>
+    <url>/2020/06/15/20200615Set%20Viewport%20in%20AutoCad%20.Net%20API/</url>
+    <content><![CDATA[<hr>
+<pre><code>with adoc.LockDocument():
+  with adoc.Database as db:
+    with db.TransactionManager.StartTransaction() as t:
+      bt = t.GetObject(db.BlockTableId, OpenMode.ForWrite)
+      btr = t.GetObject(bt[BlockTableRecord.ModelSpace], OpenMode.ForWrite)
+
+      #Get the dict object and layouts object
+      Dict = t.GetObject(db.NamedObjectsDictionaryId, OpenMode.ForWrite)
+      obj = t.GetObject(Dict.GetAt('ACAD_LAYOUT'),  OpenMode.ForWrite);  
+      obj2 = t.GetObject(Dict['ACAD_LAYOUT'],  OpenMode.ForWrite);
+
+      #Get the layout
+      layout1 = t.GetObject(obj["01"], OpenMode.ForRead)
+
+      #Get viewports
+      vps = layout1.GetViewports()
+
+      #Setting the viewport
+      vp1 = t.GetObject(vps[1], OpenMode.ForWrite)
+      vp2 = t.GetObject(vps[2], OpenMode.ForWrite)
+      vp1.Ucs = vp2.Ucs
+      vp1.CustomScale = vp2.CustomScale
+      vp1.ViewCenter = vp2.ViewCenter
+      vp1.ViewTarget = vp2.ViewTarget
+      vp1.ViewDirection = vp2.ViewDirection
+      vp1.TwistAngle = vp2.TwistAngle
+
+
+      vp1.UpdateDisplay()
+      t.Commit()
+</code></pre>
+<hr>
+<h3 id="Meaning-of-the-Viewport-Properties">Meaning of the Viewport Properties</h3>
+<table>
+<thead>
+<tr>
+<th>Properties</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ViewCenter</td>
+<td>the view center of the view in the viewport</td>
+</tr>
+<tr>
+<td>ViewTarget</td>
+<td>location of the model space in the viewport</td>
+</tr>
+<tr>
+<td>ViewDirection</td>
+<td>the vector from the target to the camera of the view in the viewport</td>
+</tr>
+<tr>
+<td>CenterPoint</td>
+<td>the centerpoint of viewport in paperspace</td>
+</tr>
+</tbody>
+</table>
+<h1>Reference</h1>
+<p><a href="http://docs.autodesk.com/ACD/2010/ENU/AutoCAD%20.NET%20Developer%27s%20Guide/index.html?url=WS1a9193826455f5ff2566ffd511ff6f8c7ca-3416.htm,topicNumber=d0e50529" target="_blank" rel="noopener">http://docs.autodesk.com/ACD/2010/ENU/AutoCAD .NET Developer's Guide/index.html?url=WS1a9193826455f5ff2566ffd511ff6f8c7ca-3416.htm,topicNumber=d0e50529</a></p>
+<script>
+        document.querySelectorAll('.github-emoji')
+          .forEach(el => {
+            if (!el.dataset.src) { return; }
+            const img = document.createElement('img');
+            img.style = 'display:none !important;';
+            img.src = el.dataset.src;
+            img.addEventListener('error', () => {
+              img.remove();
+              el.style.color = 'inherit';
+              el.style.backgroundImage = 'none';
+              el.style.background = 'none';
+            });
+            img.addEventListener('load', () => {
+              img.remove();
+            });
+            document.body.appendChild(img);
+          });
+      </script>]]></content>
+      <categories>
+        <category>June 2020</category>
+      </categories>
+      <tags>
+        <tag>Civil3d</tag>
+        <tag>AutoCAD API</tag>
+        <tag>Ironpython</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Move the selected objects to the current layer</title>
     <url>/2020/06/17/20200617Move%20the%20selected%20objects%20to%20the%20current%20layer/</url>
     <content><![CDATA[<hr>
@@ -348,45 +348,6 @@ public static DBObjectCollection GetSelection(FilterType[] tps)
         }
 
 </code></pre>
-<script>
-        document.querySelectorAll('.github-emoji')
-          .forEach(el => {
-            if (!el.dataset.src) { return; }
-            const img = document.createElement('img');
-            img.style = 'display:none !important;';
-            img.src = el.dataset.src;
-            img.addEventListener('error', () => {
-              img.remove();
-              el.style.color = 'inherit';
-              el.style.backgroundImage = 'none';
-              el.style.background = 'none';
-            });
-            img.addEventListener('load', () => {
-              img.remove();
-            });
-            document.body.appendChild(img);
-          });
-      </script>]]></content>
-      <categories>
-        <category>June 2020</category>
-      </categories>
-      <tags>
-        <tag>Civil3d</tag>
-        <tag>AutoCAD API</tag>
-        <tag>C#</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Civil3d Ribbon Demo (Automate the repetitive tasks)</title>
-    <url>/2020/06/22/20200622Civil3D%20Ribbon%20Demo/</url>
-    <content><![CDATA[<p>Recently I create a custom #Civil3D ribbon menu with #.NET API for the script I wrote. Now it is easier to use and can save us time for repetitive tasks.</p>
-<hr>
-<h2 id="Edit-Reference-Surface-Of-Network">Edit Reference Surface Of Network</h2>
-<h2 id="Edit-Reference-Surface-Of-Network-2"><img src="/2020/06/22/20200622Civil3D%20Ribbon%20Demo/EditReferenceSurfaceOfNetwork.gif" alt="Edit Reference Surface Of Network"></h2>
-<h2 id="Adjust-the-multiple-viewports-by-several-clicks">Adjust the multiple viewports by several clicks</h2>
-<p><img src="/2020/06/22/20200622Civil3D%20Ribbon%20Demo/Adjustthemultipleviewportsinseconds2.gif" alt="Adjust the multiple viewports by several clicks"></p>
-<h2 id="get-Lot-Area-Info-and-export-to-Excel-file">get Lot Area Info and export to Excel file</h2>
-<p><img src="/2020/06/22/20200622Civil3D%20Ribbon%20Demo/LotAreaTableGeneration3.gif" alt="get Lot Area Info and export to Excel file"></p>
 <script>
         document.querySelectorAll('.github-emoji')
           .forEach(el => {
@@ -682,30 +643,16 @@ osurface.Rebuild()
       </tags>
   </entry>
   <entry>
-    <title>How to merge many different raster files into one raster</title>
-    <url>/2020/04/20/How%20to%20take%20many%20different%20rasters%20into%20one%20raster/</url>
-    <content><![CDATA[<p>On <a href="https://geomapspublic.aucklandcouncil.govt.nz/viewer/index.html" target="_blank" rel="noopener">Auckland Council Geomap</a>, we can download the high resolution DEM data, but the uplimit area is 6 Square Km. What if the catchment area we are interested in is more than the number, than we can download the DEM data from <a href="https://data.linz.govt.nz/search/?q=DEM" target="_blank" rel="noopener">LINZ</a>.</p>
+    <title>Civil3d Ribbon Demo (Automate the repetitive tasks)</title>
+    <url>/2020/06/22/20200622Civil3D%20Ribbon%20Demo/</url>
+    <content><![CDATA[<p>Recently I create a custom #Civil3D ribbon menu with #.NET API for the script I wrote. Now it is easier to use and can save us time for repetitive tasks.</p>
 <hr>
-<h3 id="Raster-files-check">Raster files check</h3>
-<p>After download the DEM data in Auckland area, we will find that there will be many different raster files, which is not available for analysis. So we need to merge many raster files into one raster file.</p>
-<hr>
-<h3 id="Location-check">Location check</h3>
-<p>Firstly, we need to check the name of related raster files in our interested catchment, find all the raster files and then move them into one folder.</p>
-<p><img src="/2020/04/20/How%20to%20take%20many%20different%20rasters%20into%20one%20raster/1.PNG" alt="Location.png"></p>
-<hr>
-<h3 id="Create-an-empty-Mosaic-Dataset">Create an empty Mosaic Dataset</h3>
-<p>Create an empty Mosaic Dataset as the route in the figure below.</p>
-<p><img src="/2020/04/20/How%20to%20take%20many%20different%20rasters%20into%20one%20raster/22.png" alt="Mosaic Dataset.png"></p>
-<p>Then we need to add the raster data into the empty Mosaic. Directly right-click the file and choose “add raster”.</p>
-<p>Select the files we have picked from the last steps, remember to check the “Upload Overview” box.<br>
-<img src="/2020/04/20/How%20to%20take%20many%20different%20rasters%20into%20one%20raster/44.png" alt="Add Dataset.png"></p>
-<hr>
-<h3 id="Final-result">Final result</h3>
-<p>Wait for several seconds or minutes, the raster will output.</p>
-<p><img src="/2020/04/20/How%20to%20take%20many%20different%20rasters%20into%20one%20raster/55.png" alt="Mosaic Dataset.png"></p>
-<hr>
-<h3 id="Reference">Reference</h3>
-<p><a href="https://data.linz.govt.nz/" target="_blank" rel="noopener">https://data.linz.govt.nz/</a></p>
+<h2 id="Edit-Reference-Surface-Of-Network">Edit Reference Surface Of Network</h2>
+<h2 id="Edit-Reference-Surface-Of-Network-2"><img src="/2020/06/22/20200622Civil3D%20Ribbon%20Demo/EditReferenceSurfaceOfNetwork.gif" alt="Edit Reference Surface Of Network"></h2>
+<h2 id="Adjust-the-multiple-viewports-by-several-clicks">Adjust the multiple viewports by several clicks</h2>
+<p><img src="/2020/06/22/20200622Civil3D%20Ribbon%20Demo/Adjustthemultipleviewportsinseconds2.gif" alt="Adjust the multiple viewports by several clicks"></p>
+<h2 id="get-Lot-Area-Info-and-export-to-Excel-file">get Lot Area Info and export to Excel file</h2>
+<p><img src="/2020/06/22/20200622Civil3D%20Ribbon%20Demo/LotAreaTableGeneration3.gif" alt="get Lot Area Info and export to Excel file"></p>
 <script>
         document.querySelectorAll('.github-emoji')
           .forEach(el => {
@@ -726,11 +673,12 @@ osurface.Rebuild()
           });
       </script>]]></content>
       <categories>
-        <category>April 2020</category>
+        <category>June 2020</category>
       </categories>
       <tags>
-        <tag>Arcmap</tag>
-        <tag>Raster</tag>
+        <tag>Civil3d</tag>
+        <tag>AutoCAD API</tag>
+        <tag>C#</tag>
       </tags>
   </entry>
   <entry>
@@ -1486,28 +1434,30 @@ ax.set_ylim([-42,-36])
       </tags>
   </entry>
   <entry>
-    <title>Land-use TIF file making for HEC-RAS 2D</title>
-    <url>/2020/04/20/Land-use%20TIF%20file%20making%20for%20HEC-RAS%202D/</url>
-    <content><![CDATA[<p>For 2D analysis in HEC-RAS, we may need to a land use map to assign the manning factor as . How to make it? Of course we can make the detailed land use map by analyzing satellite imagery. But for a simple model, sometime we do not need such a detailed plan. Today I would like to introduce a way to make simple land use map</p>
-<p><img src="/2020/04/20/Land-use%20TIF%20file%20making%20for%20HEC-RAS%202D/11.PNG" alt="HEC-RAS manning.png"></p>
-<p>First, we should download DEM data, building footprint and road information from <a href="https://geomapspublic.aucklandcouncil.govt.nz/viewer/index.html" target="_blank" rel="noopener">Auckland Council Geomap</a>.</p>
+    <title>How to merge many different raster files into one raster</title>
+    <url>/2020/04/20/How%20to%20take%20many%20different%20rasters%20into%20one%20raster/</url>
+    <content><![CDATA[<p>On <a href="https://geomapspublic.aucklandcouncil.govt.nz/viewer/index.html" target="_blank" rel="noopener">Auckland Council Geomap</a>, we can download the high resolution DEM data, but the uplimit area is 6 Square Km. What if the catchment area we are interested in is more than the number, than we can download the DEM data from <a href="https://data.linz.govt.nz/search/?q=DEM" target="_blank" rel="noopener">LINZ</a>.</p>
 <hr>
-<h3 id="Data-Loading">Data Loading</h3>
-<p>After loading all the data, we can have a map as below.</p>
-<p><img src="/2020/04/20/Land-use%20TIF%20file%20making%20for%20HEC-RAS%202D/22.PNG" alt="HEC-RAS manning.png"></p>
-<p>Now we need to assign different area with different values, and then merge them together.</p>
+<h3 id="Raster-files-check">Raster files check</h3>
+<p>After download the DEM data in Auckland area, we will find that there will be many different raster files, which is not available for analysis. So we need to merge many raster files into one raster file.</p>
 <hr>
-<h3 id="Raster-Calculator">Raster Calculator</h3>
-<p>Firstly, we treat the whole catchment area by assigning “1”.</p>
-<p><img src="/2020/04/20/Land-use%20TIF%20file%20making%20for%20HEC-RAS%202D/catchment.PNG" alt="catchment.png"></p>
-<p>Secondly, we apply <em>.\3D Analyst Tools.tbx\Triangulated Surface\Interpolate Polygon to Multipatch</em> to assign the footprint area with value “4”.<br>
-<img src="/2020/04/20/Land-use%20TIF%20file%20making%20for%20HEC-RAS%202D/BFraster.PNG" alt="building footprint.png"></p>
-<p>Similarly, we apply <em>.\3D Analyst Tools.tbx\Triangulated Surface\Interpolate Polygon to Multipatch</em> to assign the roading area with value “3”.<br>
-<img src="/2020/04/20/Land-use%20TIF%20file%20making%20for%20HEC-RAS%202D/roadraster.PNG" alt="road.png"></p>
+<h3 id="Location-check">Location check</h3>
+<p>Firstly, we need to check the name of related raster files in our interested catchment, find all the raster files and then move them into one folder.</p>
+<p><img src="/2020/04/20/How%20to%20take%20many%20different%20rasters%20into%20one%20raster/1.PNG" alt="Location.png"></p>
 <hr>
-<h3 id="Merging-the-files">Merging the files</h3>
-<p><em>.\Spatial Analyst Tools.tbx\Local\Cell Statistics</em> is used to merge the three raster together.Final result will be as the First Photo.</p>
-<p>We just finished a simple one, but the complex one is same, just to merge more seperate raster files.</p>
+<h3 id="Create-an-empty-Mosaic-Dataset">Create an empty Mosaic Dataset</h3>
+<p>Create an empty Mosaic Dataset as the route in the figure below.</p>
+<p><img src="/2020/04/20/How%20to%20take%20many%20different%20rasters%20into%20one%20raster/22.png" alt="Mosaic Dataset.png"></p>
+<p>Then we need to add the raster data into the empty Mosaic. Directly right-click the file and choose “add raster”.</p>
+<p>Select the files we have picked from the last steps, remember to check the “Upload Overview” box.<br>
+<img src="/2020/04/20/How%20to%20take%20many%20different%20rasters%20into%20one%20raster/44.png" alt="Add Dataset.png"></p>
+<hr>
+<h3 id="Final-result">Final result</h3>
+<p>Wait for several seconds or minutes, the raster will output.</p>
+<p><img src="/2020/04/20/How%20to%20take%20many%20different%20rasters%20into%20one%20raster/55.png" alt="Mosaic Dataset.png"></p>
+<hr>
+<h3 id="Reference">Reference</h3>
+<p><a href="https://data.linz.govt.nz/" target="_blank" rel="noopener">https://data.linz.govt.nz/</a></p>
 <script>
         document.querySelectorAll('.github-emoji')
           .forEach(el => {
@@ -1533,55 +1483,6 @@ ax.set_ylim([-42,-36])
       <tags>
         <tag>Arcmap</tag>
         <tag>Raster</tag>
-        <tag>HEC-RAS</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Present 3D DEM and Building in ArcScene</title>
-    <url>/2020/04/22/Present%20the%20results%20in%20ArcScene/</url>
-    <content><![CDATA[<p>If we want to have an 3D overview of DEM with Building or flooding data, we can use ArcScene.</p>
-<hr>
-<h3 id="Load-DEM">Load DEM</h3>
-<p>Firstly, we need to load the DEM raster files in ArcScene, and right-click the DEM layer and choose “Property”. Select the “Base Height” Tab as the figure below.</p>
-<p><img src="/2020/04/22/Present%20the%20results%20in%20ArcScene/11.PNG" alt="DEM Load"></p>
-<hr>
-<h3 id="Load-Building-Footprint-Dataset">Load Building Footprint Dataset</h3>
-<p>Same as the DEM loading, right-click the “Building Footprint” layer and choose “Property”. Select the “Extrustion” Tab as the figure below. Select the building height filed in the “Expression” box.</p>
-<p><img src="/2020/04/22/Present%20the%20results%20in%20ArcScene/22.PNG" alt="Building Extrusion"></p>
-<p>The result is as shown below.</p>
-<p><img src="/2020/04/22/Present%20the%20results%20in%20ArcScene/33.PNG" alt="Building Extrusion result.png"></p>
-<hr>
-<h3 id="Load-the-buiding-on-the-DEM">Load the buiding on the DEM</h3>
-<p>Select the “Base Height” Tab of the building Footprint Dataset as the figure below. Select the DEM Dataset.</p>
-<p><img src="/2020/04/22/Present%20the%20results%20in%20ArcScene/44.PNG" alt="Mosaic Dataset.png"></p>
-<hr>
-<h3 id="Final-result">Final result</h3>
-<p>In a similar way, we can load Road, drainage pipe or flooding, and have a 3D view for the Dataset.</p>
-<p><img src="/2020/04/22/Present%20the%20results%20in%20ArcScene/55.PNG" alt="result.png"></p>
-<script>
-        document.querySelectorAll('.github-emoji')
-          .forEach(el => {
-            if (!el.dataset.src) { return; }
-            const img = document.createElement('img');
-            img.style = 'display:none !important;';
-            img.src = el.dataset.src;
-            img.addEventListener('error', () => {
-              img.remove();
-              el.style.color = 'inherit';
-              el.style.backgroundImage = 'none';
-              el.style.background = 'none';
-            });
-            img.addEventListener('load', () => {
-              img.remove();
-            });
-            document.body.appendChild(img);
-          });
-      </script>]]></content>
-      <categories>
-        <category>May 2020</category>
-      </categories>
-      <tags>
-        <tag>Arcmap</tag>
       </tags>
   </entry>
   <entry>
@@ -1698,6 +1599,105 @@ with adoc.LockDocument():
       </categories>
       <tags>
         <tag>Civil3D</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Land-use TIF file making for HEC-RAS 2D</title>
+    <url>/2020/04/20/Land-use%20TIF%20file%20making%20for%20HEC-RAS%202D/</url>
+    <content><![CDATA[<p>For 2D analysis in HEC-RAS, we may need to a land use map to assign the manning factor as . How to make it? Of course we can make the detailed land use map by analyzing satellite imagery. But for a simple model, sometime we do not need such a detailed plan. Today I would like to introduce a way to make simple land use map</p>
+<p><img src="/2020/04/20/Land-use%20TIF%20file%20making%20for%20HEC-RAS%202D/11.PNG" alt="HEC-RAS manning.png"></p>
+<p>First, we should download DEM data, building footprint and road information from <a href="https://geomapspublic.aucklandcouncil.govt.nz/viewer/index.html" target="_blank" rel="noopener">Auckland Council Geomap</a>.</p>
+<hr>
+<h3 id="Data-Loading">Data Loading</h3>
+<p>After loading all the data, we can have a map as below.</p>
+<p><img src="/2020/04/20/Land-use%20TIF%20file%20making%20for%20HEC-RAS%202D/22.PNG" alt="HEC-RAS manning.png"></p>
+<p>Now we need to assign different area with different values, and then merge them together.</p>
+<hr>
+<h3 id="Raster-Calculator">Raster Calculator</h3>
+<p>Firstly, we treat the whole catchment area by assigning “1”.</p>
+<p><img src="/2020/04/20/Land-use%20TIF%20file%20making%20for%20HEC-RAS%202D/catchment.PNG" alt="catchment.png"></p>
+<p>Secondly, we apply <em>.\3D Analyst Tools.tbx\Triangulated Surface\Interpolate Polygon to Multipatch</em> to assign the footprint area with value “4”.<br>
+<img src="/2020/04/20/Land-use%20TIF%20file%20making%20for%20HEC-RAS%202D/BFraster.PNG" alt="building footprint.png"></p>
+<p>Similarly, we apply <em>.\3D Analyst Tools.tbx\Triangulated Surface\Interpolate Polygon to Multipatch</em> to assign the roading area with value “3”.<br>
+<img src="/2020/04/20/Land-use%20TIF%20file%20making%20for%20HEC-RAS%202D/roadraster.PNG" alt="road.png"></p>
+<hr>
+<h3 id="Merging-the-files">Merging the files</h3>
+<p><em>.\Spatial Analyst Tools.tbx\Local\Cell Statistics</em> is used to merge the three raster together.Final result will be as the First Photo.</p>
+<p>We just finished a simple one, but the complex one is same, just to merge more seperate raster files.</p>
+<script>
+        document.querySelectorAll('.github-emoji')
+          .forEach(el => {
+            if (!el.dataset.src) { return; }
+            const img = document.createElement('img');
+            img.style = 'display:none !important;';
+            img.src = el.dataset.src;
+            img.addEventListener('error', () => {
+              img.remove();
+              el.style.color = 'inherit';
+              el.style.backgroundImage = 'none';
+              el.style.background = 'none';
+            });
+            img.addEventListener('load', () => {
+              img.remove();
+            });
+            document.body.appendChild(img);
+          });
+      </script>]]></content>
+      <categories>
+        <category>April 2020</category>
+      </categories>
+      <tags>
+        <tag>Arcmap</tag>
+        <tag>Raster</tag>
+        <tag>HEC-RAS</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Present 3D DEM and Building in ArcScene</title>
+    <url>/2020/04/22/Present%20the%20results%20in%20ArcScene/</url>
+    <content><![CDATA[<p>If we want to have an 3D overview of DEM with Building or flooding data, we can use ArcScene.</p>
+<hr>
+<h3 id="Load-DEM">Load DEM</h3>
+<p>Firstly, we need to load the DEM raster files in ArcScene, and right-click the DEM layer and choose “Property”. Select the “Base Height” Tab as the figure below.</p>
+<p><img src="/2020/04/22/Present%20the%20results%20in%20ArcScene/11.PNG" alt="DEM Load"></p>
+<hr>
+<h3 id="Load-Building-Footprint-Dataset">Load Building Footprint Dataset</h3>
+<p>Same as the DEM loading, right-click the “Building Footprint” layer and choose “Property”. Select the “Extrustion” Tab as the figure below. Select the building height filed in the “Expression” box.</p>
+<p><img src="/2020/04/22/Present%20the%20results%20in%20ArcScene/22.PNG" alt="Building Extrusion"></p>
+<p>The result is as shown below.</p>
+<p><img src="/2020/04/22/Present%20the%20results%20in%20ArcScene/33.PNG" alt="Building Extrusion result.png"></p>
+<hr>
+<h3 id="Load-the-buiding-on-the-DEM">Load the buiding on the DEM</h3>
+<p>Select the “Base Height” Tab of the building Footprint Dataset as the figure below. Select the DEM Dataset.</p>
+<p><img src="/2020/04/22/Present%20the%20results%20in%20ArcScene/44.PNG" alt="Mosaic Dataset.png"></p>
+<hr>
+<h3 id="Final-result">Final result</h3>
+<p>In a similar way, we can load Road, drainage pipe or flooding, and have a 3D view for the Dataset.</p>
+<p><img src="/2020/04/22/Present%20the%20results%20in%20ArcScene/55.PNG" alt="result.png"></p>
+<script>
+        document.querySelectorAll('.github-emoji')
+          .forEach(el => {
+            if (!el.dataset.src) { return; }
+            const img = document.createElement('img');
+            img.style = 'display:none !important;';
+            img.src = el.dataset.src;
+            img.addEventListener('error', () => {
+              img.remove();
+              el.style.color = 'inherit';
+              el.style.backgroundImage = 'none';
+              el.style.background = 'none';
+            });
+            img.addEventListener('load', () => {
+              img.remove();
+            });
+            document.body.appendChild(img);
+          });
+      </script>]]></content>
+      <categories>
+        <category>May 2020</category>
+      </categories>
+      <tags>
+        <tag>Arcmap</tag>
       </tags>
   </entry>
   <entry>
