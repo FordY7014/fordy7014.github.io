@@ -381,7 +381,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>Read Times:&nbsp;&nbsp;
-                    7 Min
+                    8 Min
                 </div>
                 
 
@@ -391,17 +391,21 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <pre class=" language-language-python"><code class="language-language-python">%matplotlib inline
+                <h2 id="Import-the-packages-and-files">Import the packages and files</h2>
+<pre class=" language-language-python"><code class="language-language-python">%matplotlib inline  #static images of your plot embedded in the notebook
 </code></pre>
+<h2 id="Import-the-related-package">Import the related package</h2>
 <pre class=" language-language-python"><code class="language-language-python">import geopandas as gpd
 import numpy as np
 import matplotlib.pyplot  as plt
 import pandas as pd
 from shapely.geometry import Point
 </code></pre>
+<p>Read the city point shape file and city boundary polyline file</p>
 <pre class=" language-language-python"><code class="language-language-python">states = gpd.read_file('D:\ARCGIS\Covid-19 Cases in New Zealand\output\DHI_POINTS.shp')
 cities = gpd.read_file('D:\ARCGIS\Covid-19 Cases in New Zealand\output\Export_Output_3.shp')
 </code></pre>
+<h2 id="Data-Wrangling">Data Wrangling</h2>
 <pre class=" language-language-python"><code class="language-language-python">states = states.iloc[:,[3,4,-1]]
 states.head(2)
 </code></pre>
