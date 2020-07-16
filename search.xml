@@ -97,87 +97,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Prompt to Select one type of object in .NetAPI(Ironpython)</title>
-    <url>/2020/06/16/20200616Prompt%20to%20Select%20one%20type%20of%20object/</url>
-    <content><![CDATA[<hr>
-<h2 id="Function">Function</h2>
-<pre><code>def PromptForEntity( prompt, filetype):
-	global adoc
-	global ed
-
-	options = PromptEntityOptions("%s"%prompt)
-	options.SetRejectMessage("\nThe selected object is not a %s\n"%str(filetype))
-	options.AddAllowedClass(clr.GetClrType(filetype), True)
-
-
-	result = doc.Editor.GetEntity(options)
-
-	if result.Status != PromptStatus.OK:
-		ed.WriteMessage("\n The select target is " +str(filetype) +" please select "  +str(filetype) + "  \n")
-
-	if result.Status == PromptStatus.OK:
-		ed.WriteMessage("\ntarget has been selected\n")
-		ed.WriteMessage("\ntarget has been selected%s\n\n\n\n"%str(result.ObjectId))
-		return result.ObjectId
-
-	ed.WriteMessage("I will return Null  ")
-	return ObjectId.Null
-</code></pre>
-<hr>
-<h2 id="Example">Example</h2>
-<pre><code>try:
-	surfaceId = PromptForEntity("Select the surface to add a boundary to", TinSurface)
-	plineId = PromptForEntity("Select the object to use as a boundary", Polyline)
-
-	coll = ObjectIdCollection()
-	coll.Add(plineId)
-	ed.WriteMessage("pLINE COLLECTION HAS BEEN MADE")
-
-	oSurface = t.GetObject(surfaceId, OpenMode.ForWrite)
-
-	#
-	oSurface.BoundariesDefinition.AddBoundaries(coll, 100, SurfaceBoundaryType.Outer, True)
-
-	oSurface.Rebuild()
-	ed.WriteMessage("Rebuilt Done")
-
-	# Commit before end transaction
-	t.Commit()
-except:
-	ed.WriteMessage("Failed to add the boundary")
-
-</code></pre>
-<h1>Reference</h1>
-<p><a href="http://help.autodesk.com/view/CIV3D/2020/ENU/?guid=GUID-7C32E309-9B54-42A0-A4DC-C6FD592071F2" target="_blank" rel="noopener">http://help.autodesk.com/view/CIV3D/2020/ENU/?guid=GUID-7C32E309-9B54-42A0-A4DC-C6FD592071F2</a></p>
-<script>
-        document.querySelectorAll('.github-emoji')
-          .forEach(el => {
-            if (!el.dataset.src) { return; }
-            const img = document.createElement('img');
-            img.style = 'display:none !important;';
-            img.src = el.dataset.src;
-            img.addEventListener('error', () => {
-              img.remove();
-              el.style.color = 'inherit';
-              el.style.backgroundImage = 'none';
-              el.style.background = 'none';
-            });
-            img.addEventListener('load', () => {
-              img.remove();
-            });
-            document.body.appendChild(img);
-          });
-      </script>]]></content>
-      <categories>
-        <category>June 2020</category>
-      </categories>
-      <tags>
-        <tag>Civil3d</tag>
-        <tag>AutoCAD API</tag>
-        <tag>Ironpython</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Set Viewport in AutoCad .Net API</title>
     <url>/2020/06/15/20200615Set%20Viewport%20in%20AutoCad%20.Net%20API/</url>
     <content><![CDATA[<hr>
@@ -377,6 +296,87 @@ public static DBObjectCollection GetSelection(FilterType[] tps)
       </tags>
   </entry>
   <entry>
+    <title>Prompt to Select one type of object in .NetAPI(Ironpython)</title>
+    <url>/2020/06/16/20200616Prompt%20to%20Select%20one%20type%20of%20object/</url>
+    <content><![CDATA[<hr>
+<h2 id="Function">Function</h2>
+<pre><code>def PromptForEntity( prompt, filetype):
+	global adoc
+	global ed
+
+	options = PromptEntityOptions("%s"%prompt)
+	options.SetRejectMessage("\nThe selected object is not a %s\n"%str(filetype))
+	options.AddAllowedClass(clr.GetClrType(filetype), True)
+
+
+	result = doc.Editor.GetEntity(options)
+
+	if result.Status != PromptStatus.OK:
+		ed.WriteMessage("\n The select target is " +str(filetype) +" please select "  +str(filetype) + "  \n")
+
+	if result.Status == PromptStatus.OK:
+		ed.WriteMessage("\ntarget has been selected\n")
+		ed.WriteMessage("\ntarget has been selected%s\n\n\n\n"%str(result.ObjectId))
+		return result.ObjectId
+
+	ed.WriteMessage("I will return Null  ")
+	return ObjectId.Null
+</code></pre>
+<hr>
+<h2 id="Example">Example</h2>
+<pre><code>try:
+	surfaceId = PromptForEntity("Select the surface to add a boundary to", TinSurface)
+	plineId = PromptForEntity("Select the object to use as a boundary", Polyline)
+
+	coll = ObjectIdCollection()
+	coll.Add(plineId)
+	ed.WriteMessage("pLINE COLLECTION HAS BEEN MADE")
+
+	oSurface = t.GetObject(surfaceId, OpenMode.ForWrite)
+
+	#
+	oSurface.BoundariesDefinition.AddBoundaries(coll, 100, SurfaceBoundaryType.Outer, True)
+
+	oSurface.Rebuild()
+	ed.WriteMessage("Rebuilt Done")
+
+	# Commit before end transaction
+	t.Commit()
+except:
+	ed.WriteMessage("Failed to add the boundary")
+
+</code></pre>
+<h1>Reference</h1>
+<p><a href="http://help.autodesk.com/view/CIV3D/2020/ENU/?guid=GUID-7C32E309-9B54-42A0-A4DC-C6FD592071F2" target="_blank" rel="noopener">http://help.autodesk.com/view/CIV3D/2020/ENU/?guid=GUID-7C32E309-9B54-42A0-A4DC-C6FD592071F2</a></p>
+<script>
+        document.querySelectorAll('.github-emoji')
+          .forEach(el => {
+            if (!el.dataset.src) { return; }
+            const img = document.createElement('img');
+            img.style = 'display:none !important;';
+            img.src = el.dataset.src;
+            img.addEventListener('error', () => {
+              img.remove();
+              el.style.color = 'inherit';
+              el.style.backgroundImage = 'none';
+              el.style.background = 'none';
+            });
+            img.addEventListener('load', () => {
+              img.remove();
+            });
+            document.body.appendChild(img);
+          });
+      </script>]]></content>
+      <categories>
+        <category>June 2020</category>
+      </categories>
+      <tags>
+        <tag>Civil3d</tag>
+        <tag>AutoCAD API</tag>
+        <tag>Ironpython</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>FilterType[] in dotNetAPI</title>
     <url>/2020/06/18/20200618FilterType%5B%5D%20in%20dotNetAPI/</url>
     <content><![CDATA[<h2 id="This-one-is-just-to-make-a-record-for-the-passage-in-the-Reference-The-content-and-code-are-all-from-this-passage">This one is just to make a record for the passage in the Reference. The content and code are all from <a href="https://mp.weixin.qq.com/s/f1UU9ihNL1B0UUKzMFgDAg" target="_blank" rel="noopener">this passage</a>.</h2>
@@ -449,6 +449,45 @@ public static void MultipleSelectionFilter()
 </code></pre>
 <h1>Reference</h1>
 <p><a href="https://mp.weixin.qq.com/s/f1UU9ihNL1B0UUKzMFgDAg" target="_blank" rel="noopener">https://mp.weixin.qq.com/s/f1UU9ihNL1B0UUKzMFgDAg</a></p>
+<script>
+        document.querySelectorAll('.github-emoji')
+          .forEach(el => {
+            if (!el.dataset.src) { return; }
+            const img = document.createElement('img');
+            img.style = 'display:none !important;';
+            img.src = el.dataset.src;
+            img.addEventListener('error', () => {
+              img.remove();
+              el.style.color = 'inherit';
+              el.style.backgroundImage = 'none';
+              el.style.background = 'none';
+            });
+            img.addEventListener('load', () => {
+              img.remove();
+            });
+            document.body.appendChild(img);
+          });
+      </script>]]></content>
+      <categories>
+        <category>June 2020</category>
+      </categories>
+      <tags>
+        <tag>Civil3d</tag>
+        <tag>AutoCAD API</tag>
+        <tag>C#</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Civil3d Ribbon Demo (Automate the repetitive tasks)</title>
+    <url>/2020/06/22/20200622Civil3D%20Ribbon%20Demo/</url>
+    <content><![CDATA[<p>Recently I create a custom #Civil3D ribbon menu with #.NET API for the script I wrote. Now it is easier to use and can save us time for repetitive tasks.</p>
+<hr>
+<h2 id="Edit-Reference-Surface-Of-Network">Edit Reference Surface Of Network</h2>
+<h2 id="Edit-Reference-Surface-Of-Network-2"><img src="/2020/06/22/20200622Civil3D%20Ribbon%20Demo/EditReferenceSurfaceOfNetwork.gif" alt="Edit Reference Surface Of Network"></h2>
+<h2 id="Adjust-the-multiple-viewports-by-several-clicks">Adjust the multiple viewports by several clicks</h2>
+<p><img src="/2020/06/22/20200622Civil3D%20Ribbon%20Demo/Adjustthemultipleviewportsinseconds2.gif" alt="Adjust the multiple viewports by several clicks"></p>
+<h2 id="get-Lot-Area-Info-and-export-to-Excel-file">get Lot Area Info and export to Excel file</h2>
+<p><img src="/2020/06/22/20200622Civil3D%20Ribbon%20Demo/LotAreaTableGeneration3.gif" alt="get Lot Area Info and export to Excel file"></p>
 <script>
         document.querySelectorAll('.github-emoji')
           .forEach(el => {
@@ -640,45 +679,6 @@ osurface.Rebuild()
       </categories>
       <tags>
         <tag>Arcmap</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Civil3d Ribbon Demo (Automate the repetitive tasks)</title>
-    <url>/2020/06/22/20200622Civil3D%20Ribbon%20Demo/</url>
-    <content><![CDATA[<p>Recently I create a custom #Civil3D ribbon menu with #.NET API for the script I wrote. Now it is easier to use and can save us time for repetitive tasks.</p>
-<hr>
-<h2 id="Edit-Reference-Surface-Of-Network">Edit Reference Surface Of Network</h2>
-<h2 id="Edit-Reference-Surface-Of-Network-2"><img src="/2020/06/22/20200622Civil3D%20Ribbon%20Demo/EditReferenceSurfaceOfNetwork.gif" alt="Edit Reference Surface Of Network"></h2>
-<h2 id="Adjust-the-multiple-viewports-by-several-clicks">Adjust the multiple viewports by several clicks</h2>
-<p><img src="/2020/06/22/20200622Civil3D%20Ribbon%20Demo/Adjustthemultipleviewportsinseconds2.gif" alt="Adjust the multiple viewports by several clicks"></p>
-<h2 id="get-Lot-Area-Info-and-export-to-Excel-file">get Lot Area Info and export to Excel file</h2>
-<p><img src="/2020/06/22/20200622Civil3D%20Ribbon%20Demo/LotAreaTableGeneration3.gif" alt="get Lot Area Info and export to Excel file"></p>
-<script>
-        document.querySelectorAll('.github-emoji')
-          .forEach(el => {
-            if (!el.dataset.src) { return; }
-            const img = document.createElement('img');
-            img.style = 'display:none !important;';
-            img.src = el.dataset.src;
-            img.addEventListener('error', () => {
-              img.remove();
-              el.style.color = 'inherit';
-              el.style.backgroundImage = 'none';
-              el.style.background = 'none';
-            });
-            img.addEventListener('load', () => {
-              img.remove();
-            });
-            document.body.appendChild(img);
-          });
-      </script>]]></content>
-      <categories>
-        <category>June 2020</category>
-      </categories>
-      <tags>
-        <tag>Civil3d</tag>
-        <tag>AutoCAD API</tag>
-        <tag>C#</tag>
       </tags>
   </entry>
   <entry>
@@ -1486,6 +1486,57 @@ ax.set_ylim([-42,-36])
       </tags>
   </entry>
   <entry>
+    <title>Land-use TIF file making for HEC-RAS 2D</title>
+    <url>/2020/04/20/Land-use%20TIF%20file%20making%20for%20HEC-RAS%202D/</url>
+    <content><![CDATA[<p>For 2D analysis in HEC-RAS, we may need to a land use map to assign the manning factor as . How to make it? Of course we can make the detailed land use map by analyzing satellite imagery. But for a simple model, sometime we do not need such a detailed plan. Today I would like to introduce a way to make simple land use map</p>
+<p><img src="/2020/04/20/Land-use%20TIF%20file%20making%20for%20HEC-RAS%202D/11.PNG" alt="HEC-RAS manning.png"></p>
+<p>First, we should download DEM data, building footprint and road information from <a href="https://geomapspublic.aucklandcouncil.govt.nz/viewer/index.html" target="_blank" rel="noopener">Auckland Council Geomap</a>.</p>
+<hr>
+<h3 id="Data-Loading">Data Loading</h3>
+<p>After loading all the data, we can have a map as below.</p>
+<p><img src="/2020/04/20/Land-use%20TIF%20file%20making%20for%20HEC-RAS%202D/22.PNG" alt="HEC-RAS manning.png"></p>
+<p>Now we need to assign different area with different values, and then merge them together.</p>
+<hr>
+<h3 id="Raster-Calculator">Raster Calculator</h3>
+<p>Firstly, we treat the whole catchment area by assigning “1”.</p>
+<p><img src="/2020/04/20/Land-use%20TIF%20file%20making%20for%20HEC-RAS%202D/catchment.PNG" alt="catchment.png"></p>
+<p>Secondly, we apply <em>.\3D Analyst Tools.tbx\Triangulated Surface\Interpolate Polygon to Multipatch</em> to assign the footprint area with value “4”.<br>
+<img src="/2020/04/20/Land-use%20TIF%20file%20making%20for%20HEC-RAS%202D/BFraster.PNG" alt="building footprint.png"></p>
+<p>Similarly, we apply <em>.\3D Analyst Tools.tbx\Triangulated Surface\Interpolate Polygon to Multipatch</em> to assign the roading area with value “3”.<br>
+<img src="/2020/04/20/Land-use%20TIF%20file%20making%20for%20HEC-RAS%202D/roadraster.PNG" alt="road.png"></p>
+<hr>
+<h3 id="Merging-the-files">Merging the files</h3>
+<p><em>.\Spatial Analyst Tools.tbx\Local\Cell Statistics</em> is used to merge the three raster together.Final result will be as the First Photo.</p>
+<p>We just finished a simple one, but the complex one is same, just to merge more seperate raster files.</p>
+<script>
+        document.querySelectorAll('.github-emoji')
+          .forEach(el => {
+            if (!el.dataset.src) { return; }
+            const img = document.createElement('img');
+            img.style = 'display:none !important;';
+            img.src = el.dataset.src;
+            img.addEventListener('error', () => {
+              img.remove();
+              el.style.color = 'inherit';
+              el.style.backgroundImage = 'none';
+              el.style.background = 'none';
+            });
+            img.addEventListener('load', () => {
+              img.remove();
+            });
+            document.body.appendChild(img);
+          });
+      </script>]]></content>
+      <categories>
+        <category>April 2020</category>
+      </categories>
+      <tags>
+        <tag>Arcmap</tag>
+        <tag>Raster</tag>
+        <tag>HEC-RAS</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Objects selection by Ironpython(.NET API in Civil3D) in Dynamo</title>
     <url>/2020/05/15/Objects%20selection%20by%20Ironpython/</url>
     <content><![CDATA[<p>Several ways to select objects According to the type as the result below.</p>
@@ -1647,57 +1698,6 @@ with adoc.LockDocument():
       </categories>
       <tags>
         <tag>Arcmap</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Land-use TIF file making for HEC-RAS 2D</title>
-    <url>/2020/04/20/Land-use%20TIF%20file%20making%20for%20HEC-RAS%202D/</url>
-    <content><![CDATA[<p>For 2D analysis in HEC-RAS, we may need to a land use map to assign the manning factor as . How to make it? Of course we can make the detailed land use map by analyzing satellite imagery. But for a simple model, sometime we do not need such a detailed plan. Today I would like to introduce a way to make simple land use map</p>
-<p><img src="/2020/04/20/Land-use%20TIF%20file%20making%20for%20HEC-RAS%202D/11.PNG" alt="HEC-RAS manning.png"></p>
-<p>First, we should download DEM data, building footprint and road information from <a href="https://geomapspublic.aucklandcouncil.govt.nz/viewer/index.html" target="_blank" rel="noopener">Auckland Council Geomap</a>.</p>
-<hr>
-<h3 id="Data-Loading">Data Loading</h3>
-<p>After loading all the data, we can have a map as below.</p>
-<p><img src="/2020/04/20/Land-use%20TIF%20file%20making%20for%20HEC-RAS%202D/22.PNG" alt="HEC-RAS manning.png"></p>
-<p>Now we need to assign different area with different values, and then merge them together.</p>
-<hr>
-<h3 id="Raster-Calculator">Raster Calculator</h3>
-<p>Firstly, we treat the whole catchment area by assigning “1”.</p>
-<p><img src="/2020/04/20/Land-use%20TIF%20file%20making%20for%20HEC-RAS%202D/catchment.PNG" alt="catchment.png"></p>
-<p>Secondly, we apply <em>.\3D Analyst Tools.tbx\Triangulated Surface\Interpolate Polygon to Multipatch</em> to assign the footprint area with value “4”.<br>
-<img src="/2020/04/20/Land-use%20TIF%20file%20making%20for%20HEC-RAS%202D/BFraster.PNG" alt="building footprint.png"></p>
-<p>Similarly, we apply <em>.\3D Analyst Tools.tbx\Triangulated Surface\Interpolate Polygon to Multipatch</em> to assign the roading area with value “3”.<br>
-<img src="/2020/04/20/Land-use%20TIF%20file%20making%20for%20HEC-RAS%202D/roadraster.PNG" alt="road.png"></p>
-<hr>
-<h3 id="Merging-the-files">Merging the files</h3>
-<p><em>.\Spatial Analyst Tools.tbx\Local\Cell Statistics</em> is used to merge the three raster together.Final result will be as the First Photo.</p>
-<p>We just finished a simple one, but the complex one is same, just to merge more seperate raster files.</p>
-<script>
-        document.querySelectorAll('.github-emoji')
-          .forEach(el => {
-            if (!el.dataset.src) { return; }
-            const img = document.createElement('img');
-            img.style = 'display:none !important;';
-            img.src = el.dataset.src;
-            img.addEventListener('error', () => {
-              img.remove();
-              el.style.color = 'inherit';
-              el.style.backgroundImage = 'none';
-              el.style.background = 'none';
-            });
-            img.addEventListener('load', () => {
-              img.remove();
-            });
-            document.body.appendChild(img);
-          });
-      </script>]]></content>
-      <categories>
-        <category>April 2020</category>
-      </categories>
-      <tags>
-        <tag>Arcmap</tag>
-        <tag>Raster</tag>
-        <tag>HEC-RAS</tag>
       </tags>
   </entry>
   <entry>
