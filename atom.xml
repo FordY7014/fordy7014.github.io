@@ -1,0 +1,610 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Ford Yang&#39;s Blog</title>
+  
+  <subtitle>Civil Engineering and  Data Analysis</subtitle>
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="https://fordy7014.github.io/"/>
+  <updated>2020-06-25T23:59:40.648Z</updated>
+  <id>https://fordy7014.github.io/</id>
+  
+  <author>
+    <name>Ford Yang</name>
+    
+  </author>
+  
+  <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Civil3d Ribbon Demo (Automate the repetitive tasks)</title>
+    <link href="https://fordy7014.github.io/2020/06/22/20200622Civil3D%20Ribbon%20Demo/"/>
+    <id>https://fordy7014.github.io/2020/06/22/20200622Civil3D%20Ribbon%20Demo/</id>
+    <published>2020-06-22T04:04:57.000Z</published>
+    <updated>2020-06-25T23:59:40.648Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;Recently I create a custom #Civil3D ribbon menu with #.NET API for the script I wrote. Now it is easier to use and can save us time for
+        
+      
+    
+    </summary>
+    
+    
+      <category term="June 2020" scheme="https://fordy7014.github.io/categories/June-2020/"/>
+    
+    
+      <category term="Civil3d" scheme="https://fordy7014.github.io/tags/Civil3d/"/>
+    
+      <category term="AutoCAD API" scheme="https://fordy7014.github.io/tags/AutoCAD-API/"/>
+    
+      <category term="C#" scheme="https://fordy7014.github.io/tags/C/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>FilterType[] in dotNetAPI</title>
+    <link href="https://fordy7014.github.io/2020/06/18/20200618FilterType[]%20in%20dotNetAPI/"/>
+    <id>https://fordy7014.github.io/2020/06/18/20200618FilterType[]%20in%20dotNetAPI/</id>
+    <published>2020-06-18T04:04:57.000Z</published>
+    <updated>2020-07-17T08:30:58.191Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h2 id=&quot;This-one-is-just-to-make-a-record-for-the-passage-in-the-Reference-The-content-and-code-are-all-from-this-passage&quot;&gt;This one is just
+        
+      
+    
+    </summary>
+    
+    
+      <category term="June 2020" scheme="https://fordy7014.github.io/categories/June-2020/"/>
+    
+    
+      <category term="Civil3d" scheme="https://fordy7014.github.io/tags/Civil3d/"/>
+    
+      <category term="AutoCAD API" scheme="https://fordy7014.github.io/tags/AutoCAD-API/"/>
+    
+      <category term="C#" scheme="https://fordy7014.github.io/tags/C/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Move the selected objects to the current layer</title>
+    <link href="https://fordy7014.github.io/2020/06/17/20200617Move%20the%20selected%20objects%20to%20the%20current%20layer/"/>
+    <id>https://fordy7014.github.io/2020/06/17/20200617Move%20the%20selected%20objects%20to%20the%20current%20layer/</id>
+    <published>2020-06-17T04:04:57.000Z</published>
+    <updated>2020-07-17T08:30:55.862Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;hr&gt;
+&lt;h2 id=&quot;Build-a-FilterType-to-select&quot;&gt;Build a FilterType[] to select&lt;/h2&gt;
+&lt;pre class=&quot; language-language-csharp&quot;&gt;&lt;code
+        
+      
+    
+    </summary>
+    
+    
+      <category term="June 2020" scheme="https://fordy7014.github.io/categories/June-2020/"/>
+    
+    
+      <category term="Civil3d" scheme="https://fordy7014.github.io/tags/Civil3d/"/>
+    
+      <category term="AutoCAD API" scheme="https://fordy7014.github.io/tags/AutoCAD-API/"/>
+    
+      <category term="C#" scheme="https://fordy7014.github.io/tags/C/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Prompt to Select one type of object in .NetAPI(Ironpython)</title>
+    <link href="https://fordy7014.github.io/2020/06/16/20200616Prompt%20to%20Select%20one%20type%20of%20object/"/>
+    <id>https://fordy7014.github.io/2020/06/16/20200616Prompt%20to%20Select%20one%20type%20of%20object/</id>
+    <published>2020-06-16T04:04:57.000Z</published>
+    <updated>2020-07-17T08:31:22.918Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;hr&gt;
+&lt;h2 id=&quot;Function&quot;&gt;Function&lt;/h2&gt;
+&lt;pre class=&quot; language-language-python&quot;&gt;&lt;code class=&quot;language-language-python&quot;&gt;def PromptForEntity(
+        
+      
+    
+    </summary>
+    
+    
+      <category term="June 2020" scheme="https://fordy7014.github.io/categories/June-2020/"/>
+    
+    
+      <category term="Civil3d" scheme="https://fordy7014.github.io/tags/Civil3d/"/>
+    
+      <category term="AutoCAD API" scheme="https://fordy7014.github.io/tags/AutoCAD-API/"/>
+    
+      <category term="Ironpython" scheme="https://fordy7014.github.io/tags/Ironpython/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Set Viewport in AutoCad .Net API</title>
+    <link href="https://fordy7014.github.io/2020/06/15/20200615Set%20Viewport%20in%20AutoCad%20.Net%20API/"/>
+    <id>https://fordy7014.github.io/2020/06/15/20200615Set%20Viewport%20in%20AutoCad%20.Net%20API/</id>
+    <published>2020-06-15T04:04:57.000Z</published>
+    <updated>2020-07-17T08:31:31.984Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;hr&gt;
+&lt;pre class=&quot; language-language-python&quot;&gt;&lt;code class=&quot;language-language-python&quot;&gt;with adoc.LockDocument():
+  with adoc.Database as db:
+  
+        
+      
+    
+    </summary>
+    
+    
+      <category term="June 2020" scheme="https://fordy7014.github.io/categories/June-2020/"/>
+    
+    
+      <category term="Civil3d" scheme="https://fordy7014.github.io/tags/Civil3d/"/>
+    
+      <category term="AutoCAD API" scheme="https://fordy7014.github.io/tags/AutoCAD-API/"/>
+    
+      <category term="Ironpython" scheme="https://fordy7014.github.io/tags/Ironpython/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>How to autoload *.dll in AutoCAD</title>
+    <link href="https://fordy7014.github.io/2020/06/01/20200602How%20to%20autoload%20dll%20in%20AutoCAD/"/>
+    <id>https://fordy7014.github.io/2020/06/01/20200602How%20to%20autoload%20dll%20in%20AutoCAD/</id>
+    <published>2020-06-01T04:04:57.000Z</published>
+    <updated>2020-07-17T08:32:09.550Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;hr&gt;
+&lt;h3 id=&quot;Enter-the-folder&quot;&gt;Enter the folder&lt;/h3&gt;
+&lt;p&gt;First step is to create a bundle folder in
+        
+      
+    
+    </summary>
+    
+    
+      <category term="June 2020" scheme="https://fordy7014.github.io/categories/June-2020/"/>
+    
+    
+      <category term="Civil3d" scheme="https://fordy7014.github.io/tags/Civil3d/"/>
+    
+      <category term="AutoCAD API" scheme="https://fordy7014.github.io/tags/AutoCAD-API/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Objects selection by Ironpython(.NET API in Civil3D) in Dynamo</title>
+    <link href="https://fordy7014.github.io/2020/05/15/Objects%20selection%20by%20Ironpython/"/>
+    <id>https://fordy7014.github.io/2020/05/15/Objects%20selection%20by%20Ironpython/</id>
+    <published>2020-05-15T04:04:57.000Z</published>
+    <updated>2020-07-17T08:28:07.774Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;Several ways to select objects According to the type as the result below.&lt;/p&gt;
+&lt;p&gt;&lt;img
+        
+      
+    
+    </summary>
+    
+    
+      <category term="May 2020" scheme="https://fordy7014.github.io/categories/May-2020/"/>
+    
+    
+      <category term="Civil3d" scheme="https://fordy7014.github.io/tags/Civil3d/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Add boundary Line to Surface by using API</title>
+    <link href="https://fordy7014.github.io/2020/05/13/Add%20boundary%20Line%20to%20Surface%20by%20using%20API/"/>
+    <id>https://fordy7014.github.io/2020/05/13/Add%20boundary%20Line%20to%20Surface%20by%20using%20API/</id>
+    <published>2020-05-13T04:04:57.000Z</published>
+    <updated>2020-07-17T08:30:29.846Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;Today, I saw a post from Dynamo forum that mentioned how to add boundaryline to the surface. Just make a note for future use.  The
+        
+      
+    
+    </summary>
+    
+    
+      <category term="May 2020" scheme="https://fordy7014.github.io/categories/May-2020/"/>
+    
+    
+      <category term="Civil3d" scheme="https://fordy7014.github.io/tags/Civil3d/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Visual Studio Shortcut in C#</title>
+    <link href="https://fordy7014.github.io/2020/05/13/Visual%20Studio%20C#%20Code%20Snippet/"/>
+    <id>https://fordy7014.github.io/2020/05/13/Visual%20Studio%20C#%20Code%20Snippet/</id>
+    <published>2020-05-13T04:04:57.000Z</published>
+    <updated>2020-06-06T01:37:26.835Z</updated>
+    
+    <summary type="html">
+    
+      Here&#39;s something encrypted, password is required to continue reading.
+    
+    </summary>
+    
+    
+      <category term="May 2020" scheme="https://fordy7014.github.io/categories/May-2020/"/>
+    
+    
+      <category term="C#" scheme="https://fordy7014.github.io/tags/C/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>the Covid19 case Number Growth by DHB in NZ</title>
+    <link href="https://fordy7014.github.io/2020/04/25/Generate%20the%20Covid19%20case%20growth%20video/"/>
+    <id>https://fordy7014.github.io/2020/04/25/Generate%20the%20Covid19%20case%20growth%20video/</id>
+    <published>2020-04-25T06:04:57.000Z</published>
+    <updated>2020-07-17T08:39:53.327Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h2 id=&quot;Read-the-data-from-excel&quot;&gt;Read the data from excel&lt;/h2&gt;
+&lt;pre class=&quot; language-language-python&quot;&gt;&lt;code
+        
+      
+    
+    </summary>
+    
+    
+      <category term="April 2020" scheme="https://fordy7014.github.io/categories/April-2020/"/>
+    
+    
+      <category term="Pandas" scheme="https://fordy7014.github.io/tags/Pandas/"/>
+    
+      <category term="matplotlib" scheme="https://fordy7014.github.io/tags/matplotlib/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Delineate watershed based on DEM data on ArcMAP</title>
+    <link href="https://fordy7014.github.io/2020/04/24/Delinenate%20the%20watershed%20based%20on%20DEM%20data%20on%20ArcMAP/"/>
+    <id>https://fordy7014.github.io/2020/04/24/Delinenate%20the%20watershed%20based%20on%20DEM%20data%20on%20ArcMAP/</id>
+    <published>2020-04-24T04:04:57.000Z</published>
+    <updated>2020-05-22T00:55:15.379Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;Before input data into hydrologic or hydraulic data, we need to know the catchment boundary first. Arcmap has wonderful tool suite to
+        
+      
+    
+    </summary>
+    
+    
+      <category term="April 2020" scheme="https://fordy7014.github.io/categories/April-2020/"/>
+    
+    
+      <category term="Arcmap" scheme="https://fordy7014.github.io/tags/Arcmap/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Present 3D DEM and Building in ArcScene</title>
+    <link href="https://fordy7014.github.io/2020/04/22/Present%20the%20results%20in%20ArcScene/"/>
+    <id>https://fordy7014.github.io/2020/04/22/Present%20the%20results%20in%20ArcScene/</id>
+    <published>2020-04-22T04:04:57.000Z</published>
+    <updated>2020-05-22T00:55:35.136Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;If we want to have an 3D overview of DEM with Building or flooding data, we can use ArcScene.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h3 id=&quot;Load-DEM&quot;&gt;Load
+        
+      
+    
+    </summary>
+    
+    
+      <category term="May 2020" scheme="https://fordy7014.github.io/categories/May-2020/"/>
+    
+    
+      <category term="Arcmap" scheme="https://fordy7014.github.io/tags/Arcmap/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>How to merge many different raster files into one raster</title>
+    <link href="https://fordy7014.github.io/2020/04/20/How%20to%20take%20many%20different%20rasters%20into%20one%20raster/"/>
+    <id>https://fordy7014.github.io/2020/04/20/How%20to%20take%20many%20different%20rasters%20into%20one%20raster/</id>
+    <published>2020-04-20T04:04:57.000Z</published>
+    <updated>2020-05-22T00:55:21.297Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;On &lt;a href=&quot;https://geomapspublic.aucklandcouncil.govt.nz/viewer/index.html&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Auckland Council Geomap&lt;/a&gt;,
+        
+      
+    
+    </summary>
+    
+    
+      <category term="April 2020" scheme="https://fordy7014.github.io/categories/April-2020/"/>
+    
+    
+      <category term="Arcmap" scheme="https://fordy7014.github.io/tags/Arcmap/"/>
+    
+      <category term="Raster" scheme="https://fordy7014.github.io/tags/Raster/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Land-use TIF file making for HEC-RAS 2D</title>
+    <link href="https://fordy7014.github.io/2020/04/20/Land-use%20TIF%20file%20making%20for%20HEC-RAS%202D/"/>
+    <id>https://fordy7014.github.io/2020/04/20/Land-use%20TIF%20file%20making%20for%20HEC-RAS%202D/</id>
+    <published>2020-04-20T04:04:57.000Z</published>
+    <updated>2020-05-22T00:55:30.338Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;For 2D analysis in HEC-RAS, we may need to a land use map to assign the manning factor as . How to make it? Of course we can make the
+        
+      
+    
+    </summary>
+    
+    
+      <category term="April 2020" scheme="https://fordy7014.github.io/categories/April-2020/"/>
+    
+    
+      <category term="Arcmap" scheme="https://fordy7014.github.io/tags/Arcmap/"/>
+    
+      <category term="Raster" scheme="https://fordy7014.github.io/tags/Raster/"/>
+    
+      <category term="HEC-RAS" scheme="https://fordy7014.github.io/tags/HEC-RAS/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Spatial Join in Geopandas</title>
+    <link href="https://fordy7014.github.io/2020/04/17/Spatial%20Join%20in%20Geopandas/"/>
+    <id>https://fordy7014.github.io/2020/04/17/Spatial%20Join%20in%20Geopandas/</id>
+    <published>2020-04-17T06:04:57.000Z</published>
+    <updated>2020-07-16T21:56:47.972Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h2 id=&quot;Import-the-packages-and-files&quot;&gt;Import the packages and files&lt;/h2&gt;
+&lt;pre class=&quot; language-language-python&quot;&gt;&lt;code
+        
+      
+    
+    </summary>
+    
+    
+      <category term="April 2020" scheme="https://fordy7014.github.io/categories/April-2020/"/>
+    
+    
+      <category term="Spatial Analysis" scheme="https://fordy7014.github.io/tags/Spatial-Analysis/"/>
+    
+      <category term="Geopandas" scheme="https://fordy7014.github.io/tags/Geopandas/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Pyswmm Learning</title>
+    <link href="https://fordy7014.github.io/2020/04/16/Pyswmm%20practice/"/>
+    <id>https://fordy7014.github.io/2020/04/16/Pyswmm%20practice/</id>
+    <published>2020-04-16T00:04:57.000Z</published>
+    <updated>2020-05-22T00:55:38.497Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;pre class=&quot; language-language-python&quot;&gt;&lt;code class=&quot;language-language-python&quot;&gt;import pandas as pd
+from pandas import DataFrame,
+        
+      
+    
+    </summary>
+    
+    
+      <category term="April 2020" scheme="https://fordy7014.github.io/categories/April-2020/"/>
+    
+    
+      <category term="SWMM" scheme="https://fordy7014.github.io/tags/SWMM/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Introduction to Matplotlib and Line Plots</title>
+    <link href="https://fordy7014.github.io/2020/04/15/Introduction-to-Matplotlib-and-Line-Plots/"/>
+    <id>https://fordy7014.github.io/2020/04/15/Introduction-to-Matplotlib-and-Line-Plots/</id>
+    <published>2020-04-15T04:04:57.000Z</published>
+    <updated>2020-05-22T00:55:28.287Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h2 id=&quot;Table-of-Contents&quot;&gt;Table of Contents&lt;/h2&gt;
+&lt;div class=&quot;alert alert-block alert-info&quot; style=&quot;margin-top: 20px&quot;&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a
+        
+      
+    
+    </summary>
+    
+    
+      <category term="April 2020" scheme="https://fordy7014.github.io/categories/April-2020/"/>
+    
+    
+      <category term="Matplotlib" scheme="https://fordy7014.github.io/tags/Matplotlib/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>How to make Choropleth map about Covid-19 Cases in New Zealand</title>
+    <link href="https://fordy7014.github.io/2020/04/14/How%20to%20make%20Choropleth%20map%20about%20Covid-19%20Cases%20in%20New%20Zealand/"/>
+    <id>https://fordy7014.github.io/2020/04/14/How%20to%20make%20Choropleth%20map%20about%20Covid-19%20Cases%20in%20New%20Zealand/</id>
+    <published>2020-04-14T06:04:57.000Z</published>
+    <updated>2020-05-22T00:55:25.023Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h2 id=&quot;Import-the-packages&quot;&gt;Import the packages&lt;/h2&gt;
+&lt;pre class=&quot; language-language-python&quot;&gt;&lt;code class=&quot;language-language-python&quot;&gt;from
+        
+      
+    
+    </summary>
+    
+    
+      <category term="April 2020" scheme="https://fordy7014.github.io/categories/April-2020/"/>
+    
+    
+      <category term="Pandas" scheme="https://fordy7014.github.io/tags/Pandas/"/>
+    
+      <category term="Folium" scheme="https://fordy7014.github.io/tags/Folium/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Geopandas Practise_Part1</title>
+    <link href="https://fordy7014.github.io/2020/04/13/Geopandas%20Practise_Part1/"/>
+    <id>https://fordy7014.github.io/2020/04/13/Geopandas%20Practise_Part1/</id>
+    <published>2020-04-13T04:04:57.000Z</published>
+    <updated>2020-05-22T00:55:17.196Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;Environment: Python3.7&lt;br&gt;&lt;/p&gt;
+&lt;h1&gt;01. Import the packages&lt;/h1&gt;
+&lt;h4 id=&quot;Basic-Packages&quot;&gt;Basic Packages&lt;/h4&gt;
+&lt;pre class=&quot;
+        
+      
+    
+    </summary>
+    
+    
+      <category term="April 2020" scheme="https://fordy7014.github.io/categories/April-2020/"/>
+    
+    
+      <category term="Spatial Analysis" scheme="https://fordy7014.github.io/tags/Spatial-Analysis/"/>
+    
+      <category term="Geopandas" scheme="https://fordy7014.github.io/tags/Geopandas/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Hello World</title>
+    <link href="https://fordy7014.github.io/2020/04/10/hello-world/"/>
+    <id>https://fordy7014.github.io/2020/04/10/hello-world/</id>
+    <published>2020-04-10T04:04:57.000Z</published>
+    <updated>2020-05-22T00:55:19.147Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;Welcome to &lt;a href=&quot;https://hexo.io/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Hexo&lt;/a&gt;! This is your very first post. Check &lt;a
+        
+      
+    
+    </summary>
+    
+    
+      <category term="April 2020" scheme="https://fordy7014.github.io/categories/April-2020/"/>
+    
+    
+  </entry>
+  
+</feed>

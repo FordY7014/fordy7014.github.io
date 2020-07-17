@@ -29,7 +29,8 @@
 
     <script src="/libs/jquery/jquery.min.js"></script>
 
-<meta name="generator" content="Hexo 4.2.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+<meta name="generator" content="Hexo 4.2.0"><link rel="alternate" href="/atom.xml" title="Ford Yang's Blog" type="application/atom+xml">
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
 
 
 <body>
@@ -101,6 +102,58 @@
       
       <span>About</span>
     </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="" class="waves-effect waves-light">
+
+      
+      <i class="fas fa-list" style="zoom: 0.6;"></i>
+      
+      <span>Medias</span>
+      <i class="fas fa-chevron-down" aria-hidden="true" style="zoom: 0.6;"></i>
+    </a>
+    <ul class="sub-nav menus_item_child ">
+      
+      <li>
+        <a href="/musics">
+          
+          <i class="fas fa-music" style="margin-top: -20px; zoom: 0.6;"></i>
+          
+          <span>Musics</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/movies">
+          
+          <i class="fas fa-film" style="margin-top: -20px; zoom: 0.6;"></i>
+          
+          <span>Movies</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/books">
+          
+          <i class="fas fa-book" style="margin-top: -20px; zoom: 0.6;"></i>
+          
+          <span>Books</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/galleries">
+          
+          <i class="fas fa-image" style="margin-top: -20px; zoom: 0.6;"></i>
+          
+          <span>Galleries</span>
+        </a>
+      </li>
+      
+    </ul>
     
   </li>
   
@@ -182,6 +235,61 @@
 			
 			About
 		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="javascript:;">
+			
+				<i class="fa-fw fas fa-list"></i>
+			
+			Medias
+			<span class="m-icon"><i class="fas fa-chevron-right"></i></span>
+		</a>
+            <ul  style="background:  ;" >
+              
+                <li>
+
+                  <a href="/musics " style="margin-left:75px">
+				  
+				   <i class="fa fas fa-music" style="position: absolute;left:50px" ></i>
+			      
+		          <span>Musics</span>
+                  </a>
+                </li>
+              
+                <li>
+
+                  <a href="/movies " style="margin-left:75px">
+				  
+				   <i class="fa fas fa-film" style="position: absolute;left:50px" ></i>
+			      
+		          <span>Movies</span>
+                  </a>
+                </li>
+              
+                <li>
+
+                  <a href="/books " style="margin-left:75px">
+				  
+				   <i class="fa fas fa-book" style="position: absolute;left:50px" ></i>
+			      
+		          <span>Books</span>
+                  </a>
+                </li>
+              
+                <li>
+
+                  <a href="/galleries " style="margin-left:75px">
+				  
+				   <i class="fa fas fa-image" style="position: absolute;left:50px" ></i>
+			      
+		          <span>Galleries</span>
+                  </a>
+                </li>
+              
+            </ul>
           
         </li>
         
@@ -378,7 +486,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>Word Count:&nbsp;&nbsp;
-                    350
+                    209
                 </div>
                 
 
@@ -399,23 +507,23 @@
 <h2 id="Aim">Aim</h2>
 <pre><code>&lt; or
     &lt; and
-             Layer == "lay01"
-             Color == "1"    // 红色索引值为1
-             Entity type == "TEXT"
+             Layer == &quot;lay01&quot;
+             Color == &quot;1&quot;    // 红色索引值为1
+             Entity type == &quot;TEXT&quot;
     and &gt;
     &lt; and
              &lt; or
-             Layer == "lay02"
-             Layer == "lay03"
+             Layer == &quot;lay02&quot;
+             Layer == &quot;lay03&quot;
              or &gt;
-             Color == "5"     // 蓝色索引值为5
-             Entity type == "POLYLINE"
+             Color == &quot;5&quot;     // 蓝色索引值为5
+             Entity type == &quot;POLYLINE&quot;
     and &gt;
 or &gt;
 </code></pre>
 <hr>
 <h2 id="Code">Code</h2>
-<pre><code>
+<pre class=" language-language-csharp"><code class="language-language-csharp">
 public static void MultipleSelectionFilter()
 {
     // 获取当前文档编辑器
@@ -425,23 +533,23 @@ public static void MultipleSelectionFilter()
 
     // 定义筛选条件
     TypedValue[] typeValue = {
-     new TypedValue((int) DxfCode.Operator, "&lt;or"),
+     new TypedValue((int) DxfCode.Operator, "<or"),
      // 选择标准1
-     new TypedValue((int) DxfCode.Operator, "&lt;and"),
+     new TypedValue((int) DxfCode.Operator, "<and"),
      new TypedValue((int) DxfCode.Start, "TEXT"),
      new TypedValue((int) DxfCode.LayerName, "lay01"),
      new TypedValue((int) DxfCode.Color, "1"),
-     new TypedValue((int) DxfCode.Operator, "and&gt;"),
+     new TypedValue((int) DxfCode.Operator, "and>"),
      // 选择标准2
-     new TypedValue((int) DxfCode.Operator, "&lt;and"),
+     new TypedValue((int) DxfCode.Operator, "<and"),
      new TypedValue((int) DxfCode.Start, "LWPOLYLINE"),
      new TypedValue((int) DxfCode.Color, "5"),
-     new TypedValue((int) DxfCode.Operator, "&lt;or"),
+     new TypedValue((int) DxfCode.Operator, "<or"),
      new TypedValue((int) DxfCode.LayerName, "lay02"),
      new TypedValue((int) DxfCode.LayerName, "lay03"),
-     new TypedValue((int) DxfCode.Operator, "or&gt;"),
-     new TypedValue((int) DxfCode.Operator, "and&gt;"),
-     new TypedValue((int) DxfCode.Operator, "or&gt;")
+     new TypedValue((int) DxfCode.Operator, "or>"),
+     new TypedValue((int) DxfCode.Operator, "and>"),
+     new TypedValue((int) DxfCode.Operator, "or>")
     };
 
     // 将筛选条件传到过滤器
@@ -465,25 +573,7 @@ public static void MultipleSelectionFilter()
 </code></pre>
 <h1>Reference</h1>
 <p><a href="https://mp.weixin.qq.com/s/f1UU9ihNL1B0UUKzMFgDAg" target="_blank" rel="noopener">https://mp.weixin.qq.com/s/f1UU9ihNL1B0UUKzMFgDAg</a></p>
-<script>
-        document.querySelectorAll('.github-emoji')
-          .forEach(el => {
-            if (!el.dataset.src) { return; }
-            const img = document.createElement('img');
-            img.style = 'display:none !important;';
-            img.src = el.dataset.src;
-            img.addEventListener('error', () => {
-              img.remove();
-              el.style.color = 'inherit';
-              el.style.backgroundImage = 'none';
-              el.style.background = 'none';
-            });
-            img.addEventListener('load', () => {
-              img.remove();
-            });
-            document.body.appendChild(img);
-          });
-      </script>
+
             </div>
             <hr/>
 

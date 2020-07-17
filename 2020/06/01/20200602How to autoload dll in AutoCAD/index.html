@@ -29,7 +29,8 @@
 
     <script src="/libs/jquery/jquery.min.js"></script>
 
-<meta name="generator" content="Hexo 4.2.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+<meta name="generator" content="Hexo 4.2.0"><link rel="alternate" href="/atom.xml" title="Ford Yang's Blog" type="application/atom+xml">
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
 
 
 <body>
@@ -101,6 +102,58 @@
       
       <span>About</span>
     </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="" class="waves-effect waves-light">
+
+      
+      <i class="fas fa-list" style="zoom: 0.6;"></i>
+      
+      <span>Medias</span>
+      <i class="fas fa-chevron-down" aria-hidden="true" style="zoom: 0.6;"></i>
+    </a>
+    <ul class="sub-nav menus_item_child ">
+      
+      <li>
+        <a href="/musics">
+          
+          <i class="fas fa-music" style="margin-top: -20px; zoom: 0.6;"></i>
+          
+          <span>Musics</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/movies">
+          
+          <i class="fas fa-film" style="margin-top: -20px; zoom: 0.6;"></i>
+          
+          <span>Movies</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/books">
+          
+          <i class="fas fa-book" style="margin-top: -20px; zoom: 0.6;"></i>
+          
+          <span>Books</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/galleries">
+          
+          <i class="fas fa-image" style="margin-top: -20px; zoom: 0.6;"></i>
+          
+          <span>Galleries</span>
+        </a>
+      </li>
+      
+    </ul>
     
   </li>
   
@@ -182,6 +235,61 @@
 			
 			About
 		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="javascript:;">
+			
+				<i class="fa-fw fas fa-list"></i>
+			
+			Medias
+			<span class="m-icon"><i class="fas fa-chevron-right"></i></span>
+		</a>
+            <ul  style="background:  ;" >
+              
+                <li>
+
+                  <a href="/musics " style="margin-left:75px">
+				  
+				   <i class="fa fas fa-music" style="position: absolute;left:50px" ></i>
+			      
+		          <span>Musics</span>
+                  </a>
+                </li>
+              
+                <li>
+
+                  <a href="/movies " style="margin-left:75px">
+				  
+				   <i class="fa fas fa-film" style="position: absolute;left:50px" ></i>
+			      
+		          <span>Movies</span>
+                  </a>
+                </li>
+              
+                <li>
+
+                  <a href="/books " style="margin-left:75px">
+				  
+				   <i class="fa fas fa-book" style="position: absolute;left:50px" ></i>
+			      
+		          <span>Books</span>
+                  </a>
+                </li>
+              
+                <li>
+
+                  <a href="/galleries " style="margin-left:75px">
+				  
+				   <i class="fa fas fa-image" style="position: absolute;left:50px" ></i>
+			      
+		          <span>Galleries</span>
+                  </a>
+                </li>
+              
+            </ul>
           
         </li>
         
@@ -374,7 +482,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>Word Count:&nbsp;&nbsp;
-                    477
+                    378
                 </div>
                 
 
@@ -403,20 +511,20 @@
 <hr>
 <h3 id="Modify-the-XML-file">Modify the XML file</h3>
 <p>code inside PackageContents.xml can be as simple as the following (Change things like “MyApp”, “MyName”, etc… and it works):</p>
-<pre><code>&lt;?xml version="1.0" encoding="utf-8"?&gt;
-&lt;ApplicationPackage SchemaVersion="1.0" ProductType="Application" Name="MyAPP" AppVersion="1.0" Description="MyAPP, My description" Author="My Name" Icon="./Contents/MyAPPIcon.ico" OnlineDocumentation="http://MyWebSite.com" HelpFile="" ProductCode="{xxxxxx-xxxx-xxxx-xxxx-xxxxxxxxx}" FriendlyVersion="1.0" SupportedLocales="Enu" AutodeskProduct="AutoCAD"&gt;
-  &lt;CompanyDetails Name="My Name" Phone=" " Url="http://MyWebsite.com" Email="MyName@MyWebSite.com" /&gt;
-  &lt;Components Description="Main"&gt;
-    &lt;RuntimeRequirements SupportPath="./Contents" OS="Win32|Win64" Platform="AutoCAD*" SeriesMin="R19.0" SeriesMax="R22.0" /&gt;
-    &lt;ComponentEntry AppName="MyAPP" Version="1.0" ModuleName="./Contents/MyAPP.dll" AppDescription="My description" LoadOnAppearance="True" LoadOnAutoCADStartup="True" LoadOnCommandInvocation="True"&gt;
-    &lt;/ComponentEntry&gt;
-  &lt;/Components&gt;
-&lt;/ApplicationPackage&gt;
+<pre class=" language-language-xml"><code class="language-language-xml"><?xml version="1.0" encoding="utf-8"?>
+<ApplicationPackage SchemaVersion="1.0" ProductType="Application" Name="MyAPP" AppVersion="1.0" Description="MyAPP, My description" Author="My Name" Icon="./Contents/MyAPPIcon.ico" OnlineDocumentation="http://MyWebSite.com" HelpFile="" ProductCode="{xxxxxx-xxxx-xxxx-xxxx-xxxxxxxxx}" FriendlyVersion="1.0" SupportedLocales="Enu" AutodeskProduct="AutoCAD">
+  <CompanyDetails Name="My Name" Phone=" " Url="http://MyWebsite.com" Email="MyName@MyWebSite.com" />
+  <Components Description="Main">
+    <RuntimeRequirements SupportPath="./Contents" OS="Win32|Win64" Platform="AutoCAD*" SeriesMin="R19.0" SeriesMax="R22.0" />
+    <ComponentEntry AppName="MyAPP" Version="1.0" ModuleName="./Contents/MyAPP.dll" AppDescription="My description" LoadOnAppearance="True" LoadOnAutoCADStartup="True" LoadOnCommandInvocation="True">
+    </ComponentEntry>
+  </Components>
+</ApplicationPackage>
 </code></pre>
 <p>Put the *.dll file inside the Contents folder.</p>
 <hr>
 <h3 id="ProductCode-GUID">ProductCode(GUID)</h3>
-<pre><code>private string getGUID()
+<pre class=" language-language-csharp"><code class="language-language-csharp">private string getGUID()
    {
        System.Guid guid = new Guid();
        guid = Guid.NewGuid();
@@ -429,23 +537,23 @@
 </code></pre>
 <hr>
 <h3 id="Auto-Run-Command-when-loading-dll-file">Auto Run Command when loading .dll file</h3>
-<pre><code>&lt;?xml version="1.0" encoding="utf-8"?&gt;
-&lt;ApplicationPackage SchemaVersion="1.0" AppVersion="1.0.0" ProductType="Application"
-    ProductCode="{6A1C1EAE-3744-4BD8-AF08-F322E92D9B3B}"
-    Name="RibbonTest"  Description="MyAPP, My description"  SupportedLocales="Enu" AutodeskProduct="AutoCAD"&gt;
-  &lt;CompanyDetails Name="myribbontest" Email="yangfan7014@gmail.com" /&gt;
-  &lt;RuntimeRequirements SupportPath="./Contents" OS="Win32|Win64" Platform="AutoCAD*|AutoCAD" SeriesMin="R20.1" SeriesMax="R24.0"/&gt;
-  &lt;Components Description="Main"&gt;
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;ApplicationPackage SchemaVersion=&quot;1.0&quot; AppVersion=&quot;1.0.0&quot; ProductType=&quot;Application&quot;
+    ProductCode=&quot;{6A1C1EAE-3744-4BD8-AF08-F322E92D9B3B}&quot;
+    Name=&quot;RibbonTest&quot;  Description=&quot;MyAPP, My description&quot;  SupportedLocales=&quot;Enu&quot; AutodeskProduct=&quot;AutoCAD&quot;&gt;
+  &lt;CompanyDetails Name=&quot;myribbontest&quot; Email=&quot;yangfan7014@gmail.com&quot; /&gt;
+  &lt;RuntimeRequirements SupportPath=&quot;./Contents&quot; OS=&quot;Win32|Win64&quot; Platform=&quot;AutoCAD*|AutoCAD&quot; SeriesMin=&quot;R20.1&quot; SeriesMax=&quot;R24.0&quot;/&gt;
+  &lt;Components Description=&quot;Main&quot;&gt;
 
-    &lt;ComponentEntry  AppName="MyAPP" Version="1.0.0" ModuleName="./Contents/18RibbonT.dll" LoadOnAppearance="True" LoadOnAutoCADStartup="True" LoadOnCommandInvocation="True"&gt;
-      &lt;Commands GroupName="_18RibbonT"&gt;
-        &lt;Command Local="RibbonDemo" Global="RibbonDemo" StartupCommand = "True" /&gt;
+    &lt;ComponentEntry  AppName=&quot;MyAPP&quot; Version=&quot;1.0.0&quot; ModuleName=&quot;./Contents/18RibbonT.dll&quot; LoadOnAppearance=&quot;True&quot; LoadOnAutoCADStartup=&quot;True&quot; LoadOnCommandInvocation=&quot;True&quot;&gt;
+      &lt;Commands GroupName=&quot;_18RibbonT&quot;&gt;
+        &lt;Command Local=&quot;RibbonDemo&quot; Global=&quot;RibbonDemo&quot; StartupCommand = &quot;True&quot; /&gt;
       &lt;/Commands&gt;
 	  &lt;/ComponentEntry&gt;
 
-    &lt;ComponentEntry  AppName="Ramps" Version="1.0.0" ModuleName="./Contents/Ramps.dll" LoadOnAutoCADStartup="True"&gt;
-      &lt;Commands GroupName="Commands"&gt;
-        &lt;Command Local="CRAMPS" Global="CRAMPS" /&gt;
+    &lt;ComponentEntry  AppName=&quot;Ramps&quot; Version=&quot;1.0.0&quot; ModuleName=&quot;./Contents/Ramps.dll&quot; LoadOnAutoCADStartup=&quot;True&quot;&gt;
+      &lt;Commands GroupName=&quot;Commands&quot;&gt;
+        &lt;Command Local=&quot;CRAMPS&quot; Global=&quot;CRAMPS&quot; /&gt;
       &lt;/Commands&gt;
     &lt;/ComponentEntry&gt;		
 
@@ -457,25 +565,7 @@
 <a href="https://stackoverflow.com/questions/46282189/autocad-2018-autoload-dll" target="_blank" rel="noopener">https://stackoverflow.com/questions/46282189/autocad-2018-autoload-dll</a><br>
 <a href="https://stackoverflow.com/questions/46282189/autocad-2018-autoload-dll" target="_blank" rel="noopener">https://stackoverflow.com/questions/46282189/autocad-2018-autoload-dll</a><br>
 <a href="https://www.cnblogs.com/linzheng/archive/2010/12/14/1905906.html" target="_blank" rel="noopener">https://www.cnblogs.com/linzheng/archive/2010/12/14/1905906.html</a></p>
-<script>
-        document.querySelectorAll('.github-emoji')
-          .forEach(el => {
-            if (!el.dataset.src) { return; }
-            const img = document.createElement('img');
-            img.style = 'display:none !important;';
-            img.src = el.dataset.src;
-            img.addEventListener('error', () => {
-              img.remove();
-              el.style.color = 'inherit';
-              el.style.backgroundImage = 'none';
-              el.style.background = 'none';
-            });
-            img.addEventListener('load', () => {
-              img.remove();
-            });
-            document.body.appendChild(img);
-          });
-      </script>
+
             </div>
             <hr/>
 
