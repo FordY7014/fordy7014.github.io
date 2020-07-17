@@ -554,24 +554,28 @@
                 Next&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/04/24/Delinenate%20the%20watershed%20based%20on%20DEM%20data%20on%20ArcMAP/">
+                <a href="/2020/04/25/Generate%20the%20Covid19%20case%20growth%20video/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/5.jpg" class="responsive-img" alt="Delineate watershed based on DEM data on ArcMAP">
+                        <img src="/medias/featureimages/14.jpg" class="responsive-img" alt="the Covid19 case Nnumber growth by DHB in NZ">
                         
-                        <span class="card-title">Delineate watershed based on DEM data on ArcMAP</span>
+                        <span class="card-title">the Covid19 case Nnumber growth by DHB in NZ</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            Before input data into hydrologic or hydraulic data, we need to know the catchment boundary first. Arcmap has wonderful 
+                            Read the data from excel
+df = pd.read_excel('covid-caselist-23april.xlsx',sheet_name= 'Confirmed')
+
+
+The excel file is f
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-04-24
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-04-25
                             </span>
                         <span class="publish-author">
                             
@@ -588,8 +592,12 @@
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/Arcmap/">
-                        <span class="chip bg-color">Arcmap</span>
+                    <a href="/tags/Pandas/">
+                        <span class="chip bg-color">Pandas</span>
+                    </a>
+                    
+                    <a href="/tags/matplotlib/">
+                        <span class="chip bg-color">matplotlib</span>
                     </a>
                     
                 </div>
