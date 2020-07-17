@@ -217,89 +217,6 @@ except:
       </tags>
   </entry>
   <entry>
-    <title>FilterType[] in dotNetAPI</title>
-    <url>/2020/06/18/20200618FilterType%5B%5D%20in%20dotNetAPI/</url>
-    <content><![CDATA[<h2 id="This-one-is-just-to-make-a-record-for-the-passage-in-the-Reference-The-content-and-code-are-all-from-this-passage">This one is just to make a record for the passage in the Reference. The content and code are all from <a href="https://mp.weixin.qq.com/s/f1UU9ihNL1B0UUKzMFgDAg" target="_blank" rel="noopener">this passage</a>.</h2>
-<h2 id="Aim">Aim</h2>
-<pre><code>&lt; or
-    &lt; and
-             Layer == &quot;lay01&quot;
-             Color == &quot;1&quot;    // 红色索引值为1
-             Entity type == &quot;TEXT&quot;
-    and &gt;
-    &lt; and
-             &lt; or
-             Layer == &quot;lay02&quot;
-             Layer == &quot;lay03&quot;
-             or &gt;
-             Color == &quot;5&quot;     // 蓝色索引值为5
-             Entity type == &quot;POLYLINE&quot;
-    and &gt;
-or &gt;
-</code></pre>
-<hr>
-<h2 id="Code">Code</h2>
-<pre class=" language-language-csharp"><code class="language-language-csharp">
-public static void MultipleSelectionFilter()
-{
-    // 获取当前文档编辑器
-    Editor ed = Autodesk.AutoCAD.ApplicationServices.Core.Application.DocumentManager.MdiActiveDocument.Editor;
-
-    // 创建一个数组定义筛选条件
-
-    // 定义筛选条件
-    TypedValue[] typeValue = {
-     new TypedValue((int) DxfCode.Operator, "<or"),
-     // 选择标准1
-     new TypedValue((int) DxfCode.Operator, "<and"),
-     new TypedValue((int) DxfCode.Start, "TEXT"),
-     new TypedValue((int) DxfCode.LayerName, "lay01"),
-     new TypedValue((int) DxfCode.Color, "1"),
-     new TypedValue((int) DxfCode.Operator, "and>"),
-     // 选择标准2
-     new TypedValue((int) DxfCode.Operator, "<and"),
-     new TypedValue((int) DxfCode.Start, "LWPOLYLINE"),
-     new TypedValue((int) DxfCode.Color, "5"),
-     new TypedValue((int) DxfCode.Operator, "<or"),
-     new TypedValue((int) DxfCode.LayerName, "lay02"),
-     new TypedValue((int) DxfCode.LayerName, "lay03"),
-     new TypedValue((int) DxfCode.Operator, "or>"),
-     new TypedValue((int) DxfCode.Operator, "and>"),
-     new TypedValue((int) DxfCode.Operator, "or>")
-    };
-
-    // 将筛选条件传到过滤器
-    SelectionFilter selFiter = new SelectionFilter(typeValue);
-
-    // 获取选择对象
-    PromptSelectionResult psr = ed.GetSelection(selFiter);
-
-
-    // 判断选择是否成功
-    if (psr.Status == PromptStatus.OK)
-    {
-        SelectionSet sSet = psr.Value;
-        Autodesk.AutoCAD.ApplicationServices.Core.Application.ShowAlertDialog("Number of objects selected: " + sSet.Count.ToString());
-    }
-    else
-    {
-        Autodesk.AutoCAD.ApplicationServices.Core.Application.ShowAlertDialog("Number of objects selected: 0");
-    }
-}
-</code></pre>
-<h1>Reference</h1>
-<p><a href="https://mp.weixin.qq.com/s/f1UU9ihNL1B0UUKzMFgDAg" target="_blank" rel="noopener">https://mp.weixin.qq.com/s/f1UU9ihNL1B0UUKzMFgDAg</a></p>
-]]></content>
-      <categories>
-        <category>June 2020</category>
-      </categories>
-      <tags>
-        <tag>Civil3d</tag>
-        <tag>AutoCAD API</tag>
-        <tag>C#</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Move the selected objects to the current layer</title>
     <url>/2020/06/17/20200617Move%20the%20selected%20objects%20to%20the%20current%20layer/</url>
     <content><![CDATA[<hr>
@@ -377,6 +294,89 @@ public static DBObjectCollection GetSelection(FilterType[] tps)
         }
 
 </code></pre>
+]]></content>
+      <categories>
+        <category>June 2020</category>
+      </categories>
+      <tags>
+        <tag>Civil3d</tag>
+        <tag>AutoCAD API</tag>
+        <tag>C#</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>FilterType[] in dotNetAPI</title>
+    <url>/2020/06/18/20200618FilterType%5B%5D%20in%20dotNetAPI/</url>
+    <content><![CDATA[<h2 id="This-one-is-just-to-make-a-record-for-the-passage-in-the-Reference-The-content-and-code-are-all-from-this-passage">This one is just to make a record for the passage in the Reference. The content and code are all from <a href="https://mp.weixin.qq.com/s/f1UU9ihNL1B0UUKzMFgDAg" target="_blank" rel="noopener">this passage</a>.</h2>
+<h2 id="Aim">Aim</h2>
+<pre><code>&lt; or
+    &lt; and
+             Layer == &quot;lay01&quot;
+             Color == &quot;1&quot;    // 红色索引值为1
+             Entity type == &quot;TEXT&quot;
+    and &gt;
+    &lt; and
+             &lt; or
+             Layer == &quot;lay02&quot;
+             Layer == &quot;lay03&quot;
+             or &gt;
+             Color == &quot;5&quot;     // 蓝色索引值为5
+             Entity type == &quot;POLYLINE&quot;
+    and &gt;
+or &gt;
+</code></pre>
+<hr>
+<h2 id="Code">Code</h2>
+<pre class=" language-language-csharp"><code class="language-language-csharp">
+public static void MultipleSelectionFilter()
+{
+    // 获取当前文档编辑器
+    Editor ed = Autodesk.AutoCAD.ApplicationServices.Core.Application.DocumentManager.MdiActiveDocument.Editor;
+
+    // 创建一个数组定义筛选条件
+
+    // 定义筛选条件
+    TypedValue[] typeValue = {
+     new TypedValue((int) DxfCode.Operator, "<or"),
+     // 选择标准1
+     new TypedValue((int) DxfCode.Operator, "<and"),
+     new TypedValue((int) DxfCode.Start, "TEXT"),
+     new TypedValue((int) DxfCode.LayerName, "lay01"),
+     new TypedValue((int) DxfCode.Color, "1"),
+     new TypedValue((int) DxfCode.Operator, "and>"),
+     // 选择标准2
+     new TypedValue((int) DxfCode.Operator, "<and"),
+     new TypedValue((int) DxfCode.Start, "LWPOLYLINE"),
+     new TypedValue((int) DxfCode.Color, "5"),
+     new TypedValue((int) DxfCode.Operator, "<or"),
+     new TypedValue((int) DxfCode.LayerName, "lay02"),
+     new TypedValue((int) DxfCode.LayerName, "lay03"),
+     new TypedValue((int) DxfCode.Operator, "or>"),
+     new TypedValue((int) DxfCode.Operator, "and>"),
+     new TypedValue((int) DxfCode.Operator, "or>")
+    };
+
+    // 将筛选条件传到过滤器
+    SelectionFilter selFiter = new SelectionFilter(typeValue);
+
+    // 获取选择对象
+    PromptSelectionResult psr = ed.GetSelection(selFiter);
+
+
+    // 判断选择是否成功
+    if (psr.Status == PromptStatus.OK)
+    {
+        SelectionSet sSet = psr.Value;
+        Autodesk.AutoCAD.ApplicationServices.Core.Application.ShowAlertDialog("Number of objects selected: " + sSet.Count.ToString());
+    }
+    else
+    {
+        Autodesk.AutoCAD.ApplicationServices.Core.Application.ShowAlertDialog("Number of objects selected: 0");
+    }
+}
+</code></pre>
+<h1>Reference</h1>
+<p><a href="https://mp.weixin.qq.com/s/f1UU9ihNL1B0UUKzMFgDAg" target="_blank" rel="noopener">https://mp.weixin.qq.com/s/f1UU9ihNL1B0UUKzMFgDAg</a></p>
 ]]></content>
       <categories>
         <category>June 2020</category>
@@ -484,57 +484,118 @@ osurface.Rebuild()
       </tags>
   </entry>
   <entry>
-    <title>Delineate watershed based on DEM data on ArcMAP</title>
-    <url>/2020/04/24/Delinenate%20the%20watershed%20based%20on%20DEM%20data%20on%20ArcMAP/</url>
-    <content><![CDATA[<p>Before input data into hydrologic or hydraulic data, we need to know the catchment boundary first. Arcmap has wonderful tool suite to proceed this</p>
-<p>The basic step flow is as below:</p>
-<blockquote>
-<p>dem-- fill–flow direction–flow accumulation–raster calculator or reclassify --stream link–watershed</p>
-</blockquote>
-<p>After knowing the basic workflow, we can generate our own defined workflow by <em>Model Builder</em> in ArcGIS as the figure below, or we can use the existing tool, for example, <em>ArcHydro</em>. However, we should know how to achieve it by ArcMAP first to understand the basic theory.</p>
-<p><img src="/2020/04/24/Delinenate%20the%20watershed%20based%20on%20DEM%20data%20on%20ArcMAP/1.PNG" alt="Create Streamlines"></p>
-<hr>
-<h3 id="Fill">Fill</h3>
-<p>Firstly, we need to load the DEM raster files into ArcMAP, and then select fill tool as followed:<em>Arctool boxes/spatial Analyst Tools/Hydrology/Fill</em></p>
-<p>The window as followed figure will pop out:<br>
-<img src="/2020/04/24/Delinenate%20the%20watershed%20based%20on%20DEM%20data%20on%20ArcMAP/2.PNG" alt="DEM FILL"></p>
-<p>Then a new DEM data will be generated, it seems that there is no difference between the two raster datasets. But we can select the <em>Arctool boxes\Spatial Analyst Tools.tbx\Map Algebra\Raster Calculator</em> and calculate the difference between the two DEM datasets.<br>
-<img src="/2020/04/24/Delinenate%20the%20watershed%20based%20on%20DEM%20data%20on%20ArcMAP/3.PNG" alt="dem difference"></p>
-<hr>
-<h3 id="Flow-Direction">Flow Direction</h3>
-<p>The we can click <em>Flow direction</em> and apply the filled DEM dataset.</p>
-<p>The result is as shown below.</p>
-<p><img src="/2020/04/24/Delinenate%20the%20watershed%20based%20on%20DEM%20data%20on%20ArcMAP/4.PNG" alt="flow direction"></p>
-<hr>
-<h3 id="Flow-Accumulation">Flow Accumulation</h3>
-<p>Similarly, we choose <em>Flow Accumulation</em> and select the datasets <em>Filled DEM</em> and <em>Flow Accumulation</em>, then the raster of flow Accumulation will be generated.</p>
-<p>But we do not need to care about those raster with small No. of accumulation. We need to classify the result to select the data we are interested.</p>
-<p><img src="/2020/04/24/Delinenate%20the%20watershed%20based%20on%20DEM%20data%20on%20ArcMAP/5.png" alt="flow Accumulation"></p>
-<hr>
-<h3 id="Flow-Length">Flow Length</h3>
-<p>Flow Length is an important factor to calculate the catchment time of concentration(<em>tc</em>) , we choose <em>Flow Length</em> tool and select the datasets from <em>Flow Accumulation</em>, then we can get a raster map of concentration.</p>
-<p>If we choose downstream, each raster value will record the length to the discharge point.</p>
-<p><img src="/2020/04/24/Delinenate%20the%20watershed%20based%20on%20DEM%20data%20on%20ArcMAP/6.png" alt="flow Length"></p>
-<hr>
-<h3 id="Reclassify">Reclassify</h3>
-<p>We assume the line with catchment of over 900,000 m2 will have apparent stream flow. We choose <em>Arctool boxes\3D Analyst Tools.tbx\Raster Reclass\Reclassify</em>.</p>
-<p><img src="/2020/04/24/Delinenate%20the%20watershed%20based%20on%20DEM%20data%20on%20ArcMAP/7.PNG" alt="Reclassifing Flow"></p>
-<hr>
-<h3 id="Stream-Link">Stream Link</h3>
-<p>After reclassifying, we can get the discharge link with large catchment of over 900000 square meter.</p>
-<p><img src="/2020/04/24/Delinenate%20the%20watershed%20based%20on%20DEM%20data%20on%20ArcMAP/8.PNG" alt="Stream Link"></p>
-<hr>
-<h3 id="Watershed">Watershed</h3>
-<p>we choose <em>Watershed</em> and select the corresponding data from datasets, then we can get a raster map of watershed. We can use <em>Arctool boxes\Conversion Tools.tbx\From Raster\Raster to Polygon</em> to change to result to polygon.</p>
-<p>We can also input point data for <em>Input raster or feature pour point data</em>, this will be useful when we have the stormwater discharge point, like manholes.</p>
-<p><img src="/2020/04/24/Delinenate%20the%20watershed%20based%20on%20DEM%20data%20on%20ArcMAP/9.PNG" alt="result.png"></p>
-<p><img src="/2020/04/24/Delinenate%20the%20watershed%20based%20on%20DEM%20data%20on%20ArcMAP/10.PNG" alt="Watershed.png"></p>
+    <title>the Covid19 case Number Growth by DHB in NZ</title>
+    <url>/2020/04/25/Generate%20the%20Covid19%20case%20growth%20video/</url>
+    <content><![CDATA[<h2 id="Read-the-data-from-excel">Read the data from excel</h2>
+<pre class=" language-language-python"><code class="language-language-python">import pandas as pd
+from pandas import DataFrame, Series
+import matplotlib.pyplot as plt
+
+df = pd.read_excel('covid-caselist-23april.xlsx',sheet_name= 'Confirmed')
+
+</code></pre>
+<p>The excel file is from the <a href="https://www.health.govt.nz/our-work/diseases-and-conditions/covid-19-novel-coronavirus/covid-19-current-situation/covid-19-current-cases/covid-19-current-cases-details" target="_blank" rel="noopener">Ministry of Health website</a> on 23/04/2020.</p>
+<h2 id="Data-Wrangling">Data Wrangling</h2>
+<p>The raw data need to be properly treated for the plotting purpose.</p>
+<pre class=" language-language-python"><code class="language-language-python">df.replace(to_replace=r'^\s*$',value='Unkown',regex=True,inplace=True)#replace the emply values with 'No_data'
+
+df.columns = list(i.replace(' ','_') for i in df.columns)# Replace the space in the columns name to avoid potential problems
+df = df.rename(columns = {'Date_of_report':'Report_Date','International_travel':'Overseas','Age_Group':'Age_group'})
+
+df['Report_Date'] =pd.to_datetime(df['Report_Date'],format='%d/%m/%Y')
+df.sort_values(by ='Report_Date', axis=0, inplace= True )
+
+df5 = df.groupby(['Report_Date','DHB']).count()
+df5 = df5.iloc[:,1]
+df5 = df5.unstack().fillna(0).astype('int32')
+
+#calculate the total case number until the target date
+df_cum = df5.cumsum()
+# resample the data to 8 hours and interpolate the data to get more figures
+df_cum = df_cum.resample('8h').interpolate().astype('int32')
+
+#get the timeline stamp for later use
+newDatetime = df_cum.index.date
+
+df_cum = df_cum.T
+
+#create a random color list for different cities, you can set the color list for better result
+color_list = []
+cmap = get_cmap(len(df_cum.index))
+
+for i in range(len(df_cum.index)):
+   color_list.append(cmap(i))
+df_cum['color_list'] = color_list
+
+ylist = range(len(df_cum.columns))
+</code></pre>
+<h2 id="Plotting-the-figures">Plotting the figures</h2>
+<pre class=" language-language-python"><code class="language-language-python">#prepare the fig
+fig, ax = plt.subplots(figsize=(18, 9))
+
+ # ffmpeg need to be installed in the system to produce the videos
+Writer = animation.writers['ffmpeg']
+writer = Writer(fps=10, metadata=dict(artist='Me'), bitrate=800)
+
+
+
+# define the function to generate the figures
+def animate(i):
+    ax.clear()  #everytime the existing figure need to be cleared
+    df24 = df_cum.iloc[:,[i,-1]].sort_values(by = df_cum.columns[i])
+    wdf = df24.iloc[:,0]
+    color_list2 = df24.iloc[:,-1]
+
+    #process bar
+    process= i/(len(newDatetime)-1)*100
+    print("\r  Plotting process：%.2f%%" %(process),end=' ')
+    if process>99:print("\r  DONE!     Plotting process：     100%",end=' ')
+
+    # the figure
+    ax.barh(wdf.index, wdf.values, color=color_list2)
+    ax.set_xlabel('Total Covid Case No. on {}\n'.format(newDatetime[i]), fontsize=20)
+    ax.set_ylabel('DHB', fontsize=20)
+
+    # the ticks
+    ax.yaxis.set_tick_params(labelsize=12, colors='black')
+    ax.xaxis.set_tick_params(labelsize=10, colors='grey')
+    ax.tick_params(top = True, bottom = False, labeltop = True, labelbottom = False)
+    ax.xaxis.set_ticks(np.arange(0, ((max(wdf))+1), 5))
+
+    for x, y in zip(wdf.values, range(len(wdf.values))):
+        ax.text(x, y, ('' if x < 1 else int(x)), ha='left', va='center', fontsize=12)
+        ax.text(x, y, ('' if x < 20 else '{}  '.format(wdf.index[y])), ha='right', va='center', fontsize=12)
+        ax.text(0, -2, 'Data source: Ministry of Health\n by Fan Yang', ha='left', va='center', fontsize=10,
+                color='grey')
+
+# generate the photos
+ani = animation.FuncAnimation(fig, animate, frames=range(len(df_cum.columns)-2), interval=200)
+</code></pre>
+<h2 id="Various-outputs">Various outputs</h2>
+<pre class=" language-language-python"><code class="language-language-python">print('*******Beign to plot the mp4 figure file********')
+ani.save("test2.mp4", writer=writer)
+
+
+print('\n*******Beign to plot the figure file in gif*********')
+ani.save('line2.gif', dpi=80, writer='imagemagick')
+
+print('\n*******show in the IDE environment*********')
+plt.show()
+</code></pre>
+<h2 id="Result">Result</h2>
+<h3 id="MP4-VIDEO">MP4 VIDEO</h3>
+<iframe width="660" height="380" src="https://www.youtube.com/embed/xOjmZEJpUGI?start=2" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<h3 id="JPG-Animation-photos">JPG Animation photos</h3>
+<p><img src="/2020/04/25/Generate%20the%20Covid19%20case%20growth%20video/line2.gif" alt="COVID19 case No. Figure Demo"></p>
+<h2 id="Reference">Reference</h2>
+<p><a href="https://www.health.govt.nz/our-work/diseases-and-conditions/covid-19-novel-coronavirus/covid-19-current-situation/covid-19-current-cases/covid-19-current-cases-details" target="_blank" rel="noopener">https://www.health.govt.nz/our-work/diseases-and-conditions/covid-19-novel-coronavirus/covid-19-current-situation/covid-19-current-cases/covid-19-current-cases-details</a></p>
 ]]></content>
       <categories>
         <category>April 2020</category>
       </categories>
       <tags>
-        <tag>Arcmap</tag>
+        <tag>Pandas</tag>
+        <tag>matplotlib</tag>
       </tags>
   </entry>
   <entry>
@@ -1272,121 +1333,6 @@ ax.set_ylim([-42,-36])
       </tags>
   </entry>
   <entry>
-    <title>the Covid19 case Number Growth by DHB in NZ</title>
-    <url>/2020/04/25/Generate%20the%20Covid19%20case%20growth%20video/</url>
-    <content><![CDATA[<h2 id="Read-the-data-from-excel">Read the data from excel</h2>
-<pre class=" language-language-python"><code class="language-language-python">import pandas as pd
-from pandas import DataFrame, Series
-import matplotlib.pyplot as plt
-
-df = pd.read_excel('covid-caselist-23april.xlsx',sheet_name= 'Confirmed')
-
-</code></pre>
-<p>The excel file is from the <a href="https://www.health.govt.nz/our-work/diseases-and-conditions/covid-19-novel-coronavirus/covid-19-current-situation/covid-19-current-cases/covid-19-current-cases-details" target="_blank" rel="noopener">Ministry of Health website</a> on 23/04/2020.</p>
-<h2 id="Data-Wrangling">Data Wrangling</h2>
-<p>The raw data need to be properly treated for the plotting purpose.</p>
-<pre class=" language-language-python"><code class="language-language-python">df.replace(to_replace=r'^\s*$',value='Unkown',regex=True,inplace=True)#replace the emply values with 'No_data'
-
-df.columns = list(i.replace(' ','_') for i in df.columns)# Replace the space in the columns name to avoid potential problems
-df = df.rename(columns = {'Date_of_report':'Report_Date','International_travel':'Overseas','Age_Group':'Age_group'})
-
-df['Report_Date'] =pd.to_datetime(df['Report_Date'],format='%d/%m/%Y')
-df.sort_values(by ='Report_Date', axis=0, inplace= True )
-
-df5 = df.groupby(['Report_Date','DHB']).count()
-df5 = df5.iloc[:,1]
-df5 = df5.unstack().fillna(0).astype('int32')
-
-#calculate the total case number until the target date
-df_cum = df5.cumsum()
-# resample the data to 8 hours and interpolate the data to get more figures
-df_cum = df_cum.resample('8h').interpolate().astype('int32')
-
-#get the timeline stamp for later use
-newDatetime = df_cum.index.date
-
-df_cum = df_cum.T
-
-#create a random color list for different cities, you can set the color list for better result
-color_list = []
-cmap = get_cmap(len(df_cum.index))
-
-for i in range(len(df_cum.index)):
-   color_list.append(cmap(i))
-df_cum['color_list'] = color_list
-
-ylist = range(len(df_cum.columns))
-</code></pre>
-<h2 id="Plotting-the-figures">Plotting the figures</h2>
-<pre class=" language-language-python"><code class="language-language-python">#prepare the fig
-fig, ax = plt.subplots(figsize=(18, 9))
-
- # ffmpeg need to be installed in the system to produce the videos
-Writer = animation.writers['ffmpeg']
-writer = Writer(fps=10, metadata=dict(artist='Me'), bitrate=800)
-
-
-
-# define the function to generate the figures
-def animate(i):
-    ax.clear()  #everytime the existing figure need to be cleared
-    df24 = df_cum.iloc[:,[i,-1]].sort_values(by = df_cum.columns[i])
-    wdf = df24.iloc[:,0]
-    color_list2 = df24.iloc[:,-1]
-
-    #process bar
-    process= i/(len(newDatetime)-1)*100
-    print("\r  Plotting process：%.2f%%" %(process),end=' ')
-    if process>99:print("\r  DONE!     Plotting process：     100%",end=' ')
-
-    # the figure
-    ax.barh(wdf.index, wdf.values, color=color_list2)
-    ax.set_xlabel('Total Covid Case No. on {}\n'.format(newDatetime[i]), fontsize=20)
-    ax.set_ylabel('DHB', fontsize=20)
-
-    # the ticks
-    ax.yaxis.set_tick_params(labelsize=12, colors='black')
-    ax.xaxis.set_tick_params(labelsize=10, colors='grey')
-    ax.tick_params(top = True, bottom = False, labeltop = True, labelbottom = False)
-    ax.xaxis.set_ticks(np.arange(0, ((max(wdf))+1), 5))
-
-    for x, y in zip(wdf.values, range(len(wdf.values))):
-        ax.text(x, y, ('' if x < 1 else int(x)), ha='left', va='center', fontsize=12)
-        ax.text(x, y, ('' if x < 20 else '{}  '.format(wdf.index[y])), ha='right', va='center', fontsize=12)
-        ax.text(0, -2, 'Data source: Ministry of Health\n by Fan Yang', ha='left', va='center', fontsize=10,
-                color='grey')
-
-# generate the photos
-ani = animation.FuncAnimation(fig, animate, frames=range(len(df_cum.columns)-2), interval=200)
-</code></pre>
-<h2 id="Various-outputs">Various outputs</h2>
-<pre class=" language-language-python"><code class="language-language-python">print('*******Beign to plot the mp4 figure file********')
-ani.save("test2.mp4", writer=writer)
-
-
-print('\n*******Beign to plot the figure file in gif*********')
-ani.save('line2.gif', dpi=80, writer='imagemagick')
-
-print('\n*******show in the IDE environment*********')
-plt.show()
-</code></pre>
-<h2 id="Result">Result</h2>
-<h3 id="MP4-VIDEO">MP4 VIDEO</h3>
-<iframe width="660" height="380" src="https://www.youtube.com/embed/xOjmZEJpUGI?start=2" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-<h3 id="JPG-Animation-photos">JPG Animation photos</h3>
-<p><img src="/2020/04/25/Generate%20the%20Covid19%20case%20growth%20video/line2.gif" alt="COVID19 case No. Figure Demo"></p>
-<h2 id="Reference">Reference</h2>
-<p><a href="https://www.health.govt.nz/our-work/diseases-and-conditions/covid-19-novel-coronavirus/covid-19-current-situation/covid-19-current-cases/covid-19-current-cases-details" target="_blank" rel="noopener">https://www.health.govt.nz/our-work/diseases-and-conditions/covid-19-novel-coronavirus/covid-19-current-situation/covid-19-current-cases/covid-19-current-cases-details</a></p>
-]]></content>
-      <categories>
-        <category>April 2020</category>
-      </categories>
-      <tags>
-        <tag>Pandas</tag>
-        <tag>matplotlib</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>How to merge many different raster files into one raster</title>
     <url>/2020/04/20/How%20to%20take%20many%20different%20rasters%20into%20one%20raster/</url>
     <content><![CDATA[<p>On <a href="https://geomapspublic.aucklandcouncil.govt.nz/viewer/index.html" target="_blank" rel="noopener">Auckland Council Geomap</a>, we can download the high resolution DEM data, but the uplimit area is 6 Square Km. What if the catchment area we are interested in is more than the number, than we can download the DEM data from <a href="https://data.linz.govt.nz/search/?q=DEM" target="_blank" rel="noopener">LINZ</a>.</p>
@@ -1418,6 +1364,60 @@ plt.show()
       <tags>
         <tag>Arcmap</tag>
         <tag>Raster</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Delineate watershed based on DEM data on ArcMAP</title>
+    <url>/2020/04/24/Delinenate%20the%20watershed%20based%20on%20DEM%20data%20on%20ArcMAP/</url>
+    <content><![CDATA[<p>Before input data into hydrologic or hydraulic data, we need to know the catchment boundary first. Arcmap has wonderful tool suite to proceed this</p>
+<p>The basic step flow is as below:</p>
+<blockquote>
+<p>dem-- fill–flow direction–flow accumulation–raster calculator or reclassify --stream link–watershed</p>
+</blockquote>
+<p>After knowing the basic workflow, we can generate our own defined workflow by <em>Model Builder</em> in ArcGIS as the figure below, or we can use the existing tool, for example, <em>ArcHydro</em>. However, we should know how to achieve it by ArcMAP first to understand the basic theory.</p>
+<p><img src="/2020/04/24/Delinenate%20the%20watershed%20based%20on%20DEM%20data%20on%20ArcMAP/1.PNG" alt="Create Streamlines"></p>
+<hr>
+<h3 id="Fill">Fill</h3>
+<p>Firstly, we need to load the DEM raster files into ArcMAP, and then select fill tool as followed:<em>Arctool boxes/spatial Analyst Tools/Hydrology/Fill</em></p>
+<p>The window as followed figure will pop out:<br>
+<img src="/2020/04/24/Delinenate%20the%20watershed%20based%20on%20DEM%20data%20on%20ArcMAP/2.PNG" alt="DEM FILL"></p>
+<p>Then a new DEM data will be generated, it seems that there is no difference between the two raster datasets. But we can select the <em>Arctool boxes\Spatial Analyst Tools.tbx\Map Algebra\Raster Calculator</em> and calculate the difference between the two DEM datasets.<br>
+<img src="/2020/04/24/Delinenate%20the%20watershed%20based%20on%20DEM%20data%20on%20ArcMAP/3.PNG" alt="dem difference"></p>
+<hr>
+<h3 id="Flow-Direction">Flow Direction</h3>
+<p>The we can click <em>Flow direction</em> and apply the filled DEM dataset.</p>
+<p>The result is as shown below.</p>
+<p><img src="/2020/04/24/Delinenate%20the%20watershed%20based%20on%20DEM%20data%20on%20ArcMAP/4.PNG" alt="flow direction"></p>
+<hr>
+<h3 id="Flow-Accumulation">Flow Accumulation</h3>
+<p>Similarly, we choose <em>Flow Accumulation</em> and select the datasets <em>Filled DEM</em> and <em>Flow Accumulation</em>, then the raster of flow Accumulation will be generated.</p>
+<p>But we do not need to care about those raster with small No. of accumulation. We need to classify the result to select the data we are interested.</p>
+<p><img src="/2020/04/24/Delinenate%20the%20watershed%20based%20on%20DEM%20data%20on%20ArcMAP/5.png" alt="flow Accumulation"></p>
+<hr>
+<h3 id="Flow-Length">Flow Length</h3>
+<p>Flow Length is an important factor to calculate the catchment time of concentration(<em>tc</em>) , we choose <em>Flow Length</em> tool and select the datasets from <em>Flow Accumulation</em>, then we can get a raster map of concentration.</p>
+<p>If we choose downstream, each raster value will record the length to the discharge point.</p>
+<p><img src="/2020/04/24/Delinenate%20the%20watershed%20based%20on%20DEM%20data%20on%20ArcMAP/6.png" alt="flow Length"></p>
+<hr>
+<h3 id="Reclassify">Reclassify</h3>
+<p>We assume the line with catchment of over 900,000 m2 will have apparent stream flow. We choose <em>Arctool boxes\3D Analyst Tools.tbx\Raster Reclass\Reclassify</em>.</p>
+<p><img src="/2020/04/24/Delinenate%20the%20watershed%20based%20on%20DEM%20data%20on%20ArcMAP/7.PNG" alt="Reclassifing Flow"></p>
+<hr>
+<h3 id="Stream-Link">Stream Link</h3>
+<p>After reclassifying, we can get the discharge link with large catchment of over 900000 square meter.</p>
+<p><img src="/2020/04/24/Delinenate%20the%20watershed%20based%20on%20DEM%20data%20on%20ArcMAP/8.PNG" alt="Stream Link"></p>
+<hr>
+<h3 id="Watershed">Watershed</h3>
+<p>we choose <em>Watershed</em> and select the corresponding data from datasets, then we can get a raster map of watershed. We can use <em>Arctool boxes\Conversion Tools.tbx\From Raster\Raster to Polygon</em> to change to result to polygon.</p>
+<p>We can also input point data for <em>Input raster or feature pour point data</em>, this will be useful when we have the stormwater discharge point, like manholes.</p>
+<p><img src="/2020/04/24/Delinenate%20the%20watershed%20based%20on%20DEM%20data%20on%20ArcMAP/9.PNG" alt="result.png"></p>
+<p><img src="/2020/04/24/Delinenate%20the%20watershed%20based%20on%20DEM%20data%20on%20ArcMAP/10.PNG" alt="Watershed.png"></p>
+]]></content>
+      <categories>
+        <category>April 2020</category>
+      </categories>
+      <tags>
+        <tag>Arcmap</tag>
       </tags>
   </entry>
   <entry>
