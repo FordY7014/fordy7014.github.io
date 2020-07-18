@@ -286,11 +286,11 @@
   </entry>
   
   <entry>
-    <title>FilterType[] in dotNetAPI</title>
+    <title>Covid-19 Cases Analysis in New Zealand</title>
     <link href="https://fordy7014.github.io/2020/04/26/20200426%20Covid-19%20Cases%20Figure%20in%20New%20Zealand/"/>
     <id>https://fordy7014.github.io/2020/04/26/20200426%20Covid-19%20Cases%20Figure%20in%20New%20Zealand/</id>
     <published>2020-04-26T04:04:57.000Z</published>
-    <updated>2020-07-18T07:42:04.040Z</updated>
+    <updated>2020-07-18T07:50:45.244Z</updated>
     
     <summary type="html">
     
@@ -311,7 +311,7 @@ from urllib.request import
     
       <category term="Pandas" scheme="https://fordy7014.github.io/tags/Pandas/"/>
     
-      <category term="matplotlib" scheme="https://fordy7014.github.io/tags/matplotlib/"/>
+      <category term="Matplotlib" scheme="https://fordy7014.github.io/tags/Matplotlib/"/>
     
   </entry>
   
@@ -320,7 +320,7 @@ from urllib.request import
     <link href="https://fordy7014.github.io/2020/04/25/Generate%20the%20Covid19%20case%20growth%20video/"/>
     <id>https://fordy7014.github.io/2020/04/25/Generate%20the%20Covid19%20case%20growth%20video/</id>
     <published>2020-04-25T06:04:57.000Z</published>
-    <updated>2020-07-17T08:39:53.327Z</updated>
+    <updated>2020-07-18T07:43:44.083Z</updated>
     
     <summary type="html">
     
@@ -341,7 +341,7 @@ from urllib.request import
     
       <category term="Pandas" scheme="https://fordy7014.github.io/tags/Pandas/"/>
     
-      <category term="matplotlib" scheme="https://fordy7014.github.io/tags/matplotlib/"/>
+      <category term="Matplotlib" scheme="https://fordy7014.github.io/tags/Matplotlib/"/>
     
   </entry>
   

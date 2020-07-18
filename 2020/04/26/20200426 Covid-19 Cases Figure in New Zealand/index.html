@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="FilterType[] in dotNetAPI, Python, Pandas">
+    <meta name="keywords" content="Covid-19 Cases Analysis in New Zealand, Python, Pandas">
     <meta name="description" content="Just to take notes for what I have learnt, and I will be very happy if it helps anyone.">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>FilterType[] in dotNetAPI | Ford Yang&#39;s Blog</title>
+    <title>Covid-19 Cases Analysis in New Zealand | Ford Yang&#39;s Blog</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -215,12 +215,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/1.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/21.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">FilterType[] in dotNetAPI</h1>
+                    <h1 class="description center-align post-title">Covid-19 Cases Analysis in New Zealand</h1>
                 </div>
             </div>
         </div>
@@ -341,8 +341,8 @@
                                 <span class="chip bg-color">Pandas</span>
                             </a>
                         
-                            <a href="/tags/matplotlib/">
-                                <span class="chip bg-color">matplotlib</span>
+                            <a href="/tags/Matplotlib/">
+                                <span class="chip bg-color">Matplotlib</span>
                             </a>
                         
                     </div>
@@ -382,7 +382,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>Read Times:&nbsp;&nbsp;
-                    15 Min
+                    14 Min
                 </div>
                 
 
@@ -1885,71 +1885,8 @@ df66.tail()
 </code></pre>
 <pre><code>['Southern', 'Waitemata', 'Auckland', 'Waikato', 'Canterbury']
 </code></pre>
-<pre class=" language-language-python"><code class="language-language-python">len(DHBlist)
-</code></pre>
-<pre><code>5
-</code></pre>
-<h3 id="Plotting-the-figure">Plotting the figure</h3>
-<pre class=" language-language-python"><code class="language-language-python">pd.plotting.register_matplotlib_converters()
-</code></pre>
-<pre class=" language-language-python"><code class="language-language-python">df_top5 = df6.loc[:,DHBlist]
-df_top5.head(2)
-</code></pre>
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-<pre><code>.dataframe tbody tr th {
-    vertical-align: top;
-}
-
-.dataframe thead th {
-    text-align: right;
-}
-</code></pre>
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th>DHB</th>
-      <th>Southern</th>
-      <th>Waitemata</th>
-      <th>Auckland</th>
-      <th>Waikato</th>
-      <th>Canterbury</th>
-    </tr>
-    <tr>
-      <th>Report_Date</th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>2020-02-26</th>
-      <td>0</td>
-      <td>0</td>
-      <td>1</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>2020-03-02</th>
-      <td>0</td>
-      <td>1</td>
-      <td>1</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-  </tbody>
-</table>
-</div>
 <h3 id="Area-plot">Area plot</h3>
-<pre class=" language-language-python"><code class="language-language-python">
+<pre class=" language-language-python"><code class="language-language-python">pd.plotting.register_matplotlib_converters()
 df_top5.plot(kind='area', alpha = 0.3,
              stacked = False,
              figsize=(25, 10), # pass a tuple (x, y) size
@@ -1979,8 +1916,6 @@ ax.xaxis.set_tick_params(rotation = 35, labelsize = 12)
 
 
 ax.legend()
-</code></pre>
-<pre><code>&lt;matplotlib.legend.Legend at 0x22520bf6e08&gt;
 </code></pre>
 <p><img src="/2020/04/26/20200426%20Covid-19%20Cases%20Figure%20in%20New%20Zealand/output_89_1.svg" alt="svg"></p>
 <h2 id="Reference">Reference</h2>
@@ -2052,8 +1987,8 @@ ax.legend()
                                     <span class="chip bg-color">Pandas</span>
                                 </a>
                             
-                                <a href="/tags/matplotlib/">
-                                    <span class="chip bg-color">matplotlib</span>
+                                <a href="/tags/Matplotlib/">
+                                    <span class="chip bg-color">Matplotlib</span>
                                 </a>
                             
                         </div>
@@ -2197,8 +2132,8 @@ df =
                         <span class="chip bg-color">Pandas</span>
                     </a>
                     
-                    <a href="/tags/matplotlib/">
-                        <span class="chip bg-color">matplotlib</span>
+                    <a href="/tags/Matplotlib/">
+                        <span class="chip bg-color">Matplotlib</span>
                     </a>
                     
                 </div>
