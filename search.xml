@@ -1,6 +1,1611 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>FilterType[] in dotNetAPI</title>
+    <url>/2020/04/26/20200426%20Covid-19%20Cases%20Figure%20in%20New%20Zealand/</url>
+    <content><![CDATA[<pre class=" language-language-python"><code class="language-language-python">from lxml.html import parse
+from urllib.request import urlopen
+from pandas.io.parsers import TextParser
+import pandas as pd
+from pandas import DataFrame, Series
+import folium
+import numpy as np
+</code></pre>
+<pre class=" language-language-python"><code class="language-language-python"># we are using the inline backend
+%matplotlib inline
+
+import matplotlib as mpl
+import matplotlib.pyplot as plt
+</code></pre>
+<h2 id="Prepare-the-data">Prepare the data</h2>
+<h3 id="Getting-data-from-ministry-of-health">Getting data from ministry of health</h3>
+<pre class=" language-language-python"><code class="language-language-python">basepath = os.getcwd() # get the location of current .py file
+</code></pre>
+<p>The excel file(<em>‘covid-caselist-23april.xlsx’</em>) is from the <a href="https://www.health.govt.nz/our-work/diseases-and-conditions/covid-19-novel-coronavirus/covid-19-current-situation/covid-19-current-cases/covid-19-current-cases-details" target="_blank" rel="noopener">Ministry of Health website</a> on 23/04/2020.</p>
+<pre class=" language-language-python"><code class="language-language-python">filename= os.path.join(basepath,'covid-caselist-23april.xlsx')
+df = pd.read_excel(filepath, sheet_name='Confirmed')
+</code></pre>
+<pre class=" language-language-python"><code class="language-language-python">df.head() # preview of the data
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Date of report</th>
+      <th>Sex</th>
+      <th>Age group</th>
+      <th>DHB</th>
+      <th>Overseas travel</th>
+      <th>Last country before return</th>
+      <th>Flight number</th>
+      <th>Flight departure date</th>
+      <th>Arrival date</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>22/04/2020</td>
+      <td>Female</td>
+      <td>20 to 29</td>
+      <td>Counties Manukau</td>
+      <td>No</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaT</td>
+      <td>NaT</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>22/04/2020</td>
+      <td>Male</td>
+      <td>40 to 49</td>
+      <td>Hawke's Bay</td>
+      <td>No</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaT</td>
+      <td>NaT</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>21/04/2020</td>
+      <td>Female</td>
+      <td>70+</td>
+      <td>Waikato</td>
+      <td></td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaT</td>
+      <td>NaT</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>19/04/2020</td>
+      <td>Female</td>
+      <td>30 to 39</td>
+      <td>Bay of Plenty</td>
+      <td></td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaT</td>
+      <td>NaT</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>19/04/2020</td>
+      <td>Male</td>
+      <td>50 to 59</td>
+      <td>Bay of Plenty</td>
+      <td>No</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaT</td>
+      <td>NaT</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h3 id="Treating-the-raw-data">Treating the raw data</h3>
+<p>Use followed function to change to type of the data.</p>
+<pre class=" language-language-python"><code class="language-language-python">df['Age group'] = df['Age group'].astype('str')
+</code></pre>
+<pre class=" language-language-python"><code class="language-language-python">df['Age group'].duplicated(keep='first')
+
+</code></pre>
+<pre><code>0       False
+1       False
+2       False
+3       False
+4       False
+        ...  
+1446     True
+1447     True
+1448     True
+1449     True
+1450     True
+Name: Age group, Length: 1451, dtype: bool
+</code></pre>
+<pre class=" language-language-python"><code class="language-language-python">df.head()
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Date of report</th>
+      <th>Sex</th>
+      <th>Age group</th>
+      <th>DHB</th>
+      <th>Overseas travel</th>
+      <th>Last country before return</th>
+      <th>Flight number</th>
+      <th>Flight departure date</th>
+      <th>Arrival date</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>22/04/2020</td>
+      <td>Female</td>
+      <td>20 to 29</td>
+      <td>Counties Manukau</td>
+      <td>No</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaT</td>
+      <td>NaT</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>22/04/2020</td>
+      <td>Male</td>
+      <td>40 to 49</td>
+      <td>Hawke's Bay</td>
+      <td>No</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaT</td>
+      <td>NaT</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>21/04/2020</td>
+      <td>Female</td>
+      <td>70+</td>
+      <td>Waikato</td>
+      <td></td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaT</td>
+      <td>NaT</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>19/04/2020</td>
+      <td>Female</td>
+      <td>30 to 39</td>
+      <td>Bay of Plenty</td>
+      <td></td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaT</td>
+      <td>NaT</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>19/04/2020</td>
+      <td>Male</td>
+      <td>50 to 59</td>
+      <td>Bay of Plenty</td>
+      <td>No</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaT</td>
+      <td>NaT</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<pre class=" language-language-python"><code class="language-language-python">#replace the emply values with 'Unknown'
+df.replace(to_replace=r'^\s*$',value='Unknown',regex=True,inplace=True)
+</code></pre>
+<pre class=" language-language-python"><code class="language-language-python">#replace the space in the columns name to avoid potential problems
+df.columns = list(i.replace(' ','_') for i in df.columns)
+</code></pre>
+<pre class=" language-language-python"><code class="language-language-python">df.columns
+</code></pre>
+<pre><code>Index(['Date_of_report', 'Sex', 'Age_group', 'DHB', 'Overseas_travel',
+       'Last_country_before_return', 'Flight_number', 'Flight_departure_date',
+       'Arrival_date'],
+      dtype='object')
+</code></pre>
+<pre class=" language-language-python"><code class="language-language-python">df = df.rename(columns = {'Date_of_report':'Report_Date','Overseas_travel':'Overseas','Age_Group':'Age_group'})
+</code></pre>
+<pre class=" language-language-python"><code class="language-language-python">df =df.iloc[:,:6]
+</code></pre>
+<pre class=" language-language-python"><code class="language-language-python">df.head()
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Report_Date</th>
+      <th>Sex</th>
+      <th>Age_group</th>
+      <th>DHB</th>
+      <th>Overseas</th>
+      <th>Last_country_before_return</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>22/04/2020</td>
+      <td>Female</td>
+      <td>20 to 29</td>
+      <td>Counties Manukau</td>
+      <td>No</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>22/04/2020</td>
+      <td>Male</td>
+      <td>40 to 49</td>
+      <td>Hawke's Bay</td>
+      <td>No</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>21/04/2020</td>
+      <td>Female</td>
+      <td>70+</td>
+      <td>Waikato</td>
+      <td>Unknown</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>19/04/2020</td>
+      <td>Female</td>
+      <td>30 to 39</td>
+      <td>Bay of Plenty</td>
+      <td>Unknown</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>19/04/2020</td>
+      <td>Male</td>
+      <td>50 to 59</td>
+      <td>Bay of Plenty</td>
+      <td>No</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<pre class=" language-language-python"><code class="language-language-python">df['Report_Date'] =pd.to_datetime(df['Report_Date'],format='%d/%m/%Y')
+df.sort_values(by ='Report_Date', axis=0, inplace= True )
+df.head()
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Report_Date</th>
+      <th>Sex</th>
+      <th>Age_group</th>
+      <th>DHB</th>
+      <th>Overseas</th>
+      <th>Last_country_before_return</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>1111</th>
+      <td>2020-02-26</td>
+      <td>Female</td>
+      <td>60 to 69</td>
+      <td>Auckland</td>
+      <td>Yes</td>
+      <td>Indonesia</td>
+    </tr>
+    <tr>
+      <th>1110</th>
+      <td>2020-03-02</td>
+      <td>Female</td>
+      <td>30 to 39</td>
+      <td>Waitemata</td>
+      <td>Yes</td>
+      <td>Singapore</td>
+    </tr>
+    <tr>
+      <th>1108</th>
+      <td>2020-03-04</td>
+      <td>Male</td>
+      <td>40 to 49</td>
+      <td>Counties Manukau</td>
+      <td>No</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>1109</th>
+      <td>2020-03-04</td>
+      <td>Male</td>
+      <td>40 to 49</td>
+      <td>Waitemata</td>
+      <td>Yes</td>
+      <td>Singapore</td>
+    </tr>
+    <tr>
+      <th>1450</th>
+      <td>2020-03-05</td>
+      <td>Female</td>
+      <td>70+</td>
+      <td>Waitemata</td>
+      <td>Yes</td>
+      <td>United States of America</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="Preparing-the-plotting-data">Preparing the plotting data</h2>
+<h3 id="Group-data-by-DHB">Group data by DHB</h3>
+<pre class=" language-language-python"><code class="language-language-python">df2=df.groupby('DHB').count()
+</code></pre>
+<pre class=" language-language-python"><code class="language-language-python">df2.head(2)
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Report_Date</th>
+      <th>Sex</th>
+      <th>Age_group</th>
+      <th>Overseas</th>
+      <th>Last_country_before_return</th>
+    </tr>
+    <tr>
+      <th>DHB</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Auckland</th>
+      <td>186</td>
+      <td>186</td>
+      <td>186</td>
+      <td>186</td>
+      <td>75</td>
+    </tr>
+    <tr>
+      <th>Bay of Plenty</th>
+      <td>47</td>
+      <td>47</td>
+      <td>47</td>
+      <td>47</td>
+      <td>21</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<pre class=" language-language-python"><code class="language-language-python">df_DHB = df2.iloc[:,1]
+df_DHB.head()
+</code></pre>
+<pre><code>DHB
+Auckland             186
+Bay of Plenty         47
+Canterbury           157
+Capital and Coast     95
+Counties Manukau     111
+Name: Sex, dtype: int64
+</code></pre>
+<pre class=" language-language-python"><code class="language-language-python">df_DHB.plot.barh() #directly plot to have a general view
+</code></pre>
+<pre><code>&lt;matplotlib.axes._subplots.AxesSubplot at 0x23c3c861048&gt;
+</code></pre>
+<p><img src="/2020/04/26/20200426%20Covid-19%20Cases%20Figure%20in%20New%20Zealand/output_26_1.svg" alt="svg"></p>
+<h3 id="Group-data-by-age">Group data by age</h3>
+<pre class=" language-language-python"><code class="language-language-python">df_age = df.groupby('Age_group').count()
+df_age = df_age.iloc[:,1]
+df_age.head(2)
+</code></pre>
+<pre><code>Age_group
+1 to 4      17
+10 to 14    40
+Name: Sex, dtype: int64
+</code></pre>
+<pre class=" language-language-python"><code class="language-language-python">df_age.sum()
+</code></pre>
+<pre><code>1450
+</code></pre>
+<h3 id="Group-data-by-gender">Group data by gender</h3>
+<pre class=" language-language-python"><code class="language-language-python">df_gender = df.groupby('Sex').count()
+df_gender = df_gender.iloc[:,1]
+df_gender.head()
+</code></pre>
+<pre><code>Sex
+Female    802
+Male      648
+Name: Age_group, dtype: int64
+</code></pre>
+<h3 id="Group-data-according-to-the-case-detail">Group data according to the case detail</h3>
+<pre class=" language-language-python"><code class="language-language-python">df.head(2)
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Report_Date</th>
+      <th>Sex</th>
+      <th>Age_group</th>
+      <th>DHB</th>
+      <th>Overseas</th>
+      <th>Last_country_before_return</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>1111</th>
+      <td>2020-02-26</td>
+      <td>Female</td>
+      <td>60 to 69</td>
+      <td>Auckland</td>
+      <td>Yes</td>
+      <td>Indonesia</td>
+    </tr>
+    <tr>
+      <th>1110</th>
+      <td>2020-03-02</td>
+      <td>Female</td>
+      <td>30 to 39</td>
+      <td>Waitemata</td>
+      <td>Yes</td>
+      <td>Singapore</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<pre class=" language-language-python"><code class="language-language-python">df_info = df.groupby('Overseas').count()
+df_info = df_info.iloc[:,1]
+</code></pre>
+<pre class=" language-language-python"><code class="language-language-python">df_info.head()
+</code></pre>
+<pre><code>Overseas
+No         833
+Unknown     56
+Yes        561
+Name: Sex, dtype: int64
+</code></pre>
+<h3 id="Group-data-by-Last-City-before-NZ">Group data by Last_City_before_NZ</h3>
+<pre class=" language-language-python"><code class="language-language-python">df_city= df.groupby('Last_country_before_return').count().sort_values(by = 'Overseas')
+</code></pre>
+<pre class=" language-language-python"><code class="language-language-python">df_city.head()
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Report_Date</th>
+      <th>Sex</th>
+      <th>Age_group</th>
+      <th>DHB</th>
+      <th>Overseas</th>
+    </tr>
+    <tr>
+      <th>Last_country_before_return</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Vietnam</th>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>Middle East</th>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>Mexico</th>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>Uruguay</th>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>Portugal</th>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<pre class=" language-language-python"><code class="language-language-python">df100 = df_city.iloc[:,-1]
+df_city = df100[-6:-1]
+</code></pre>
+<pre class=" language-language-python"><code class="language-language-python">df_city
+</code></pre>
+<pre><code>Last_country_before_return
+Singapore               26
+Qatar                   36
+United Kingdom          59
+United Arab Emirates    69
+Australia               98
+Name: Overseas, dtype: int64
+</code></pre>
+<pre class=" language-language-python"><code class="language-language-python">df_city.name
+</code></pre>
+<pre><code>'Overseas'
+</code></pre>
+<pre class=" language-language-python"><code class="language-language-python">df_city.index.name
+</code></pre>
+<pre><code>'Last_country_before_return'
+</code></pre>
+<pre class=" language-language-python"><code class="language-language-python">df_city.index.Name = 'Last_country_before_return'
+</code></pre>
+<pre class=" language-language-python"><code class="language-language-python">df_city
+</code></pre>
+<pre><code>Last_country_before_return
+Singapore               26
+Qatar                   36
+United Kingdom          59
+United Arab Emirates    69
+Australia               98
+Name: Overseas, dtype: int64
+</code></pre>
+<pre class=" language-language-python"><code class="language-language-python">print(plt.style.available)
+mpl.style.use(['ggplot']) # optional: for ggplot-like style
+</code></pre>
+<pre><code>['bmh', 'classic', 'dark_background', 'fast', 'fivethirtyeight', 'ggplot', 'grayscale', 'seaborn-bright', 'seaborn-colorblind', 'seaborn-dark-palette', 'seaborn-dark', 'seaborn-darkgrid', 'seaborn-deep', 'seaborn-muted', 'seaborn-notebook', 'seaborn-paper', 'seaborn-pastel', 'seaborn-poster', 'seaborn-talk', 'seaborn-ticks', 'seaborn-white', 'seaborn-whitegrid', 'seaborn', 'Solarize_Light2', 'tableau-colorblind10', '_classic_test']
+</code></pre>
+<pre class=" language-language-python"><code class="language-language-python">dfList = [df_DHB, df_age, df_gender, df_info,df_city]
+</code></pre>
+<pre class=" language-language-python"><code class="language-language-python">df_city.plot.barh()  # bar plot
+</code></pre>
+<pre><code>&lt;matplotlib.axes._subplots.AxesSubplot at 0x23c3d903388&gt;
+</code></pre>
+<p><img src="/2020/04/26/20200426%20Covid-19%20Cases%20Figure%20in%20New%20Zealand/output_48_1.svg" alt="svg"></p>
+<pre class=" language-language-python"><code class="language-language-python">df_city.index.name = 'Last_country_before_return'
+</code></pre>
+<pre class=" language-language-python"><code class="language-language-python">df_city.plot.pie(x=df_city.values, labels=df_city.index, autopct='%3.1f %%', title = df_city.name)   # pie plot
+</code></pre>
+<pre><code>&lt;matplotlib.axes._subplots.AxesSubplot at 0x23c3d999a48&gt;
+</code></pre>
+<p><img src="/2020/04/26/20200426%20Covid-19%20Cases%20Figure%20in%20New%20Zealand/output_52_1.svg" alt="svg"></p>
+<h2 id="Plotting">Plotting</h2>
+<h3 id="Define-a-vertical-bar-plotting-function">Define a vertical bar plotting function</h3>
+<pre class=" language-language-python"><code class="language-language-python">def bar_plot(AX,DF):
+
+    AX.barh(DF.index,DF.values, height = 0.5, facecolor='tan',edgecolor='r',alpha=0.6,label = 'Cases No. by {}'.format(DF.index.name))
+    AX.legend()
+
+    AX.set_title('Covid-19 Cases No. by {}'.format(DF.index.name), fontsize = 18)
+    AX.set_ylabel(DF.index.name, fontsize = 15)
+
+
+    ylist = range(len(DF.values))
+    for x,y in zip(DF.values, ylist):
+        AX.text(x/2,y,'{}'.format(x),ha='center', va='center', fontsize = 12, color = 'black')
+    if i ==4:
+        ax[i,0].text(0, -2, 'Data source: Ministry of Health\n by Fan Yang', ha='left', va='center', fontsize=10,color='grey')
+</code></pre>
+<h3 id="Prepare-the-figure">Prepare the figure</h3>
+<pre class=" language-language-python"><code class="language-language-python">dfList = [df_DHB, df_age, df_gender, df_info,df_city]
+</code></pre>
+<pre class=" language-language-python"><code class="language-language-python">fig, ax = plt.subplots(5,figsize=(10,25), squeeze = False)
+</code></pre>
+<p><img src="/2020/04/26/20200426%20Covid-19%20Cases%20Figure%20in%20New%20Zealand/output_58_0.svg" alt="svg"></p>
+<h3 id="Plotting-data-into-each-ax">Plotting data into each ax</h3>
+<pre class=" language-language-python"><code class="language-language-python">for i in range(5):
+   bar_plot(ax[i,0],dfList[i])
+fig
+</code></pre>
+<p><img src="/2020/04/26/20200426%20Covid-19%20Cases%20Figure%20in%20New%20Zealand/output_62_0.svg" alt="svg"></p>
+<h3 id="Plotting-the-figure-out">Plotting the figure out</h3>
+<pre class=" language-language-python"><code class="language-language-python">fig
+</code></pre>
+<p><img src="/2020/04/26/20200426%20Covid-19%20Cases%20Figure%20in%20New%20Zealand/output_64_0.svg" alt="svg"></p>
+<h2 id="Plotting-Cases-by-DHB-Gender">Plotting Cases by DHB/Gender</h2>
+<pre class=" language-language-python"><code class="language-language-python">df3=df.groupby(['DHB','Sex']).count()
+
+df3 = df3.iloc[:,1]
+</code></pre>
+<pre class=" language-language-python"><code class="language-language-python">df3 = df3.unstack().fillna(0).astype('int32')
+df3.head()
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>Sex</th>
+      <th>Female</th>
+      <th>Male</th>
+    </tr>
+    <tr>
+      <th>DHB</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Auckland</th>
+      <td>22</td>
+      <td>22</td>
+    </tr>
+    <tr>
+      <th>Bay of Plenty</th>
+      <td>5</td>
+      <td>7</td>
+    </tr>
+    <tr>
+      <th>Canterbury</th>
+      <td>23</td>
+      <td>16</td>
+    </tr>
+    <tr>
+      <th>Capital and Coast</th>
+      <td>9</td>
+      <td>7</td>
+    </tr>
+    <tr>
+      <th>Counties Manukau</th>
+      <td>17</td>
+      <td>17</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<pre class=" language-language-python"><code class="language-language-python">df3 = df3.iloc[:,:2]
+</code></pre>
+<pre class=" language-language-python"><code class="language-language-python">#Cluster Bar Plot
+xlist =list(range(0,len(df['DHB'])))
+
+width = 0.3 #width of columns
+
+x1 = [i-width for i in xlist]
+x2 = [i+width for i in xlist]
+
+ax = df3.plot(kind='bar',stacked=True, figsize=(10, 6), color = color_list)
+
+
+ax.set_title('Cases by DHB/Gender', size = 16)
+ax.set_xlabel('DHB/Gender',fontsize = 14)
+ax.tick_params(labelsize=14)
+ax.legend(fontsize = 14)
+
+for x,y in zip(xlist,df3.Female):
+    ax.text(x,0,r'{}'.format(y),ha='center', va='bottom', fontsize = 10)
+for x,y,z in zip(xlist,df3.Male,df3.Female):
+    ax.text(x,(z+y),r'{}'.format(y),ha='center', va='bottom', fontsize = 10)
+</code></pre>
+<p><img src="/2020/04/26/20200426%20Covid-19%20Cases%20Figure%20in%20New%20Zealand/output_69_0.png" alt="png"></p>
+<h2 id="Plotting-Line-and-Area-Figure-by-date-DHB">Plotting Line and Area Figure by date/DHB</h2>
+<h3 id="Data-Preparing">Data Preparing</h3>
+<pre class=" language-language-python"><code class="language-language-python">df5=df.groupby(['Report_Date','DHB']).count()
+df5.head()
+
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th></th>
+      <th>Sex</th>
+      <th>Age_group</th>
+      <th>Overseas</th>
+      <th>Last_country_before_return</th>
+    </tr>
+    <tr>
+      <th>Report_Date</th>
+      <th>DHB</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2020-02-26</th>
+      <th>Auckland</th>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>2020-03-02</th>
+      <th>Waitemata</th>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th rowspan="2" valign="top">2020-03-04</th>
+      <th>Counties Manukau</th>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>Waitemata</th>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>2020-03-05</th>
+      <th>Counties Manukau</th>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<pre class=" language-language-python"><code class="language-language-python">dhb_sr = df5.iloc[:,1]
+dhb_sr
+</code></pre>
+<pre><code>Report_Date  DHB             
+2020-02-26   Auckland            1
+2020-03-02   Waitemata           1
+2020-03-04   Counties Manukau    1
+             Waitemata           1
+2020-03-05   Counties Manukau    1
+                                ..
+2020-04-21   Canterbury          2
+             Waikato             1
+2020-04-22   Canterbury          2
+             Counties Manukau    1
+             Hawke's Bay         1
+Name: Age_group, Length: 375, dtype: int64
+</code></pre>
+<pre class=" language-language-python"><code class="language-language-python">df5 = dhb_sr.unstack().fillna(0).astype('int32')
+df5.head()
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>DHB</th>
+      <th>Auckland</th>
+      <th>Bay of Plenty</th>
+      <th>Canterbury</th>
+      <th>Capital and Coast</th>
+      <th>Counties Manukau</th>
+      <th>Hawke's Bay</th>
+      <th>Hutt Valley</th>
+      <th>Lakes</th>
+      <th>MidCentral</th>
+      <th>Nelson Marlborough</th>
+      <th>Northland</th>
+      <th>South Canterbury</th>
+      <th>Southern</th>
+      <th>Tairawhiti</th>
+      <th>Taranaki</th>
+      <th>Waikato</th>
+      <th>Wairarapa</th>
+      <th>Waitemata</th>
+      <th>West Coast</th>
+      <th>Whanganui</th>
+    </tr>
+    <tr>
+      <th>Report_Date</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2020-02-26</th>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2020-03-02</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2020-03-04</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2020-03-05</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2020-03-06</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<pre class=" language-language-python"><code class="language-language-python"># to calculated to accumulated case no to the specific day
+df6 = df5
+for i in range(len(df6.index)):
+    if i == 0:
+        pass
+    else:
+        df6.iloc[i,:] = df6.iloc[i,:] + df6.iloc[i-1,:]
+df6.tail()
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>DHB</th>
+      <th>Auckland</th>
+      <th>Bay of Plenty</th>
+      <th>Canterbury</th>
+      <th>Capital and Coast</th>
+      <th>Counties Manukau</th>
+      <th>Hawke's Bay</th>
+      <th>Hutt Valley</th>
+      <th>Lakes</th>
+      <th>MidCentral</th>
+      <th>Nelson Marlborough</th>
+      <th>Northland</th>
+      <th>South Canterbury</th>
+      <th>Southern</th>
+      <th>Tairawhiti</th>
+      <th>Taranaki</th>
+      <th>Waikato</th>
+      <th>Wairarapa</th>
+      <th>Waitemata</th>
+      <th>West Coast</th>
+      <th>Whanganui</th>
+    </tr>
+    <tr>
+      <th>Report_Date</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2020-04-18</th>
+      <td>185</td>
+      <td>45</td>
+      <td>150</td>
+      <td>93</td>
+      <td>110</td>
+      <td>41</td>
+      <td>20</td>
+      <td>16</td>
+      <td>31</td>
+      <td>48</td>
+      <td>27</td>
+      <td>15</td>
+      <td>216</td>
+      <td>4</td>
+      <td>14</td>
+      <td>184</td>
+      <td>8</td>
+      <td>211</td>
+      <td>5</td>
+      <td>8</td>
+    </tr>
+    <tr>
+      <th>2020-04-19</th>
+      <td>185</td>
+      <td>47</td>
+      <td>153</td>
+      <td>93</td>
+      <td>110</td>
+      <td>41</td>
+      <td>20</td>
+      <td>16</td>
+      <td>31</td>
+      <td>48</td>
+      <td>27</td>
+      <td>16</td>
+      <td>216</td>
+      <td>4</td>
+      <td>14</td>
+      <td>185</td>
+      <td>8</td>
+      <td>212</td>
+      <td>5</td>
+      <td>9</td>
+    </tr>
+    <tr>
+      <th>2020-04-20</th>
+      <td>185</td>
+      <td>47</td>
+      <td>154</td>
+      <td>95</td>
+      <td>110</td>
+      <td>41</td>
+      <td>20</td>
+      <td>16</td>
+      <td>31</td>
+      <td>48</td>
+      <td>27</td>
+      <td>16</td>
+      <td>216</td>
+      <td>4</td>
+      <td>14</td>
+      <td>185</td>
+      <td>8</td>
+      <td>212</td>
+      <td>5</td>
+      <td>9</td>
+    </tr>
+    <tr>
+      <th>2020-04-21</th>
+      <td>186</td>
+      <td>47</td>
+      <td>156</td>
+      <td>95</td>
+      <td>110</td>
+      <td>41</td>
+      <td>20</td>
+      <td>16</td>
+      <td>31</td>
+      <td>48</td>
+      <td>27</td>
+      <td>16</td>
+      <td>216</td>
+      <td>4</td>
+      <td>14</td>
+      <td>186</td>
+      <td>8</td>
+      <td>212</td>
+      <td>5</td>
+      <td>9</td>
+    </tr>
+    <tr>
+      <th>2020-04-22</th>
+      <td>186</td>
+      <td>47</td>
+      <td>158</td>
+      <td>95</td>
+      <td>111</td>
+      <td>42</td>
+      <td>20</td>
+      <td>16</td>
+      <td>31</td>
+      <td>48</td>
+      <td>27</td>
+      <td>16</td>
+      <td>216</td>
+      <td>4</td>
+      <td>14</td>
+      <td>186</td>
+      <td>8</td>
+      <td>212</td>
+      <td>5</td>
+      <td>9</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<pre class=" language-language-python"><code class="language-language-python"># to calculated to accumulated case no to the specific day by applying the pandas function
+df66 = df5.cumsum()
+df66.tail()
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>DHB</th>
+      <th>Auckland</th>
+      <th>Bay of Plenty</th>
+      <th>Canterbury</th>
+      <th>Capital and Coast</th>
+      <th>Counties Manukau</th>
+      <th>Hawke's Bay</th>
+      <th>Hutt Valley</th>
+      <th>Lakes</th>
+      <th>MidCentral</th>
+      <th>Nelson Marlborough</th>
+      <th>Northland</th>
+      <th>South Canterbury</th>
+      <th>Southern</th>
+      <th>Tairawhiti</th>
+      <th>Taranaki</th>
+      <th>Waikato</th>
+      <th>Wairarapa</th>
+      <th>Waitemata</th>
+      <th>West Coast</th>
+      <th>Whanganui</th>
+    </tr>
+    <tr>
+      <th>Report_Date</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2020-04-18</th>
+      <td>185</td>
+      <td>45</td>
+      <td>150</td>
+      <td>93</td>
+      <td>110</td>
+      <td>41</td>
+      <td>20</td>
+      <td>16</td>
+      <td>31</td>
+      <td>48</td>
+      <td>27</td>
+      <td>15</td>
+      <td>216</td>
+      <td>4</td>
+      <td>14</td>
+      <td>184</td>
+      <td>8</td>
+      <td>211</td>
+      <td>5</td>
+      <td>8</td>
+    </tr>
+    <tr>
+      <th>2020-04-19</th>
+      <td>185</td>
+      <td>47</td>
+      <td>153</td>
+      <td>93</td>
+      <td>110</td>
+      <td>41</td>
+      <td>20</td>
+      <td>16</td>
+      <td>31</td>
+      <td>48</td>
+      <td>27</td>
+      <td>16</td>
+      <td>216</td>
+      <td>4</td>
+      <td>14</td>
+      <td>185</td>
+      <td>8</td>
+      <td>212</td>
+      <td>5</td>
+      <td>9</td>
+    </tr>
+    <tr>
+      <th>2020-04-20</th>
+      <td>185</td>
+      <td>47</td>
+      <td>154</td>
+      <td>95</td>
+      <td>110</td>
+      <td>41</td>
+      <td>20</td>
+      <td>16</td>
+      <td>31</td>
+      <td>48</td>
+      <td>27</td>
+      <td>16</td>
+      <td>216</td>
+      <td>4</td>
+      <td>14</td>
+      <td>185</td>
+      <td>8</td>
+      <td>212</td>
+      <td>5</td>
+      <td>9</td>
+    </tr>
+    <tr>
+      <th>2020-04-21</th>
+      <td>186</td>
+      <td>47</td>
+      <td>156</td>
+      <td>95</td>
+      <td>110</td>
+      <td>41</td>
+      <td>20</td>
+      <td>16</td>
+      <td>31</td>
+      <td>48</td>
+      <td>27</td>
+      <td>16</td>
+      <td>216</td>
+      <td>4</td>
+      <td>14</td>
+      <td>186</td>
+      <td>8</td>
+      <td>212</td>
+      <td>5</td>
+      <td>9</td>
+    </tr>
+    <tr>
+      <th>2020-04-22</th>
+      <td>186</td>
+      <td>47</td>
+      <td>158</td>
+      <td>95</td>
+      <td>111</td>
+      <td>42</td>
+      <td>20</td>
+      <td>16</td>
+      <td>31</td>
+      <td>48</td>
+      <td>27</td>
+      <td>16</td>
+      <td>216</td>
+      <td>4</td>
+      <td>14</td>
+      <td>186</td>
+      <td>8</td>
+      <td>212</td>
+      <td>5</td>
+      <td>9</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h3 id="Picking-up-the-cities-with-top-5-confirmed-cases-No">Picking up the cities with top 5 confirmed cases No.</h3>
+<pre class=" language-language-python"><code class="language-language-python">DHBlist = df5.sum().sort_values(ascending = False)  # descending rank in cases No.
+</code></pre>
+<pre class=" language-language-python"><code class="language-language-python">DHBlist = DHBlist.head(5).index
+</code></pre>
+<pre class=" language-language-python"><code class="language-language-python">DHBlist = DHBlist.tolist()
+</code></pre>
+<pre class=" language-language-python"><code class="language-language-python">DHBlist
+</code></pre>
+<pre><code>['Southern', 'Waitemata', 'Auckland', 'Waikato', 'Canterbury']
+</code></pre>
+<pre class=" language-language-python"><code class="language-language-python">len(DHBlist)
+</code></pre>
+<pre><code>5
+</code></pre>
+<h3 id="Plotting-the-figure">Plotting the figure</h3>
+<pre class=" language-language-python"><code class="language-language-python">pd.plotting.register_matplotlib_converters()
+</code></pre>
+<pre class=" language-language-python"><code class="language-language-python">df_top5 = df6.loc[:,DHBlist]
+df_top5.head(2)
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>DHB</th>
+      <th>Southern</th>
+      <th>Waitemata</th>
+      <th>Auckland</th>
+      <th>Waikato</th>
+      <th>Canterbury</th>
+    </tr>
+    <tr>
+      <th>Report_Date</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2020-02-26</th>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2020-03-02</th>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h3 id="Area-plot">Area plot</h3>
+<pre class=" language-language-python"><code class="language-language-python">
+df_top5.plot(kind='area', alpha = 0.3,
+             stacked = False,
+             figsize=(25, 10), # pass a tuple (x, y) size
+             )
+
+plt.title('Covid19 Cases No. Top5 (by DHB)', size = 16)
+plt.xlabel('Date',fontsize = 14)
+plt.ylabel('Case No.',fontsize = 14)
+
+plt.legend()
+</code></pre>
+<pre><code>&lt;matplotlib.legend.Legend at 0x22525b8bbc8&gt;
+</code></pre>
+<p><img src="/2020/04/26/20200426%20Covid-19%20Cases%20Figure%20in%20New%20Zealand/output_87_1.svg" alt="svg"></p>
+<h3 id="Line-plot">Line plot</h3>
+<pre class=" language-language-python"><code class="language-language-python">fig, ax = plt.subplots(figsize = (10,6))
+
+for i in range(len(df_top5.columns)):
+    ax.plot(df_top5.index,df_top5.iloc[:,i].values,label = df_top5.columns[i])
+
+ax.set_title('Covid19 Cases No. Top5 (by DHB)', size = 16)
+ax.set_xlabel('Date',fontsize = 14)
+ax.set_ylabel('Case No.',fontsize = 14)
+
+
+ax.xaxis.set_tick_params(rotation = 35, labelsize = 12)
+
+
+ax.legend()
+</code></pre>
+<pre><code>&lt;matplotlib.legend.Legend at 0x22520bf6e08&gt;
+</code></pre>
+<p><img src="/2020/04/26/20200426%20Covid-19%20Cases%20Figure%20in%20New%20Zealand/output_89_1.svg" alt="svg"></p>
+<h2 id="Reference">Reference</h2>
+<p><a href="https://www.health.govt.nz/our-work/diseases-and-conditions/covid-19-novel-coronavirus/covid-19-current-situation/covid-19-current-cases/covid-19-current-cases-details" target="_blank" rel="noopener">https://www.health.govt.nz/our-work/diseases-and-conditions/covid-19-novel-coronavirus/covid-19-current-situation/covid-19-current-cases/covid-19-current-cases-details</a></p>
+]]></content>
+      <categories>
+        <category>April 2020</category>
+      </categories>
+      <tags>
+        <tag>Pandas</tag>
+        <tag>matplotlib</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>How to autoload *.dll in AutoCAD</title>
     <url>/2020/06/01/20200602How%20to%20autoload%20dll%20in%20AutoCAD/</url>
     <content><![CDATA[<hr>
@@ -79,6 +1684,89 @@
       </tags>
   </entry>
   <entry>
+    <title>FilterType[] in dotNetAPI</title>
+    <url>/2020/06/18/20200618FilterType%5B%5D%20in%20dotNetAPI/</url>
+    <content><![CDATA[<h2 id="This-one-is-just-to-make-a-record-for-the-passage-in-the-Reference-The-content-and-code-are-all-from-this-passage">This one is just to make a record for the passage in the Reference. The content and code are all from <a href="https://mp.weixin.qq.com/s/f1UU9ihNL1B0UUKzMFgDAg" target="_blank" rel="noopener">this passage</a>.</h2>
+<h2 id="Aim">Aim</h2>
+<pre><code>&lt; or
+    &lt; and
+             Layer == &quot;lay01&quot;
+             Color == &quot;1&quot;    // 红色索引值为1
+             Entity type == &quot;TEXT&quot;
+    and &gt;
+    &lt; and
+             &lt; or
+             Layer == &quot;lay02&quot;
+             Layer == &quot;lay03&quot;
+             or &gt;
+             Color == &quot;5&quot;     // 蓝色索引值为5
+             Entity type == &quot;POLYLINE&quot;
+    and &gt;
+or &gt;
+</code></pre>
+<hr>
+<h2 id="Code">Code</h2>
+<pre class=" language-language-csharp"><code class="language-language-csharp">
+public static void MultipleSelectionFilter()
+{
+    // 获取当前文档编辑器
+    Editor ed = Autodesk.AutoCAD.ApplicationServices.Core.Application.DocumentManager.MdiActiveDocument.Editor;
+
+    // 创建一个数组定义筛选条件
+
+    // 定义筛选条件
+    TypedValue[] typeValue = {
+     new TypedValue((int) DxfCode.Operator, "<or"),
+     // 选择标准1
+     new TypedValue((int) DxfCode.Operator, "<and"),
+     new TypedValue((int) DxfCode.Start, "TEXT"),
+     new TypedValue((int) DxfCode.LayerName, "lay01"),
+     new TypedValue((int) DxfCode.Color, "1"),
+     new TypedValue((int) DxfCode.Operator, "and>"),
+     // 选择标准2
+     new TypedValue((int) DxfCode.Operator, "<and"),
+     new TypedValue((int) DxfCode.Start, "LWPOLYLINE"),
+     new TypedValue((int) DxfCode.Color, "5"),
+     new TypedValue((int) DxfCode.Operator, "<or"),
+     new TypedValue((int) DxfCode.LayerName, "lay02"),
+     new TypedValue((int) DxfCode.LayerName, "lay03"),
+     new TypedValue((int) DxfCode.Operator, "or>"),
+     new TypedValue((int) DxfCode.Operator, "and>"),
+     new TypedValue((int) DxfCode.Operator, "or>")
+    };
+
+    // 将筛选条件传到过滤器
+    SelectionFilter selFiter = new SelectionFilter(typeValue);
+
+    // 获取选择对象
+    PromptSelectionResult psr = ed.GetSelection(selFiter);
+
+
+    // 判断选择是否成功
+    if (psr.Status == PromptStatus.OK)
+    {
+        SelectionSet sSet = psr.Value;
+        Autodesk.AutoCAD.ApplicationServices.Core.Application.ShowAlertDialog("Number of objects selected: " + sSet.Count.ToString());
+    }
+    else
+    {
+        Autodesk.AutoCAD.ApplicationServices.Core.Application.ShowAlertDialog("Number of objects selected: 0");
+    }
+}
+</code></pre>
+<h1>Reference</h1>
+<p><a href="https://mp.weixin.qq.com/s/f1UU9ihNL1B0UUKzMFgDAg" target="_blank" rel="noopener">https://mp.weixin.qq.com/s/f1UU9ihNL1B0UUKzMFgDAg</a></p>
+]]></content>
+      <categories>
+        <category>June 2020</category>
+      </categories>
+      <tags>
+        <tag>Civil3d</tag>
+        <tag>AutoCAD API</tag>
+        <tag>C#</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Set Viewport in AutoCad .Net API</title>
     <url>/2020/06/15/20200615Set%20Viewport%20in%20AutoCad%20.Net%20API/</url>
     <content><![CDATA[<hr>
@@ -141,6 +1829,11 @@
 </tr>
 </tbody>
 </table>
+<hr>
+<h3 id="Application">Application</h3>
+<p>So what can we do with this function?<br>
+Mostly we have different plans such as drainage or driveway plan on same site, in various viewports. We need to relocate the site in the viewports one by one, However, with this function, we can adjust multiple viewports at the same time. Check the followed figure.</p>
+<p><img src="/2020/06/15/20200615Set%20Viewport%20in%20AutoCad%20.Net%20API/Adjustthemultipleviewportsinseconds2.gif" alt="Adjust the multiple viewports by several clicks"></p>
 <h1>Reference</h1>
 <p><a href="http://docs.autodesk.com/ACD/2010/ENU/AutoCAD%20.NET%20Developer%27s%20Guide/index.html?url=WS1a9193826455f5ff2566ffd511ff6f8c7ca-3416.htm,topicNumber=d0e50529" target="_blank" rel="noopener">http://docs.autodesk.com/ACD/2010/ENU/AutoCAD .NET Developer's Guide/index.html?url=WS1a9193826455f5ff2566ffd511ff6f8c7ca-3416.htm,topicNumber=d0e50529</a></p>
 ]]></content>
@@ -305,89 +1998,6 @@ public static DBObjectCollection GetSelection(FilterType[] tps)
       </tags>
   </entry>
   <entry>
-    <title>FilterType[] in dotNetAPI</title>
-    <url>/2020/06/18/20200618FilterType%5B%5D%20in%20dotNetAPI/</url>
-    <content><![CDATA[<h2 id="This-one-is-just-to-make-a-record-for-the-passage-in-the-Reference-The-content-and-code-are-all-from-this-passage">This one is just to make a record for the passage in the Reference. The content and code are all from <a href="https://mp.weixin.qq.com/s/f1UU9ihNL1B0UUKzMFgDAg" target="_blank" rel="noopener">this passage</a>.</h2>
-<h2 id="Aim">Aim</h2>
-<pre><code>&lt; or
-    &lt; and
-             Layer == &quot;lay01&quot;
-             Color == &quot;1&quot;    // 红色索引值为1
-             Entity type == &quot;TEXT&quot;
-    and &gt;
-    &lt; and
-             &lt; or
-             Layer == &quot;lay02&quot;
-             Layer == &quot;lay03&quot;
-             or &gt;
-             Color == &quot;5&quot;     // 蓝色索引值为5
-             Entity type == &quot;POLYLINE&quot;
-    and &gt;
-or &gt;
-</code></pre>
-<hr>
-<h2 id="Code">Code</h2>
-<pre class=" language-language-csharp"><code class="language-language-csharp">
-public static void MultipleSelectionFilter()
-{
-    // 获取当前文档编辑器
-    Editor ed = Autodesk.AutoCAD.ApplicationServices.Core.Application.DocumentManager.MdiActiveDocument.Editor;
-
-    // 创建一个数组定义筛选条件
-
-    // 定义筛选条件
-    TypedValue[] typeValue = {
-     new TypedValue((int) DxfCode.Operator, "<or"),
-     // 选择标准1
-     new TypedValue((int) DxfCode.Operator, "<and"),
-     new TypedValue((int) DxfCode.Start, "TEXT"),
-     new TypedValue((int) DxfCode.LayerName, "lay01"),
-     new TypedValue((int) DxfCode.Color, "1"),
-     new TypedValue((int) DxfCode.Operator, "and>"),
-     // 选择标准2
-     new TypedValue((int) DxfCode.Operator, "<and"),
-     new TypedValue((int) DxfCode.Start, "LWPOLYLINE"),
-     new TypedValue((int) DxfCode.Color, "5"),
-     new TypedValue((int) DxfCode.Operator, "<or"),
-     new TypedValue((int) DxfCode.LayerName, "lay02"),
-     new TypedValue((int) DxfCode.LayerName, "lay03"),
-     new TypedValue((int) DxfCode.Operator, "or>"),
-     new TypedValue((int) DxfCode.Operator, "and>"),
-     new TypedValue((int) DxfCode.Operator, "or>")
-    };
-
-    // 将筛选条件传到过滤器
-    SelectionFilter selFiter = new SelectionFilter(typeValue);
-
-    // 获取选择对象
-    PromptSelectionResult psr = ed.GetSelection(selFiter);
-
-
-    // 判断选择是否成功
-    if (psr.Status == PromptStatus.OK)
-    {
-        SelectionSet sSet = psr.Value;
-        Autodesk.AutoCAD.ApplicationServices.Core.Application.ShowAlertDialog("Number of objects selected: " + sSet.Count.ToString());
-    }
-    else
-    {
-        Autodesk.AutoCAD.ApplicationServices.Core.Application.ShowAlertDialog("Number of objects selected: 0");
-    }
-}
-</code></pre>
-<h1>Reference</h1>
-<p><a href="https://mp.weixin.qq.com/s/f1UU9ihNL1B0UUKzMFgDAg" target="_blank" rel="noopener">https://mp.weixin.qq.com/s/f1UU9ihNL1B0UUKzMFgDAg</a></p>
-]]></content>
-      <categories>
-        <category>June 2020</category>
-      </categories>
-      <tags>
-        <tag>Civil3d</tag>
-        <tag>AutoCAD API</tag>
-        <tag>C#</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Civil3d Ribbon Demo (Automate the repetitive tasks)</title>
     <url>/2020/06/22/20200622Civil3D%20Ribbon%20Demo/</url>
     <content><![CDATA[<p>Recently I create a custom #Civil3D ribbon menu with #.NET API for the script I wrote. Now it is easier to use and can save us time for repetitive tasks.</p>
@@ -481,175 +2091,6 @@ osurface.Rebuild()
       </categories>
       <tags>
         <tag>Civil3d</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Delineate watershed based on DEM data on ArcMAP</title>
-    <url>/2020/04/24/Delinenate%20the%20watershed%20based%20on%20DEM%20data%20on%20ArcMAP/</url>
-    <content><![CDATA[<p>Before input data into hydrologic or hydraulic data, we need to know the catchment boundary first. Arcmap has wonderful tool suite to proceed this</p>
-<p>The basic step flow is as below:</p>
-<blockquote>
-<p>dem-- fill–flow direction–flow accumulation–raster calculator or reclassify --stream link–watershed</p>
-</blockquote>
-<p>After knowing the basic workflow, we can generate our own defined workflow by <em>Model Builder</em> in ArcGIS as the figure below, or we can use the existing tool, for example, <em>ArcHydro</em>. However, we should know how to achieve it by ArcMAP first to understand the basic theory.</p>
-<p><img src="/2020/04/24/Delinenate%20the%20watershed%20based%20on%20DEM%20data%20on%20ArcMAP/1.PNG" alt="Create Streamlines"></p>
-<hr>
-<h3 id="Fill">Fill</h3>
-<p>Firstly, we need to load the DEM raster files into ArcMAP, and then select fill tool as followed:<em>Arctool boxes/spatial Analyst Tools/Hydrology/Fill</em></p>
-<p>The window as followed figure will pop out:<br>
-<img src="/2020/04/24/Delinenate%20the%20watershed%20based%20on%20DEM%20data%20on%20ArcMAP/2.PNG" alt="DEM FILL"></p>
-<p>Then a new DEM data will be generated, it seems that there is no difference between the two raster datasets. But we can select the <em>Arctool boxes\Spatial Analyst Tools.tbx\Map Algebra\Raster Calculator</em> and calculate the difference between the two DEM datasets.<br>
-<img src="/2020/04/24/Delinenate%20the%20watershed%20based%20on%20DEM%20data%20on%20ArcMAP/3.PNG" alt="dem difference"></p>
-<hr>
-<h3 id="Flow-Direction">Flow Direction</h3>
-<p>The we can click <em>Flow direction</em> and apply the filled DEM dataset.</p>
-<p>The result is as shown below.</p>
-<p><img src="/2020/04/24/Delinenate%20the%20watershed%20based%20on%20DEM%20data%20on%20ArcMAP/4.PNG" alt="flow direction"></p>
-<hr>
-<h3 id="Flow-Accumulation">Flow Accumulation</h3>
-<p>Similarly, we choose <em>Flow Accumulation</em> and select the datasets <em>Filled DEM</em> and <em>Flow Accumulation</em>, then the raster of flow Accumulation will be generated.</p>
-<p>But we do not need to care about those raster with small No. of accumulation. We need to classify the result to select the data we are interested.</p>
-<p><img src="/2020/04/24/Delinenate%20the%20watershed%20based%20on%20DEM%20data%20on%20ArcMAP/5.png" alt="flow Accumulation"></p>
-<hr>
-<h3 id="Flow-Length">Flow Length</h3>
-<p>Flow Length is an important factor to calculate the catchment time of concentration(<em>tc</em>) , we choose <em>Flow Length</em> tool and select the datasets from <em>Flow Accumulation</em>, then we can get a raster map of concentration.</p>
-<p>If we choose downstream, each raster value will record the length to the discharge point.</p>
-<p><img src="/2020/04/24/Delinenate%20the%20watershed%20based%20on%20DEM%20data%20on%20ArcMAP/6.png" alt="flow Length"></p>
-<hr>
-<h3 id="Reclassify">Reclassify</h3>
-<p>We assume the line with catchment of over 900,000 m2 will have apparent stream flow. We choose <em>Arctool boxes\3D Analyst Tools.tbx\Raster Reclass\Reclassify</em>.</p>
-<p><img src="/2020/04/24/Delinenate%20the%20watershed%20based%20on%20DEM%20data%20on%20ArcMAP/7.PNG" alt="Reclassifing Flow"></p>
-<hr>
-<h3 id="Stream-Link">Stream Link</h3>
-<p>After reclassifying, we can get the discharge link with large catchment of over 900000 square meter.</p>
-<p><img src="/2020/04/24/Delinenate%20the%20watershed%20based%20on%20DEM%20data%20on%20ArcMAP/8.PNG" alt="Stream Link"></p>
-<hr>
-<h3 id="Watershed">Watershed</h3>
-<p>we choose <em>Watershed</em> and select the corresponding data from datasets, then we can get a raster map of watershed. We can use <em>Arctool boxes\Conversion Tools.tbx\From Raster\Raster to Polygon</em> to change to result to polygon.</p>
-<p>We can also input point data for <em>Input raster or feature pour point data</em>, this will be useful when we have the stormwater discharge point, like manholes.</p>
-<p><img src="/2020/04/24/Delinenate%20the%20watershed%20based%20on%20DEM%20data%20on%20ArcMAP/9.PNG" alt="result.png"></p>
-<p><img src="/2020/04/24/Delinenate%20the%20watershed%20based%20on%20DEM%20data%20on%20ArcMAP/10.PNG" alt="Watershed.png"></p>
-]]></content>
-      <categories>
-        <category>April 2020</category>
-      </categories>
-      <tags>
-        <tag>Arcmap</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>the Covid19 case Number Growth by DHB in NZ</title>
-    <url>/2020/04/25/Generate%20the%20Covid19%20case%20growth%20video/</url>
-    <content><![CDATA[<h2 id="Read-the-data-from-excel">Read the data from excel</h2>
-<pre class=" language-language-python"><code class="language-language-python">import pandas as pd
-from pandas import DataFrame, Series
-import matplotlib.pyplot as plt
-
-df = pd.read_excel('covid-caselist-23april.xlsx',sheet_name= 'Confirmed')
-
-</code></pre>
-<p>The excel file is from the <a href="https://www.health.govt.nz/our-work/diseases-and-conditions/covid-19-novel-coronavirus/covid-19-current-situation/covid-19-current-cases/covid-19-current-cases-details" target="_blank" rel="noopener">Ministry of Health website</a> on 23/04/2020.</p>
-<h2 id="Data-Wrangling">Data Wrangling</h2>
-<p>The raw data need to be properly treated for the plotting purpose.</p>
-<pre class=" language-language-python"><code class="language-language-python">df.replace(to_replace=r'^\s*$',value='Unkown',regex=True,inplace=True)#replace the emply values with 'No_data'
-
-df.columns = list(i.replace(' ','_') for i in df.columns)# Replace the space in the columns name to avoid potential problems
-df = df.rename(columns = {'Date_of_report':'Report_Date','International_travel':'Overseas','Age_Group':'Age_group'})
-
-df['Report_Date'] =pd.to_datetime(df['Report_Date'],format='%d/%m/%Y')
-df.sort_values(by ='Report_Date', axis=0, inplace= True )
-
-df5 = df.groupby(['Report_Date','DHB']).count()
-df5 = df5.iloc[:,1]
-df5 = df5.unstack().fillna(0).astype('int32')
-
-#calculate the total case number until the target date
-df_cum = df5.cumsum()
-# resample the data to 8 hours and interpolate the data to get more figures
-df_cum = df_cum.resample('8h').interpolate().astype('int32')
-
-#get the timeline stamp for later use
-newDatetime = df_cum.index.date
-
-df_cum = df_cum.T
-
-#create a random color list for different cities, you can set the color list for better result
-color_list = []
-cmap = get_cmap(len(df_cum.index))
-
-for i in range(len(df_cum.index)):
-   color_list.append(cmap(i))
-df_cum['color_list'] = color_list
-
-ylist = range(len(df_cum.columns))
-</code></pre>
-<h2 id="Plotting-the-figures">Plotting the figures</h2>
-<pre class=" language-language-python"><code class="language-language-python">#prepare the fig
-fig, ax = plt.subplots(figsize=(18, 9))
-
- # ffmpeg need to be installed in the system to produce the videos
-Writer = animation.writers['ffmpeg']
-writer = Writer(fps=10, metadata=dict(artist='Me'), bitrate=800)
-
-
-
-# define the function to generate the figures
-def animate(i):
-    ax.clear()  #everytime the existing figure need to be cleared
-    df24 = df_cum.iloc[:,[i,-1]].sort_values(by = df_cum.columns[i])
-    wdf = df24.iloc[:,0]
-    color_list2 = df24.iloc[:,-1]
-
-    #process bar
-    process= i/(len(newDatetime)-1)*100
-    print("\r  Plotting process：%.2f%%" %(process),end=' ')
-    if process>99:print("\r  DONE!     Plotting process：     100%",end=' ')
-
-    # the figure
-    ax.barh(wdf.index, wdf.values, color=color_list2)
-    ax.set_xlabel('Total Covid Case No. on {}\n'.format(newDatetime[i]), fontsize=20)
-    ax.set_ylabel('DHB', fontsize=20)
-
-    # the ticks
-    ax.yaxis.set_tick_params(labelsize=12, colors='black')
-    ax.xaxis.set_tick_params(labelsize=10, colors='grey')
-    ax.tick_params(top = True, bottom = False, labeltop = True, labelbottom = False)
-    ax.xaxis.set_ticks(np.arange(0, ((max(wdf))+1), 5))
-
-    for x, y in zip(wdf.values, range(len(wdf.values))):
-        ax.text(x, y, ('' if x < 1 else int(x)), ha='left', va='center', fontsize=12)
-        ax.text(x, y, ('' if x < 20 else '{}  '.format(wdf.index[y])), ha='right', va='center', fontsize=12)
-        ax.text(0, -2, 'Data source: Ministry of Health\n by Fan Yang', ha='left', va='center', fontsize=10,
-                color='grey')
-
-# generate the photos
-ani = animation.FuncAnimation(fig, animate, frames=range(len(df_cum.columns)-2), interval=200)
-</code></pre>
-<h2 id="Various-outputs">Various outputs</h2>
-<pre class=" language-language-python"><code class="language-language-python">print('*******Beign to plot the mp4 figure file********')
-ani.save("test2.mp4", writer=writer)
-
-
-print('\n*******Beign to plot the figure file in gif*********')
-ani.save('line2.gif', dpi=80, writer='imagemagick')
-
-print('\n*******show in the IDE environment*********')
-plt.show()
-</code></pre>
-<h2 id="Result">Result</h2>
-<h3 id="MP4-VIDEO">MP4 VIDEO</h3>
-<iframe width="660" height="380" src="https://www.youtube.com/embed/xOjmZEJpUGI?start=2" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-<h3 id="JPG-Animation-photos">JPG Animation photos</h3>
-<p><img src="/2020/04/25/Generate%20the%20Covid19%20case%20growth%20video/line2.gif" alt="COVID19 case No. Figure Demo"></p>
-<h2 id="Reference">Reference</h2>
-<p><a href="https://www.health.govt.nz/our-work/diseases-and-conditions/covid-19-novel-coronavirus/covid-19-current-situation/covid-19-current-cases/covid-19-current-cases-details" target="_blank" rel="noopener">https://www.health.govt.nz/our-work/diseases-and-conditions/covid-19-novel-coronavirus/covid-19-current-situation/covid-19-current-cases/covid-19-current-cases-details</a></p>
-]]></content>
-      <categories>
-        <category>April 2020</category>
-      </categories>
-      <tags>
-        <tag>Pandas</tag>
-        <tag>matplotlib</tag>
       </tags>
   </entry>
   <entry>
@@ -1387,6 +2828,175 @@ ax.set_ylim([-42,-36])
       </tags>
   </entry>
   <entry>
+    <title>Delineate watershed based on DEM data on ArcMAP</title>
+    <url>/2020/04/24/Delinenate%20the%20watershed%20based%20on%20DEM%20data%20on%20ArcMAP/</url>
+    <content><![CDATA[<p>Before input data into hydrologic or hydraulic data, we need to know the catchment boundary first. Arcmap has wonderful tool suite to proceed this</p>
+<p>The basic step flow is as below:</p>
+<blockquote>
+<p>dem-- fill–flow direction–flow accumulation–raster calculator or reclassify --stream link–watershed</p>
+</blockquote>
+<p>After knowing the basic workflow, we can generate our own defined workflow by <em>Model Builder</em> in ArcGIS as the figure below, or we can use the existing tool, for example, <em>ArcHydro</em>. However, we should know how to achieve it by ArcMAP first to understand the basic theory.</p>
+<p><img src="/2020/04/24/Delinenate%20the%20watershed%20based%20on%20DEM%20data%20on%20ArcMAP/1.PNG" alt="Create Streamlines"></p>
+<hr>
+<h3 id="Fill">Fill</h3>
+<p>Firstly, we need to load the DEM raster files into ArcMAP, and then select fill tool as followed:<em>Arctool boxes/spatial Analyst Tools/Hydrology/Fill</em></p>
+<p>The window as followed figure will pop out:<br>
+<img src="/2020/04/24/Delinenate%20the%20watershed%20based%20on%20DEM%20data%20on%20ArcMAP/2.PNG" alt="DEM FILL"></p>
+<p>Then a new DEM data will be generated, it seems that there is no difference between the two raster datasets. But we can select the <em>Arctool boxes\Spatial Analyst Tools.tbx\Map Algebra\Raster Calculator</em> and calculate the difference between the two DEM datasets.<br>
+<img src="/2020/04/24/Delinenate%20the%20watershed%20based%20on%20DEM%20data%20on%20ArcMAP/3.PNG" alt="dem difference"></p>
+<hr>
+<h3 id="Flow-Direction">Flow Direction</h3>
+<p>The we can click <em>Flow direction</em> and apply the filled DEM dataset.</p>
+<p>The result is as shown below.</p>
+<p><img src="/2020/04/24/Delinenate%20the%20watershed%20based%20on%20DEM%20data%20on%20ArcMAP/4.PNG" alt="flow direction"></p>
+<hr>
+<h3 id="Flow-Accumulation">Flow Accumulation</h3>
+<p>Similarly, we choose <em>Flow Accumulation</em> and select the datasets <em>Filled DEM</em> and <em>Flow Accumulation</em>, then the raster of flow Accumulation will be generated.</p>
+<p>But we do not need to care about those raster with small No. of accumulation. We need to classify the result to select the data we are interested.</p>
+<p><img src="/2020/04/24/Delinenate%20the%20watershed%20based%20on%20DEM%20data%20on%20ArcMAP/5.png" alt="flow Accumulation"></p>
+<hr>
+<h3 id="Flow-Length">Flow Length</h3>
+<p>Flow Length is an important factor to calculate the catchment time of concentration(<em>tc</em>) , we choose <em>Flow Length</em> tool and select the datasets from <em>Flow Accumulation</em>, then we can get a raster map of concentration.</p>
+<p>If we choose downstream, each raster value will record the length to the discharge point.</p>
+<p><img src="/2020/04/24/Delinenate%20the%20watershed%20based%20on%20DEM%20data%20on%20ArcMAP/6.png" alt="flow Length"></p>
+<hr>
+<h3 id="Reclassify">Reclassify</h3>
+<p>We assume the line with catchment of over 900,000 m2 will have apparent stream flow. We choose <em>Arctool boxes\3D Analyst Tools.tbx\Raster Reclass\Reclassify</em>.</p>
+<p><img src="/2020/04/24/Delinenate%20the%20watershed%20based%20on%20DEM%20data%20on%20ArcMAP/7.PNG" alt="Reclassifing Flow"></p>
+<hr>
+<h3 id="Stream-Link">Stream Link</h3>
+<p>After reclassifying, we can get the discharge link with large catchment of over 900000 square meter.</p>
+<p><img src="/2020/04/24/Delinenate%20the%20watershed%20based%20on%20DEM%20data%20on%20ArcMAP/8.PNG" alt="Stream Link"></p>
+<hr>
+<h3 id="Watershed">Watershed</h3>
+<p>we choose <em>Watershed</em> and select the corresponding data from datasets, then we can get a raster map of watershed. We can use <em>Arctool boxes\Conversion Tools.tbx\From Raster\Raster to Polygon</em> to change to result to polygon.</p>
+<p>We can also input point data for <em>Input raster or feature pour point data</em>, this will be useful when we have the stormwater discharge point, like manholes.</p>
+<p><img src="/2020/04/24/Delinenate%20the%20watershed%20based%20on%20DEM%20data%20on%20ArcMAP/9.PNG" alt="result.png"></p>
+<p><img src="/2020/04/24/Delinenate%20the%20watershed%20based%20on%20DEM%20data%20on%20ArcMAP/10.PNG" alt="Watershed.png"></p>
+]]></content>
+      <categories>
+        <category>April 2020</category>
+      </categories>
+      <tags>
+        <tag>Arcmap</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>the Covid19 case Number Growth by DHB in NZ</title>
+    <url>/2020/04/25/Generate%20the%20Covid19%20case%20growth%20video/</url>
+    <content><![CDATA[<h2 id="Read-the-data-from-excel">Read the data from excel</h2>
+<pre class=" language-language-python"><code class="language-language-python">import pandas as pd
+from pandas import DataFrame, Series
+import matplotlib.pyplot as plt
+
+df = pd.read_excel('covid-caselist-23april.xlsx',sheet_name= 'Confirmed')
+
+</code></pre>
+<p>The excel file is from the <a href="https://www.health.govt.nz/our-work/diseases-and-conditions/covid-19-novel-coronavirus/covid-19-current-situation/covid-19-current-cases/covid-19-current-cases-details" target="_blank" rel="noopener">Ministry of Health website</a> on 23/04/2020.</p>
+<h2 id="Data-Wrangling">Data Wrangling</h2>
+<p>The raw data need to be properly treated for the plotting purpose.</p>
+<pre class=" language-language-python"><code class="language-language-python">df.replace(to_replace=r'^\s*$',value='Unkown',regex=True,inplace=True)#replace the emply values with 'No_data'
+
+df.columns = list(i.replace(' ','_') for i in df.columns)# Replace the space in the columns name to avoid potential problems
+df = df.rename(columns = {'Date_of_report':'Report_Date','International_travel':'Overseas','Age_Group':'Age_group'})
+
+df['Report_Date'] =pd.to_datetime(df['Report_Date'],format='%d/%m/%Y')
+df.sort_values(by ='Report_Date', axis=0, inplace= True )
+
+df5 = df.groupby(['Report_Date','DHB']).count()
+df5 = df5.iloc[:,1]
+df5 = df5.unstack().fillna(0).astype('int32')
+
+#calculate the total case number until the target date
+df_cum = df5.cumsum()
+# resample the data to 8 hours and interpolate the data to get more figures
+df_cum = df_cum.resample('8h').interpolate().astype('int32')
+
+#get the timeline stamp for later use
+newDatetime = df_cum.index.date
+
+df_cum = df_cum.T
+
+#create a random color list for different cities, you can set the color list for better result
+color_list = []
+cmap = get_cmap(len(df_cum.index))
+
+for i in range(len(df_cum.index)):
+   color_list.append(cmap(i))
+df_cum['color_list'] = color_list
+
+ylist = range(len(df_cum.columns))
+</code></pre>
+<h2 id="Plotting-the-figures">Plotting the figures</h2>
+<pre class=" language-language-python"><code class="language-language-python">#prepare the fig
+fig, ax = plt.subplots(figsize=(18, 9))
+
+ # ffmpeg need to be installed in the system to produce the videos
+Writer = animation.writers['ffmpeg']
+writer = Writer(fps=10, metadata=dict(artist='Me'), bitrate=800)
+
+
+
+# define the function to generate the figures
+def animate(i):
+    ax.clear()  #everytime the existing figure need to be cleared
+    df24 = df_cum.iloc[:,[i,-1]].sort_values(by = df_cum.columns[i])
+    wdf = df24.iloc[:,0]
+    color_list2 = df24.iloc[:,-1]
+
+    #process bar
+    process= i/(len(newDatetime)-1)*100
+    print("\r  Plotting process：%.2f%%" %(process),end=' ')
+    if process>99:print("\r  DONE!     Plotting process：     100%",end=' ')
+
+    # the figure
+    ax.barh(wdf.index, wdf.values, color=color_list2)
+    ax.set_xlabel('Total Covid Case No. on {}\n'.format(newDatetime[i]), fontsize=20)
+    ax.set_ylabel('DHB', fontsize=20)
+
+    # the ticks
+    ax.yaxis.set_tick_params(labelsize=12, colors='black')
+    ax.xaxis.set_tick_params(labelsize=10, colors='grey')
+    ax.tick_params(top = True, bottom = False, labeltop = True, labelbottom = False)
+    ax.xaxis.set_ticks(np.arange(0, ((max(wdf))+1), 5))
+
+    for x, y in zip(wdf.values, range(len(wdf.values))):
+        ax.text(x, y, ('' if x < 1 else int(x)), ha='left', va='center', fontsize=12)
+        ax.text(x, y, ('' if x < 20 else '{}  '.format(wdf.index[y])), ha='right', va='center', fontsize=12)
+        ax.text(0, -2, 'Data source: Ministry of Health\n by Fan Yang', ha='left', va='center', fontsize=10,
+                color='grey')
+
+# generate the photos
+ani = animation.FuncAnimation(fig, animate, frames=range(len(df_cum.columns)-2), interval=200)
+</code></pre>
+<h2 id="Various-outputs">Various outputs</h2>
+<pre class=" language-language-python"><code class="language-language-python">print('*******Beign to plot the mp4 figure file********')
+ani.save("test2.mp4", writer=writer)
+
+
+print('\n*******Beign to plot the figure file in gif*********')
+ani.save('line2.gif', dpi=80, writer='imagemagick')
+
+print('\n*******show in the IDE environment*********')
+plt.show()
+</code></pre>
+<h2 id="Result">Result</h2>
+<h3 id="MP4-VIDEO">MP4 VIDEO</h3>
+<iframe width="660" height="380" src="https://www.youtube.com/embed/xOjmZEJpUGI?start=2" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<h3 id="JPG-Animation-photos">JPG Animation photos</h3>
+<p><img src="/2020/04/25/Generate%20the%20Covid19%20case%20growth%20video/line2.gif" alt="COVID19 case No. Figure Demo"></p>
+<h2 id="Reference">Reference</h2>
+<p><a href="https://www.health.govt.nz/our-work/diseases-and-conditions/covid-19-novel-coronavirus/covid-19-current-situation/covid-19-current-cases/covid-19-current-cases-details" target="_blank" rel="noopener">https://www.health.govt.nz/our-work/diseases-and-conditions/covid-19-novel-coronavirus/covid-19-current-situation/covid-19-current-cases/covid-19-current-cases-details</a></p>
+]]></content>
+      <categories>
+        <category>April 2020</category>
+      </categories>
+      <tags>
+        <tag>Pandas</tag>
+        <tag>matplotlib</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>How to merge many different raster files into one raster</title>
     <url>/2020/04/20/How%20to%20take%20many%20different%20rasters%20into%20one%20raster/</url>
     <content><![CDATA[<p>On <a href="https://geomapspublic.aucklandcouncil.govt.nz/viewer/index.html" target="_blank" rel="noopener">Auckland Council Geomap</a>, we can download the high resolution DEM data, but the uplimit area is 6 Square Km. What if the catchment area we are interested in is more than the number, than we can download the DEM data from <a href="https://data.linz.govt.nz/search/?q=DEM" target="_blank" rel="noopener">LINZ</a>.</p>
@@ -1418,6 +3028,39 @@ ax.set_ylim([-42,-36])
       <tags>
         <tag>Arcmap</tag>
         <tag>Raster</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Land-use TIF file making for HEC-RAS 2D</title>
+    <url>/2020/04/20/Land-use%20TIF%20file%20making%20for%20HEC-RAS%202D/</url>
+    <content><![CDATA[<p>For 2D analysis in HEC-RAS, we may need to a land use map to assign the manning factor as . How to make it? Of course we can make the detailed land use map by analyzing satellite imagery. But for a simple model, sometime we do not need such a detailed plan. Today I would like to introduce a way to make simple land use map</p>
+<p><img src="/2020/04/20/Land-use%20TIF%20file%20making%20for%20HEC-RAS%202D/11.PNG" alt="HEC-RAS manning.png"></p>
+<p>First, we should download DEM data, building footprint and road information from <a href="https://geomapspublic.aucklandcouncil.govt.nz/viewer/index.html" target="_blank" rel="noopener">Auckland Council Geomap</a>.</p>
+<hr>
+<h3 id="Data-Loading">Data Loading</h3>
+<p>After loading all the data, we can have a map as below.</p>
+<p><img src="/2020/04/20/Land-use%20TIF%20file%20making%20for%20HEC-RAS%202D/22.PNG" alt="HEC-RAS manning.png"></p>
+<p>Now we need to assign different area with different values, and then merge them together.</p>
+<hr>
+<h3 id="Raster-Calculator">Raster Calculator</h3>
+<p>Firstly, we treat the whole catchment area by assigning “1”.</p>
+<p><img src="/2020/04/20/Land-use%20TIF%20file%20making%20for%20HEC-RAS%202D/catchment.PNG" alt="catchment.png"></p>
+<p>Secondly, we apply <em>.\3D Analyst Tools.tbx\Triangulated Surface\Interpolate Polygon to Multipatch</em> to assign the footprint area with value “4”.<br>
+<img src="/2020/04/20/Land-use%20TIF%20file%20making%20for%20HEC-RAS%202D/BFraster.PNG" alt="building footprint.png"></p>
+<p>Similarly, we apply <em>.\3D Analyst Tools.tbx\Triangulated Surface\Interpolate Polygon to Multipatch</em> to assign the roading area with value “3”.<br>
+<img src="/2020/04/20/Land-use%20TIF%20file%20making%20for%20HEC-RAS%202D/roadraster.PNG" alt="road.png"></p>
+<hr>
+<h3 id="Merging-the-files">Merging the files</h3>
+<p><em>.\Spatial Analyst Tools.tbx\Local\Cell Statistics</em> is used to merge the three raster together.Final result will be as the First Photo.</p>
+<p>We just finished a simple one, but the complex one is same, just to merge more seperate raster files.</p>
+]]></content>
+      <categories>
+        <category>April 2020</category>
+      </categories>
+      <tags>
+        <tag>Arcmap</tag>
+        <tag>Raster</tag>
+        <tag>HEC-RAS</tag>
       </tags>
   </entry>
   <entry>
@@ -1516,39 +3159,6 @@ with adoc.LockDocument():
       </categories>
       <tags>
         <tag>Civil3d</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Land-use TIF file making for HEC-RAS 2D</title>
-    <url>/2020/04/20/Land-use%20TIF%20file%20making%20for%20HEC-RAS%202D/</url>
-    <content><![CDATA[<p>For 2D analysis in HEC-RAS, we may need to a land use map to assign the manning factor as . How to make it? Of course we can make the detailed land use map by analyzing satellite imagery. But for a simple model, sometime we do not need such a detailed plan. Today I would like to introduce a way to make simple land use map</p>
-<p><img src="/2020/04/20/Land-use%20TIF%20file%20making%20for%20HEC-RAS%202D/11.PNG" alt="HEC-RAS manning.png"></p>
-<p>First, we should download DEM data, building footprint and road information from <a href="https://geomapspublic.aucklandcouncil.govt.nz/viewer/index.html" target="_blank" rel="noopener">Auckland Council Geomap</a>.</p>
-<hr>
-<h3 id="Data-Loading">Data Loading</h3>
-<p>After loading all the data, we can have a map as below.</p>
-<p><img src="/2020/04/20/Land-use%20TIF%20file%20making%20for%20HEC-RAS%202D/22.PNG" alt="HEC-RAS manning.png"></p>
-<p>Now we need to assign different area with different values, and then merge them together.</p>
-<hr>
-<h3 id="Raster-Calculator">Raster Calculator</h3>
-<p>Firstly, we treat the whole catchment area by assigning “1”.</p>
-<p><img src="/2020/04/20/Land-use%20TIF%20file%20making%20for%20HEC-RAS%202D/catchment.PNG" alt="catchment.png"></p>
-<p>Secondly, we apply <em>.\3D Analyst Tools.tbx\Triangulated Surface\Interpolate Polygon to Multipatch</em> to assign the footprint area with value “4”.<br>
-<img src="/2020/04/20/Land-use%20TIF%20file%20making%20for%20HEC-RAS%202D/BFraster.PNG" alt="building footprint.png"></p>
-<p>Similarly, we apply <em>.\3D Analyst Tools.tbx\Triangulated Surface\Interpolate Polygon to Multipatch</em> to assign the roading area with value “3”.<br>
-<img src="/2020/04/20/Land-use%20TIF%20file%20making%20for%20HEC-RAS%202D/roadraster.PNG" alt="road.png"></p>
-<hr>
-<h3 id="Merging-the-files">Merging the files</h3>
-<p><em>.\Spatial Analyst Tools.tbx\Local\Cell Statistics</em> is used to merge the three raster together.Final result will be as the First Photo.</p>
-<p>We just finished a simple one, but the complex one is same, just to merge more seperate raster files.</p>
-]]></content>
-      <categories>
-        <category>April 2020</category>
-      </categories>
-      <tags>
-        <tag>Arcmap</tag>
-        <tag>Raster</tag>
-        <tag>HEC-RAS</tag>
       </tags>
   </entry>
   <entry>

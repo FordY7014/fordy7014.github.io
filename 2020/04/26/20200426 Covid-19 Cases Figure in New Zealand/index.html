@@ -1,0 +1,2528 @@
+<!DOCTYPE HTML>
+<html lang="en">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="FilterType[] in dotNetAPI, Python, Pandas">
+    <meta name="description" content="Just to take notes for what I have learnt, and I will be very happy if it helps anyone.">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <title>FilterType[] in dotNetAPI | Ford Yang&#39;s Blog</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+
+    <script src="/libs/jquery/jquery.min.js"></script>
+
+<meta name="generator" content="Hexo 4.2.0"><link rel="alternate" href="/atom.xml" title="Ford Yang's Blog" type="application/atom+xml">
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">Ford Yang&#39;s Blog</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>Index</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>Tags</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>Categories</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>Archives</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>About</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="Search" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">Ford Yang&#39;s Blog</div>
+        <div class="logo-desc">
+            
+            Just to take notes for what I have learnt, and I will be very happy if it helps anyone.
+            
+        </div>
+    </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			Index
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			Tags
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			Categories
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			Archives
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			About
+		</a>
+          
+        </li>
+        
+        
+    </ul>
+</div>
+
+
+        </div>
+
+        
+    </nav>
+
+</header>
+
+    
+<script src="/libs/cryptojs/crypto-js.min.js"></script>
+<script>
+    (function() {
+        let pwd = '';
+        if (pwd && pwd.length > 0) {
+            if (pwd !== CryptoJS.SHA256(prompt('please input the password')).toString(CryptoJS.enc.Hex)) {
+                alert('Wrong password, return to the main page.');
+                location.href = '/';
+            }
+        }
+    })();
+</script>
+
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/1.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">FilterType[] in dotNetAPI</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        width: 345px;
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        margin: 35px 0 15px 0;
+        padding-left: 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content {
+        height: calc(100vh - 250px);
+        overflow: auto;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+
+        position: absolute;
+        right: 23.5vw;
+        display: block;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 15px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/Pandas/">
+                                <span class="chip bg-color">Pandas</span>
+                            </a>
+                        
+                            <a href="/tags/matplotlib/">
+                                <span class="chip bg-color">matplotlib</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/April-2020/" class="post-category">
+                                April 2020
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>Publish Date:&nbsp;&nbsp;
+                    2020-04-26
+                </div>
+                
+
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-file-word fa-fw"></i>Word Count:&nbsp;&nbsp;
+                    2.4k
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-clock fa-fw"></i>Read Times:&nbsp;&nbsp;
+                    15 Min
+                </div>
+                
+
+                
+            </div>
+        </div>
+        <hr class="clearfix">
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <pre class=" language-language-python"><code class="language-language-python">from lxml.html import parse
+from urllib.request import urlopen
+from pandas.io.parsers import TextParser
+import pandas as pd
+from pandas import DataFrame, Series
+import folium
+import numpy as np
+</code></pre>
+<pre class=" language-language-python"><code class="language-language-python"># we are using the inline backend
+%matplotlib inline
+
+import matplotlib as mpl
+import matplotlib.pyplot as plt
+</code></pre>
+<h2 id="Prepare-the-data">Prepare the data</h2>
+<h3 id="Getting-data-from-ministry-of-health">Getting data from ministry of health</h3>
+<pre class=" language-language-python"><code class="language-language-python">basepath = os.getcwd() # get the location of current .py file
+</code></pre>
+<p>The excel file(<em>‘covid-caselist-23april.xlsx’</em>) is from the <a href="https://www.health.govt.nz/our-work/diseases-and-conditions/covid-19-novel-coronavirus/covid-19-current-situation/covid-19-current-cases/covid-19-current-cases-details" target="_blank" rel="noopener">Ministry of Health website</a> on 23/04/2020.</p>
+<pre class=" language-language-python"><code class="language-language-python">filename= os.path.join(basepath,'covid-caselist-23april.xlsx')
+df = pd.read_excel(filepath, sheet_name='Confirmed')
+</code></pre>
+<pre class=" language-language-python"><code class="language-language-python">df.head() # preview of the data
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Date of report</th>
+      <th>Sex</th>
+      <th>Age group</th>
+      <th>DHB</th>
+      <th>Overseas travel</th>
+      <th>Last country before return</th>
+      <th>Flight number</th>
+      <th>Flight departure date</th>
+      <th>Arrival date</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>22/04/2020</td>
+      <td>Female</td>
+      <td>20 to 29</td>
+      <td>Counties Manukau</td>
+      <td>No</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaT</td>
+      <td>NaT</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>22/04/2020</td>
+      <td>Male</td>
+      <td>40 to 49</td>
+      <td>Hawke's Bay</td>
+      <td>No</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaT</td>
+      <td>NaT</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>21/04/2020</td>
+      <td>Female</td>
+      <td>70+</td>
+      <td>Waikato</td>
+      <td></td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaT</td>
+      <td>NaT</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>19/04/2020</td>
+      <td>Female</td>
+      <td>30 to 39</td>
+      <td>Bay of Plenty</td>
+      <td></td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaT</td>
+      <td>NaT</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>19/04/2020</td>
+      <td>Male</td>
+      <td>50 to 59</td>
+      <td>Bay of Plenty</td>
+      <td>No</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaT</td>
+      <td>NaT</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h3 id="Treating-the-raw-data">Treating the raw data</h3>
+<p>Use followed function to change to type of the data.</p>
+<pre class=" language-language-python"><code class="language-language-python">df['Age group'] = df['Age group'].astype('str')
+</code></pre>
+<pre class=" language-language-python"><code class="language-language-python">df['Age group'].duplicated(keep='first')
+
+</code></pre>
+<pre><code>0       False
+1       False
+2       False
+3       False
+4       False
+        ...  
+1446     True
+1447     True
+1448     True
+1449     True
+1450     True
+Name: Age group, Length: 1451, dtype: bool
+</code></pre>
+<pre class=" language-language-python"><code class="language-language-python">df.head()
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Date of report</th>
+      <th>Sex</th>
+      <th>Age group</th>
+      <th>DHB</th>
+      <th>Overseas travel</th>
+      <th>Last country before return</th>
+      <th>Flight number</th>
+      <th>Flight departure date</th>
+      <th>Arrival date</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>22/04/2020</td>
+      <td>Female</td>
+      <td>20 to 29</td>
+      <td>Counties Manukau</td>
+      <td>No</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaT</td>
+      <td>NaT</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>22/04/2020</td>
+      <td>Male</td>
+      <td>40 to 49</td>
+      <td>Hawke's Bay</td>
+      <td>No</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaT</td>
+      <td>NaT</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>21/04/2020</td>
+      <td>Female</td>
+      <td>70+</td>
+      <td>Waikato</td>
+      <td></td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaT</td>
+      <td>NaT</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>19/04/2020</td>
+      <td>Female</td>
+      <td>30 to 39</td>
+      <td>Bay of Plenty</td>
+      <td></td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaT</td>
+      <td>NaT</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>19/04/2020</td>
+      <td>Male</td>
+      <td>50 to 59</td>
+      <td>Bay of Plenty</td>
+      <td>No</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaT</td>
+      <td>NaT</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<pre class=" language-language-python"><code class="language-language-python">#replace the emply values with 'Unknown'
+df.replace(to_replace=r'^\s*$',value='Unknown',regex=True,inplace=True)
+</code></pre>
+<pre class=" language-language-python"><code class="language-language-python">#replace the space in the columns name to avoid potential problems
+df.columns = list(i.replace(' ','_') for i in df.columns)
+</code></pre>
+<pre class=" language-language-python"><code class="language-language-python">df.columns
+</code></pre>
+<pre><code>Index(['Date_of_report', 'Sex', 'Age_group', 'DHB', 'Overseas_travel',
+       'Last_country_before_return', 'Flight_number', 'Flight_departure_date',
+       'Arrival_date'],
+      dtype='object')
+</code></pre>
+<pre class=" language-language-python"><code class="language-language-python">df = df.rename(columns = {'Date_of_report':'Report_Date','Overseas_travel':'Overseas','Age_Group':'Age_group'})
+</code></pre>
+<pre class=" language-language-python"><code class="language-language-python">df =df.iloc[:,:6]
+</code></pre>
+<pre class=" language-language-python"><code class="language-language-python">df.head()
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Report_Date</th>
+      <th>Sex</th>
+      <th>Age_group</th>
+      <th>DHB</th>
+      <th>Overseas</th>
+      <th>Last_country_before_return</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>22/04/2020</td>
+      <td>Female</td>
+      <td>20 to 29</td>
+      <td>Counties Manukau</td>
+      <td>No</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>22/04/2020</td>
+      <td>Male</td>
+      <td>40 to 49</td>
+      <td>Hawke's Bay</td>
+      <td>No</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>21/04/2020</td>
+      <td>Female</td>
+      <td>70+</td>
+      <td>Waikato</td>
+      <td>Unknown</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>19/04/2020</td>
+      <td>Female</td>
+      <td>30 to 39</td>
+      <td>Bay of Plenty</td>
+      <td>Unknown</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>19/04/2020</td>
+      <td>Male</td>
+      <td>50 to 59</td>
+      <td>Bay of Plenty</td>
+      <td>No</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<pre class=" language-language-python"><code class="language-language-python">df['Report_Date'] =pd.to_datetime(df['Report_Date'],format='%d/%m/%Y')
+df.sort_values(by ='Report_Date', axis=0, inplace= True )
+df.head()
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Report_Date</th>
+      <th>Sex</th>
+      <th>Age_group</th>
+      <th>DHB</th>
+      <th>Overseas</th>
+      <th>Last_country_before_return</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>1111</th>
+      <td>2020-02-26</td>
+      <td>Female</td>
+      <td>60 to 69</td>
+      <td>Auckland</td>
+      <td>Yes</td>
+      <td>Indonesia</td>
+    </tr>
+    <tr>
+      <th>1110</th>
+      <td>2020-03-02</td>
+      <td>Female</td>
+      <td>30 to 39</td>
+      <td>Waitemata</td>
+      <td>Yes</td>
+      <td>Singapore</td>
+    </tr>
+    <tr>
+      <th>1108</th>
+      <td>2020-03-04</td>
+      <td>Male</td>
+      <td>40 to 49</td>
+      <td>Counties Manukau</td>
+      <td>No</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>1109</th>
+      <td>2020-03-04</td>
+      <td>Male</td>
+      <td>40 to 49</td>
+      <td>Waitemata</td>
+      <td>Yes</td>
+      <td>Singapore</td>
+    </tr>
+    <tr>
+      <th>1450</th>
+      <td>2020-03-05</td>
+      <td>Female</td>
+      <td>70+</td>
+      <td>Waitemata</td>
+      <td>Yes</td>
+      <td>United States of America</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="Preparing-the-plotting-data">Preparing the plotting data</h2>
+<h3 id="Group-data-by-DHB">Group data by DHB</h3>
+<pre class=" language-language-python"><code class="language-language-python">df2=df.groupby('DHB').count()
+</code></pre>
+<pre class=" language-language-python"><code class="language-language-python">df2.head(2)
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Report_Date</th>
+      <th>Sex</th>
+      <th>Age_group</th>
+      <th>Overseas</th>
+      <th>Last_country_before_return</th>
+    </tr>
+    <tr>
+      <th>DHB</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Auckland</th>
+      <td>186</td>
+      <td>186</td>
+      <td>186</td>
+      <td>186</td>
+      <td>75</td>
+    </tr>
+    <tr>
+      <th>Bay of Plenty</th>
+      <td>47</td>
+      <td>47</td>
+      <td>47</td>
+      <td>47</td>
+      <td>21</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<pre class=" language-language-python"><code class="language-language-python">df_DHB = df2.iloc[:,1]
+df_DHB.head()
+</code></pre>
+<pre><code>DHB
+Auckland             186
+Bay of Plenty         47
+Canterbury           157
+Capital and Coast     95
+Counties Manukau     111
+Name: Sex, dtype: int64
+</code></pre>
+<pre class=" language-language-python"><code class="language-language-python">df_DHB.plot.barh() #directly plot to have a general view
+</code></pre>
+<pre><code>&lt;matplotlib.axes._subplots.AxesSubplot at 0x23c3c861048&gt;
+</code></pre>
+<p><img src="/2020/04/26/20200426%20Covid-19%20Cases%20Figure%20in%20New%20Zealand/output_26_1.svg" alt="svg"></p>
+<h3 id="Group-data-by-age">Group data by age</h3>
+<pre class=" language-language-python"><code class="language-language-python">df_age = df.groupby('Age_group').count()
+df_age = df_age.iloc[:,1]
+df_age.head(2)
+</code></pre>
+<pre><code>Age_group
+1 to 4      17
+10 to 14    40
+Name: Sex, dtype: int64
+</code></pre>
+<pre class=" language-language-python"><code class="language-language-python">df_age.sum()
+</code></pre>
+<pre><code>1450
+</code></pre>
+<h3 id="Group-data-by-gender">Group data by gender</h3>
+<pre class=" language-language-python"><code class="language-language-python">df_gender = df.groupby('Sex').count()
+df_gender = df_gender.iloc[:,1]
+df_gender.head()
+</code></pre>
+<pre><code>Sex
+Female    802
+Male      648
+Name: Age_group, dtype: int64
+</code></pre>
+<h3 id="Group-data-according-to-the-case-detail">Group data according to the case detail</h3>
+<pre class=" language-language-python"><code class="language-language-python">df.head(2)
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Report_Date</th>
+      <th>Sex</th>
+      <th>Age_group</th>
+      <th>DHB</th>
+      <th>Overseas</th>
+      <th>Last_country_before_return</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>1111</th>
+      <td>2020-02-26</td>
+      <td>Female</td>
+      <td>60 to 69</td>
+      <td>Auckland</td>
+      <td>Yes</td>
+      <td>Indonesia</td>
+    </tr>
+    <tr>
+      <th>1110</th>
+      <td>2020-03-02</td>
+      <td>Female</td>
+      <td>30 to 39</td>
+      <td>Waitemata</td>
+      <td>Yes</td>
+      <td>Singapore</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<pre class=" language-language-python"><code class="language-language-python">df_info = df.groupby('Overseas').count()
+df_info = df_info.iloc[:,1]
+</code></pre>
+<pre class=" language-language-python"><code class="language-language-python">df_info.head()
+</code></pre>
+<pre><code>Overseas
+No         833
+Unknown     56
+Yes        561
+Name: Sex, dtype: int64
+</code></pre>
+<h3 id="Group-data-by-Last-City-before-NZ">Group data by Last_City_before_NZ</h3>
+<pre class=" language-language-python"><code class="language-language-python">df_city= df.groupby('Last_country_before_return').count().sort_values(by = 'Overseas')
+</code></pre>
+<pre class=" language-language-python"><code class="language-language-python">df_city.head()
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Report_Date</th>
+      <th>Sex</th>
+      <th>Age_group</th>
+      <th>DHB</th>
+      <th>Overseas</th>
+    </tr>
+    <tr>
+      <th>Last_country_before_return</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Vietnam</th>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>Middle East</th>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>Mexico</th>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>Uruguay</th>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>Portugal</th>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<pre class=" language-language-python"><code class="language-language-python">df100 = df_city.iloc[:,-1]
+df_city = df100[-6:-1]
+</code></pre>
+<pre class=" language-language-python"><code class="language-language-python">df_city
+</code></pre>
+<pre><code>Last_country_before_return
+Singapore               26
+Qatar                   36
+United Kingdom          59
+United Arab Emirates    69
+Australia               98
+Name: Overseas, dtype: int64
+</code></pre>
+<pre class=" language-language-python"><code class="language-language-python">df_city.name
+</code></pre>
+<pre><code>'Overseas'
+</code></pre>
+<pre class=" language-language-python"><code class="language-language-python">df_city.index.name
+</code></pre>
+<pre><code>'Last_country_before_return'
+</code></pre>
+<pre class=" language-language-python"><code class="language-language-python">df_city.index.Name = 'Last_country_before_return'
+</code></pre>
+<pre class=" language-language-python"><code class="language-language-python">df_city
+</code></pre>
+<pre><code>Last_country_before_return
+Singapore               26
+Qatar                   36
+United Kingdom          59
+United Arab Emirates    69
+Australia               98
+Name: Overseas, dtype: int64
+</code></pre>
+<pre class=" language-language-python"><code class="language-language-python">print(plt.style.available)
+mpl.style.use(['ggplot']) # optional: for ggplot-like style
+</code></pre>
+<pre><code>['bmh', 'classic', 'dark_background', 'fast', 'fivethirtyeight', 'ggplot', 'grayscale', 'seaborn-bright', 'seaborn-colorblind', 'seaborn-dark-palette', 'seaborn-dark', 'seaborn-darkgrid', 'seaborn-deep', 'seaborn-muted', 'seaborn-notebook', 'seaborn-paper', 'seaborn-pastel', 'seaborn-poster', 'seaborn-talk', 'seaborn-ticks', 'seaborn-white', 'seaborn-whitegrid', 'seaborn', 'Solarize_Light2', 'tableau-colorblind10', '_classic_test']
+</code></pre>
+<pre class=" language-language-python"><code class="language-language-python">dfList = [df_DHB, df_age, df_gender, df_info,df_city]
+</code></pre>
+<pre class=" language-language-python"><code class="language-language-python">df_city.plot.barh()  # bar plot
+</code></pre>
+<pre><code>&lt;matplotlib.axes._subplots.AxesSubplot at 0x23c3d903388&gt;
+</code></pre>
+<p><img src="/2020/04/26/20200426%20Covid-19%20Cases%20Figure%20in%20New%20Zealand/output_48_1.svg" alt="svg"></p>
+<pre class=" language-language-python"><code class="language-language-python">df_city.index.name = 'Last_country_before_return'
+</code></pre>
+<pre class=" language-language-python"><code class="language-language-python">df_city.plot.pie(x=df_city.values, labels=df_city.index, autopct='%3.1f %%', title = df_city.name)   # pie plot
+</code></pre>
+<pre><code>&lt;matplotlib.axes._subplots.AxesSubplot at 0x23c3d999a48&gt;
+</code></pre>
+<p><img src="/2020/04/26/20200426%20Covid-19%20Cases%20Figure%20in%20New%20Zealand/output_52_1.svg" alt="svg"></p>
+<h2 id="Plotting">Plotting</h2>
+<h3 id="Define-a-vertical-bar-plotting-function">Define a vertical bar plotting function</h3>
+<pre class=" language-language-python"><code class="language-language-python">def bar_plot(AX,DF):
+
+    AX.barh(DF.index,DF.values, height = 0.5, facecolor='tan',edgecolor='r',alpha=0.6,label = 'Cases No. by {}'.format(DF.index.name))
+    AX.legend()
+
+    AX.set_title('Covid-19 Cases No. by {}'.format(DF.index.name), fontsize = 18)
+    AX.set_ylabel(DF.index.name, fontsize = 15)
+
+
+    ylist = range(len(DF.values))
+    for x,y in zip(DF.values, ylist):
+        AX.text(x/2,y,'{}'.format(x),ha='center', va='center', fontsize = 12, color = 'black')
+    if i ==4:
+        ax[i,0].text(0, -2, 'Data source: Ministry of Health\n by Fan Yang', ha='left', va='center', fontsize=10,color='grey')
+</code></pre>
+<h3 id="Prepare-the-figure">Prepare the figure</h3>
+<pre class=" language-language-python"><code class="language-language-python">dfList = [df_DHB, df_age, df_gender, df_info,df_city]
+</code></pre>
+<pre class=" language-language-python"><code class="language-language-python">fig, ax = plt.subplots(5,figsize=(10,25), squeeze = False)
+</code></pre>
+<p><img src="/2020/04/26/20200426%20Covid-19%20Cases%20Figure%20in%20New%20Zealand/output_58_0.svg" alt="svg"></p>
+<h3 id="Plotting-data-into-each-ax">Plotting data into each ax</h3>
+<pre class=" language-language-python"><code class="language-language-python">for i in range(5):
+   bar_plot(ax[i,0],dfList[i])
+fig
+</code></pre>
+<p><img src="/2020/04/26/20200426%20Covid-19%20Cases%20Figure%20in%20New%20Zealand/output_62_0.svg" alt="svg"></p>
+<h3 id="Plotting-the-figure-out">Plotting the figure out</h3>
+<pre class=" language-language-python"><code class="language-language-python">fig
+</code></pre>
+<p><img src="/2020/04/26/20200426%20Covid-19%20Cases%20Figure%20in%20New%20Zealand/output_64_0.svg" alt="svg"></p>
+<h2 id="Plotting-Cases-by-DHB-Gender">Plotting Cases by DHB/Gender</h2>
+<pre class=" language-language-python"><code class="language-language-python">df3=df.groupby(['DHB','Sex']).count()
+
+df3 = df3.iloc[:,1]
+</code></pre>
+<pre class=" language-language-python"><code class="language-language-python">df3 = df3.unstack().fillna(0).astype('int32')
+df3.head()
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>Sex</th>
+      <th>Female</th>
+      <th>Male</th>
+    </tr>
+    <tr>
+      <th>DHB</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Auckland</th>
+      <td>22</td>
+      <td>22</td>
+    </tr>
+    <tr>
+      <th>Bay of Plenty</th>
+      <td>5</td>
+      <td>7</td>
+    </tr>
+    <tr>
+      <th>Canterbury</th>
+      <td>23</td>
+      <td>16</td>
+    </tr>
+    <tr>
+      <th>Capital and Coast</th>
+      <td>9</td>
+      <td>7</td>
+    </tr>
+    <tr>
+      <th>Counties Manukau</th>
+      <td>17</td>
+      <td>17</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<pre class=" language-language-python"><code class="language-language-python">df3 = df3.iloc[:,:2]
+</code></pre>
+<pre class=" language-language-python"><code class="language-language-python">#Cluster Bar Plot
+xlist =list(range(0,len(df['DHB'])))
+
+width = 0.3 #width of columns
+
+x1 = [i-width for i in xlist]
+x2 = [i+width for i in xlist]
+
+ax = df3.plot(kind='bar',stacked=True, figsize=(10, 6), color = color_list)
+
+
+ax.set_title('Cases by DHB/Gender', size = 16)
+ax.set_xlabel('DHB/Gender',fontsize = 14)
+ax.tick_params(labelsize=14)
+ax.legend(fontsize = 14)
+
+for x,y in zip(xlist,df3.Female):
+    ax.text(x,0,r'{}'.format(y),ha='center', va='bottom', fontsize = 10)
+for x,y,z in zip(xlist,df3.Male,df3.Female):
+    ax.text(x,(z+y),r'{}'.format(y),ha='center', va='bottom', fontsize = 10)
+</code></pre>
+<p><img src="/2020/04/26/20200426%20Covid-19%20Cases%20Figure%20in%20New%20Zealand/output_69_0.png" alt="png"></p>
+<h2 id="Plotting-Line-and-Area-Figure-by-date-DHB">Plotting Line and Area Figure by date/DHB</h2>
+<h3 id="Data-Preparing">Data Preparing</h3>
+<pre class=" language-language-python"><code class="language-language-python">df5=df.groupby(['Report_Date','DHB']).count()
+df5.head()
+
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th></th>
+      <th>Sex</th>
+      <th>Age_group</th>
+      <th>Overseas</th>
+      <th>Last_country_before_return</th>
+    </tr>
+    <tr>
+      <th>Report_Date</th>
+      <th>DHB</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2020-02-26</th>
+      <th>Auckland</th>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>2020-03-02</th>
+      <th>Waitemata</th>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th rowspan="2" valign="top">2020-03-04</th>
+      <th>Counties Manukau</th>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>Waitemata</th>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>2020-03-05</th>
+      <th>Counties Manukau</th>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<pre class=" language-language-python"><code class="language-language-python">dhb_sr = df5.iloc[:,1]
+dhb_sr
+</code></pre>
+<pre><code>Report_Date  DHB             
+2020-02-26   Auckland            1
+2020-03-02   Waitemata           1
+2020-03-04   Counties Manukau    1
+             Waitemata           1
+2020-03-05   Counties Manukau    1
+                                ..
+2020-04-21   Canterbury          2
+             Waikato             1
+2020-04-22   Canterbury          2
+             Counties Manukau    1
+             Hawke's Bay         1
+Name: Age_group, Length: 375, dtype: int64
+</code></pre>
+<pre class=" language-language-python"><code class="language-language-python">df5 = dhb_sr.unstack().fillna(0).astype('int32')
+df5.head()
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>DHB</th>
+      <th>Auckland</th>
+      <th>Bay of Plenty</th>
+      <th>Canterbury</th>
+      <th>Capital and Coast</th>
+      <th>Counties Manukau</th>
+      <th>Hawke's Bay</th>
+      <th>Hutt Valley</th>
+      <th>Lakes</th>
+      <th>MidCentral</th>
+      <th>Nelson Marlborough</th>
+      <th>Northland</th>
+      <th>South Canterbury</th>
+      <th>Southern</th>
+      <th>Tairawhiti</th>
+      <th>Taranaki</th>
+      <th>Waikato</th>
+      <th>Wairarapa</th>
+      <th>Waitemata</th>
+      <th>West Coast</th>
+      <th>Whanganui</th>
+    </tr>
+    <tr>
+      <th>Report_Date</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2020-02-26</th>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2020-03-02</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2020-03-04</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2020-03-05</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2020-03-06</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<pre class=" language-language-python"><code class="language-language-python"># to calculated to accumulated case no to the specific day
+df6 = df5
+for i in range(len(df6.index)):
+    if i == 0:
+        pass
+    else:
+        df6.iloc[i,:] = df6.iloc[i,:] + df6.iloc[i-1,:]
+df6.tail()
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>DHB</th>
+      <th>Auckland</th>
+      <th>Bay of Plenty</th>
+      <th>Canterbury</th>
+      <th>Capital and Coast</th>
+      <th>Counties Manukau</th>
+      <th>Hawke's Bay</th>
+      <th>Hutt Valley</th>
+      <th>Lakes</th>
+      <th>MidCentral</th>
+      <th>Nelson Marlborough</th>
+      <th>Northland</th>
+      <th>South Canterbury</th>
+      <th>Southern</th>
+      <th>Tairawhiti</th>
+      <th>Taranaki</th>
+      <th>Waikato</th>
+      <th>Wairarapa</th>
+      <th>Waitemata</th>
+      <th>West Coast</th>
+      <th>Whanganui</th>
+    </tr>
+    <tr>
+      <th>Report_Date</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2020-04-18</th>
+      <td>185</td>
+      <td>45</td>
+      <td>150</td>
+      <td>93</td>
+      <td>110</td>
+      <td>41</td>
+      <td>20</td>
+      <td>16</td>
+      <td>31</td>
+      <td>48</td>
+      <td>27</td>
+      <td>15</td>
+      <td>216</td>
+      <td>4</td>
+      <td>14</td>
+      <td>184</td>
+      <td>8</td>
+      <td>211</td>
+      <td>5</td>
+      <td>8</td>
+    </tr>
+    <tr>
+      <th>2020-04-19</th>
+      <td>185</td>
+      <td>47</td>
+      <td>153</td>
+      <td>93</td>
+      <td>110</td>
+      <td>41</td>
+      <td>20</td>
+      <td>16</td>
+      <td>31</td>
+      <td>48</td>
+      <td>27</td>
+      <td>16</td>
+      <td>216</td>
+      <td>4</td>
+      <td>14</td>
+      <td>185</td>
+      <td>8</td>
+      <td>212</td>
+      <td>5</td>
+      <td>9</td>
+    </tr>
+    <tr>
+      <th>2020-04-20</th>
+      <td>185</td>
+      <td>47</td>
+      <td>154</td>
+      <td>95</td>
+      <td>110</td>
+      <td>41</td>
+      <td>20</td>
+      <td>16</td>
+      <td>31</td>
+      <td>48</td>
+      <td>27</td>
+      <td>16</td>
+      <td>216</td>
+      <td>4</td>
+      <td>14</td>
+      <td>185</td>
+      <td>8</td>
+      <td>212</td>
+      <td>5</td>
+      <td>9</td>
+    </tr>
+    <tr>
+      <th>2020-04-21</th>
+      <td>186</td>
+      <td>47</td>
+      <td>156</td>
+      <td>95</td>
+      <td>110</td>
+      <td>41</td>
+      <td>20</td>
+      <td>16</td>
+      <td>31</td>
+      <td>48</td>
+      <td>27</td>
+      <td>16</td>
+      <td>216</td>
+      <td>4</td>
+      <td>14</td>
+      <td>186</td>
+      <td>8</td>
+      <td>212</td>
+      <td>5</td>
+      <td>9</td>
+    </tr>
+    <tr>
+      <th>2020-04-22</th>
+      <td>186</td>
+      <td>47</td>
+      <td>158</td>
+      <td>95</td>
+      <td>111</td>
+      <td>42</td>
+      <td>20</td>
+      <td>16</td>
+      <td>31</td>
+      <td>48</td>
+      <td>27</td>
+      <td>16</td>
+      <td>216</td>
+      <td>4</td>
+      <td>14</td>
+      <td>186</td>
+      <td>8</td>
+      <td>212</td>
+      <td>5</td>
+      <td>9</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<pre class=" language-language-python"><code class="language-language-python"># to calculated to accumulated case no to the specific day by applying the pandas function
+df66 = df5.cumsum()
+df66.tail()
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>DHB</th>
+      <th>Auckland</th>
+      <th>Bay of Plenty</th>
+      <th>Canterbury</th>
+      <th>Capital and Coast</th>
+      <th>Counties Manukau</th>
+      <th>Hawke's Bay</th>
+      <th>Hutt Valley</th>
+      <th>Lakes</th>
+      <th>MidCentral</th>
+      <th>Nelson Marlborough</th>
+      <th>Northland</th>
+      <th>South Canterbury</th>
+      <th>Southern</th>
+      <th>Tairawhiti</th>
+      <th>Taranaki</th>
+      <th>Waikato</th>
+      <th>Wairarapa</th>
+      <th>Waitemata</th>
+      <th>West Coast</th>
+      <th>Whanganui</th>
+    </tr>
+    <tr>
+      <th>Report_Date</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2020-04-18</th>
+      <td>185</td>
+      <td>45</td>
+      <td>150</td>
+      <td>93</td>
+      <td>110</td>
+      <td>41</td>
+      <td>20</td>
+      <td>16</td>
+      <td>31</td>
+      <td>48</td>
+      <td>27</td>
+      <td>15</td>
+      <td>216</td>
+      <td>4</td>
+      <td>14</td>
+      <td>184</td>
+      <td>8</td>
+      <td>211</td>
+      <td>5</td>
+      <td>8</td>
+    </tr>
+    <tr>
+      <th>2020-04-19</th>
+      <td>185</td>
+      <td>47</td>
+      <td>153</td>
+      <td>93</td>
+      <td>110</td>
+      <td>41</td>
+      <td>20</td>
+      <td>16</td>
+      <td>31</td>
+      <td>48</td>
+      <td>27</td>
+      <td>16</td>
+      <td>216</td>
+      <td>4</td>
+      <td>14</td>
+      <td>185</td>
+      <td>8</td>
+      <td>212</td>
+      <td>5</td>
+      <td>9</td>
+    </tr>
+    <tr>
+      <th>2020-04-20</th>
+      <td>185</td>
+      <td>47</td>
+      <td>154</td>
+      <td>95</td>
+      <td>110</td>
+      <td>41</td>
+      <td>20</td>
+      <td>16</td>
+      <td>31</td>
+      <td>48</td>
+      <td>27</td>
+      <td>16</td>
+      <td>216</td>
+      <td>4</td>
+      <td>14</td>
+      <td>185</td>
+      <td>8</td>
+      <td>212</td>
+      <td>5</td>
+      <td>9</td>
+    </tr>
+    <tr>
+      <th>2020-04-21</th>
+      <td>186</td>
+      <td>47</td>
+      <td>156</td>
+      <td>95</td>
+      <td>110</td>
+      <td>41</td>
+      <td>20</td>
+      <td>16</td>
+      <td>31</td>
+      <td>48</td>
+      <td>27</td>
+      <td>16</td>
+      <td>216</td>
+      <td>4</td>
+      <td>14</td>
+      <td>186</td>
+      <td>8</td>
+      <td>212</td>
+      <td>5</td>
+      <td>9</td>
+    </tr>
+    <tr>
+      <th>2020-04-22</th>
+      <td>186</td>
+      <td>47</td>
+      <td>158</td>
+      <td>95</td>
+      <td>111</td>
+      <td>42</td>
+      <td>20</td>
+      <td>16</td>
+      <td>31</td>
+      <td>48</td>
+      <td>27</td>
+      <td>16</td>
+      <td>216</td>
+      <td>4</td>
+      <td>14</td>
+      <td>186</td>
+      <td>8</td>
+      <td>212</td>
+      <td>5</td>
+      <td>9</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h3 id="Picking-up-the-cities-with-top-5-confirmed-cases-No">Picking up the cities with top 5 confirmed cases No.</h3>
+<pre class=" language-language-python"><code class="language-language-python">DHBlist = df5.sum().sort_values(ascending = False)  # descending rank in cases No.
+</code></pre>
+<pre class=" language-language-python"><code class="language-language-python">DHBlist = DHBlist.head(5).index
+</code></pre>
+<pre class=" language-language-python"><code class="language-language-python">DHBlist = DHBlist.tolist()
+</code></pre>
+<pre class=" language-language-python"><code class="language-language-python">DHBlist
+</code></pre>
+<pre><code>['Southern', 'Waitemata', 'Auckland', 'Waikato', 'Canterbury']
+</code></pre>
+<pre class=" language-language-python"><code class="language-language-python">len(DHBlist)
+</code></pre>
+<pre><code>5
+</code></pre>
+<h3 id="Plotting-the-figure">Plotting the figure</h3>
+<pre class=" language-language-python"><code class="language-language-python">pd.plotting.register_matplotlib_converters()
+</code></pre>
+<pre class=" language-language-python"><code class="language-language-python">df_top5 = df6.loc[:,DHBlist]
+df_top5.head(2)
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>DHB</th>
+      <th>Southern</th>
+      <th>Waitemata</th>
+      <th>Auckland</th>
+      <th>Waikato</th>
+      <th>Canterbury</th>
+    </tr>
+    <tr>
+      <th>Report_Date</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2020-02-26</th>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2020-03-02</th>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h3 id="Area-plot">Area plot</h3>
+<pre class=" language-language-python"><code class="language-language-python">
+df_top5.plot(kind='area', alpha = 0.3,
+             stacked = False,
+             figsize=(25, 10), # pass a tuple (x, y) size
+             )
+
+plt.title('Covid19 Cases No. Top5 (by DHB)', size = 16)
+plt.xlabel('Date',fontsize = 14)
+plt.ylabel('Case No.',fontsize = 14)
+
+plt.legend()
+</code></pre>
+<pre><code>&lt;matplotlib.legend.Legend at 0x22525b8bbc8&gt;
+</code></pre>
+<p><img src="/2020/04/26/20200426%20Covid-19%20Cases%20Figure%20in%20New%20Zealand/output_87_1.svg" alt="svg"></p>
+<h3 id="Line-plot">Line plot</h3>
+<pre class=" language-language-python"><code class="language-language-python">fig, ax = plt.subplots(figsize = (10,6))
+
+for i in range(len(df_top5.columns)):
+    ax.plot(df_top5.index,df_top5.iloc[:,i].values,label = df_top5.columns[i])
+
+ax.set_title('Covid19 Cases No. Top5 (by DHB)', size = 16)
+ax.set_xlabel('Date',fontsize = 14)
+ax.set_ylabel('Case No.',fontsize = 14)
+
+
+ax.xaxis.set_tick_params(rotation = 35, labelsize = 12)
+
+
+ax.legend()
+</code></pre>
+<pre><code>&lt;matplotlib.legend.Legend at 0x22520bf6e08&gt;
+</code></pre>
+<p><img src="/2020/04/26/20200426%20Covid-19%20Cases%20Figure%20in%20New%20Zealand/output_89_1.svg" alt="svg"></p>
+<h2 id="Reference">Reference</h2>
+<p><a href="https://www.health.govt.nz/our-work/diseases-and-conditions/covid-19-novel-coronavirus/covid-19-current-situation/covid-19-current-cases/covid-19-current-cases-details" target="_blank" rel="noopener">https://www.health.govt.nz/our-work/diseases-and-conditions/covid-19-novel-coronavirus/covid-19-current-situation/covid-19-current-cases/covid-19-current-cases-details</a></p>
+
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        Author:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="/about" rel="external nofollow noreferrer">Ford Yang</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        Link:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="https://fordy7014.github.io/2020/04/26/20200426%20Covid-19%20Cases%20Figure%20in%20New%20Zealand/">https://fordy7014.github.io/2020/04/26/20200426%20Covid-19%20Cases%20Figure%20in%20New%20Zealand/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        Reprint policy:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    All articles in this blog are used except for special statements
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    reprint polocy. If reproduced, please indicate source
+                    <a href="/about" target="_blank">Ford Yang</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>Copied successfully, please follow the reprint policy of this article</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">more</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/Pandas/">
+                                    <span class="chip bg-color">Pandas</span>
+                                </a>
+                            
+                                <a href="/tags/matplotlib/">
+                                    <span class="chip bg-color">matplotlib</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+<div id="article-share">
+
+    
+    <div class="social-share" data-sites="twitter,facebook,google,wechat,weibo,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fas fa-chevron-left"></i>&nbsp;Previous</div>
+            <div class="card">
+                <a href="/2020/05/13/Visual%20Studio%20C#%20Code%20Snippet/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/5.jpg" class="responsive-img" alt="Visual Studio Shortcut in C#">
+                        
+                        <span class="card-title">Visual Studio Shortcut in C#</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+  
+  
+    Hey, password is required here.
+    
+  
+  9818994cc23b9627459a1ad4ecd373487638ddb07293fb7afd06e1bca8f3e84dc71
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2020-05-13
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/May-2020/" class="post-category">
+                                    May 2020
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/C/">
+                        <span class="chip bg-color">C#</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                Next&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2020/04/25/Generate%20the%20Covid19%20case%20growth%20video/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/4.jpg" class="responsive-img" alt="the Covid19 case Number Growth by DHB in NZ">
+                        
+                        <span class="card-title">the Covid19 case Number Growth by DHB in NZ</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            Read the data from excel
+import pandas as pd
+from pandas import DataFrame, Series
+import matplotlib.pyplot as plt
+
+df = 
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-04-25
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/April-2020/" class="post-category">
+                                    April 2020
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/Pandas/">
+                        <span class="chip bg-color">Pandas</span>
+                    </a>
+                    
+                    <a href="/tags/matplotlib/">
+                        <span class="chip bg-color">matplotlib</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+<!-- 代码块折行 -->
+
+<style type="text/css">
+code[class*="language-"], pre[class*="language-"] { white-space: pre !important; }
+</style>
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;TOC</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('0'),
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+
+    <footer class="page-footer bg-color">
+    
+        <link rel="stylesheet" href="/libs/aplayer/APlayer.min.css">
+<style>
+    .aplayer .aplayer-lrc p {
+        
+        display: none;
+        
+        font-size: 12px;
+        font-weight: 700;
+        line-height: 16px !important;
+    }
+
+    .aplayer .aplayer-lrc p.aplayer-lrc-current {
+        
+        display: none;
+        
+        font-size: 15px;
+        color: #42b983;
+    }
+
+    
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body {
+        left: -66px !important;
+    }
+
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body:hover {
+        left: 0px !important;
+    }
+
+    
+</style>
+<div class="">
+    
+    <div class="row">
+        <meting-js class="col l8 offset-l2 m10 offset-m1 s12"
+                   server="netease"
+                   type="playlist"
+                   id="503838841"
+                   fixed='true'
+                   autoplay='false'
+                   theme='#42b983'
+                   loop='all'
+                   order='random'
+                   preload='auto'
+                   volume='0.7'
+                   list-folded='true'
+        >
+        </meting-js>
+    </div>
+</div>
+
+<script src="/libs/aplayer/APlayer.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/meting@2/dist/Meting.min.js"></script>
+
+    
+    <div class="container row center-align" style="margin-bottom: 0px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            <span id="year">2020</span>
+            <a href="/about" target="_blank">Ford Yang</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            <br>
+            
+            
+            
+            
+            
+            
+            <span id="busuanzi_container_site_pv">
+                |&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;<span id="busuanzi_value_site_pv"
+                    class="white-color"></span>&nbsp;次
+            </span>
+            
+            
+            <br>
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+
+
+    <a href="mailto:yangfan7014@gmail.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=849042681" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 849042681" data-position="top" data-delay="50">
+        <i class="fab fa-qq"></i>
+    </a>
+
+
+
+
+
+
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;Search</span>
+            <input type="search" id="searchInput" name="s" placeholder="Please enter a search keyword"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+$(function () {
+    searchFunc("/search.xml", 'searchInput', 'searchResult');
+});
+</script>
+
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    <script src="/libs/others/clicklove.js" async="async"></script>
+    
+    
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <script src="/libs/instantpage/instantpage.js" type="module"></script>
+    
+
+</body>
+
+</html>

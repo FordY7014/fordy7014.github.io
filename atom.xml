@@ -149,7 +149,7 @@
     <link href="https://fordy7014.github.io/2020/06/15/20200615Set%20Viewport%20in%20AutoCad%20.Net%20API/"/>
     <id>https://fordy7014.github.io/2020/06/15/20200615Set%20Viewport%20in%20AutoCad%20.Net%20API/</id>
     <published>2020-06-15T04:04:57.000Z</published>
-    <updated>2020-07-17T08:31:31.984Z</updated>
+    <updated>2020-07-18T02:05:09.352Z</updated>
     
     <summary type="html">
     
@@ -282,6 +282,36 @@
     
     
       <category term="C#" scheme="https://fordy7014.github.io/tags/C/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>FilterType[] in dotNetAPI</title>
+    <link href="https://fordy7014.github.io/2020/04/26/20200426%20Covid-19%20Cases%20Figure%20in%20New%20Zealand/"/>
+    <id>https://fordy7014.github.io/2020/04/26/20200426%20Covid-19%20Cases%20Figure%20in%20New%20Zealand/</id>
+    <published>2020-04-26T04:04:57.000Z</published>
+    <updated>2020-07-18T07:42:04.040Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;pre class=&quot; language-language-python&quot;&gt;&lt;code class=&quot;language-language-python&quot;&gt;from lxml.html import parse
+from urllib.request import
+        
+      
+    
+    </summary>
+    
+    
+      <category term="April 2020" scheme="https://fordy7014.github.io/categories/April-2020/"/>
+    
+    
+      <category term="Pandas" scheme="https://fordy7014.github.io/tags/Pandas/"/>
+    
+      <category term="matplotlib" scheme="https://fordy7014.github.io/tags/matplotlib/"/>
     
   </entry>
   
@@ -579,31 +609,6 @@ from pandas import DataFrame,
       <category term="Spatial Analysis" scheme="https://fordy7014.github.io/tags/Spatial-Analysis/"/>
     
       <category term="Geopandas" scheme="https://fordy7014.github.io/tags/Geopandas/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Hello World</title>
-    <link href="https://fordy7014.github.io/2020/04/10/hello-world/"/>
-    <id>https://fordy7014.github.io/2020/04/10/hello-world/</id>
-    <published>2020-04-10T04:04:57.000Z</published>
-    <updated>2020-05-22T00:55:19.147Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;p&gt;Welcome to &lt;a href=&quot;https://hexo.io/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Hexo&lt;/a&gt;! This is your very first post. Check &lt;a
-        
-      
-    
-    </summary>
-    
-    
-      <category term="April 2020" scheme="https://fordy7014.github.io/categories/April-2020/"/>
-    
     
   </entry>
   
