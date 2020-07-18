@@ -372,6 +372,37 @@
   </entry>
   
   <entry>
+    <title>Land-use TIF file making for HEC-RAS 2D</title>
+    <link href="https://fordy7014.github.io/2020/04/20/Land-use%20TIF%20file%20making%20for%20HEC-RAS%202D/"/>
+    <id>https://fordy7014.github.io/2020/04/20/Land-use%20TIF%20file%20making%20for%20HEC-RAS%202D/</id>
+    <published>2020-04-20T04:04:57.000Z</published>
+    <updated>2020-05-22T00:55:30.338Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;For 2D analysis in HEC-RAS, we may need to a land use map to assign the manning factor as . How to make it? Of course we can make the
+        
+      
+    
+    </summary>
+    
+    
+      <category term="April 2020" scheme="https://fordy7014.github.io/categories/April-2020/"/>
+    
+    
+      <category term="Arcmap" scheme="https://fordy7014.github.io/tags/Arcmap/"/>
+    
+      <category term="HEC-RAS" scheme="https://fordy7014.github.io/tags/HEC-RAS/"/>
+    
+      <category term="Raster" scheme="https://fordy7014.github.io/tags/Raster/"/>
+    
+  </entry>
+  
+  <entry>
     <title>How to merge many different raster files into one raster</title>
     <link href="https://fordy7014.github.io/2020/04/20/How%20to%20take%20many%20different%20rasters%20into%20one%20raster/"/>
     <id>https://fordy7014.github.io/2020/04/20/How%20to%20take%20many%20different%20rasters%20into%20one%20raster/</id>
@@ -397,37 +428,6 @@
       <category term="Arcmap" scheme="https://fordy7014.github.io/tags/Arcmap/"/>
     
       <category term="Raster" scheme="https://fordy7014.github.io/tags/Raster/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Land-use TIF file making for HEC-RAS 2D</title>
-    <link href="https://fordy7014.github.io/2020/04/20/Land-use%20TIF%20file%20making%20for%20HEC-RAS%202D/"/>
-    <id>https://fordy7014.github.io/2020/04/20/Land-use%20TIF%20file%20making%20for%20HEC-RAS%202D/</id>
-    <published>2020-04-20T04:04:57.000Z</published>
-    <updated>2020-05-22T00:55:30.338Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;p&gt;For 2D analysis in HEC-RAS, we may need to a land use map to assign the manning factor as . How to make it? Of course we can make the
-        
-      
-    
-    </summary>
-    
-    
-      <category term="April 2020" scheme="https://fordy7014.github.io/categories/April-2020/"/>
-    
-    
-      <category term="Arcmap" scheme="https://fordy7014.github.io/tags/Arcmap/"/>
-    
-      <category term="Raster" scheme="https://fordy7014.github.io/tags/Raster/"/>
-    
-      <category term="HEC-RAS" scheme="https://fordy7014.github.io/tags/HEC-RAS/"/>
     
   </entry>
   
