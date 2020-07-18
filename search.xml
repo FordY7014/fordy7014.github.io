@@ -1,144 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>Prompt to Select one type of object in .NetAPI(Ironpython)</title>
-    <url>/2020/06/16/20200616Prompt%20to%20Select%20one%20type%20of%20object/</url>
-    <content><![CDATA[<hr>
-<h2 id="Function">Function</h2>
-<pre class=" language-language-python"><code class="language-language-python">def PromptForEntity( prompt, filetype):
-	global adoc
-	global ed
-
-	options = PromptEntityOptions("%s"%prompt)
-	options.SetRejectMessage("\nThe selected object is not a %s\n"%str(filetype))
-	options.AddAllowedClass(clr.GetClrType(filetype), True)
-
-
-	result = doc.Editor.GetEntity(options)
-
-	if result.Status != PromptStatus.OK:
-		ed.WriteMessage("\n The select target is " +str(filetype) +" please select "  +str(filetype) + "  \n")
-
-	if result.Status == PromptStatus.OK:
-		ed.WriteMessage("\ntarget has been selected\n")
-		ed.WriteMessage("\ntarget has been selected%s\n\n\n\n"%str(result.ObjectId))
-		return result.ObjectId
-
-	ed.WriteMessage("I will return Null  ")
-	return ObjectId.Null
-</code></pre>
-<hr>
-<h2 id="Example">Example</h2>
-<pre><code>try:
-	surfaceId = PromptForEntity(&quot;Select the surface to add a boundary to&quot;, TinSurface)
-	plineId = PromptForEntity(&quot;Select the object to use as a boundary&quot;, Polyline)
-
-	coll = ObjectIdCollection()
-	coll.Add(plineId)
-	ed.WriteMessage(&quot;pLINE COLLECTION HAS BEEN MADE&quot;)
-
-	oSurface = t.GetObject(surfaceId, OpenMode.ForWrite)
-
-	#
-	oSurface.BoundariesDefinition.AddBoundaries(coll, 100, SurfaceBoundaryType.Outer, True)
-
-	oSurface.Rebuild()
-	ed.WriteMessage(&quot;Rebuilt Done&quot;)
-
-	# Commit before end transaction
-	t.Commit()
-except:
-	ed.WriteMessage(&quot;Failed to add the boundary&quot;)
-
-</code></pre>
-<h1>Reference</h1>
-<p><a href="http://help.autodesk.com/view/CIV3D/2020/ENU/?guid=GUID-7C32E309-9B54-42A0-A4DC-C6FD592071F2" target="_blank" rel="noopener">http://help.autodesk.com/view/CIV3D/2020/ENU/?guid=GUID-7C32E309-9B54-42A0-A4DC-C6FD592071F2</a></p>
-]]></content>
-      <categories>
-        <category>June 2020</category>
-      </categories>
-      <tags>
-        <tag>Civil3d</tag>
-        <tag>AutoCAD API</tag>
-        <tag>Ironpython</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Set Viewport in AutoCad .Net API</title>
-    <url>/2020/06/15/20200615Set%20Viewport%20in%20AutoCad%20.Net%20API/</url>
-    <content><![CDATA[<hr>
-<pre class=" language-language-python"><code class="language-language-python">with adoc.LockDocument():
-  with adoc.Database as db:
-    with db.TransactionManager.StartTransaction() as t:
-      bt = t.GetObject(db.BlockTableId, OpenMode.ForWrite)
-      btr = t.GetObject(bt[BlockTableRecord.ModelSpace], OpenMode.ForWrite)
-
-      #Get the dict object and layouts object
-      Dict = t.GetObject(db.NamedObjectsDictionaryId, OpenMode.ForWrite)
-      obj = t.GetObject(Dict.GetAt('ACAD_LAYOUT'),  OpenMode.ForWrite);  
-      obj2 = t.GetObject(Dict['ACAD_LAYOUT'],  OpenMode.ForWrite);
-
-      #Get the layout
-      layout1 = t.GetObject(obj["01"], OpenMode.ForRead)
-
-      #Get viewports
-      vps = layout1.GetViewports()
-
-      #Setting the viewport
-      vp1 = t.GetObject(vps[1], OpenMode.ForWrite)
-      vp2 = t.GetObject(vps[2], OpenMode.ForWrite)
-      vp1.Ucs = vp2.Ucs
-      vp1.CustomScale = vp2.CustomScale
-      vp1.ViewCenter = vp2.ViewCenter
-      vp1.ViewTarget = vp2.ViewTarget
-      vp1.ViewDirection = vp2.ViewDirection
-      vp1.TwistAngle = vp2.TwistAngle
-
-
-      vp1.UpdateDisplay()
-      t.Commit()
-</code></pre>
-<hr>
-<h3 id="Meaning-of-the-Viewport-Properties">Meaning of the Viewport Properties</h3>
-<table>
-<thead>
-<tr>
-<th>Properties</th>
-<th>Meaning</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>ViewCenter</td>
-<td>the view center of the view in the viewport</td>
-</tr>
-<tr>
-<td>ViewTarget</td>
-<td>location of the model space in the viewport</td>
-</tr>
-<tr>
-<td>ViewDirection</td>
-<td>the vector from the target to the camera of the view in the viewport</td>
-</tr>
-<tr>
-<td>CenterPoint</td>
-<td>the centerpoint of viewport in paperspace</td>
-</tr>
-</tbody>
-</table>
-<h1>Reference</h1>
-<p><a href="http://docs.autodesk.com/ACD/2010/ENU/AutoCAD%20.NET%20Developer%27s%20Guide/index.html?url=WS1a9193826455f5ff2566ffd511ff6f8c7ca-3416.htm,topicNumber=d0e50529" target="_blank" rel="noopener">http://docs.autodesk.com/ACD/2010/ENU/AutoCAD .NET Developer's Guide/index.html?url=WS1a9193826455f5ff2566ffd511ff6f8c7ca-3416.htm,topicNumber=d0e50529</a></p>
-]]></content>
-      <categories>
-        <category>June 2020</category>
-      </categories>
-      <tags>
-        <tag>Civil3d</tag>
-        <tag>AutoCAD API</tag>
-        <tag>Ironpython</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>How to autoload *.dll in AutoCAD</title>
     <url>/2020/06/01/20200602How%20to%20autoload%20dll%20in%20AutoCAD/</url>
     <content><![CDATA[<hr>
@@ -214,6 +76,232 @@ except:
       <tags>
         <tag>Civil3d</tag>
         <tag>AutoCAD API</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Prompt to Select one type of object in .NetAPI(Ironpython)</title>
+    <url>/2020/06/16/20200616Prompt%20to%20Select%20one%20type%20of%20object/</url>
+    <content><![CDATA[<hr>
+<h2 id="Function">Function</h2>
+<pre class=" language-language-python"><code class="language-language-python">def PromptForEntity( prompt, filetype):
+	global adoc
+	global ed
+
+	options = PromptEntityOptions("%s"%prompt)
+	options.SetRejectMessage("\nThe selected object is not a %s\n"%str(filetype))
+	options.AddAllowedClass(clr.GetClrType(filetype), True)
+
+
+	result = doc.Editor.GetEntity(options)
+
+	if result.Status != PromptStatus.OK:
+		ed.WriteMessage("\n The select target is " +str(filetype) +" please select "  +str(filetype) + "  \n")
+
+	if result.Status == PromptStatus.OK:
+		ed.WriteMessage("\ntarget has been selected\n")
+		ed.WriteMessage("\ntarget has been selected%s\n\n\n\n"%str(result.ObjectId))
+		return result.ObjectId
+
+	ed.WriteMessage("I will return Null  ")
+	return ObjectId.Null
+</code></pre>
+<hr>
+<h2 id="Example">Example</h2>
+<pre><code>try:
+	surfaceId = PromptForEntity(&quot;Select the surface to add a boundary to&quot;, TinSurface)
+	plineId = PromptForEntity(&quot;Select the object to use as a boundary&quot;, Polyline)
+
+	coll = ObjectIdCollection()
+	coll.Add(plineId)
+	ed.WriteMessage(&quot;pLINE COLLECTION HAS BEEN MADE&quot;)
+
+	oSurface = t.GetObject(surfaceId, OpenMode.ForWrite)
+
+	#
+	oSurface.BoundariesDefinition.AddBoundaries(coll, 100, SurfaceBoundaryType.Outer, True)
+
+	oSurface.Rebuild()
+	ed.WriteMessage(&quot;Rebuilt Done&quot;)
+
+	# Commit before end transaction
+	t.Commit()
+except:
+	ed.WriteMessage(&quot;Failed to add the boundary&quot;)
+
+</code></pre>
+<h1>Reference</h1>
+<p><a href="http://help.autodesk.com/view/CIV3D/2020/ENU/?guid=GUID-7C32E309-9B54-42A0-A4DC-C6FD592071F2" target="_blank" rel="noopener">http://help.autodesk.com/view/CIV3D/2020/ENU/?guid=GUID-7C32E309-9B54-42A0-A4DC-C6FD592071F2</a></p>
+]]></content>
+      <categories>
+        <category>June 2020</category>
+      </categories>
+      <tags>
+        <tag>Civil3d</tag>
+        <tag>AutoCAD API</tag>
+        <tag>Ironpython</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Move the selected objects to the current layer</title>
+    <url>/2020/06/17/20200617Move%20the%20selected%20objects%20to%20the%20current%20layer/</url>
+    <content><![CDATA[<hr>
+<h2 id="Build-a-FilterType-to-select">Build a FilterType[] to select</h2>
+<pre class=" language-language-csharp"><code class="language-language-csharp">public enum FilterType
+    {
+        Curve, Dimension, Polyline, BlockRef, Circle, Line, Arc, Text, MText
+    }
+
+
+public static DBObjectCollection GetSelection(FilterType[] tps)
+        {
+            Document doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
+            Database db = doc.Database;
+            Editor ed = doc.Editor;
+            Entity entity = null;
+            DBObjectCollection EntityCollection = new DBObjectCollection();
+            PromptSelectionOptions selops = new PromptSelectionOptions();
+
+            // Name the filter contents
+            TypedValue[] filList = new TypedValue[tps.Length + 2];
+            filList[0] = new TypedValue((int)DxfCode.Operator, "<or");
+            filList[tps.Length + 1] = new TypedValue((int)DxfCode.Operator, "or>");
+            for (int i = 0; i < tps.Length; i++)
+            {
+                filList[i + 1] = new TypedValue((int)DxfCode.Start, tps[i].ToString());
+            }
+
+
+             // Build the filter
+            SelectionFilter filter = new SelectionFilter(filList);
+            // 按照过滤器进行选择
+            PromptSelectionResult ents = ed.GetSelection(selops, filter);
+            if  (ents.Status == PromptStatus.OK)  
+            {
+                using  (Transaction transaction = db.TransactionManager.StartTransaction())
+                 {
+                    SelectionSet SS = ents.Value;
+                    foreach (ObjectId id in   SS.GetObjectIds())
+                    {
+                        entity = (Entity) transaction.GetObject(id, OpenMode.ForWrite,  true );  
+                        if(entity!=null)
+                        {
+                            LayerTableRecord ltr = LayerTools.GetCurrentLayer(db);
+                            entity.Layer = ltr.Name;
+                            EntityCollection.Add(entity);
+                            ed = Autodesk.AutoCAD.ApplicationServices. Application .DocumentManager.MdiActiveDocument.Editor;
+                            ed.SelectPrevious();
+                        }
+                    }
+                    transaction.Commit( );  
+                }
+            }
+            return   EntityCollection;
+        }
+</code></pre>
+<hr>
+<h2 id="Select-Lines-and-Polylines">Select Lines and Polylines</h2>
+<pre><code>public void SelectLines()
+        {
+            Database db = HostApplicationServices.WorkingDatabase;
+            LayerTableRecord ltr = new LayerTableRecord();
+            ltr = LayerTools.GetCurrentLayer(db);
+
+
+            FilterType LineType = FilterType.Line;
+            FilterType PolyLineType = FilterType.Polyline;
+            FilterType CircleType = FilterType.Circle;
+
+            FilterType[] Types = new FilterType[3];
+            Types[0] = LineType;
+            Types[1] = PolyLineType;
+            Types[2] = CircleType;
+            DBObjectCollection EntityCollection = Selection.GetSelection(Types);
+        }
+
+</code></pre>
+]]></content>
+      <categories>
+        <category>June 2020</category>
+      </categories>
+      <tags>
+        <tag>Civil3d</tag>
+        <tag>AutoCAD API</tag>
+        <tag>C#</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Set Viewport in AutoCad .Net API</title>
+    <url>/2020/06/15/20200615Set%20Viewport%20in%20AutoCad%20.Net%20API/</url>
+    <content><![CDATA[<hr>
+<pre class=" language-language-python"><code class="language-language-python">with adoc.LockDocument():
+  with adoc.Database as db:
+    with db.TransactionManager.StartTransaction() as t:
+      bt = t.GetObject(db.BlockTableId, OpenMode.ForWrite)
+      btr = t.GetObject(bt[BlockTableRecord.ModelSpace], OpenMode.ForWrite)
+
+      #Get the dict object and layouts object
+      Dict = t.GetObject(db.NamedObjectsDictionaryId, OpenMode.ForWrite)
+      obj = t.GetObject(Dict.GetAt('ACAD_LAYOUT'),  OpenMode.ForWrite);  
+      obj2 = t.GetObject(Dict['ACAD_LAYOUT'],  OpenMode.ForWrite);
+
+      #Get the layout
+      layout1 = t.GetObject(obj["01"], OpenMode.ForRead)
+
+      #Get viewports
+      vps = layout1.GetViewports()
+
+      #Setting the viewport
+      vp1 = t.GetObject(vps[1], OpenMode.ForWrite)
+      vp2 = t.GetObject(vps[2], OpenMode.ForWrite)
+      vp1.Ucs = vp2.Ucs
+      vp1.CustomScale = vp2.CustomScale
+      vp1.ViewCenter = vp2.ViewCenter
+      vp1.ViewTarget = vp2.ViewTarget
+      vp1.ViewDirection = vp2.ViewDirection
+      vp1.TwistAngle = vp2.TwistAngle
+
+
+      vp1.UpdateDisplay()
+      t.Commit()
+</code></pre>
+<hr>
+<h3 id="Meaning-of-the-Viewport-Properties">Meaning of the Viewport Properties</h3>
+<table>
+<thead>
+<tr>
+<th>Properties</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ViewCenter</td>
+<td>the view center of the view in the viewport</td>
+</tr>
+<tr>
+<td>ViewTarget</td>
+<td>location of the model space in the viewport</td>
+</tr>
+<tr>
+<td>ViewDirection</td>
+<td>the vector from the target to the camera of the view in the viewport</td>
+</tr>
+<tr>
+<td>CenterPoint</td>
+<td>the centerpoint of viewport in paperspace</td>
+</tr>
+</tbody>
+</table>
+<h1>Reference</h1>
+<p><a href="http://docs.autodesk.com/ACD/2010/ENU/AutoCAD%20.NET%20Developer%27s%20Guide/index.html?url=WS1a9193826455f5ff2566ffd511ff6f8c7ca-3416.htm,topicNumber=d0e50529" target="_blank" rel="noopener">http://docs.autodesk.com/ACD/2010/ENU/AutoCAD .NET Developer's Guide/index.html?url=WS1a9193826455f5ff2566ffd511ff6f8c7ca-3416.htm,topicNumber=d0e50529</a></p>
+]]></content>
+      <categories>
+        <category>June 2020</category>
+      </categories>
+      <tags>
+        <tag>Civil3d</tag>
+        <tag>AutoCAD API</tag>
+        <tag>Ironpython</tag>
       </tags>
   </entry>
   <entry>
@@ -375,6 +463,27 @@ osurface.Rebuild()
       </tags>
   </entry>
   <entry>
+    <title>Civil3d Ribbon Demo (Automate the repetitive tasks)</title>
+    <url>/2020/06/22/20200622Civil3D%20Ribbon%20Demo/</url>
+    <content><![CDATA[<p>Recently I create a custom #Civil3D ribbon menu with #.NET API for the script I wrote. Now it is easier to use and can save us time for repetitive tasks.</p>
+<hr>
+<h2 id="Edit-Reference-Surface-Of-Network">Edit Reference Surface Of Network</h2>
+<h2 id="Edit-Reference-Surface-Of-Network-2"><img src="/2020/06/22/20200622Civil3D%20Ribbon%20Demo/EditReferenceSurfaceOfNetwork.gif" alt="Edit Reference Surface Of Network"></h2>
+<h2 id="Adjust-the-multiple-viewports-by-several-clicks">Adjust the multiple viewports by several clicks</h2>
+<p><img src="/2020/06/22/20200622Civil3D%20Ribbon%20Demo/Adjustthemultipleviewportsinseconds2.gif" alt="Adjust the multiple viewports by several clicks"></p>
+<h2 id="get-Lot-Area-Info-and-export-to-Excel-file">get Lot Area Info and export to Excel file</h2>
+<p><img src="/2020/06/22/20200622Civil3D%20Ribbon%20Demo/LotAreaTableGeneration3.gif" alt="get Lot Area Info and export to Excel file"></p>
+]]></content>
+      <categories>
+        <category>June 2020</category>
+      </categories>
+      <tags>
+        <tag>Civil3d</tag>
+        <tag>AutoCAD API</tag>
+        <tag>C#</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Delineate watershed based on DEM data on ArcMAP</title>
     <url>/2020/04/24/Delinenate%20the%20watershed%20based%20on%20DEM%20data%20on%20ArcMAP/</url>
     <content><![CDATA[<p>Before input data into hydrologic or hydraulic data, we need to know the catchment boundary first. Arcmap has wonderful tool suite to proceed this</p>
@@ -426,115 +535,6 @@ osurface.Rebuild()
       </categories>
       <tags>
         <tag>Arcmap</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Move the selected objects to the current layer</title>
-    <url>/2020/06/17/20200617Move%20the%20selected%20objects%20to%20the%20current%20layer/</url>
-    <content><![CDATA[<hr>
-<h2 id="Build-a-FilterType-to-select">Build a FilterType[] to select</h2>
-<pre class=" language-language-csharp"><code class="language-language-csharp">public enum FilterType
-    {
-        Curve, Dimension, Polyline, BlockRef, Circle, Line, Arc, Text, MText
-    }
-
-
-public static DBObjectCollection GetSelection(FilterType[] tps)
-        {
-            Document doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
-            Database db = doc.Database;
-            Editor ed = doc.Editor;
-            Entity entity = null;
-            DBObjectCollection EntityCollection = new DBObjectCollection();
-            PromptSelectionOptions selops = new PromptSelectionOptions();
-
-            // Name the filter contents
-            TypedValue[] filList = new TypedValue[tps.Length + 2];
-            filList[0] = new TypedValue((int)DxfCode.Operator, "<or");
-            filList[tps.Length + 1] = new TypedValue((int)DxfCode.Operator, "or>");
-            for (int i = 0; i < tps.Length; i++)
-            {
-                filList[i + 1] = new TypedValue((int)DxfCode.Start, tps[i].ToString());
-            }
-
-
-             // Build the filter
-            SelectionFilter filter = new SelectionFilter(filList);
-            // 按照过滤器进行选择
-            PromptSelectionResult ents = ed.GetSelection(selops, filter);
-            if  (ents.Status == PromptStatus.OK)  
-            {
-                using  (Transaction transaction = db.TransactionManager.StartTransaction())
-                 {
-                    SelectionSet SS = ents.Value;
-                    foreach (ObjectId id in   SS.GetObjectIds())
-                    {
-                        entity = (Entity) transaction.GetObject(id, OpenMode.ForWrite,  true );  
-                        if(entity!=null)
-                        {
-                            LayerTableRecord ltr = LayerTools.GetCurrentLayer(db);
-                            entity.Layer = ltr.Name;
-                            EntityCollection.Add(entity);
-                            ed = Autodesk.AutoCAD.ApplicationServices. Application .DocumentManager.MdiActiveDocument.Editor;
-                            ed.SelectPrevious();
-                        }
-                    }
-                    transaction.Commit( );  
-                }
-            }
-            return   EntityCollection;
-        }
-</code></pre>
-<hr>
-<h2 id="Select-Lines-and-Polylines">Select Lines and Polylines</h2>
-<pre><code>public void SelectLines()
-        {
-            Database db = HostApplicationServices.WorkingDatabase;
-            LayerTableRecord ltr = new LayerTableRecord();
-            ltr = LayerTools.GetCurrentLayer(db);
-
-
-            FilterType LineType = FilterType.Line;
-            FilterType PolyLineType = FilterType.Polyline;
-            FilterType CircleType = FilterType.Circle;
-
-            FilterType[] Types = new FilterType[3];
-            Types[0] = LineType;
-            Types[1] = PolyLineType;
-            Types[2] = CircleType;
-            DBObjectCollection EntityCollection = Selection.GetSelection(Types);
-        }
-
-</code></pre>
-]]></content>
-      <categories>
-        <category>June 2020</category>
-      </categories>
-      <tags>
-        <tag>Civil3d</tag>
-        <tag>AutoCAD API</tag>
-        <tag>C#</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Civil3d Ribbon Demo (Automate the repetitive tasks)</title>
-    <url>/2020/06/22/20200622Civil3D%20Ribbon%20Demo/</url>
-    <content><![CDATA[<p>Recently I create a custom #Civil3D ribbon menu with #.NET API for the script I wrote. Now it is easier to use and can save us time for repetitive tasks.</p>
-<hr>
-<h2 id="Edit-Reference-Surface-Of-Network">Edit Reference Surface Of Network</h2>
-<h2 id="Edit-Reference-Surface-Of-Network-2"><img src="/2020/06/22/20200622Civil3D%20Ribbon%20Demo/EditReferenceSurfaceOfNetwork.gif" alt="Edit Reference Surface Of Network"></h2>
-<h2 id="Adjust-the-multiple-viewports-by-several-clicks">Adjust the multiple viewports by several clicks</h2>
-<p><img src="/2020/06/22/20200622Civil3D%20Ribbon%20Demo/Adjustthemultipleviewportsinseconds2.gif" alt="Adjust the multiple viewports by several clicks"></p>
-<h2 id="get-Lot-Area-Info-and-export-to-Excel-file">get Lot Area Info and export to Excel file</h2>
-<p><img src="/2020/06/22/20200622Civil3D%20Ribbon%20Demo/LotAreaTableGeneration3.gif" alt="get Lot Area Info and export to Excel file"></p>
-]]></content>
-      <categories>
-        <category>June 2020</category>
-      </categories>
-      <tags>
-        <tag>Civil3d</tag>
-        <tag>AutoCAD API</tag>
-        <tag>C#</tag>
       </tags>
   </entry>
   <entry>
@@ -1420,40 +1420,6 @@ ax.set_ylim([-42,-36])
       </tags>
   </entry>
   <entry>
-    <title>How to merge many different raster files into one raster</title>
-    <url>/2020/04/20/How%20to%20take%20many%20different%20rasters%20into%20one%20raster/</url>
-    <content><![CDATA[<p>On <a href="https://geomapspublic.aucklandcouncil.govt.nz/viewer/index.html" target="_blank" rel="noopener">Auckland Council Geomap</a>, we can download the high resolution DEM data, but the uplimit area is 6 Square Km. What if the catchment area we are interested in is more than the number, than we can download the DEM data from <a href="https://data.linz.govt.nz/search/?q=DEM" target="_blank" rel="noopener">LINZ</a>.</p>
-<hr>
-<h3 id="Raster-files-check">Raster files check</h3>
-<p>After download the DEM data in Auckland area, we will find that there will be many different raster files, which is not available for analysis. So we need to merge many raster files into one raster file.</p>
-<hr>
-<h3 id="Location-check">Location check</h3>
-<p>Firstly, we need to check the name of related raster files in our interested catchment, find all the raster files and then move them into one folder.</p>
-<p><img src="/2020/04/20/How%20to%20take%20many%20different%20rasters%20into%20one%20raster/1.PNG" alt="Location.png"></p>
-<hr>
-<h3 id="Create-an-empty-Mosaic-Dataset">Create an empty Mosaic Dataset</h3>
-<p>Create an empty Mosaic Dataset as the route in the figure below.</p>
-<p><img src="/2020/04/20/How%20to%20take%20many%20different%20rasters%20into%20one%20raster/22.png" alt="Mosaic Dataset.png"></p>
-<p>Then we need to add the raster data into the empty Mosaic. Directly right-click the file and choose “add raster”.</p>
-<p>Select the files we have picked from the last steps, remember to check the “Upload Overview” box.<br>
-<img src="/2020/04/20/How%20to%20take%20many%20different%20rasters%20into%20one%20raster/44.png" alt="Add Dataset.png"></p>
-<hr>
-<h3 id="Final-result">Final result</h3>
-<p>Wait for several seconds or minutes, the raster will output.</p>
-<p><img src="/2020/04/20/How%20to%20take%20many%20different%20rasters%20into%20one%20raster/55.png" alt="Mosaic Dataset.png"></p>
-<hr>
-<h3 id="Reference">Reference</h3>
-<p><a href="https://data.linz.govt.nz/" target="_blank" rel="noopener">https://data.linz.govt.nz/</a></p>
-]]></content>
-      <categories>
-        <category>April 2020</category>
-      </categories>
-      <tags>
-        <tag>Arcmap</tag>
-        <tag>Raster</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Objects selection by Ironpython(.NET API in Civil3D) in Dynamo</title>
     <url>/2020/05/15/Objects%20selection%20by%20Ironpython/</url>
     <content><![CDATA[<p>Several ways to select objects According to the type as the result below.</p>
@@ -1549,6 +1515,40 @@ with adoc.LockDocument():
       </categories>
       <tags>
         <tag>Civil3d</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>How to merge many different raster files into one raster</title>
+    <url>/2020/04/20/How%20to%20take%20many%20different%20rasters%20into%20one%20raster/</url>
+    <content><![CDATA[<p>On <a href="https://geomapspublic.aucklandcouncil.govt.nz/viewer/index.html" target="_blank" rel="noopener">Auckland Council Geomap</a>, we can download the high resolution DEM data, but the uplimit area is 6 Square Km. What if the catchment area we are interested in is more than the number, than we can download the DEM data from <a href="https://data.linz.govt.nz/search/?q=DEM" target="_blank" rel="noopener">LINZ</a>.</p>
+<hr>
+<h3 id="Raster-files-check">Raster files check</h3>
+<p>After download the DEM data in Auckland area, we will find that there will be many different raster files, which is not available for analysis. So we need to merge many raster files into one raster file.</p>
+<hr>
+<h3 id="Location-check">Location check</h3>
+<p>Firstly, we need to check the name of related raster files in our interested catchment, find all the raster files and then move them into one folder.</p>
+<p><img src="/2020/04/20/How%20to%20take%20many%20different%20rasters%20into%20one%20raster/1.PNG" alt="Location.png"></p>
+<hr>
+<h3 id="Create-an-empty-Mosaic-Dataset">Create an empty Mosaic Dataset</h3>
+<p>Create an empty Mosaic Dataset as the route in the figure below.</p>
+<p><img src="/2020/04/20/How%20to%20take%20many%20different%20rasters%20into%20one%20raster/22.png" alt="Mosaic Dataset.png"></p>
+<p>Then we need to add the raster data into the empty Mosaic. Directly right-click the file and choose “add raster”.</p>
+<p>Select the files we have picked from the last steps, remember to check the “Upload Overview” box.<br>
+<img src="/2020/04/20/How%20to%20take%20many%20different%20rasters%20into%20one%20raster/44.png" alt="Add Dataset.png"></p>
+<hr>
+<h3 id="Final-result">Final result</h3>
+<p>Wait for several seconds or minutes, the raster will output.</p>
+<p><img src="/2020/04/20/How%20to%20take%20many%20different%20rasters%20into%20one%20raster/55.png" alt="Mosaic Dataset.png"></p>
+<hr>
+<h3 id="Reference">Reference</h3>
+<p><a href="https://data.linz.govt.nz/" target="_blank" rel="noopener">https://data.linz.govt.nz/</a></p>
+]]></content>
+      <categories>
+        <category>April 2020</category>
+      </categories>
+      <tags>
+        <tag>Arcmap</tag>
+        <tag>Raster</tag>
       </tags>
   </entry>
   <entry>
