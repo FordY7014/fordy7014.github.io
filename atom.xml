@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://fordy7014.github.io/"/>
-  <updated>2020-06-25T23:59:40.648Z</updated>
+  <updated>2020-08-24T08:38:32.219Z</updated>
   <id>https://fordy7014.github.io/</id>
   
   <author>
@@ -15,6 +15,37 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>My route on AutoCAD .NET Developer</title>
+    <link href="https://fordy7014.github.io/2020/08/15/20200815My%20route%20on%20AutoCAD%20.NET%20Developer/"/>
+    <id>https://fordy7014.github.io/2020/08/15/20200815My%20route%20on%20AutoCAD%20.NET%20Developer/</id>
+    <published>2020-08-15T04:04:57.000Z</published>
+    <updated>2020-08-24T08:38:32.219Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;I have applied AutoCAD .NetAPI for writing some tools in the recent several month, but I still have not understand it so well. Every
+        
+      
+    
+    </summary>
+    
+    
+      <category term="August 2020" scheme="https://fordy7014.github.io/categories/August-2020/"/>
+    
+    
+      <category term="Civil3d" scheme="https://fordy7014.github.io/tags/Civil3d/"/>
+    
+      <category term="AutoCAD API" scheme="https://fordy7014.github.io/tags/AutoCAD-API/"/>
+    
+      <category term="C#" scheme="https://fordy7014.github.io/tags/C/"/>
+    
+  </entry>
   
   <entry>
     <title>Civil3d Ribbon Demo (Automate the repetitive tasks)</title>
@@ -577,38 +608,6 @@ from pandas import DataFrame,
       <category term="Pandas" scheme="https://fordy7014.github.io/tags/Pandas/"/>
     
       <category term="Folium" scheme="https://fordy7014.github.io/tags/Folium/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Geopandas Practise_Part1</title>
-    <link href="https://fordy7014.github.io/2020/04/13/Geopandas%20Practise_Part1/"/>
-    <id>https://fordy7014.github.io/2020/04/13/Geopandas%20Practise_Part1/</id>
-    <published>2020-04-13T04:04:57.000Z</published>
-    <updated>2020-05-22T00:55:17.196Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;p&gt;Environment: Python3.7&lt;br&gt;&lt;/p&gt;
-&lt;h1&gt;01. Import the packages&lt;/h1&gt;
-&lt;h4 id=&quot;Basic-Packages&quot;&gt;Basic Packages&lt;/h4&gt;
-&lt;pre class=&quot;
-        
-      
-    
-    </summary>
-    
-    
-      <category term="April 2020" scheme="https://fordy7014.github.io/categories/April-2020/"/>
-    
-    
-      <category term="Spatial Analysis" scheme="https://fordy7014.github.io/tags/Spatial-Analysis/"/>
-    
-      <category term="Geopandas" scheme="https://fordy7014.github.io/tags/Geopandas/"/>
     
   </entry>
   

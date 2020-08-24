@@ -375,7 +375,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>Word Count:&nbsp;&nbsp;
-                    378
+                    360
                 </div>
                 
 
@@ -430,23 +430,23 @@
 </code></pre>
 <hr>
 <h3 id="Auto-Run-Command-when-loading-dll-file">Auto Run Command when loading .dll file</h3>
-<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
-&lt;ApplicationPackage SchemaVersion=&quot;1.0&quot; AppVersion=&quot;1.0.0&quot; ProductType=&quot;Application&quot;
-    ProductCode=&quot;{6A1C1EAE-3744-4BD8-AF08-F322E92D9B3B}&quot;
-    Name=&quot;RibbonTest&quot;  Description=&quot;MyAPP, My description&quot;  SupportedLocales=&quot;Enu&quot; AutodeskProduct=&quot;AutoCAD&quot;&gt;
-  &lt;CompanyDetails Name=&quot;myribbontest&quot; Email=&quot;yangfan7014@gmail.com&quot; /&gt;
-  &lt;RuntimeRequirements SupportPath=&quot;./Contents&quot; OS=&quot;Win32|Win64&quot; Platform=&quot;AutoCAD*|AutoCAD&quot; SeriesMin=&quot;R20.1&quot; SeriesMax=&quot;R24.0&quot;/&gt;
-  &lt;Components Description=&quot;Main&quot;&gt;
+<pre><code>&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;ApplicationPackage SchemaVersion="1.0" AppVersion="1.0.0" ProductType="Application"
+    ProductCode="{6A1C1EAE-3744-4BD8-AF08-F322E92D9B3B}"
+    Name="RibbonTest"  Description="MyAPP, My description"  SupportedLocales="Enu" AutodeskProduct="AutoCAD"&gt;
+  &lt;CompanyDetails Name="myribbontest" Email="yangfan7014@gmail.com" /&gt;
+  &lt;RuntimeRequirements SupportPath="./Contents" OS="Win32|Win64" Platform="AutoCAD*|AutoCAD" SeriesMin="R20.1" SeriesMax="R24.0"/&gt;
+  &lt;Components Description="Main"&gt;
 
-    &lt;ComponentEntry  AppName=&quot;MyAPP&quot; Version=&quot;1.0.0&quot; ModuleName=&quot;./Contents/18RibbonT.dll&quot; LoadOnAppearance=&quot;True&quot; LoadOnAutoCADStartup=&quot;True&quot; LoadOnCommandInvocation=&quot;True&quot;&gt;
-      &lt;Commands GroupName=&quot;_18RibbonT&quot;&gt;
-        &lt;Command Local=&quot;RibbonDemo&quot; Global=&quot;RibbonDemo&quot; StartupCommand = &quot;True&quot; /&gt;
+    &lt;ComponentEntry  AppName="MyAPP" Version="1.0.0" ModuleName="./Contents/18RibbonT.dll" LoadOnAppearance="True" LoadOnAutoCADStartup="True" LoadOnCommandInvocation="True"&gt;
+      &lt;Commands GroupName="_18RibbonT"&gt;
+        &lt;Command Local="RibbonDemo" Global="RibbonDemo" StartupCommand = "True" /&gt;
       &lt;/Commands&gt;
 	  &lt;/ComponentEntry&gt;
 
-    &lt;ComponentEntry  AppName=&quot;Ramps&quot; Version=&quot;1.0.0&quot; ModuleName=&quot;./Contents/Ramps.dll&quot; LoadOnAutoCADStartup=&quot;True&quot;&gt;
-      &lt;Commands GroupName=&quot;Commands&quot;&gt;
-        &lt;Command Local=&quot;CRAMPS&quot; Global=&quot;CRAMPS&quot; /&gt;
+    &lt;ComponentEntry  AppName="Ramps" Version="1.0.0" ModuleName="./Contents/Ramps.dll" LoadOnAutoCADStartup="True"&gt;
+      &lt;Commands GroupName="Commands"&gt;
+        &lt;Command Local="CRAMPS" Global="CRAMPS" /&gt;
       &lt;/Commands&gt;
     &lt;/ComponentEntry&gt;		
 
@@ -458,7 +458,25 @@
 <a href="https://stackoverflow.com/questions/46282189/autocad-2018-autoload-dll" target="_blank" rel="noopener">https://stackoverflow.com/questions/46282189/autocad-2018-autoload-dll</a><br>
 <a href="https://stackoverflow.com/questions/46282189/autocad-2018-autoload-dll" target="_blank" rel="noopener">https://stackoverflow.com/questions/46282189/autocad-2018-autoload-dll</a><br>
 <a href="https://www.cnblogs.com/linzheng/archive/2010/12/14/1905906.html" target="_blank" rel="noopener">https://www.cnblogs.com/linzheng/archive/2010/12/14/1905906.html</a></p>
-
+<script>
+        document.querySelectorAll('.github-emoji')
+          .forEach(el => {
+            if (!el.dataset.src) { return; }
+            const img = document.createElement('img');
+            img.style = 'display:none !important;';
+            img.src = el.dataset.src;
+            img.addEventListener('error', () => {
+              img.remove();
+              el.style.color = 'inherit';
+              el.style.backgroundImage = 'none';
+              el.style.background = 'none';
+            });
+            img.addEventListener('load', () => {
+              img.remove();
+            });
+            document.body.appendChild(img);
+          });
+      </script>
             </div>
             <hr/>
 

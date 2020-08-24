@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="Add boundary Line to Surface by using API, Python, Pandas">
+    <meta name="keywords" content="My route on AutoCAD .NET Developer, Python, Pandas">
     <meta name="description" content="Just to take notes for what I have learnt, and I will be very happy if it helps anyone.">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>Add boundary Line to Surface by using API | Ford Yang&#39;s Blog</title>
+    <title>My route on AutoCAD .NET Developer | Ford Yang&#39;s Blog</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -215,12 +215,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/8.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/0.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">Add boundary Line to Surface by using API</h1>
+                    <h1 class="description center-align post-title">My route on AutoCAD .NET Developer</h1>
                 </div>
             </div>
         </div>
@@ -341,6 +341,14 @@
                                 <span class="chip bg-color">Civil3d</span>
                             </a>
                         
+                            <a href="/tags/AutoCAD-API/">
+                                <span class="chip bg-color">AutoCAD API</span>
+                            </a>
+                        
+                            <a href="/tags/C/">
+                                <span class="chip bg-color">C#</span>
+                            </a>
+                        
                     </div>
                     
                 </div>
@@ -349,8 +357,8 @@
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/May-2020/" class="post-category">
-                                May 2020
+                            <a href="/categories/August-2020/" class="post-category">
+                                August 2020
                             </a>
                         
                     </div>
@@ -362,7 +370,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>Publish Date:&nbsp;&nbsp;
-                    2020-05-13
+                    2020-08-15
                 </div>
                 
 
@@ -371,14 +379,14 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>Word Count:&nbsp;&nbsp;
-                    325
+                    134
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>Read Times:&nbsp;&nbsp;
-                    2 Min
+                    1 Min
                 </div>
                 
 
@@ -388,70 +396,9 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>Today, I saw a post from Dynamo forum that mentioned how to add boundaryline to the surface. Just make a note for future use.  The original post link is listed in the Reference.</p>
-<h2 id="NETAPI-C">.NETAPI-C#</h2>
-<pre class=" language-language-csharp"><code class="language-language-csharp">[CommandMethod("AddSurfaceBoundary")]
-public void AddSurfaceBoundary()
-{
-    using (Transaction ts = Application.DocumentManager.MdiActiveDocument.Database.TransactionManager.StartTransaction())
-    {
-        // Prompt the user to select a surface and a polyline
-        ObjectId surfaceId = promptForEntity("Select the surface to add a boundary to", typeof(TinSurface));
-        ObjectId polyId = promptForEntity("Select the object to use as a boundary", typeof(Polyline));
-
-        // The boundary or boundaries must be added to an ObjectIdCollection for the AddBoundaries method:
-        ObjectId[] boundaries = { polyId };
-        TinSurface oSurface = surfaceId.GetObject(OpenMode.ForWrite) as TinSurface;
-
-        try
-        {
-            oSurface.BoundariesDefinition.AddBoundaries(new ObjectIdCollection(boundaries), 100, Autodesk.Civil.Land.SurfaceBoundaryType.Outer, true);
-            oSurface.Rebuild();
-        }
-
-        catch (System.Exception e)
-        {
-            editor.WriteMessage("Failed to add the boundary: {0}", e.Message);
-        }
-
-        // commit the transaction
-        ts.Commit();
-    }
-}
-
-private ObjectId promptForTinSurface(String prompt)
-{
-    PromptEntityOptions options = new PromptEntityOptions(
-        String.Format("\n{0}: ", prompt));
-    options.SetRejectMessage(
-        "\nThe selected object is not a TIN Surface.");
-    options.AddAllowedClass(typeof(TinSurface), true);
-
-    PromptEntityResult result = editor.GetEntity(options);
-    if (result.Status == PromptStatus.OK)
-    {
-        // We have the correct object type
-        return result.ObjectId;
-    }
-    return ObjectId.Null;   // Indicating error.
-}
-
-</code></pre>
-<h2 id="IronPython-in-Dynamo">IronPython in Dynamo</h2>
-<pre class=" language-language-python"><code class="language-language-python">surfaceId = promptForEntity("Select the surface to add a boundary to", clr.GetClrType(TinSurface))
-polyId = promptForEntity("Select the object to use as a boundary", clr.GetClrType(Polyline))
-
-coll = ObjectIdCollection()
-coll.Add(plineId)
-
-oSurface = surfaceId.GetObject(OpenMode.ForWrite)
-
-osurface.BoundariesDefinition.AddBoundaries(coll, 100, SurfaceBoundaryType.Outer, True)
-osurface.Rebuild()
-</code></pre>
-<h1>Reference:</h1>
-<p><a href="http://help.autodesk.com/view/CIV3D/2020/ENU/?guid=GUID-7C32E309-9B54-42A0-A4DC-C6FD592071F2" target="_blank" rel="noopener">http://help.autodesk.com/view/CIV3D/2020/ENU/?guid=GUID-7C32E309-9B54-42A0-A4DC-C6FD592071F2</a><br>
-<a href="https://forum.dynamobim.com/t/create-object-id-collection/49472" target="_blank" rel="noopener">https://forum.dynamobim.com/t/create-object-id-collection/49472</a></p>
+                <p>I have applied AutoCAD .NetAPI for writing some tools in the recent several month, but I still have not understand it so well. Every time I had to waste lots of time on searching for related information.  Therefore, I decided to write learning notes for what I have learnt and build my personal knowledge system on this topic from now on.</p>
+<h1>Reference</h1>
+<p><a href="http://docs.autodesk.com/ACD/2010/ENU/AutoCAD%20.NET%20Developer' target=" _blank"="" rel="noopener" s%20guide="" index.html?url="WS1a9193826455f5ff2566ffd511ff6f8c7ca-3e30.htm,topicNumber=d0e26245" "="">http://docs.autodesk.com/ACD/2010/ENU/AutoCAD .NET Developer’s Guide/index.html?url=WS1a9193826455f5ff2566ffd511ff6f8c7ca-3e30.htm,topicNumber=d0e26245</a></p>
 <script>
         document.querySelectorAll('.github-emoji')
           .forEach(el => {
@@ -495,7 +442,7 @@ osurface.Rebuild()
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://fordy7014.github.io/2020/05/13/Add%20boundary%20Line%20to%20Surface%20by%20using%20API/">https://fordy7014.github.io/2020/05/13/Add%20boundary%20Line%20to%20Surface%20by%20using%20API/</a>
+                    <a href="https://fordy7014.github.io/2020/08/15/20200815My%20route%20on%20AutoCAD%20.NET%20Developer/">https://fordy7014.github.io/2020/08/15/20200815My%20route%20on%20AutoCAD%20.NET%20Developer/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -537,6 +484,14 @@ osurface.Rebuild()
                                     <span class="chip bg-color">Civil3d</span>
                                 </a>
                             
+                                <a href="/tags/AutoCAD-API/">
+                                    <span class="chip bg-color">AutoCAD API</span>
+                                </a>
+                            
+                                <a href="/tags/C/">
+                                    <span class="chip bg-color">C#</span>
+                                </a>
+                            
                         </div>
                     
                 </div>
@@ -576,52 +531,56 @@ osurface.Rebuild()
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;Previous</div>
+                <i class="far fa-dot-circle"></i>&nbsp;Current
+            </div>
             <div class="card">
-                <a href="/2020/05/15/Objects%20selection%20by%20Ironpython/">
+                <a href="/2020/08/15/20200815My%20route%20on%20AutoCAD%20.NET%20Developer/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/9.jpg" class="responsive-img" alt="Objects selection by Ironpython(.NET API in Civil3D) in Dynamo">
+                        <img src="/medias/featureimages/0.jpg" class="responsive-img" alt="My route on AutoCAD .NET Developer">
                         
-                        <span class="card-title">Objects selection by Ironpython(.NET API in Civil3D) in Dynamo</span>
+                        <span class="card-title">My route on AutoCAD .NET Developer</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            Several ways to select objects According to the type as the result below.
-
-Based on TypeName:
-
-output = []
-
-adoc = Appli
+                            I have applied AutoCAD .NetAPI for writing some tools in the recent several month, but I still have not understand it so
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2020-05-15
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-08-15
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/May-2020/" class="post-category">
-                                    May 2020
+                            <a href="/categories/August-2020/" class="post-category">
+                                    August 2020
                                 </a>
                             
                             
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
                     <a href="/tags/Civil3d/">
                         <span class="chip bg-color">Civil3d</span>
+                    </a>
+                    
+                    <a href="/tags/AutoCAD-API/">
+                        <span class="chip bg-color">AutoCAD API</span>
+                    </a>
+                    
+                    <a href="/tags/C/">
+                        <span class="chip bg-color">C#</span>
                     </a>
                     
                 </div>
@@ -635,37 +594,31 @@ adoc = Appli
                 Next&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/05/13/Visual%20Studio%20C#%20Code%20Snippet/">
+                <a href="/2020/06/22/20200622Civil3D%20Ribbon%20Demo/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/5.jpg" class="responsive-img" alt="Visual Studio Shortcut in C#">
+                        <img src="/medias/featureimages/16.jpg" class="responsive-img" alt="Civil3d Ribbon Demo (Automate the repetitive tasks)">
                         
-                        <span class="card-title">Visual Studio Shortcut in C#</span>
+                        <span class="card-title">Civil3d Ribbon Demo (Automate the repetitive tasks)</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            
-  
-  
-    Hey, password is required here.
-    
-  
-  9818994cc23b9627459a1ad4ecd373487638ddb07293fb7afd06e1bca8f3e84dc71
+                            Recently I create a custom #Civil3D ribbon menu with #.NET API for the script I wrote. Now it is easier to use and can s
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-05-13
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-06-22
                             </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/May-2020/" class="post-category">
-                                    May 2020
+                            <a href="/categories/June-2020/" class="post-category">
+                                    June 2020
                                 </a>
                             
                             
@@ -674,6 +627,14 @@ adoc = Appli
                 </div>
                 
                 <div class="card-action article-tags">
+                    
+                    <a href="/tags/Civil3d/">
+                        <span class="chip bg-color">Civil3d</span>
+                    </a>
+                    
+                    <a href="/tags/AutoCAD-API/">
+                        <span class="chip bg-color">AutoCAD API</span>
+                    </a>
                     
                     <a href="/tags/C/">
                         <span class="chip bg-color">C#</span>

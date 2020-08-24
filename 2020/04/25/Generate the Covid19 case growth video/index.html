@@ -375,7 +375,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>Word Count:&nbsp;&nbsp;
-                    554
+                    606
                 </div>
                 
 
@@ -490,12 +490,30 @@ plt.show()
 </code></pre>
 <h2 id="Result">Result</h2>
 <h3 id="MP4-VIDEO">MP4 VIDEO</h3>
-<iframe width="660" height="380" src="https://www.youtube.com/embed/xOjmZEJpUGI?start=2" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<iframe width="660" height="380" src="https://www.youtube.com/embed/xOjmZEJpUGI?start=2" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
 <h3 id="JPG-Animation-photos">JPG Animation photos</h3>
 <p><img src="/2020/04/25/Generate%20the%20Covid19%20case%20growth%20video/line2.gif" alt="COVID19 case No. Figure Demo"></p>
 <h2 id="Reference">Reference</h2>
 <p><a href="https://www.health.govt.nz/our-work/diseases-and-conditions/covid-19-novel-coronavirus/covid-19-current-situation/covid-19-current-cases/covid-19-current-cases-details" target="_blank" rel="noopener">https://www.health.govt.nz/our-work/diseases-and-conditions/covid-19-novel-coronavirus/covid-19-current-situation/covid-19-current-cases/covid-19-current-cases-details</a></p>
-
+<script>
+        document.querySelectorAll('.github-emoji')
+          .forEach(el => {
+            if (!el.dataset.src) { return; }
+            const img = document.createElement('img');
+            img.style = 'display:none !important;';
+            img.src = el.dataset.src;
+            img.addEventListener('error', () => {
+              img.remove();
+              el.style.color = 'inherit';
+              el.style.backgroundImage = 'none';
+              el.style.background = 'none';
+            });
+            img.addEventListener('load', () => {
+              img.remove();
+            });
+            document.body.appendChild(img);
+          });
+      </script>
             </div>
             <hr/>
 

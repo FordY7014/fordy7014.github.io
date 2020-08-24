@@ -382,7 +382,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>Read Times:&nbsp;&nbsp;
-                    14 Min
+                    15 Min
                 </div>
                 
 
@@ -417,7 +417,7 @@ df = pd.read_excel(filepath, sheet_name='Confirmed')
 <pre class=" language-language-python"><code class="language-language-python">df.head() # preview of the data
 </code></pre>
 <div>
-<style scoped>
+<style scoped="">
     .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
     }
@@ -532,7 +532,7 @@ Name: Age group, Length: 1451, dtype: bool
 <pre class=" language-language-python"><code class="language-language-python">df.head()
 </code></pre>
 <div>
-<style scoped>
+<style scoped="">
     .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
     }
@@ -644,7 +644,7 @@ df.columns = list(i.replace(' ','_') for i in df.columns)
 <pre class=" language-language-python"><code class="language-language-python">df.head()
 </code></pre>
 <div>
-<style scoped>
+<style scoped="">
     .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
     }
@@ -723,7 +723,7 @@ df.sort_values(by ='Report_Date', axis=0, inplace= True )
 df.head()
 </code></pre>
 <div>
-<style scoped>
+<style scoped="">
     .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
     }
@@ -804,7 +804,7 @@ df.head()
 <pre class=" language-language-python"><code class="language-language-python">df2.head(2)
 </code></pre>
 <div>
-<style scoped>
+<style scoped="">
     .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
     }
@@ -900,7 +900,7 @@ Name: Age_group, dtype: int64
 <pre class=" language-language-python"><code class="language-language-python">df.head(2)
 </code></pre>
 <div>
-<style scoped>
+<style scoped="">
     .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
     }
@@ -964,7 +964,7 @@ Name: Sex, dtype: int64
 <pre class=" language-language-python"><code class="language-language-python">df_city.head()
 </code></pre>
 <div>
-<style scoped>
+<style scoped="">
     .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
     }
@@ -1134,7 +1134,7 @@ df3 = df3.iloc[:,1]
 df3.head()
 </code></pre>
 <div>
-<style scoped>
+<style scoped="">
     .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
     }
@@ -1220,7 +1220,7 @@ df5.head()
 
 </code></pre>
 <div>
-<style scoped>
+<style scoped="">
     .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
     }
@@ -1316,7 +1316,7 @@ Name: Age_group, Length: 375, dtype: int64
 df5.head()
 </code></pre>
 <div>
-<style scoped>
+<style scoped="">
     .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
     }
@@ -1507,7 +1507,7 @@ for i in range(len(df6.index)):
 df6.tail()
 </code></pre>
 <div>
-<style scoped>
+<style scoped="">
     .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
     }
@@ -1693,7 +1693,7 @@ df66 = df5.cumsum()
 df66.tail()
 </code></pre>
 <div>
-<style scoped>
+<style scoped="">
     .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
     }
@@ -1920,7 +1920,25 @@ ax.legend()
 <p><img src="/2020/04/26/20200426%20Covid-19%20Cases%20Figure%20in%20New%20Zealand/output_89_1.svg" alt="svg"></p>
 <h2 id="Reference">Reference</h2>
 <p><a href="https://www.health.govt.nz/our-work/diseases-and-conditions/covid-19-novel-coronavirus/covid-19-current-situation/covid-19-current-cases/covid-19-current-cases-details" target="_blank" rel="noopener">https://www.health.govt.nz/our-work/diseases-and-conditions/covid-19-novel-coronavirus/covid-19-current-situation/covid-19-current-cases/covid-19-current-cases-details</a></p>
-
+<script>
+        document.querySelectorAll('.github-emoji')
+          .forEach(el => {
+            if (!el.dataset.src) { return; }
+            const img = document.createElement('img');
+            img.style = 'display:none !important;';
+            img.src = el.dataset.src;
+            img.addEventListener('error', () => {
+              img.remove();
+              el.style.color = 'inherit';
+              el.style.backgroundImage = 'none';
+              el.style.background = 'none';
+            });
+            img.addEventListener('load', () => {
+              img.remove();
+            });
+            document.body.appendChild(img);
+          });
+      </script>
             </div>
             <hr/>
 
