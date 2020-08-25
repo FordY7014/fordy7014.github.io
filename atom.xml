@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://fordy7014.github.io/"/>
-  <updated>2020-08-24T08:38:32.219Z</updated>
+  <updated>2020-08-24T08:44:59.171Z</updated>
   <id>https://fordy7014.github.io/</id>
   
   <author>
@@ -17,11 +17,11 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>My route on AutoCAD .NET Developer</title>
-    <link href="https://fordy7014.github.io/2020/08/15/20200815My%20route%20on%20AutoCAD%20.NET%20Developer/"/>
-    <id>https://fordy7014.github.io/2020/08/15/20200815My%20route%20on%20AutoCAD%20.NET%20Developer/</id>
+    <title>My route on AutoCAD .NET Developer&#39;s tools</title>
+    <link href="https://fordy7014.github.io/2020/08/15/20200815My%20route%20on%20AutoCAD%20DOTNET%20Developer/"/>
+    <id>https://fordy7014.github.io/2020/08/15/20200815My%20route%20on%20AutoCAD%20DOTNET%20Developer/</id>
     <published>2020-08-15T04:04:57.000Z</published>
-    <updated>2020-08-24T08:38:32.219Z</updated>
+    <updated>2020-08-24T08:44:59.171Z</updated>
     
     <summary type="html">
     
@@ -30,6 +30,43 @@
         
         
           &lt;p&gt;I have applied AutoCAD .NetAPI for writing some tools in the recent several month, but I still have not understand it so well. Every
+        
+      
+    
+    </summary>
+    
+    
+      <category term="August 2020" scheme="https://fordy7014.github.io/categories/August-2020/"/>
+    
+    
+      <category term="Civil3d" scheme="https://fordy7014.github.io/tags/Civil3d/"/>
+    
+      <category term="AutoCAD API" scheme="https://fordy7014.github.io/tags/AutoCAD-API/"/>
+    
+      <category term="C#" scheme="https://fordy7014.github.io/tags/C/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>01. &quot;Hello world&quot; message in AutoCAD editor Example</title>
+    <link href="https://fordy7014.github.io/2020/08/15/20200822AutoCAD%20developer&#39;s%20tools%20--%20Environment/"/>
+    <id>https://fordy7014.github.io/2020/08/15/20200822AutoCAD%20developer&#39;s%20tools%20--%20Environment/</id>
+    <published>2020-08-15T04:04:57.000Z</published>
+    <updated>2020-08-25T10:01:13.274Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1&gt;Start up with the Environment&lt;/h1&gt;
+&lt;ul&gt;
+&lt;li&gt;Language: C#&lt;/li&gt;
+&lt;li&gt;IDE: VS2019&lt;/li&gt;
+&lt;li&gt;CAD: 2019&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The relationship between
         
       
     
@@ -433,6 +470,37 @@ from urllib.request import
   </entry>
   
   <entry>
+    <title>Land-use TIF file making for HEC-RAS 2D</title>
+    <link href="https://fordy7014.github.io/2020/04/20/Land-use%20TIF%20file%20making%20for%20HEC-RAS%202D/"/>
+    <id>https://fordy7014.github.io/2020/04/20/Land-use%20TIF%20file%20making%20for%20HEC-RAS%202D/</id>
+    <published>2020-04-20T04:04:57.000Z</published>
+    <updated>2020-05-22T00:55:30.338Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;For 2D analysis in HEC-RAS, we may need to a land use map to assign the manning factor as . How to make it? Of course we can make the
+        
+      
+    
+    </summary>
+    
+    
+      <category term="April 2020" scheme="https://fordy7014.github.io/categories/April-2020/"/>
+    
+    
+      <category term="Arcmap" scheme="https://fordy7014.github.io/tags/Arcmap/"/>
+    
+      <category term="HEC-RAS" scheme="https://fordy7014.github.io/tags/HEC-RAS/"/>
+    
+      <category term="Raster" scheme="https://fordy7014.github.io/tags/Raster/"/>
+    
+  </entry>
+  
+  <entry>
     <title>How to merge many different raster files into one raster</title>
     <link href="https://fordy7014.github.io/2020/04/20/How%20to%20take%20many%20different%20rasters%20into%20one%20raster/"/>
     <id>https://fordy7014.github.io/2020/04/20/How%20to%20take%20many%20different%20rasters%20into%20one%20raster/</id>
@@ -458,37 +526,6 @@ from urllib.request import
       <category term="Arcmap" scheme="https://fordy7014.github.io/tags/Arcmap/"/>
     
       <category term="Raster" scheme="https://fordy7014.github.io/tags/Raster/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Land-use TIF file making for HEC-RAS 2D</title>
-    <link href="https://fordy7014.github.io/2020/04/20/Land-use%20TIF%20file%20making%20for%20HEC-RAS%202D/"/>
-    <id>https://fordy7014.github.io/2020/04/20/Land-use%20TIF%20file%20making%20for%20HEC-RAS%202D/</id>
-    <published>2020-04-20T04:04:57.000Z</published>
-    <updated>2020-05-22T00:55:30.338Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;p&gt;For 2D analysis in HEC-RAS, we may need to a land use map to assign the manning factor as . How to make it? Of course we can make the
-        
-      
-    
-    </summary>
-    
-    
-      <category term="April 2020" scheme="https://fordy7014.github.io/categories/April-2020/"/>
-    
-    
-      <category term="Arcmap" scheme="https://fordy7014.github.io/tags/Arcmap/"/>
-    
-      <category term="Raster" scheme="https://fordy7014.github.io/tags/Raster/"/>
-    
-      <category term="HEC-RAS" scheme="https://fordy7014.github.io/tags/HEC-RAS/"/>
     
   </entry>
   
@@ -578,36 +615,6 @@ from pandas import DataFrame,
     
     
       <category term="Matplotlib" scheme="https://fordy7014.github.io/tags/Matplotlib/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>How to make Choropleth map about Covid-19 Cases in New Zealand</title>
-    <link href="https://fordy7014.github.io/2020/04/14/How%20to%20make%20Choropleth%20map%20about%20Covid-19%20Cases%20in%20New%20Zealand/"/>
-    <id>https://fordy7014.github.io/2020/04/14/How%20to%20make%20Choropleth%20map%20about%20Covid-19%20Cases%20in%20New%20Zealand/</id>
-    <published>2020-04-14T06:04:57.000Z</published>
-    <updated>2020-05-22T00:55:25.023Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;h2 id=&quot;Import-the-packages&quot;&gt;Import the packages&lt;/h2&gt;
-&lt;pre class=&quot; language-language-python&quot;&gt;&lt;code class=&quot;language-language-python&quot;&gt;from
-        
-      
-    
-    </summary>
-    
-    
-      <category term="April 2020" scheme="https://fordy7014.github.io/categories/April-2020/"/>
-    
-    
-      <category term="Pandas" scheme="https://fordy7014.github.io/tags/Pandas/"/>
-    
-      <category term="Folium" scheme="https://fordy7014.github.io/tags/Folium/"/>
     
   </entry>
   
