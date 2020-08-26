@@ -379,7 +379,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>Word Count:&nbsp;&nbsp;
-                    552
+                    611
                 </div>
                 
 
@@ -478,13 +478,9 @@ Document  doc = Autodesk.AutoCAD.ApplicationServices.Application .DocumentManage
 Database  db = HostApplicationServices.WorkingDatabase;  
 </code></pre>
 <p><img src="/2020/08/23/20200823AutoCAD%20developer's%20tools%20--%20Brief%20Introduction/2.png" alt="Table"></p>
-<p>From the database, we can access the Tables as shown in the figure above, from which we can get the object ID. With the ID, we can get the objects in AutoCAD.</p>
-<pre class=" language-language-c#"><code class="language-language-c#">
-using (Transaction tr = dbTM.StartTransaction())
-{
-  BlockTableRecord btr = tr.GetObject(SymbolUtilityServices.GetBlockModelSpaceId(db), OpenMode.ForRead) as BlockTableRecord;
-}
-</code></pre>
+<p>From the database, we can access the Tables as shown in the figure above, from which we can loop object IDs inside the different tables. With the ID, we can get the objects in AutoCAD.</p>
+<p><img src="/2020/08/23/20200823AutoCAD%20developer's%20tools%20--%20Brief%20Introduction/4.png" alt="Table List"></p>
+<p><img src="/2020/08/23/20200823AutoCAD%20developer's%20tools%20--%20Brief%20Introduction/5.png" alt="Database Tables"></p>
 <h3 id="04-Transaction">04. Transaction</h3>
 <p>Transactions are used to group multiple operations on multiple objects together as a single operation. Transactions are started and managed through the Transaction Manager. Once a transaction is started, you can then use the GetObject function to open an object.</p>
 <pre class=" language-language-C#"><code class="language-language-C#">Database  db = HostApplicationServices.WorkingDatabase;  // current database
@@ -495,7 +491,7 @@ tr.Commit();  // commit the transaction
 }
 </code></pre>
 <h1>Reference</h1>
-<p><a href="http://docs.autodesk.com/ACD/2010/ENU/AutoCAD%20.NET%20Developer' target=" _blank" rel="noopener" s%20guide index.html?url="WS1a9193826455f5ff2566ffd511ff6f8c7ca-3e30.htm,topicNumber=d0e26245&quot;">http://docs.autodesk.com/ACD/2010/ENU/AutoCAD .NET Developer’s Guide/index.html?url=WS1a9193826455f5ff2566ffd511ff6f8c7ca-3e30.htm,topicNumber=d0e26245</a></p>
+<p><a href="http://docs.autodesk.com/ACD/2010/ENU/AutoCAD%20.NET%20Developer' target=" _blank"="" rel="noopener" s%20guide="" index.html?url="WS1a9193826455f5ff2566ffd511ff6f8c7ca-3e30.htm,topicNumber=d0e26245" "="">http://docs.autodesk.com/ACD/2010/ENU/AutoCAD .NET Developer’s Guide/index.html?url=WS1a9193826455f5ff2566ffd511ff6f8c7ca-3e30.htm,topicNumber=d0e26245</a></p>
 <script>
         document.querySelectorAll('.github-emoji')
           .forEach(el => {
