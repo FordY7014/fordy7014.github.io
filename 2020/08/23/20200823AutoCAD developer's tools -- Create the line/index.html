@@ -379,7 +379,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>Word Count:&nbsp;&nbsp;
-                    576
+                    624
                 </div>
                 
 
@@ -402,7 +402,8 @@
 <hr>
 <h2 id="The-Document-Object">The Document Object</h2>
 <h3 id="01-Application">01. Application</h3>
-<p>The Application object is the root object of the AutoCAD .NET API. From the Application object, you can access the main window as well as any open drawing. Once you have a drawing, you can then access the objects in the drawing. For information on working with open drawing files (documents) see, The Document Object.</p>
+<p>The Application object is the root object of the AutoCAD .NET API. From the Application object, you can access the main window as well as any open drawing. Once you have a drawing, you can then access the objects in the drawing. For information on working with open drawing files (documents) see, The Document Object.<br>
+<img src="/2020/08/23/20200823AutoCAD%20developer's%20tools%20--%20Create%20the%20line/1.png" alt="Application Tree"></p>
 <blockquote>
 <p>DocumentManager</p>
 <blockquote>
@@ -465,6 +466,7 @@
 </blockquote>
 <h3 id="02-Document">02. Document</h3>
 <p>The Document object, which is actually an AutoCAD drawing, is part of the DocumentCollection object and provides access to the Database object which is associated with the Document object. The Database object contains all of the graphical and most of the nongraphical AutoCAD objects.</p>
+<p><img src="/2020/08/23/20200823AutoCAD%20developer's%20tools%20--%20Create%20the%20line/3.png" alt="Document Tree"></p>
 <pre class=" language-language-C#"><code class="language-language-C#">Get the current document and database
 Document  doc = Autodesk.AutoCAD.ApplicationServices.Application .DocumentManager.MdiActiveDocument;  
 </code></pre>
@@ -474,6 +476,14 @@ Document  doc = Autodesk.AutoCAD.ApplicationServices.Application .DocumentManage
  Database  db = Autodesk.AutoCAD.ApplicationServices. Application .DocumentManager.MdiActiveDocument.Database;
 
 Database  db = HostApplicationServices.WorkingDatabase;  
+</code></pre>
+<p><img src="/2020/08/23/20200823AutoCAD%20developer's%20tools%20--%20Create%20the%20line/2.png" alt="Table"></p>
+<p>From the database, we can access the Tables as shown in the figure above, from which we can get the object ID. With the ID, we can get the objects in AutoCAD.</p>
+<pre class=" language-language-c#"><code class="language-language-c#">
+using (Transaction tr = dbTM.StartTransaction())
+{
+  BlockTableRecord btr = tr.GetObject(SymbolUtilityServices.GetBlockModelSpaceId(db), OpenMode.ForRead) as BlockTableRecord;
+}
 </code></pre>
 <h3 id="04-Transaction">04. Transaction</h3>
 <p>Transactions are used to group multiple operations on multiple objects together as a single operation. Transactions are started and managed through the Transaction Manager. Once a transaction is started, you can then use the GetObject function to open an object.</p>
