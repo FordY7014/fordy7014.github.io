@@ -370,7 +370,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>Publish Date:&nbsp;&nbsp;
-                    2020-08-15
+                    2020-08-22
                 </div>
                 
 
@@ -379,7 +379,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>Word Count:&nbsp;&nbsp;
-                    363
+                    374
                 </div>
                 
 
@@ -396,13 +396,13 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1>Start up with the Environment</h1>
+                <h2 id="01-Start-up-with-the-Environment">01.Start up with the Environment</h2>
 <ul>
 <li>Language: C#</li>
 <li>IDE: VS2019</li>
 <li>CAD: 2019</li>
 </ul>
-<p>The relationship between CAD edition and .Net Edition</p>
+<p>The relationship between CAD edition and product codes for installation</p>
 <pre><code>R19.0: 2013
 R19.1: 2014
 R20.0: 2015
@@ -410,23 +410,25 @@ R20.1:2016
 R21.0:2017
 R22.0:2018
 R23.0:2019
-R23.1:2020
+R23.1:2020  
 R24.0:2021
 
 </code></pre>
-<h1>Create a new project</h1>
+<hr>
+<h2 id="02-Create-a-new-project">02. Create a new project</h2>
 <p>Build up  a class file which can be loaded by AutoCAD later for use.</p>
 <ol>
 <li>Start Visual Studio</li>
 </ol>
-<p><img src="/2020/08/15/20200822AutoCAD%20developer's%20tools%20--%20Environment/1.png" alt="Create new project"></p>
+<p><img src="/2020/08/22/20200822AutoCAD%20developer's%20tools%20--%20Environment/1.png" alt="Create new project"></p>
 <ol start="2">
-<li>Create new project with .NetFramework<br>
-<img src="/2020/08/15/20200822AutoCAD%20developer's%20tools%20--%20Environment/2.png" alt="input name"></li>
+<li>Create new project with .NetFramework 4.7<br>
+<img src="/2020/08/22/20200822AutoCAD%20developer's%20tools%20--%20Environment/2.png" alt="Input the Project name"></li>
 </ol>
-<h1>Load the files</h1>
+<hr>
+<h2 id="03-Load-the-files">03. Load the files</h2>
 <p>The we load the .dll file in the AutoCAD root folder into the projects, then the code we write can use them to command AutoCAD.</p>
-<p><img src="/2020/08/15/20200822AutoCAD%20developer's%20tools%20--%20Environment/4.png" alt="load files"></p>
+<p><img src="/2020/08/22/20200822AutoCAD%20developer's%20tools%20--%20Environment/4.png" alt="Load AutoCAD assembly files"></p>
 <blockquote>
 <p>turn “copy Local” to False</p>
 </blockquote>
@@ -435,9 +437,10 @@ R24.0:2021
 AcMgd.dll. Use when working with the AutoCAD application.
 AcCui.dll. Use when working with customization files.
 </code></pre>
-<h1>Write the code</h1>
+<hr>
+<h2 id="04-Write-the-code">04. Write the code</h2>
 <p>Once we load the .dll files, Visual Studio is smart enough to remind us to using the right assembly as show in the figure below.</p>
-<p><img src="/2020/08/15/20200822AutoCAD%20developer's%20tools%20--%20Environment/5.png" alt="using the assembly"></p>
+<p><img src="/2020/08/22/20200822AutoCAD%20developer's%20tools%20--%20Environment/5.png" alt="Using the assembly"></p>
 <pre class=" language-language-C#"><code class="language-language-C#">namespace _01.Environment_Build_up_Demo
 {
     public class Class1
@@ -453,21 +456,24 @@ AcCui.dll. Use when working with customization files.
 }
 
 </code></pre>
-<h1>Build up the code</h1>
+<hr>
+<h2 id="05-Build-up-the-code">05. Build up the code</h2>
 <p>Main Menu -&gt; Build -&gt; Rebuild solution<br>
 then the .dll file will be built up.<br>
-<img src="/2020/08/15/20200822AutoCAD%20developer's%20tools%20--%20Environment/6.png" alt="build up the first .dll file"></p>
+<img src="/2020/08/22/20200822AutoCAD%20developer's%20tools%20--%20Environment/6.png" alt="Build up the first .dll file"></p>
 <p>Several seconds later, we can see the “succeeded” information.</p>
-<p><img src="/2020/08/15/20200822AutoCAD%20developer's%20tools%20--%20Environment/7.png" alt="succeeded"></p>
-<h1>Run the code in AutoCAD</h1>
+<p><img src="/2020/08/22/20200822AutoCAD%20developer's%20tools%20--%20Environment/7.png" alt="Succeeded in Build-up"></p>
+<hr>
+<h2 id="06-Run-the-code-in-AutoCAD">06. Run the code in AutoCAD</h2>
 <p>The we need to start up AutoCAD, and then input netload to load the .dll we write into CAD,</p>
-<p><img src="/2020/08/15/20200822AutoCAD%20developer's%20tools%20--%20Environment/8.png" alt="load the dll file"></p>
+<p><img src="/2020/08/22/20200822AutoCAD%20developer's%20tools%20--%20Environment/8.png" alt="Load our dll file"></p>
 <p>The we input the command into the</p>
 <blockquote>
 <p><em>CommandDemo</em></p>
 </blockquote>
-<p><img src="/2020/08/15/20200822AutoCAD%20developer's%20tools%20--%20Environment/9.png" alt="info"></p>
-<h1>Solution files in VS</h1>
+<p><img src="/2020/08/22/20200822AutoCAD%20developer's%20tools%20--%20Environment/9.png" alt="Show up the message"></p>
+<hr>
+<h2 id="07-Solution-files-in-VS">07. Solution files in VS</h2>
 <p>Project and solution files have the following file extensions:</p>
 <ol>
 <li>VBPROJ - Microsoft Visual Basic (VB) .NET project file</li>
@@ -519,7 +525,7 @@ then the .dll file will be built up.<br>
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://fordy7014.github.io/2020/08/15/20200822AutoCAD%20developer's%20tools%20--%20Environment/">https://fordy7014.github.io/2020/08/15/20200822AutoCAD%20developer's%20tools%20--%20Environment/</a>
+                    <a href="https://fordy7014.github.io/2020/08/22/20200822AutoCAD%20developer's%20tools%20--%20Environment/">https://fordy7014.github.io/2020/08/22/20200822AutoCAD%20developer's%20tools%20--%20Environment/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -612,24 +618,25 @@ then the .dll file will be built up.<br>
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;Previous</div>
             <div class="card">
-                <a href="/2020/08/15/20200815My%20route%20on%20AutoCAD%20DOTNET%20Developer/">
+                <a href="/2020/08/23/20200823AutoCAD%20developer's%20tools%20--%20Create%20the%20line/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/17.jpg" class="responsive-img" alt="My route on AutoCAD .NET Developer&#39;s tools">
+                        <img src="/medias/featureimages/4.jpg" class="responsive-img" alt="02. Brief Introduction">
                         
-                        <span class="card-title">My route on AutoCAD .NET Developer&#39;s tools</span>
+                        <span class="card-title">02. Brief Introduction</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            I have applied AutoCAD .NetAPI for writing some tools in the recent several month, but I still have not understand it so
+                            Before entering the main topic, I would like to write some background information.
+Understand the AutoCAD Object Hierarc
                         
                     </div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2020-08-15
+                            <i class="far fa-clock fa-fw icon-date"></i>2020-08-23
                         </span>
                         <span class="publish-author">
                             
@@ -669,31 +676,31 @@ then the .dll file will be built up.<br>
                 Next&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/06/22/20200622Civil3D%20Ribbon%20Demo/">
+                <a href="/2020/08/15/20200815My%20route%20on%20AutoCAD%20DOTNET%20Developer/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/16.jpg" class="responsive-img" alt="Civil3d Ribbon Demo (Automate the repetitive tasks)">
+                        <img src="/medias/featureimages/17.jpg" class="responsive-img" alt="My route on AutoCAD .NET Developer&#39;s tools">
                         
-                        <span class="card-title">Civil3d Ribbon Demo (Automate the repetitive tasks)</span>
+                        <span class="card-title">My route on AutoCAD .NET Developer&#39;s tools</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            Recently I create a custom #Civil3D ribbon menu with #.NET API for the script I wrote. Now it is easier to use and can s
+                            I have applied AutoCAD .NetAPI for writing some tools in the recent several month, but I still have not understand it so
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-06-22
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-08-15
                             </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/June-2020/" class="post-category">
-                                    June 2020
+                            <a href="/categories/August-2020/" class="post-category">
+                                    August 2020
                                 </a>
                             
                             

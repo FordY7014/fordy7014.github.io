@@ -1559,102 +1559,6 @@ ax.legend()
       </tags>
   </entry>
   <entry>
-    <title>How to autoload *.dll in AutoCAD</title>
-    <url>/2020/06/01/20200602How%20to%20autoload%20dll%20in%20AutoCAD/</url>
-    <content><![CDATA[<hr>
-<h3 id="Enter-the-folder">Enter the folder</h3>
-<p>First step is to create a bundle folder in “%ProgramData%/Autodesk/ApplicationPlugins”. the bundle folder is a normal windows folder that ends with .bundle (ex. MyApp.bundle)</p>
-<p><img src="/2020/06/01/20200602How%20to%20autoload%20dll%20in%20AutoCAD/11.PNG" alt="FlolderLocation"></p>
-<hr>
-<h3 id="Folder-contents">Folder contents</h3>
-<p>Inside this folder there should be a folder named (“Contents”) and a file named (“PackageContents.xml”).</p>
-<p>Place *.dll inside the contents folder</p>
-<p><img src="/2020/06/01/20200602How%20to%20autoload%20dll%20in%20AutoCAD/22.PNG" alt="folderContent"></p>
-<hr>
-<h3 id="Modify-the-XML-file">Modify the XML file</h3>
-<p>code inside PackageContents.xml can be as simple as the following (Change things like “MyApp”, “MyName”, etc… and it works):</p>
-<pre class=" language-language-xml"><code class="language-language-xml"><?xml version="1.0" encoding="utf-8"?>
-<ApplicationPackage SchemaVersion="1.0" ProductType="Application" Name="MyAPP" AppVersion="1.0" Description="MyAPP, My description" Author="My Name" Icon="./Contents/MyAPPIcon.ico" OnlineDocumentation="http://MyWebSite.com" HelpFile="" ProductCode="{xxxxxx-xxxx-xxxx-xxxx-xxxxxxxxx}" FriendlyVersion="1.0" SupportedLocales="Enu" AutodeskProduct="AutoCAD">
-  <CompanyDetails Name="My Name" Phone=" " Url="http://MyWebsite.com" Email="MyName@MyWebSite.com" />
-  <Components Description="Main">
-    <RuntimeRequirements SupportPath="./Contents" OS="Win32|Win64" Platform="AutoCAD*" SeriesMin="R19.0" SeriesMax="R22.0" />
-    <ComponentEntry AppName="MyAPP" Version="1.0" ModuleName="./Contents/MyAPP.dll" AppDescription="My description" LoadOnAppearance="True" LoadOnAutoCADStartup="True" LoadOnCommandInvocation="True">
-    </ComponentEntry>
-  </Components>
-</ApplicationPackage>
-</code></pre>
-<p>Put the *.dll file inside the Contents folder.</p>
-<hr>
-<h3 id="ProductCode-GUID">ProductCode(GUID)</h3>
-<pre class=" language-language-csharp"><code class="language-language-csharp">private string getGUID()
-   {
-       System.Guid guid = new Guid();
-       guid = Guid.NewGuid();
-       string str = guid.ToString();
-       return str;
-   }
-</code></pre>
-<p>or on the visual Studio</p>
-<pre><code>Tools ----Create GUID
-</code></pre>
-<hr>
-<h3 id="Auto-Run-Command-when-loading-dll-file">Auto Run Command when loading .dll file</h3>
-<pre><code>&lt;?xml version="1.0" encoding="utf-8"?&gt;
-&lt;ApplicationPackage SchemaVersion="1.0" AppVersion="1.0.0" ProductType="Application"
-    ProductCode="{6A1C1EAE-3744-4BD8-AF08-F322E92D9B3B}"
-    Name="RibbonTest"  Description="MyAPP, My description"  SupportedLocales="Enu" AutodeskProduct="AutoCAD"&gt;
-  &lt;CompanyDetails Name="myribbontest" Email="yangfan7014@gmail.com" /&gt;
-  &lt;RuntimeRequirements SupportPath="./Contents" OS="Win32|Win64" Platform="AutoCAD*|AutoCAD" SeriesMin="R20.1" SeriesMax="R24.0"/&gt;
-  &lt;Components Description="Main"&gt;
-
-    &lt;ComponentEntry  AppName="MyAPP" Version="1.0.0" ModuleName="./Contents/18RibbonT.dll" LoadOnAppearance="True" LoadOnAutoCADStartup="True" LoadOnCommandInvocation="True"&gt;
-      &lt;Commands GroupName="_18RibbonT"&gt;
-        &lt;Command Local="RibbonDemo" Global="RibbonDemo" StartupCommand = "True" /&gt;
-      &lt;/Commands&gt;
-	  &lt;/ComponentEntry&gt;
-
-    &lt;ComponentEntry  AppName="Ramps" Version="1.0.0" ModuleName="./Contents/Ramps.dll" LoadOnAutoCADStartup="True"&gt;
-      &lt;Commands GroupName="Commands"&gt;
-        &lt;Command Local="CRAMPS" Global="CRAMPS" /&gt;
-      &lt;/Commands&gt;
-    &lt;/ComponentEntry&gt;		
-
-  &lt;/Components&gt;
-&lt;/ApplicationPackage&gt;
-</code></pre>
-<h1>Reference</h1>
-<p><a href="https://adndevblog.typepad.com/autocad/2013/01/autodesk-autoloader-white-paper.html" target="_blank" rel="noopener">https://adndevblog.typepad.com/autocad/2013/01/autodesk-autoloader-white-paper.html</a><br>
-<a href="https://stackoverflow.com/questions/46282189/autocad-2018-autoload-dll" target="_blank" rel="noopener">https://stackoverflow.com/questions/46282189/autocad-2018-autoload-dll</a><br>
-<a href="https://stackoverflow.com/questions/46282189/autocad-2018-autoload-dll" target="_blank" rel="noopener">https://stackoverflow.com/questions/46282189/autocad-2018-autoload-dll</a><br>
-<a href="https://www.cnblogs.com/linzheng/archive/2010/12/14/1905906.html" target="_blank" rel="noopener">https://www.cnblogs.com/linzheng/archive/2010/12/14/1905906.html</a></p>
-<script>
-        document.querySelectorAll('.github-emoji')
-          .forEach(el => {
-            if (!el.dataset.src) { return; }
-            const img = document.createElement('img');
-            img.style = 'display:none !important;';
-            img.src = el.dataset.src;
-            img.addEventListener('error', () => {
-              img.remove();
-              el.style.color = 'inherit';
-              el.style.backgroundImage = 'none';
-              el.style.background = 'none';
-            });
-            img.addEventListener('load', () => {
-              img.remove();
-            });
-            document.body.appendChild(img);
-          });
-      </script>]]></content>
-      <categories>
-        <category>June 2020</category>
-      </categories>
-      <tags>
-        <tag>Civil3d</tag>
-        <tag>AutoCAD API</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Set Viewport in AutoCad .Net API</title>
     <url>/2020/06/15/20200615Set%20Viewport%20in%20AutoCad%20.Net%20API/</url>
     <content><![CDATA[<hr>
@@ -1753,45 +1657,6 @@ Mostly we have different plans such as drainage or driveway plan on same site, i
       </tags>
   </entry>
   <entry>
-    <title>Civil3d Ribbon Demo (Automate the repetitive tasks)</title>
-    <url>/2020/06/22/20200622Civil3D%20Ribbon%20Demo/</url>
-    <content><![CDATA[<p>Recently I create a custom #Civil3D ribbon menu with #.NET API for the script I wrote. Now it is easier to use and can save us time for repetitive tasks.</p>
-<hr>
-<h2 id="Edit-Reference-Surface-Of-Network">Edit Reference Surface Of Network</h2>
-<h2 id="Edit-Reference-Surface-Of-Network-2"><img src="/2020/06/22/20200622Civil3D%20Ribbon%20Demo/EditReferenceSurfaceOfNetwork.gif" alt="Edit Reference Surface Of Network"></h2>
-<h2 id="Adjust-the-multiple-viewports-by-several-clicks">Adjust the multiple viewports by several clicks</h2>
-<p><img src="/2020/06/22/20200622Civil3D%20Ribbon%20Demo/Adjustthemultipleviewportsinseconds2.gif" alt="Adjust the multiple viewports by several clicks"></p>
-<h2 id="get-Lot-Area-Info-and-export-to-Excel-file">get Lot Area Info and export to Excel file</h2>
-<p><img src="/2020/06/22/20200622Civil3D%20Ribbon%20Demo/LotAreaTableGeneration3.gif" alt="get Lot Area Info and export to Excel file"></p>
-<script>
-        document.querySelectorAll('.github-emoji')
-          .forEach(el => {
-            if (!el.dataset.src) { return; }
-            const img = document.createElement('img');
-            img.style = 'display:none !important;';
-            img.src = el.dataset.src;
-            img.addEventListener('error', () => {
-              img.remove();
-              el.style.color = 'inherit';
-              el.style.backgroundImage = 'none';
-              el.style.background = 'none';
-            });
-            img.addEventListener('load', () => {
-              img.remove();
-            });
-            document.body.appendChild(img);
-          });
-      </script>]]></content>
-      <categories>
-        <category>June 2020</category>
-      </categories>
-      <tags>
-        <tag>Civil3d</tag>
-        <tag>AutoCAD API</tag>
-        <tag>C#</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Prompt to Select one type of object in .NetAPI(Ironpython)</title>
     <url>/2020/06/16/20200616Prompt%20to%20Select%20one%20type%20of%20object/</url>
     <content><![CDATA[<hr>
@@ -1873,11 +1738,74 @@ except:
       </tags>
   </entry>
   <entry>
-    <title>My route on AutoCAD .NET Developer&#39;s tools</title>
-    <url>/2020/08/15/20200815My%20route%20on%20AutoCAD%20DOTNET%20Developer/</url>
-    <content><![CDATA[<p>I have applied AutoCAD .NetAPI for writing some tools in the recent several month, but I still have not understand it so well. Every time I had to waste lots of time on searching for related information.  Therefore, I decided to write learning notes for what I have learnt and build my personal knowledge system on this topic from now on.</p>
+    <title>How to autoload *.dll in AutoCAD</title>
+    <url>/2020/06/01/20200602How%20to%20autoload%20dll%20in%20AutoCAD/</url>
+    <content><![CDATA[<hr>
+<h3 id="Enter-the-folder">Enter the folder</h3>
+<p>First step is to create a bundle folder in “%ProgramData%/Autodesk/ApplicationPlugins”. the bundle folder is a normal windows folder that ends with .bundle (ex. MyApp.bundle)</p>
+<p><img src="/2020/06/01/20200602How%20to%20autoload%20dll%20in%20AutoCAD/11.PNG" alt="FlolderLocation"></p>
+<hr>
+<h3 id="Folder-contents">Folder contents</h3>
+<p>Inside this folder there should be a folder named (“Contents”) and a file named (“PackageContents.xml”).</p>
+<p>Place *.dll inside the contents folder</p>
+<p><img src="/2020/06/01/20200602How%20to%20autoload%20dll%20in%20AutoCAD/22.PNG" alt="folderContent"></p>
+<hr>
+<h3 id="Modify-the-XML-file">Modify the XML file</h3>
+<p>code inside PackageContents.xml can be as simple as the following (Change things like “MyApp”, “MyName”, etc… and it works):</p>
+<pre class=" language-language-xml"><code class="language-language-xml"><?xml version="1.0" encoding="utf-8"?>
+<ApplicationPackage SchemaVersion="1.0" ProductType="Application" Name="MyAPP" AppVersion="1.0" Description="MyAPP, My description" Author="My Name" Icon="./Contents/MyAPPIcon.ico" OnlineDocumentation="http://MyWebSite.com" HelpFile="" ProductCode="{xxxxxx-xxxx-xxxx-xxxx-xxxxxxxxx}" FriendlyVersion="1.0" SupportedLocales="Enu" AutodeskProduct="AutoCAD">
+  <CompanyDetails Name="My Name" Phone=" " Url="http://MyWebsite.com" Email="MyName@MyWebSite.com" />
+  <Components Description="Main">
+    <RuntimeRequirements SupportPath="./Contents" OS="Win32|Win64" Platform="AutoCAD*" SeriesMin="R19.0" SeriesMax="R22.0" />
+    <ComponentEntry AppName="MyAPP" Version="1.0" ModuleName="./Contents/MyAPP.dll" AppDescription="My description" LoadOnAppearance="True" LoadOnAutoCADStartup="True" LoadOnCommandInvocation="True">
+    </ComponentEntry>
+  </Components>
+</ApplicationPackage>
+</code></pre>
+<p>Put the *.dll file inside the Contents folder.</p>
+<hr>
+<h3 id="ProductCode-GUID">ProductCode(GUID)</h3>
+<pre class=" language-language-csharp"><code class="language-language-csharp">private string getGUID()
+   {
+       System.Guid guid = new Guid();
+       guid = Guid.NewGuid();
+       string str = guid.ToString();
+       return str;
+   }
+</code></pre>
+<p>or on the visual Studio</p>
+<pre><code>Tools ----Create GUID
+</code></pre>
+<hr>
+<h3 id="Auto-Run-Command-when-loading-dll-file">Auto Run Command when loading .dll file</h3>
+<pre><code>&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;ApplicationPackage SchemaVersion="1.0" AppVersion="1.0.0" ProductType="Application"
+    ProductCode="{6A1C1EAE-3744-4BD8-AF08-F322E92D9B3B}"
+    Name="RibbonTest"  Description="MyAPP, My description"  SupportedLocales="Enu" AutodeskProduct="AutoCAD"&gt;
+  &lt;CompanyDetails Name="myribbontest" Email="yangfan7014@gmail.com" /&gt;
+  &lt;RuntimeRequirements SupportPath="./Contents" OS="Win32|Win64" Platform="AutoCAD*|AutoCAD" SeriesMin="R20.1" SeriesMax="R24.0"/&gt;
+  &lt;Components Description="Main"&gt;
+
+    &lt;ComponentEntry  AppName="MyAPP" Version="1.0.0" ModuleName="./Contents/18RibbonT.dll" LoadOnAppearance="True" LoadOnAutoCADStartup="True" LoadOnCommandInvocation="True"&gt;
+      &lt;Commands GroupName="_18RibbonT"&gt;
+        &lt;Command Local="RibbonDemo" Global="RibbonDemo" StartupCommand = "True" /&gt;
+      &lt;/Commands&gt;
+	  &lt;/ComponentEntry&gt;
+
+    &lt;ComponentEntry  AppName="Ramps" Version="1.0.0" ModuleName="./Contents/Ramps.dll" LoadOnAutoCADStartup="True"&gt;
+      &lt;Commands GroupName="Commands"&gt;
+        &lt;Command Local="CRAMPS" Global="CRAMPS" /&gt;
+      &lt;/Commands&gt;
+    &lt;/ComponentEntry&gt;		
+
+  &lt;/Components&gt;
+&lt;/ApplicationPackage&gt;
+</code></pre>
 <h1>Reference</h1>
-<p><a href="http://docs.autodesk.com/ACD/2010/ENU/AutoCAD%20.NET%20Developer' target=" _blank"="" rel="noopener" s%20guide="" index.html?url="WS1a9193826455f5ff2566ffd511ff6f8c7ca-3e30.htm,topicNumber=d0e26245" "="">http://docs.autodesk.com/ACD/2010/ENU/AutoCAD .NET Developer’s Guide/index.html?url=WS1a9193826455f5ff2566ffd511ff6f8c7ca-3e30.htm,topicNumber=d0e26245</a></p>
+<p><a href="https://adndevblog.typepad.com/autocad/2013/01/autodesk-autoloader-white-paper.html" target="_blank" rel="noopener">https://adndevblog.typepad.com/autocad/2013/01/autodesk-autoloader-white-paper.html</a><br>
+<a href="https://stackoverflow.com/questions/46282189/autocad-2018-autoload-dll" target="_blank" rel="noopener">https://stackoverflow.com/questions/46282189/autocad-2018-autoload-dll</a><br>
+<a href="https://stackoverflow.com/questions/46282189/autocad-2018-autoload-dll" target="_blank" rel="noopener">https://stackoverflow.com/questions/46282189/autocad-2018-autoload-dll</a><br>
+<a href="https://www.cnblogs.com/linzheng/archive/2010/12/14/1905906.html" target="_blank" rel="noopener">https://www.cnblogs.com/linzheng/archive/2010/12/14/1905906.html</a></p>
 <script>
         document.querySelectorAll('.github-emoji')
           .forEach(el => {
@@ -1898,12 +1826,11 @@ except:
           });
       </script>]]></content>
       <categories>
-        <category>August 2020</category>
+        <category>June 2020</category>
       </categories>
       <tags>
         <tag>Civil3d</tag>
         <tag>AutoCAD API</tag>
-        <tag>C#</tag>
       </tags>
   </entry>
   <entry>
@@ -2000,117 +1927,6 @@ public static void MultipleSelectionFilter()
       </script>]]></content>
       <categories>
         <category>June 2020</category>
-      </categories>
-      <tags>
-        <tag>Civil3d</tag>
-        <tag>AutoCAD API</tag>
-        <tag>C#</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>01. &quot;Hello world&quot; message in AutoCAD editor Example</title>
-    <url>/2020/08/15/20200822AutoCAD%20developer&#39;s%20tools%20--%20Environment/</url>
-    <content><![CDATA[<h1>Start up with the Environment</h1>
-<ul>
-<li>Language: C#</li>
-<li>IDE: VS2019</li>
-<li>CAD: 2019</li>
-</ul>
-<p>The relationship between CAD edition and .Net Edition</p>
-<pre><code>R19.0: 2013
-R19.1: 2014
-R20.0: 2015
-R20.1:2016
-R21.0:2017
-R22.0:2018
-R23.0:2019
-R23.1:2020
-R24.0:2021
-
-</code></pre>
-<h1>Create a new project</h1>
-<p>Build up  a class file which can be loaded by AutoCAD later for use.</p>
-<ol>
-<li>Start Visual Studio</li>
-</ol>
-<p><img src="/2020/08/15/20200822AutoCAD%20developer's%20tools%20--%20Environment/1.png" alt="Create new project"></p>
-<ol start="2">
-<li>Create new project with .NetFramework<br>
-<img src="/2020/08/15/20200822AutoCAD%20developer's%20tools%20--%20Environment/2.png" alt="input name"></li>
-</ol>
-<h1>Load the files</h1>
-<p>The we load the .dll file in the AutoCAD root folder into the projects, then the code we write can use them to command AutoCAD.</p>
-<p><img src="/2020/08/15/20200822AutoCAD%20developer's%20tools%20--%20Environment/4.png" alt="load files"></p>
-<blockquote>
-<p>turn “copy Local” to False</p>
-</blockquote>
-<p>The brief info the main three .dll files are listed as below.</p>
-<pre><code>AcDbMgd.dll. Use when working with objects in a drawing file.
-AcMgd.dll. Use when working with the AutoCAD application.
-AcCui.dll. Use when working with customization files.
-</code></pre>
-<h1>Write the code</h1>
-<p>Once we load the .dll files, Visual Studio is smart enough to remind us to using the right assembly as show in the figure below.</p>
-<p><img src="/2020/08/15/20200822AutoCAD%20developer's%20tools%20--%20Environment/5.png" alt="using the assembly"></p>
-<pre class=" language-language-C#"><code class="language-language-C#">namespace _01.Environment_Build_up_Demo
-{
-    public class Class1
-    {
-        [CommandMethod("CommandDemo")]
-        public void Demo1()
-        {
-            Editor ed = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument.Editor;
-            ed.WriteMessage("Hello World");
-        }
-
-    }
-}
-
-</code></pre>
-<h1>Build up the code</h1>
-<p>Main Menu -&gt; Build -&gt; Rebuild solution<br>
-then the .dll file will be built up.<br>
-<img src="/2020/08/15/20200822AutoCAD%20developer's%20tools%20--%20Environment/6.png" alt="build up the first .dll file"></p>
-<p>Several seconds later, we can see the “succeeded” information.</p>
-<p><img src="/2020/08/15/20200822AutoCAD%20developer's%20tools%20--%20Environment/7.png" alt="succeeded"></p>
-<h1>Run the code in AutoCAD</h1>
-<p>The we need to start up AutoCAD, and then input netload to load the .dll we write into CAD,</p>
-<p><img src="/2020/08/15/20200822AutoCAD%20developer's%20tools%20--%20Environment/8.png" alt="load the dll file"></p>
-<p>The we input the command into the</p>
-<blockquote>
-<p><em>CommandDemo</em></p>
-</blockquote>
-<p><img src="/2020/08/15/20200822AutoCAD%20developer's%20tools%20--%20Environment/9.png" alt="info"></p>
-<h1>Solution files in VS</h1>
-<p>Project and solution files have the following file extensions:</p>
-<ol>
-<li>VBPROJ - Microsoft Visual Basic (VB) .NET project file</li>
-<li>CSPROJ - Microsoft Visual C# project file</li>
-<li>SLN - Microsoft Visual Studio solution file```</li>
-</ol>
-<h1>Reference</h1>
-<p><a href="http://docs.autodesk.com/ACD/2010/ENU/AutoCAD%20.NET%20Developer' target=" _blank"="" rel="noopener" s%20guide="" index.html?url="WS1a9193826455f5ff2566ffd511ff6f8c7ca-3e30.htm,topicNumber=d0e26245" "="">http://docs.autodesk.com/ACD/2010/ENU/AutoCAD .NET Developer’s Guide/index.html?url=WS1a9193826455f5ff2566ffd511ff6f8c7ca-3e30.htm,topicNumber=d0e26245</a></p>
-<script>
-        document.querySelectorAll('.github-emoji')
-          .forEach(el => {
-            if (!el.dataset.src) { return; }
-            const img = document.createElement('img');
-            img.style = 'display:none !important;';
-            img.src = el.dataset.src;
-            img.addEventListener('error', () => {
-              img.remove();
-              el.style.color = 'inherit';
-              el.style.backgroundImage = 'none';
-              el.style.background = 'none';
-            });
-            img.addEventListener('load', () => {
-              img.remove();
-            });
-            document.body.appendChild(img);
-          });
-      </script>]]></content>
-      <categories>
-        <category>August 2020</category>
       </categories>
       <tags>
         <tag>Civil3d</tag>
@@ -2225,6 +2041,196 @@ public static DBObjectCollection GetSelection(FilterType[] tps)
       </tags>
   </entry>
   <entry>
+    <title>Civil3d Ribbon Demo (Automate the repetitive tasks)</title>
+    <url>/2020/06/22/20200622Civil3D%20Ribbon%20Demo/</url>
+    <content><![CDATA[<p>Recently I create a custom #Civil3D ribbon menu with #.NET API for the script I wrote. Now it is easier to use and can save us time for repetitive tasks.</p>
+<hr>
+<h2 id="Edit-Reference-Surface-Of-Network">Edit Reference Surface Of Network</h2>
+<h2 id="Edit-Reference-Surface-Of-Network-2"><img src="/2020/06/22/20200622Civil3D%20Ribbon%20Demo/EditReferenceSurfaceOfNetwork.gif" alt="Edit Reference Surface Of Network"></h2>
+<h2 id="Adjust-the-multiple-viewports-by-several-clicks">Adjust the multiple viewports by several clicks</h2>
+<p><img src="/2020/06/22/20200622Civil3D%20Ribbon%20Demo/Adjustthemultipleviewportsinseconds2.gif" alt="Adjust the multiple viewports by several clicks"></p>
+<h2 id="get-Lot-Area-Info-and-export-to-Excel-file">get Lot Area Info and export to Excel file</h2>
+<p><img src="/2020/06/22/20200622Civil3D%20Ribbon%20Demo/LotAreaTableGeneration3.gif" alt="get Lot Area Info and export to Excel file"></p>
+<script>
+        document.querySelectorAll('.github-emoji')
+          .forEach(el => {
+            if (!el.dataset.src) { return; }
+            const img = document.createElement('img');
+            img.style = 'display:none !important;';
+            img.src = el.dataset.src;
+            img.addEventListener('error', () => {
+              img.remove();
+              el.style.color = 'inherit';
+              el.style.backgroundImage = 'none';
+              el.style.background = 'none';
+            });
+            img.addEventListener('load', () => {
+              img.remove();
+            });
+            document.body.appendChild(img);
+          });
+      </script>]]></content>
+      <categories>
+        <category>June 2020</category>
+      </categories>
+      <tags>
+        <tag>Civil3d</tag>
+        <tag>AutoCAD API</tag>
+        <tag>C#</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>01. &quot;Hello world&quot; message in AutoCAD editor Example</title>
+    <url>/2020/08/22/20200822AutoCAD%20developer&#39;s%20tools%20--%20Environment/</url>
+    <content><![CDATA[<h2 id="01-Start-up-with-the-Environment">01.Start up with the Environment</h2>
+<ul>
+<li>Language: C#</li>
+<li>IDE: VS2019</li>
+<li>CAD: 2019</li>
+</ul>
+<p>The relationship between CAD edition and product codes for installation</p>
+<pre><code>R19.0: 2013
+R19.1: 2014
+R20.0: 2015
+R20.1:2016
+R21.0:2017
+R22.0:2018
+R23.0:2019
+R23.1:2020  
+R24.0:2021
+
+</code></pre>
+<hr>
+<h2 id="02-Create-a-new-project">02. Create a new project</h2>
+<p>Build up  a class file which can be loaded by AutoCAD later for use.</p>
+<ol>
+<li>Start Visual Studio</li>
+</ol>
+<p><img src="/2020/08/22/20200822AutoCAD%20developer's%20tools%20--%20Environment/1.png" alt="Create new project"></p>
+<ol start="2">
+<li>Create new project with .NetFramework 4.7<br>
+<img src="/2020/08/22/20200822AutoCAD%20developer's%20tools%20--%20Environment/2.png" alt="Input the Project name"></li>
+</ol>
+<hr>
+<h2 id="03-Load-the-files">03. Load the files</h2>
+<p>The we load the .dll file in the AutoCAD root folder into the projects, then the code we write can use them to command AutoCAD.</p>
+<p><img src="/2020/08/22/20200822AutoCAD%20developer's%20tools%20--%20Environment/4.png" alt="Load AutoCAD assembly files"></p>
+<blockquote>
+<p>turn “copy Local” to False</p>
+</blockquote>
+<p>The brief info the main three .dll files are listed as below.</p>
+<pre><code>AcDbMgd.dll. Use when working with objects in a drawing file.
+AcMgd.dll. Use when working with the AutoCAD application.
+AcCui.dll. Use when working with customization files.
+</code></pre>
+<hr>
+<h2 id="04-Write-the-code">04. Write the code</h2>
+<p>Once we load the .dll files, Visual Studio is smart enough to remind us to using the right assembly as show in the figure below.</p>
+<p><img src="/2020/08/22/20200822AutoCAD%20developer's%20tools%20--%20Environment/5.png" alt="Using the assembly"></p>
+<pre class=" language-language-C#"><code class="language-language-C#">namespace _01.Environment_Build_up_Demo
+{
+    public class Class1
+    {
+        [CommandMethod("CommandDemo")]
+        public void Demo1()
+        {
+            Editor ed = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument.Editor;
+            ed.WriteMessage("Hello World");
+        }
+
+    }
+}
+
+</code></pre>
+<hr>
+<h2 id="05-Build-up-the-code">05. Build up the code</h2>
+<p>Main Menu -&gt; Build -&gt; Rebuild solution<br>
+then the .dll file will be built up.<br>
+<img src="/2020/08/22/20200822AutoCAD%20developer's%20tools%20--%20Environment/6.png" alt="Build up the first .dll file"></p>
+<p>Several seconds later, we can see the “succeeded” information.</p>
+<p><img src="/2020/08/22/20200822AutoCAD%20developer's%20tools%20--%20Environment/7.png" alt="Succeeded in Build-up"></p>
+<hr>
+<h2 id="06-Run-the-code-in-AutoCAD">06. Run the code in AutoCAD</h2>
+<p>The we need to start up AutoCAD, and then input netload to load the .dll we write into CAD,</p>
+<p><img src="/2020/08/22/20200822AutoCAD%20developer's%20tools%20--%20Environment/8.png" alt="Load our dll file"></p>
+<p>The we input the command into the</p>
+<blockquote>
+<p><em>CommandDemo</em></p>
+</blockquote>
+<p><img src="/2020/08/22/20200822AutoCAD%20developer's%20tools%20--%20Environment/9.png" alt="Show up the message"></p>
+<hr>
+<h2 id="07-Solution-files-in-VS">07. Solution files in VS</h2>
+<p>Project and solution files have the following file extensions:</p>
+<ol>
+<li>VBPROJ - Microsoft Visual Basic (VB) .NET project file</li>
+<li>CSPROJ - Microsoft Visual C# project file</li>
+<li>SLN - Microsoft Visual Studio solution file```</li>
+</ol>
+<h1>Reference</h1>
+<p><a href="http://docs.autodesk.com/ACD/2010/ENU/AutoCAD%20.NET%20Developer' target=" _blank"="" rel="noopener" s%20guide="" index.html?url="WS1a9193826455f5ff2566ffd511ff6f8c7ca-3e30.htm,topicNumber=d0e26245" "="">http://docs.autodesk.com/ACD/2010/ENU/AutoCAD .NET Developer’s Guide/index.html?url=WS1a9193826455f5ff2566ffd511ff6f8c7ca-3e30.htm,topicNumber=d0e26245</a></p>
+<script>
+        document.querySelectorAll('.github-emoji')
+          .forEach(el => {
+            if (!el.dataset.src) { return; }
+            const img = document.createElement('img');
+            img.style = 'display:none !important;';
+            img.src = el.dataset.src;
+            img.addEventListener('error', () => {
+              img.remove();
+              el.style.color = 'inherit';
+              el.style.backgroundImage = 'none';
+              el.style.background = 'none';
+            });
+            img.addEventListener('load', () => {
+              img.remove();
+            });
+            document.body.appendChild(img);
+          });
+      </script>]]></content>
+      <categories>
+        <category>August 2020</category>
+      </categories>
+      <tags>
+        <tag>Civil3d</tag>
+        <tag>AutoCAD API</tag>
+        <tag>C#</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>My route on AutoCAD .NET Developer&#39;s tools</title>
+    <url>/2020/08/15/20200815My%20route%20on%20AutoCAD%20DOTNET%20Developer/</url>
+    <content><![CDATA[<p>I have applied AutoCAD .NetAPI for writing some tools in the recent several month, but I still have not understand it so well. Every time I had to waste lots of time on searching for related information.  Therefore, I decided to write learning notes for what I have learnt and build my personal knowledge system on this topic from now on.</p>
+<h1>Reference</h1>
+<p><a href="http://docs.autodesk.com/ACD/2010/ENU/AutoCAD%20.NET%20Developer' target=" _blank"="" rel="noopener" s%20guide="" index.html?url="WS1a9193826455f5ff2566ffd511ff6f8c7ca-3e30.htm,topicNumber=d0e26245" "="">http://docs.autodesk.com/ACD/2010/ENU/AutoCAD .NET Developer’s Guide/index.html?url=WS1a9193826455f5ff2566ffd511ff6f8c7ca-3e30.htm,topicNumber=d0e26245</a></p>
+<script>
+        document.querySelectorAll('.github-emoji')
+          .forEach(el => {
+            if (!el.dataset.src) { return; }
+            const img = document.createElement('img');
+            img.style = 'display:none !important;';
+            img.src = el.dataset.src;
+            img.addEventListener('error', () => {
+              img.remove();
+              el.style.color = 'inherit';
+              el.style.backgroundImage = 'none';
+              el.style.background = 'none';
+            });
+            img.addEventListener('load', () => {
+              img.remove();
+            });
+            document.body.appendChild(img);
+          });
+      </script>]]></content>
+      <categories>
+        <category>August 2020</category>
+      </categories>
+      <tags>
+        <tag>Civil3d</tag>
+        <tag>AutoCAD API</tag>
+        <tag>C#</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Add boundary Line to Surface by using API</title>
     <url>/2020/05/13/Add%20boundary%20Line%20to%20Surface%20by%20using%20API/</url>
     <content><![CDATA[<p>Today, I saw a post from Dynamo forum that mentioned how to add boundaryline to the surface. Just make a note for future use.  The original post link is listed in the Reference.</p>
@@ -2318,6 +2324,127 @@ osurface.Rebuild()
       </tags>
   </entry>
   <entry>
+    <title>02. Brief Introduction</title>
+    <url>/2020/08/23/20200823AutoCAD%20developer&#39;s%20tools%20--%20Create%20the%20line/</url>
+    <content><![CDATA[<p>Before entering the main topic, I would like to write some background information.</p>
+<h2 id="Understand-the-AutoCAD-Object-Hierarchy">Understand the AutoCAD Object Hierarchy</h2>
+<p>In my opinion, Object Hierarchy is the most important part for AutoCAD Developers. Indeed, the DWG file is a database, as a Developer, we are trying to read out/write into the data from the database. Hence, we need to know how the data(objects) build up in the database(DWG FILE). This part will be mentioned again and again later.</p>
+<hr>
+<h2 id="The-Document-Object">The Document Object</h2>
+<h3 id="01-Application">01. Application</h3>
+<p>The Application object is the root object of the AutoCAD .NET API. From the Application object, you can access the main window as well as any open drawing. Once you have a drawing, you can then access the objects in the drawing. For information on working with open drawing files (documents) see, The Document Object.</p>
+<blockquote>
+<p>DocumentManager</p>
+<blockquote>
+<p>Container for all the document objects (there is a document object for each drawing that is open).</p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p>DocumentWindowCollection</p>
+<blockquote>
+<p>Container for all the document window objects (there is a document window object for each document object in the DocumentManager).</p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p>InfoCenter</p>
+<blockquote>
+<p>Contains a reference to the InfoCenter toolbar.</p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p>MainWindow</p>
+<blockquote>
+<p>Contains a reference to the application window object of AutoCAD.</p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p>MenuBar</p>
+<blockquote>
+<p>Contains a reference to the MenuBar COM object for the menubar in AutoCAD.</p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p>MenuGroups</p>
+<blockquote>
+<p>Contains a reference to the MenuGroups COM object which contains the customization group name for each loaded CUIx file.</p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p>Preferences</p>
+<blockquote>
+<p>Contains a reference to the Preferences COM object which allows you to modify many of the settings in the Options dialog box.</p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p>Publisher</p>
+<blockquote>
+<p>Contains a reference to the Publisher object which is used for publishing drawings.</p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p>StatusBar</p>
+<blockquote>
+<p>Contains a reference to the StatusBar object for the application window.</p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p>UserConfiguration</p>
+<blockquote>
+<p>Contains a reference to the UserConfiguration object which allows you to work with user saved profiles.</p>
+</blockquote>
+</blockquote>
+<h3 id="02-Document">02. Document</h3>
+<p>The Document object, which is actually an AutoCAD drawing, is part of the DocumentCollection object and provides access to the Database object which is associated with the Document object. The Database object contains all of the graphical and most of the nongraphical AutoCAD objects.</p>
+<pre class=" language-language-C#"><code class="language-language-C#">Get the current document and database
+Document  doc = Autodesk.AutoCAD.ApplicationServices.Application .DocumentManager.MdiActiveDocument;  
+</code></pre>
+<h3 id="03-Database">03. Database</h3>
+<p>The Database object contains all of the graphical and most of the nongraphical AutoCAD objects. Some of the objects contained in the database are entities, symbol tables, and named dictionaries. Entities in the database represent graphical objects within a drawing. Lines, circles, arcs, text, hatch, and polylines are examples of entities. A user can see an entity on the screen and can manipulate it.</p>
+<pre class=" language-language-C#"><code class="language-language-C#">Get the current database
+ Database  db = Autodesk.AutoCAD.ApplicationServices. Application .DocumentManager.MdiActiveDocument.Database;
+
+Database  db = HostApplicationServices.WorkingDatabase;  
+</code></pre>
+<h3 id="04-Transaction">04. Transaction</h3>
+<p>Transactions are used to group multiple operations on multiple objects together as a single operation. Transactions are started and managed through the Transaction Manager. Once a transaction is started, you can then use the GetObject function to open an object.</p>
+<pre class=" language-language-C#"><code class="language-language-C#">Database  db = HostApplicationServices.WorkingDatabase;  // current database
+using ( Transaction  tr = db.TransactionManager.StartTransaction()) //using method
+{
+// some coding...
+tr.Commit();  // commit the transaction
+}
+</code></pre>
+<h1>Reference</h1>
+<p><a href="http://docs.autodesk.com/ACD/2010/ENU/AutoCAD%20.NET%20Developer' target=" _blank"="" rel="noopener" s%20guide="" index.html?url="WS1a9193826455f5ff2566ffd511ff6f8c7ca-3e30.htm,topicNumber=d0e26245" "="">http://docs.autodesk.com/ACD/2010/ENU/AutoCAD .NET Developer’s Guide/index.html?url=WS1a9193826455f5ff2566ffd511ff6f8c7ca-3e30.htm,topicNumber=d0e26245</a></p>
+<script>
+        document.querySelectorAll('.github-emoji')
+          .forEach(el => {
+            if (!el.dataset.src) { return; }
+            const img = document.createElement('img');
+            img.style = 'display:none !important;';
+            img.src = el.dataset.src;
+            img.addEventListener('error', () => {
+              img.remove();
+              el.style.color = 'inherit';
+              el.style.backgroundImage = 'none';
+              el.style.background = 'none';
+            });
+            img.addEventListener('load', () => {
+              img.remove();
+            });
+            document.body.appendChild(img);
+          });
+      </script>]]></content>
+      <categories>
+        <category>August 2020</category>
+      </categories>
+      <tags>
+        <tag>Civil3d</tag>
+        <tag>AutoCAD API</tag>
+        <tag>C#</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Delineate watershed based on DEM data on ArcMAP</title>
     <url>/2020/04/24/Delinenate%20the%20watershed%20based%20on%20DEM%20data%20on%20ArcMAP/</url>
     <content><![CDATA[<p>Before input data into hydrologic or hydraulic data, we need to know the catchment boundary first. Arcmap has wonderful tool suite to proceed this</p>
@@ -2390,111 +2517,30 @@ osurface.Rebuild()
       </tags>
   </entry>
   <entry>
-    <title>the Covid19 case Number Growth by DHB in NZ</title>
-    <url>/2020/04/25/Generate%20the%20Covid19%20case%20growth%20video/</url>
-    <content><![CDATA[<h2 id="Read-the-data-from-excel">Read the data from excel</h2>
-<pre class=" language-language-python"><code class="language-language-python">import pandas as pd
-from pandas import DataFrame, Series
-import matplotlib.pyplot as plt
-
-df = pd.read_excel('covid-caselist-23april.xlsx',sheet_name= 'Confirmed')
-
-</code></pre>
-<p>The excel file is from the <a href="https://www.health.govt.nz/our-work/diseases-and-conditions/covid-19-novel-coronavirus/covid-19-current-situation/covid-19-current-cases/covid-19-current-cases-details" target="_blank" rel="noopener">Ministry of Health website</a> on 23/04/2020.</p>
-<h2 id="Data-Wrangling">Data Wrangling</h2>
-<p>The raw data need to be properly treated for the plotting purpose.</p>
-<pre class=" language-language-python"><code class="language-language-python">df.replace(to_replace=r'^\s*$',value='Unkown',regex=True,inplace=True)#replace the emply values with 'No_data'
-
-df.columns = list(i.replace(' ','_') for i in df.columns)# Replace the space in the columns name to avoid potential problems
-df = df.rename(columns = {'Date_of_report':'Report_Date','International_travel':'Overseas','Age_Group':'Age_group'})
-
-df['Report_Date'] =pd.to_datetime(df['Report_Date'],format='%d/%m/%Y')
-df.sort_values(by ='Report_Date', axis=0, inplace= True )
-
-df5 = df.groupby(['Report_Date','DHB']).count()
-df5 = df5.iloc[:,1]
-df5 = df5.unstack().fillna(0).astype('int32')
-
-#calculate the total case number until the target date
-df_cum = df5.cumsum()
-# resample the data to 8 hours and interpolate the data to get more figures
-df_cum = df_cum.resample('8h').interpolate().astype('int32')
-
-#get the timeline stamp for later use
-newDatetime = df_cum.index.date
-
-df_cum = df_cum.T
-
-#create a random color list for different cities, you can set the color list for better result
-color_list = []
-cmap = get_cmap(len(df_cum.index))
-
-for i in range(len(df_cum.index)):
-   color_list.append(cmap(i))
-df_cum['color_list'] = color_list
-
-ylist = range(len(df_cum.columns))
-</code></pre>
-<h2 id="Plotting-the-figures">Plotting the figures</h2>
-<pre class=" language-language-python"><code class="language-language-python">#prepare the fig
-fig, ax = plt.subplots(figsize=(18, 9))
-
- # ffmpeg need to be installed in the system to produce the videos
-Writer = animation.writers['ffmpeg']
-writer = Writer(fps=10, metadata=dict(artist='Me'), bitrate=800)
-
-
-
-# define the function to generate the figures
-def animate(i):
-    ax.clear()  #everytime the existing figure need to be cleared
-    df24 = df_cum.iloc[:,[i,-1]].sort_values(by = df_cum.columns[i])
-    wdf = df24.iloc[:,0]
-    color_list2 = df24.iloc[:,-1]
-
-    #process bar
-    process= i/(len(newDatetime)-1)*100
-    print("\r  Plotting process：%.2f%%" %(process),end=' ')
-    if process>99:print("\r  DONE!     Plotting process：     100%",end=' ')
-
-    # the figure
-    ax.barh(wdf.index, wdf.values, color=color_list2)
-    ax.set_xlabel('Total Covid Case No. on {}\n'.format(newDatetime[i]), fontsize=20)
-    ax.set_ylabel('DHB', fontsize=20)
-
-    # the ticks
-    ax.yaxis.set_tick_params(labelsize=12, colors='black')
-    ax.xaxis.set_tick_params(labelsize=10, colors='grey')
-    ax.tick_params(top = True, bottom = False, labeltop = True, labelbottom = False)
-    ax.xaxis.set_ticks(np.arange(0, ((max(wdf))+1), 5))
-
-    for x, y in zip(wdf.values, range(len(wdf.values))):
-        ax.text(x, y, ('' if x < 1 else int(x)), ha='left', va='center', fontsize=12)
-        ax.text(x, y, ('' if x < 20 else '{}  '.format(wdf.index[y])), ha='right', va='center', fontsize=12)
-        ax.text(0, -2, 'Data source: Ministry of Health\n by Fan Yang', ha='left', va='center', fontsize=10,
-                color='grey')
-
-# generate the photos
-ani = animation.FuncAnimation(fig, animate, frames=range(len(df_cum.columns)-2), interval=200)
-</code></pre>
-<h2 id="Various-outputs">Various outputs</h2>
-<pre class=" language-language-python"><code class="language-language-python">print('*******Beign to plot the mp4 figure file********')
-ani.save("test2.mp4", writer=writer)
-
-
-print('\n*******Beign to plot the figure file in gif*********')
-ani.save('line2.gif', dpi=80, writer='imagemagick')
-
-print('\n*******show in the IDE environment*********')
-plt.show()
-</code></pre>
-<h2 id="Result">Result</h2>
-<h3 id="MP4-VIDEO">MP4 VIDEO</h3>
-<iframe width="660" height="380" src="https://www.youtube.com/embed/xOjmZEJpUGI?start=2" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
-<h3 id="JPG-Animation-photos">JPG Animation photos</h3>
-<p><img src="/2020/04/25/Generate%20the%20Covid19%20case%20growth%20video/line2.gif" alt="COVID19 case No. Figure Demo"></p>
-<h2 id="Reference">Reference</h2>
-<p><a href="https://www.health.govt.nz/our-work/diseases-and-conditions/covid-19-novel-coronavirus/covid-19-current-situation/covid-19-current-cases/covid-19-current-cases-details" target="_blank" rel="noopener">https://www.health.govt.nz/our-work/diseases-and-conditions/covid-19-novel-coronavirus/covid-19-current-situation/covid-19-current-cases/covid-19-current-cases-details</a></p>
+    <title>How to merge many different raster files into one raster</title>
+    <url>/2020/04/20/How%20to%20take%20many%20different%20rasters%20into%20one%20raster/</url>
+    <content><![CDATA[<p>On <a href="https://geomapspublic.aucklandcouncil.govt.nz/viewer/index.html" target="_blank" rel="noopener">Auckland Council Geomap</a>, we can download the high resolution DEM data, but the uplimit area is 6 Square Km. What if the catchment area we are interested in is more than the number, than we can download the DEM data from <a href="https://data.linz.govt.nz/search/?q=DEM" target="_blank" rel="noopener">LINZ</a>.</p>
+<hr>
+<h3 id="Raster-files-check">Raster files check</h3>
+<p>After download the DEM data in Auckland area, we will find that there will be many different raster files, which is not available for analysis. So we need to merge many raster files into one raster file.</p>
+<hr>
+<h3 id="Location-check">Location check</h3>
+<p>Firstly, we need to check the name of related raster files in our interested catchment, find all the raster files and then move them into one folder.</p>
+<p><img src="/2020/04/20/How%20to%20take%20many%20different%20rasters%20into%20one%20raster/1.PNG" alt="Location.png"></p>
+<hr>
+<h3 id="Create-an-empty-Mosaic-Dataset">Create an empty Mosaic Dataset</h3>
+<p>Create an empty Mosaic Dataset as the route in the figure below.</p>
+<p><img src="/2020/04/20/How%20to%20take%20many%20different%20rasters%20into%20one%20raster/22.png" alt="Mosaic Dataset.png"></p>
+<p>Then we need to add the raster data into the empty Mosaic. Directly right-click the file and choose “add raster”.</p>
+<p>Select the files we have picked from the last steps, remember to check the “Upload Overview” box.<br>
+<img src="/2020/04/20/How%20to%20take%20many%20different%20rasters%20into%20one%20raster/44.png" alt="Add Dataset.png"></p>
+<hr>
+<h3 id="Final-result">Final result</h3>
+<p>Wait for several seconds or minutes, the raster will output.</p>
+<p><img src="/2020/04/20/How%20to%20take%20many%20different%20rasters%20into%20one%20raster/55.png" alt="Mosaic Dataset.png"></p>
+<hr>
+<h3 id="Reference">Reference</h3>
+<p><a href="https://data.linz.govt.nz/" target="_blank" rel="noopener">https://data.linz.govt.nz/</a></p>
 <script>
         document.querySelectorAll('.github-emoji')
           .forEach(el => {
@@ -2518,8 +2564,8 @@ plt.show()
         <category>April 2020</category>
       </categories>
       <tags>
-        <tag>Pandas</tag>
-        <tag>Matplotlib</tag>
+        <tag>Arcmap</tag>
+        <tag>Raster</tag>
       </tags>
   </entry>
   <entry>
@@ -3275,6 +3321,139 @@ ax.set_ylim([-42,-36])
       </tags>
   </entry>
   <entry>
+    <title>the Covid19 case Number Growth by DHB in NZ</title>
+    <url>/2020/04/25/Generate%20the%20Covid19%20case%20growth%20video/</url>
+    <content><![CDATA[<h2 id="Read-the-data-from-excel">Read the data from excel</h2>
+<pre class=" language-language-python"><code class="language-language-python">import pandas as pd
+from pandas import DataFrame, Series
+import matplotlib.pyplot as plt
+
+df = pd.read_excel('covid-caselist-23april.xlsx',sheet_name= 'Confirmed')
+
+</code></pre>
+<p>The excel file is from the <a href="https://www.health.govt.nz/our-work/diseases-and-conditions/covid-19-novel-coronavirus/covid-19-current-situation/covid-19-current-cases/covid-19-current-cases-details" target="_blank" rel="noopener">Ministry of Health website</a> on 23/04/2020.</p>
+<h2 id="Data-Wrangling">Data Wrangling</h2>
+<p>The raw data need to be properly treated for the plotting purpose.</p>
+<pre class=" language-language-python"><code class="language-language-python">df.replace(to_replace=r'^\s*$',value='Unkown',regex=True,inplace=True)#replace the emply values with 'No_data'
+
+df.columns = list(i.replace(' ','_') for i in df.columns)# Replace the space in the columns name to avoid potential problems
+df = df.rename(columns = {'Date_of_report':'Report_Date','International_travel':'Overseas','Age_Group':'Age_group'})
+
+df['Report_Date'] =pd.to_datetime(df['Report_Date'],format='%d/%m/%Y')
+df.sort_values(by ='Report_Date', axis=0, inplace= True )
+
+df5 = df.groupby(['Report_Date','DHB']).count()
+df5 = df5.iloc[:,1]
+df5 = df5.unstack().fillna(0).astype('int32')
+
+#calculate the total case number until the target date
+df_cum = df5.cumsum()
+# resample the data to 8 hours and interpolate the data to get more figures
+df_cum = df_cum.resample('8h').interpolate().astype('int32')
+
+#get the timeline stamp for later use
+newDatetime = df_cum.index.date
+
+df_cum = df_cum.T
+
+#create a random color list for different cities, you can set the color list for better result
+color_list = []
+cmap = get_cmap(len(df_cum.index))
+
+for i in range(len(df_cum.index)):
+   color_list.append(cmap(i))
+df_cum['color_list'] = color_list
+
+ylist = range(len(df_cum.columns))
+</code></pre>
+<h2 id="Plotting-the-figures">Plotting the figures</h2>
+<pre class=" language-language-python"><code class="language-language-python">#prepare the fig
+fig, ax = plt.subplots(figsize=(18, 9))
+
+ # ffmpeg need to be installed in the system to produce the videos
+Writer = animation.writers['ffmpeg']
+writer = Writer(fps=10, metadata=dict(artist='Me'), bitrate=800)
+
+
+
+# define the function to generate the figures
+def animate(i):
+    ax.clear()  #everytime the existing figure need to be cleared
+    df24 = df_cum.iloc[:,[i,-1]].sort_values(by = df_cum.columns[i])
+    wdf = df24.iloc[:,0]
+    color_list2 = df24.iloc[:,-1]
+
+    #process bar
+    process= i/(len(newDatetime)-1)*100
+    print("\r  Plotting process：%.2f%%" %(process),end=' ')
+    if process>99:print("\r  DONE!     Plotting process：     100%",end=' ')
+
+    # the figure
+    ax.barh(wdf.index, wdf.values, color=color_list2)
+    ax.set_xlabel('Total Covid Case No. on {}\n'.format(newDatetime[i]), fontsize=20)
+    ax.set_ylabel('DHB', fontsize=20)
+
+    # the ticks
+    ax.yaxis.set_tick_params(labelsize=12, colors='black')
+    ax.xaxis.set_tick_params(labelsize=10, colors='grey')
+    ax.tick_params(top = True, bottom = False, labeltop = True, labelbottom = False)
+    ax.xaxis.set_ticks(np.arange(0, ((max(wdf))+1), 5))
+
+    for x, y in zip(wdf.values, range(len(wdf.values))):
+        ax.text(x, y, ('' if x < 1 else int(x)), ha='left', va='center', fontsize=12)
+        ax.text(x, y, ('' if x < 20 else '{}  '.format(wdf.index[y])), ha='right', va='center', fontsize=12)
+        ax.text(0, -2, 'Data source: Ministry of Health\n by Fan Yang', ha='left', va='center', fontsize=10,
+                color='grey')
+
+# generate the photos
+ani = animation.FuncAnimation(fig, animate, frames=range(len(df_cum.columns)-2), interval=200)
+</code></pre>
+<h2 id="Various-outputs">Various outputs</h2>
+<pre class=" language-language-python"><code class="language-language-python">print('*******Beign to plot the mp4 figure file********')
+ani.save("test2.mp4", writer=writer)
+
+
+print('\n*******Beign to plot the figure file in gif*********')
+ani.save('line2.gif', dpi=80, writer='imagemagick')
+
+print('\n*******show in the IDE environment*********')
+plt.show()
+</code></pre>
+<h2 id="Result">Result</h2>
+<h3 id="MP4-VIDEO">MP4 VIDEO</h3>
+<iframe width="660" height="380" src="https://www.youtube.com/embed/xOjmZEJpUGI?start=2" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+<h3 id="JPG-Animation-photos">JPG Animation photos</h3>
+<p><img src="/2020/04/25/Generate%20the%20Covid19%20case%20growth%20video/line2.gif" alt="COVID19 case No. Figure Demo"></p>
+<h2 id="Reference">Reference</h2>
+<p><a href="https://www.health.govt.nz/our-work/diseases-and-conditions/covid-19-novel-coronavirus/covid-19-current-situation/covid-19-current-cases/covid-19-current-cases-details" target="_blank" rel="noopener">https://www.health.govt.nz/our-work/diseases-and-conditions/covid-19-novel-coronavirus/covid-19-current-situation/covid-19-current-cases/covid-19-current-cases-details</a></p>
+<script>
+        document.querySelectorAll('.github-emoji')
+          .forEach(el => {
+            if (!el.dataset.src) { return; }
+            const img = document.createElement('img');
+            img.style = 'display:none !important;';
+            img.src = el.dataset.src;
+            img.addEventListener('error', () => {
+              img.remove();
+              el.style.color = 'inherit';
+              el.style.backgroundImage = 'none';
+              el.style.background = 'none';
+            });
+            img.addEventListener('load', () => {
+              img.remove();
+            });
+            document.body.appendChild(img);
+          });
+      </script>]]></content>
+      <categories>
+        <category>April 2020</category>
+      </categories>
+      <tags>
+        <tag>Pandas</tag>
+        <tag>Matplotlib</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Land-use TIF file making for HEC-RAS 2D</title>
     <url>/2020/04/20/Land-use%20TIF%20file%20making%20for%20HEC-RAS%202D/</url>
     <content><![CDATA[<p>For 2D analysis in HEC-RAS, we may need to a land use map to assign the manning factor as . How to make it? Of course we can make the detailed land use map by analyzing satellite imagery. But for a simple model, sometime we do not need such a detailed plan. Today I would like to introduce a way to make simple land use map</p>
@@ -3321,152 +3500,8 @@ ax.set_ylim([-42,-36])
       </categories>
       <tags>
         <tag>Arcmap</tag>
+        <tag>Raster</tag>
         <tag>HEC-RAS</tag>
-        <tag>Raster</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Hello World</title>
-    <url>/2020/04/10/hello-world/</url>
-    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start">Quick Start</h2>
-<h3 id="Create-a-new-post">Create a new post</h3>
-<pre class=" language-language-bash"><code class="language-language-bash">$ hexo new "My New Post"
-</code></pre>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server">Run server</h3>
-<pre class=" language-language-bash"><code class="language-language-bash">$ hexo server
-</code></pre>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files">Generate static files</h3>
-<pre class=" language-language-bash"><code class="language-language-bash">$ hexo generate
-</code></pre>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites">Deploy to remote sites</h3>
-<pre class=" language-language-bash"><code class="language-language-bash">$ hexo deploy
-</code></pre>
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html" target="_blank" rel="noopener">Deployment</a></p>
-<script>
-        document.querySelectorAll('.github-emoji')
-          .forEach(el => {
-            if (!el.dataset.src) { return; }
-            const img = document.createElement('img');
-            img.style = 'display:none !important;';
-            img.src = el.dataset.src;
-            img.addEventListener('error', () => {
-              img.remove();
-              el.style.color = 'inherit';
-              el.style.backgroundImage = 'none';
-              el.style.background = 'none';
-            });
-            img.addEventListener('load', () => {
-              img.remove();
-            });
-            document.body.appendChild(img);
-          });
-      </script>]]></content>
-      <categories>
-        <category>April 2020</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>How to merge many different raster files into one raster</title>
-    <url>/2020/04/20/How%20to%20take%20many%20different%20rasters%20into%20one%20raster/</url>
-    <content><![CDATA[<p>On <a href="https://geomapspublic.aucklandcouncil.govt.nz/viewer/index.html" target="_blank" rel="noopener">Auckland Council Geomap</a>, we can download the high resolution DEM data, but the uplimit area is 6 Square Km. What if the catchment area we are interested in is more than the number, than we can download the DEM data from <a href="https://data.linz.govt.nz/search/?q=DEM" target="_blank" rel="noopener">LINZ</a>.</p>
-<hr>
-<h3 id="Raster-files-check">Raster files check</h3>
-<p>After download the DEM data in Auckland area, we will find that there will be many different raster files, which is not available for analysis. So we need to merge many raster files into one raster file.</p>
-<hr>
-<h3 id="Location-check">Location check</h3>
-<p>Firstly, we need to check the name of related raster files in our interested catchment, find all the raster files and then move them into one folder.</p>
-<p><img src="/2020/04/20/How%20to%20take%20many%20different%20rasters%20into%20one%20raster/1.PNG" alt="Location.png"></p>
-<hr>
-<h3 id="Create-an-empty-Mosaic-Dataset">Create an empty Mosaic Dataset</h3>
-<p>Create an empty Mosaic Dataset as the route in the figure below.</p>
-<p><img src="/2020/04/20/How%20to%20take%20many%20different%20rasters%20into%20one%20raster/22.png" alt="Mosaic Dataset.png"></p>
-<p>Then we need to add the raster data into the empty Mosaic. Directly right-click the file and choose “add raster”.</p>
-<p>Select the files we have picked from the last steps, remember to check the “Upload Overview” box.<br>
-<img src="/2020/04/20/How%20to%20take%20many%20different%20rasters%20into%20one%20raster/44.png" alt="Add Dataset.png"></p>
-<hr>
-<h3 id="Final-result">Final result</h3>
-<p>Wait for several seconds or minutes, the raster will output.</p>
-<p><img src="/2020/04/20/How%20to%20take%20many%20different%20rasters%20into%20one%20raster/55.png" alt="Mosaic Dataset.png"></p>
-<hr>
-<h3 id="Reference">Reference</h3>
-<p><a href="https://data.linz.govt.nz/" target="_blank" rel="noopener">https://data.linz.govt.nz/</a></p>
-<script>
-        document.querySelectorAll('.github-emoji')
-          .forEach(el => {
-            if (!el.dataset.src) { return; }
-            const img = document.createElement('img');
-            img.style = 'display:none !important;';
-            img.src = el.dataset.src;
-            img.addEventListener('error', () => {
-              img.remove();
-              el.style.color = 'inherit';
-              el.style.backgroundImage = 'none';
-              el.style.background = 'none';
-            });
-            img.addEventListener('load', () => {
-              img.remove();
-            });
-            document.body.appendChild(img);
-          });
-      </script>]]></content>
-      <categories>
-        <category>April 2020</category>
-      </categories>
-      <tags>
-        <tag>Arcmap</tag>
-        <tag>Raster</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Present 3D DEM and Building in ArcScene</title>
-    <url>/2020/04/22/Present%20the%20results%20in%20ArcScene/</url>
-    <content><![CDATA[<p>If we want to have an 3D overview of DEM with Building or flooding data, we can use ArcScene.</p>
-<hr>
-<h3 id="Load-DEM">Load DEM</h3>
-<p>Firstly, we need to load the DEM raster files in ArcScene, and right-click the DEM layer and choose “Property”. Select the “Base Height” Tab as the figure below.</p>
-<p><img src="/2020/04/22/Present%20the%20results%20in%20ArcScene/11.PNG" alt="DEM Load"></p>
-<hr>
-<h3 id="Load-Building-Footprint-Dataset">Load Building Footprint Dataset</h3>
-<p>Same as the DEM loading, right-click the “Building Footprint” layer and choose “Property”. Select the “Extrustion” Tab as the figure below. Select the building height filed in the “Expression” box.</p>
-<p><img src="/2020/04/22/Present%20the%20results%20in%20ArcScene/22.PNG" alt="Building Extrusion"></p>
-<p>The result is as shown below.</p>
-<p><img src="/2020/04/22/Present%20the%20results%20in%20ArcScene/33.PNG" alt="Building Extrusion result.png"></p>
-<hr>
-<h3 id="Load-the-buiding-on-the-DEM">Load the buiding on the DEM</h3>
-<p>Select the “Base Height” Tab of the building Footprint Dataset as the figure below. Select the DEM Dataset.</p>
-<p><img src="/2020/04/22/Present%20the%20results%20in%20ArcScene/44.PNG" alt="Mosaic Dataset.png"></p>
-<hr>
-<h3 id="Final-result">Final result</h3>
-<p>In a similar way, we can load Road, drainage pipe or flooding, and have a 3D view for the Dataset.</p>
-<p><img src="/2020/04/22/Present%20the%20results%20in%20ArcScene/55.PNG" alt="result.png"></p>
-<script>
-        document.querySelectorAll('.github-emoji')
-          .forEach(el => {
-            if (!el.dataset.src) { return; }
-            const img = document.createElement('img');
-            img.style = 'display:none !important;';
-            img.src = el.dataset.src;
-            img.addEventListener('error', () => {
-              img.remove();
-              el.style.color = 'inherit';
-              el.style.backgroundImage = 'none';
-              el.style.background = 'none';
-            });
-            img.addEventListener('load', () => {
-              img.remove();
-            });
-            document.body.appendChild(img);
-          });
-      </script>]]></content>
-      <categories>
-        <category>May 2020</category>
-      </categories>
-      <tags>
-        <tag>Arcmap</tag>
       </tags>
   </entry>
   <entry>
@@ -3584,6 +3619,98 @@ with adoc.LockDocument():
       <tags>
         <tag>Civil3d</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>Present 3D DEM and Building in ArcScene</title>
+    <url>/2020/04/22/Present%20the%20results%20in%20ArcScene/</url>
+    <content><![CDATA[<p>If we want to have an 3D overview of DEM with Building or flooding data, we can use ArcScene.</p>
+<hr>
+<h3 id="Load-DEM">Load DEM</h3>
+<p>Firstly, we need to load the DEM raster files in ArcScene, and right-click the DEM layer and choose “Property”. Select the “Base Height” Tab as the figure below.</p>
+<p><img src="/2020/04/22/Present%20the%20results%20in%20ArcScene/11.PNG" alt="DEM Load"></p>
+<hr>
+<h3 id="Load-Building-Footprint-Dataset">Load Building Footprint Dataset</h3>
+<p>Same as the DEM loading, right-click the “Building Footprint” layer and choose “Property”. Select the “Extrustion” Tab as the figure below. Select the building height filed in the “Expression” box.</p>
+<p><img src="/2020/04/22/Present%20the%20results%20in%20ArcScene/22.PNG" alt="Building Extrusion"></p>
+<p>The result is as shown below.</p>
+<p><img src="/2020/04/22/Present%20the%20results%20in%20ArcScene/33.PNG" alt="Building Extrusion result.png"></p>
+<hr>
+<h3 id="Load-the-buiding-on-the-DEM">Load the buiding on the DEM</h3>
+<p>Select the “Base Height” Tab of the building Footprint Dataset as the figure below. Select the DEM Dataset.</p>
+<p><img src="/2020/04/22/Present%20the%20results%20in%20ArcScene/44.PNG" alt="Mosaic Dataset.png"></p>
+<hr>
+<h3 id="Final-result">Final result</h3>
+<p>In a similar way, we can load Road, drainage pipe or flooding, and have a 3D view for the Dataset.</p>
+<p><img src="/2020/04/22/Present%20the%20results%20in%20ArcScene/55.PNG" alt="result.png"></p>
+<script>
+        document.querySelectorAll('.github-emoji')
+          .forEach(el => {
+            if (!el.dataset.src) { return; }
+            const img = document.createElement('img');
+            img.style = 'display:none !important;';
+            img.src = el.dataset.src;
+            img.addEventListener('error', () => {
+              img.remove();
+              el.style.color = 'inherit';
+              el.style.backgroundImage = 'none';
+              el.style.background = 'none';
+            });
+            img.addEventListener('load', () => {
+              img.remove();
+            });
+            document.body.appendChild(img);
+          });
+      </script>]]></content>
+      <categories>
+        <category>May 2020</category>
+      </categories>
+      <tags>
+        <tag>Arcmap</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Hello World</title>
+    <url>/2020/04/10/hello-world/</url>
+    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
+<h2 id="Quick-Start">Quick Start</h2>
+<h3 id="Create-a-new-post">Create a new post</h3>
+<pre class=" language-language-bash"><code class="language-language-bash">$ hexo new "My New Post"
+</code></pre>
+<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
+<h3 id="Run-server">Run server</h3>
+<pre class=" language-language-bash"><code class="language-language-bash">$ hexo server
+</code></pre>
+<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
+<h3 id="Generate-static-files">Generate static files</h3>
+<pre class=" language-language-bash"><code class="language-language-bash">$ hexo generate
+</code></pre>
+<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
+<h3 id="Deploy-to-remote-sites">Deploy to remote sites</h3>
+<pre class=" language-language-bash"><code class="language-language-bash">$ hexo deploy
+</code></pre>
+<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html" target="_blank" rel="noopener">Deployment</a></p>
+<script>
+        document.querySelectorAll('.github-emoji')
+          .forEach(el => {
+            if (!el.dataset.src) { return; }
+            const img = document.createElement('img');
+            img.style = 'display:none !important;';
+            img.src = el.dataset.src;
+            img.addEventListener('error', () => {
+              img.remove();
+              el.style.color = 'inherit';
+              el.style.backgroundImage = 'none';
+              el.style.background = 'none';
+            });
+            img.addEventListener('load', () => {
+              img.remove();
+            });
+            document.body.appendChild(img);
+          });
+      </script>]]></content>
+      <categories>
+        <category>April 2020</category>
+      </categories>
   </entry>
   <entry>
     <title>Spatial Join in Geopandas</title>
