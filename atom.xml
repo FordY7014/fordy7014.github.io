@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://fordy7014.github.io/"/>
-  <updated>2020-08-26T08:36:01.515Z</updated>
+  <updated>2020-08-26T08:37:59.187Z</updated>
   <id>https://fordy7014.github.io/</id>
   
   <author>
@@ -17,11 +17,43 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>02. Brief Introduction</title>
-    <link href="https://fordy7014.github.io/2020/08/23/20200823AutoCAD%20developer&#39;s%20tools%20--%20Create%20the%20line/"/>
-    <id>https://fordy7014.github.io/2020/08/23/20200823AutoCAD%20developer&#39;s%20tools%20--%20Create%20the%20line/</id>
+    <title>03. Create the line</title>
+    <link href="https://fordy7014.github.io/2020/08/24/20200824AutoCAD%20developer&#39;s%20tools%20--%20Create%20the%20line/"/>
+    <id>https://fordy7014.github.io/2020/08/24/20200824AutoCAD%20developer&#39;s%20tools%20--%20Create%20the%20line/</id>
+    <published>2020-08-24T04:04:57.000Z</published>
+    <updated>2020-08-26T08:37:59.187Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;Before entering the main topic, I would like to write some background information.&lt;/p&gt;
+&lt;h2
+        
+      
+    
+    </summary>
+    
+    
+      <category term="August 2020" scheme="https://fordy7014.github.io/categories/August-2020/"/>
+    
+    
+      <category term="Civil3d" scheme="https://fordy7014.github.io/tags/Civil3d/"/>
+    
+      <category term="AutoCAD API" scheme="https://fordy7014.github.io/tags/AutoCAD-API/"/>
+    
+      <category term="C#" scheme="https://fordy7014.github.io/tags/C/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>02. Brief Introduction about AutoCAD Object Hierarchy</title>
+    <link href="https://fordy7014.github.io/2020/08/23/20200823AutoCAD%20developer&#39;s%20tools%20--%20Brief%20Introduction/"/>
+    <id>https://fordy7014.github.io/2020/08/23/20200823AutoCAD%20developer&#39;s%20tools%20--%20Brief%20Introduction/</id>
     <published>2020-08-23T04:04:57.000Z</published>
-    <updated>2020-08-26T08:36:01.515Z</updated>
+    <updated>2020-08-26T08:39:24.035Z</updated>
     
     <summary type="html">
     
@@ -586,34 +618,6 @@ from urllib.request import
       <category term="Spatial Analysis" scheme="https://fordy7014.github.io/tags/Spatial-Analysis/"/>
     
       <category term="Geopandas" scheme="https://fordy7014.github.io/tags/Geopandas/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Pyswmm Learning</title>
-    <link href="https://fordy7014.github.io/2020/04/16/Pyswmm%20practice/"/>
-    <id>https://fordy7014.github.io/2020/04/16/Pyswmm%20practice/</id>
-    <published>2020-04-16T00:04:57.000Z</published>
-    <updated>2020-05-22T00:55:38.497Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;pre class=&quot; language-language-python&quot;&gt;&lt;code class=&quot;language-language-python&quot;&gt;import pandas as pd
-from pandas import DataFrame,
-        
-      
-    
-    </summary>
-    
-    
-      <category term="April 2020" scheme="https://fordy7014.github.io/categories/April-2020/"/>
-    
-    
-      <category term="SWMM" scheme="https://fordy7014.github.io/tags/SWMM/"/>
     
   </entry>
   
