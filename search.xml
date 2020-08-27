@@ -1559,104 +1559,6 @@ ax.legend()
       </tags>
   </entry>
   <entry>
-    <title>Set Viewport in AutoCad .Net API</title>
-    <url>/2020/06/15/20200615Set%20Viewport%20in%20AutoCad%20.Net%20API/</url>
-    <content><![CDATA[<hr>
-<pre class=" language-language-python"><code class="language-language-python">with adoc.LockDocument():
-  with adoc.Database as db:
-    with db.TransactionManager.StartTransaction() as t:
-      bt = t.GetObject(db.BlockTableId, OpenMode.ForWrite)
-      btr = t.GetObject(bt[BlockTableRecord.ModelSpace], OpenMode.ForWrite)
-
-      #Get the dict object and layouts object
-      Dict = t.GetObject(db.NamedObjectsDictionaryId, OpenMode.ForWrite)
-      obj = t.GetObject(Dict.GetAt('ACAD_LAYOUT'),  OpenMode.ForWrite);  
-      obj2 = t.GetObject(Dict['ACAD_LAYOUT'],  OpenMode.ForWrite);
-
-      #Get the layout
-      layout1 = t.GetObject(obj["01"], OpenMode.ForRead)
-
-      #Get viewports
-      vps = layout1.GetViewports()
-
-      #Setting the viewport
-      vp1 = t.GetObject(vps[1], OpenMode.ForWrite)
-      vp2 = t.GetObject(vps[2], OpenMode.ForWrite)
-      vp1.Ucs = vp2.Ucs
-      vp1.CustomScale = vp2.CustomScale
-      vp1.ViewCenter = vp2.ViewCenter
-      vp1.ViewTarget = vp2.ViewTarget
-      vp1.ViewDirection = vp2.ViewDirection
-      vp1.TwistAngle = vp2.TwistAngle
-
-
-      vp1.UpdateDisplay()
-      t.Commit()
-</code></pre>
-<hr>
-<h3 id="Meaning-of-the-Viewport-Properties">Meaning of the Viewport Properties</h3>
-<table>
-<thead>
-<tr>
-<th>Properties</th>
-<th>Meaning</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>ViewCenter</td>
-<td>the view center of the view in the viewport</td>
-</tr>
-<tr>
-<td>ViewTarget</td>
-<td>location of the model space in the viewport</td>
-</tr>
-<tr>
-<td>ViewDirection</td>
-<td>the vector from the target to the camera of the view in the viewport</td>
-</tr>
-<tr>
-<td>CenterPoint</td>
-<td>the centerpoint of viewport in paperspace</td>
-</tr>
-</tbody>
-</table>
-<hr>
-<h3 id="Application">Application</h3>
-<p>So what can we do with this function?<br>
-Mostly we have different plans such as drainage or driveway plan on same site, in various viewports. We need to relocate the site in the viewports one by one, However, with this function, we can adjust multiple viewports at the same time. Check the followed figure.</p>
-<p><img src="/2020/06/15/20200615Set%20Viewport%20in%20AutoCad%20.Net%20API/Adjustthemultipleviewportsinseconds2.gif" alt="Adjust the multiple viewports by several clicks"></p>
-<h1>Reference</h1>
-<p><a href="http://docs.autodesk.com/ACD/2010/ENU/AutoCAD%20.NET%20Developer%27s%20Guide/index.html?url=WS1a9193826455f5ff2566ffd511ff6f8c7ca-3416.htm,topicNumber=d0e50529" target="_blank" rel="noopener">http://docs.autodesk.com/ACD/2010/ENU/AutoCAD .NET Developer's Guide/index.html?url=WS1a9193826455f5ff2566ffd511ff6f8c7ca-3416.htm,topicNumber=d0e50529</a></p>
-<script>
-        document.querySelectorAll('.github-emoji')
-          .forEach(el => {
-            if (!el.dataset.src) { return; }
-            const img = document.createElement('img');
-            img.style = 'display:none !important;';
-            img.src = el.dataset.src;
-            img.addEventListener('error', () => {
-              img.remove();
-              el.style.color = 'inherit';
-              el.style.backgroundImage = 'none';
-              el.style.background = 'none';
-            });
-            img.addEventListener('load', () => {
-              img.remove();
-            });
-            document.body.appendChild(img);
-          });
-      </script>]]></content>
-      <categories>
-        <category>June 2020</category>
-      </categories>
-      <tags>
-        <tag>Civil3d</tag>
-        <tag>AutoCAD API</tag>
-        <tag>Ironpython</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>How to autoload *.dll in AutoCAD</title>
     <url>/2020/06/01/20200602How%20to%20autoload%20dll%20in%20AutoCAD/</url>
     <content><![CDATA[<hr>
@@ -1753,159 +1655,75 @@ Mostly we have different plans such as drainage or driveway plan on same site, i
       </tags>
   </entry>
   <entry>
-    <title>FilterType[] in dotNetAPI</title>
-    <url>/2020/06/18/20200618FilterType%5B%5D%20in%20dotNetAPI/</url>
-    <content><![CDATA[<h2 id="This-one-is-just-to-make-a-record-for-the-passage-in-the-Reference-The-content-and-code-are-all-from-this-passage">This one is just to make a record for the passage in the Reference. The content and code are all from <a href="https://mp.weixin.qq.com/s/f1UU9ihNL1B0UUKzMFgDAg" target="_blank" rel="noopener">this passage</a>.</h2>
-<h2 id="Aim">Aim</h2>
-<pre><code>&lt; or
-    &lt; and
-             Layer == "lay01"
-             Color == "1"    // 红色索引值为1
-             Entity type == "TEXT"
-    and &gt;
-    &lt; and
-             &lt; or
-             Layer == "lay02"
-             Layer == "lay03"
-             or &gt;
-             Color == "5"     // 蓝色索引值为5
-             Entity type == "POLYLINE"
-    and &gt;
-or &gt;
-</code></pre>
-<hr>
-<h2 id="Code">Code</h2>
-<pre class=" language-language-csharp"><code class="language-language-csharp">
-public static void MultipleSelectionFilter()
-{
-    // 获取当前文档编辑器
-    Editor ed = Autodesk.AutoCAD.ApplicationServices.Core.Application.DocumentManager.MdiActiveDocument.Editor;
-
-    // 创建一个数组定义筛选条件
-
-    // 定义筛选条件
-    TypedValue[] typeValue = {
-     new TypedValue((int) DxfCode.Operator, "<or"),
-     // 选择标准1
-     new TypedValue((int) DxfCode.Operator, "<and"),
-     new TypedValue((int) DxfCode.Start, "TEXT"),
-     new TypedValue((int) DxfCode.LayerName, "lay01"),
-     new TypedValue((int) DxfCode.Color, "1"),
-     new TypedValue((int) DxfCode.Operator, "and>"),
-     // 选择标准2
-     new TypedValue((int) DxfCode.Operator, "<and"),
-     new TypedValue((int) DxfCode.Start, "LWPOLYLINE"),
-     new TypedValue((int) DxfCode.Color, "5"),
-     new TypedValue((int) DxfCode.Operator, "<or"),
-     new TypedValue((int) DxfCode.LayerName, "lay02"),
-     new TypedValue((int) DxfCode.LayerName, "lay03"),
-     new TypedValue((int) DxfCode.Operator, "or>"),
-     new TypedValue((int) DxfCode.Operator, "and>"),
-     new TypedValue((int) DxfCode.Operator, "or>")
-    };
-
-    // 将筛选条件传到过滤器
-    SelectionFilter selFiter = new SelectionFilter(typeValue);
-
-    // 获取选择对象
-    PromptSelectionResult psr = ed.GetSelection(selFiter);
-
-
-    // 判断选择是否成功
-    if (psr.Status == PromptStatus.OK)
-    {
-        SelectionSet sSet = psr.Value;
-        Autodesk.AutoCAD.ApplicationServices.Core.Application.ShowAlertDialog("Number of objects selected: " + sSet.Count.ToString());
-    }
-    else
-    {
-        Autodesk.AutoCAD.ApplicationServices.Core.Application.ShowAlertDialog("Number of objects selected: 0");
-    }
-}
-</code></pre>
-<h1>Reference</h1>
-<p><a href="https://mp.weixin.qq.com/s/f1UU9ihNL1B0UUKzMFgDAg" target="_blank" rel="noopener">https://mp.weixin.qq.com/s/f1UU9ihNL1B0UUKzMFgDAg</a></p>
-<script>
-        document.querySelectorAll('.github-emoji')
-          .forEach(el => {
-            if (!el.dataset.src) { return; }
-            const img = document.createElement('img');
-            img.style = 'display:none !important;';
-            img.src = el.dataset.src;
-            img.addEventListener('error', () => {
-              img.remove();
-              el.style.color = 'inherit';
-              el.style.backgroundImage = 'none';
-              el.style.background = 'none';
-            });
-            img.addEventListener('load', () => {
-              img.remove();
-            });
-            document.body.appendChild(img);
-          });
-      </script>]]></content>
-      <categories>
-        <category>June 2020</category>
-      </categories>
-      <tags>
-        <tag>Civil3d</tag>
-        <tag>AutoCAD API</tag>
-        <tag>C#</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Prompt to Select one type of object in .NetAPI(Ironpython)</title>
-    <url>/2020/06/16/20200616Prompt%20to%20Select%20one%20type%20of%20object/</url>
+    <title>Set Viewport in AutoCad .Net API</title>
+    <url>/2020/06/15/20200615Set%20Viewport%20in%20AutoCad%20.Net%20API/</url>
     <content><![CDATA[<hr>
-<h2 id="Function">Function</h2>
-<pre class=" language-language-python"><code class="language-language-python">def PromptForEntity( prompt, filetype):
-	global adoc
-	global ed
+<pre class=" language-language-python"><code class="language-language-python">with adoc.LockDocument():
+  with adoc.Database as db:
+    with db.TransactionManager.StartTransaction() as t:
+      bt = t.GetObject(db.BlockTableId, OpenMode.ForWrite)
+      btr = t.GetObject(bt[BlockTableRecord.ModelSpace], OpenMode.ForWrite)
 
-	options = PromptEntityOptions("%s"%prompt)
-	options.SetRejectMessage("\nThe selected object is not a %s\n"%str(filetype))
-	options.AddAllowedClass(clr.GetClrType(filetype), True)
+      #Get the dict object and layouts object
+      Dict = t.GetObject(db.NamedObjectsDictionaryId, OpenMode.ForWrite)
+      obj = t.GetObject(Dict.GetAt('ACAD_LAYOUT'),  OpenMode.ForWrite);  
+      obj2 = t.GetObject(Dict['ACAD_LAYOUT'],  OpenMode.ForWrite);
+
+      #Get the layout
+      layout1 = t.GetObject(obj["01"], OpenMode.ForRead)
+
+      #Get viewports
+      vps = layout1.GetViewports()
+
+      #Setting the viewport
+      vp1 = t.GetObject(vps[1], OpenMode.ForWrite)
+      vp2 = t.GetObject(vps[2], OpenMode.ForWrite)
+      vp1.Ucs = vp2.Ucs
+      vp1.CustomScale = vp2.CustomScale
+      vp1.ViewCenter = vp2.ViewCenter
+      vp1.ViewTarget = vp2.ViewTarget
+      vp1.ViewDirection = vp2.ViewDirection
+      vp1.TwistAngle = vp2.TwistAngle
 
 
-	result = doc.Editor.GetEntity(options)
-
-	if result.Status != PromptStatus.OK:
-		ed.WriteMessage("\n The select target is " +str(filetype) +" please select "  +str(filetype) + "  \n")
-
-	if result.Status == PromptStatus.OK:
-		ed.WriteMessage("\ntarget has been selected\n")
-		ed.WriteMessage("\ntarget has been selected%s\n\n\n\n"%str(result.ObjectId))
-		return result.ObjectId
-
-	ed.WriteMessage("I will return Null  ")
-	return ObjectId.Null
+      vp1.UpdateDisplay()
+      t.Commit()
 </code></pre>
 <hr>
-<h2 id="Example">Example</h2>
-<pre><code>try:
-	surfaceId = PromptForEntity("Select the surface to add a boundary to", TinSurface)
-	plineId = PromptForEntity("Select the object to use as a boundary", Polyline)
-
-	coll = ObjectIdCollection()
-	coll.Add(plineId)
-	ed.WriteMessage("pLINE COLLECTION HAS BEEN MADE")
-
-	oSurface = t.GetObject(surfaceId, OpenMode.ForWrite)
-
-	#
-	oSurface.BoundariesDefinition.AddBoundaries(coll, 100, SurfaceBoundaryType.Outer, True)
-
-	oSurface.Rebuild()
-	ed.WriteMessage("Rebuilt Done")
-
-	# Commit before end transaction
-	t.Commit()
-except:
-	ed.WriteMessage("Failed to add the boundary")
-
-</code></pre>
+<h3 id="Meaning-of-the-Viewport-Properties">Meaning of the Viewport Properties</h3>
+<table>
+<thead>
+<tr>
+<th>Properties</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ViewCenter</td>
+<td>the view center of the view in the viewport</td>
+</tr>
+<tr>
+<td>ViewTarget</td>
+<td>location of the model space in the viewport</td>
+</tr>
+<tr>
+<td>ViewDirection</td>
+<td>the vector from the target to the camera of the view in the viewport</td>
+</tr>
+<tr>
+<td>CenterPoint</td>
+<td>the centerpoint of viewport in paperspace</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h3 id="Application">Application</h3>
+<p>So what can we do with this function?<br>
+Mostly we have different plans such as drainage or driveway plan on same site, in various viewports. We need to relocate the site in the viewports one by one, However, with this function, we can adjust multiple viewports at the same time. Check the followed figure.</p>
+<p><img src="/2020/06/15/20200615Set%20Viewport%20in%20AutoCad%20.Net%20API/Adjustthemultipleviewportsinseconds2.gif" alt="Adjust the multiple viewports by several clicks"></p>
 <h1>Reference</h1>
-<p><a href="http://help.autodesk.com/view/CIV3D/2020/ENU/?guid=GUID-7C32E309-9B54-42A0-A4DC-C6FD592071F2" target="_blank" rel="noopener">http://help.autodesk.com/view/CIV3D/2020/ENU/?guid=GUID-7C32E309-9B54-42A0-A4DC-C6FD592071F2</a></p>
+<p><a href="http://docs.autodesk.com/ACD/2010/ENU/AutoCAD%20.NET%20Developer%27s%20Guide/index.html?url=WS1a9193826455f5ff2566ffd511ff6f8c7ca-3416.htm,topicNumber=d0e50529" target="_blank" rel="noopener">http://docs.autodesk.com/ACD/2010/ENU/AutoCAD .NET Developer's Guide/index.html?url=WS1a9193826455f5ff2566ffd511ff6f8c7ca-3416.htm,topicNumber=d0e50529</a></p>
 <script>
         document.querySelectorAll('.github-emoji')
           .forEach(el => {
@@ -2041,11 +1859,58 @@ public static DBObjectCollection GetSelection(FilterType[] tps)
       </tags>
   </entry>
   <entry>
-    <title>My route on AutoCAD .NET Developer&#39;s tools</title>
-    <url>/2020/08/15/20200815My%20route%20on%20AutoCAD%20DOTNET%20Developer/</url>
-    <content><![CDATA[<p>I have applied AutoCAD .NetAPI for writing some tools in the recent several month, but I still have not understand it so well. Every time I had to waste lots of time on searching for related information.  Therefore, I decided to write learning notes for what I have learnt and build my personal knowledge system on this topic from now on.</p>
+    <title>Prompt to Select one type of object in .NetAPI(Ironpython)</title>
+    <url>/2020/06/16/20200616Prompt%20to%20Select%20one%20type%20of%20object/</url>
+    <content><![CDATA[<hr>
+<h2 id="Function">Function</h2>
+<pre class=" language-language-python"><code class="language-language-python">def PromptForEntity( prompt, filetype):
+	global adoc
+	global ed
+
+	options = PromptEntityOptions("%s"%prompt)
+	options.SetRejectMessage("\nThe selected object is not a %s\n"%str(filetype))
+	options.AddAllowedClass(clr.GetClrType(filetype), True)
+
+
+	result = doc.Editor.GetEntity(options)
+
+	if result.Status != PromptStatus.OK:
+		ed.WriteMessage("\n The select target is " +str(filetype) +" please select "  +str(filetype) + "  \n")
+
+	if result.Status == PromptStatus.OK:
+		ed.WriteMessage("\ntarget has been selected\n")
+		ed.WriteMessage("\ntarget has been selected%s\n\n\n\n"%str(result.ObjectId))
+		return result.ObjectId
+
+	ed.WriteMessage("I will return Null  ")
+	return ObjectId.Null
+</code></pre>
+<hr>
+<h2 id="Example">Example</h2>
+<pre><code>try:
+	surfaceId = PromptForEntity("Select the surface to add a boundary to", TinSurface)
+	plineId = PromptForEntity("Select the object to use as a boundary", Polyline)
+
+	coll = ObjectIdCollection()
+	coll.Add(plineId)
+	ed.WriteMessage("pLINE COLLECTION HAS BEEN MADE")
+
+	oSurface = t.GetObject(surfaceId, OpenMode.ForWrite)
+
+	#
+	oSurface.BoundariesDefinition.AddBoundaries(coll, 100, SurfaceBoundaryType.Outer, True)
+
+	oSurface.Rebuild()
+	ed.WriteMessage("Rebuilt Done")
+
+	# Commit before end transaction
+	t.Commit()
+except:
+	ed.WriteMessage("Failed to add the boundary")
+
+</code></pre>
 <h1>Reference</h1>
-<p><a href="http://docs.autodesk.com/ACD/2010/ENU/AutoCAD%20.NET%20Developer' target=" _blank"="" rel="noopener" s%20guide="" index.html?url="WS1a9193826455f5ff2566ffd511ff6f8c7ca-3e30.htm,topicNumber=d0e26245" "="">http://docs.autodesk.com/ACD/2010/ENU/AutoCAD .NET Developer’s Guide/index.html?url=WS1a9193826455f5ff2566ffd511ff6f8c7ca-3e30.htm,topicNumber=d0e26245</a></p>
+<p><a href="http://help.autodesk.com/view/CIV3D/2020/ENU/?guid=GUID-7C32E309-9B54-42A0-A4DC-C6FD592071F2" target="_blank" rel="noopener">http://help.autodesk.com/view/CIV3D/2020/ENU/?guid=GUID-7C32E309-9B54-42A0-A4DC-C6FD592071F2</a></p>
 <script>
         document.querySelectorAll('.github-emoji')
           .forEach(el => {
@@ -2066,7 +1931,108 @@ public static DBObjectCollection GetSelection(FilterType[] tps)
           });
       </script>]]></content>
       <categories>
-        <category>August 2020</category>
+        <category>June 2020</category>
+      </categories>
+      <tags>
+        <tag>Civil3d</tag>
+        <tag>AutoCAD API</tag>
+        <tag>Ironpython</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>FilterType[] in dotNetAPI</title>
+    <url>/2020/06/18/20200618FilterType%5B%5D%20in%20dotNetAPI/</url>
+    <content><![CDATA[<h2 id="This-one-is-just-to-make-a-record-for-the-passage-in-the-Reference-The-content-and-code-are-all-from-this-passage">This one is just to make a record for the passage in the Reference. The content and code are all from <a href="https://mp.weixin.qq.com/s/f1UU9ihNL1B0UUKzMFgDAg" target="_blank" rel="noopener">this passage</a>.</h2>
+<h2 id="Aim">Aim</h2>
+<pre><code>&lt; or
+    &lt; and
+             Layer == "lay01"
+             Color == "1"    // 红色索引值为1
+             Entity type == "TEXT"
+    and &gt;
+    &lt; and
+             &lt; or
+             Layer == "lay02"
+             Layer == "lay03"
+             or &gt;
+             Color == "5"     // 蓝色索引值为5
+             Entity type == "POLYLINE"
+    and &gt;
+or &gt;
+</code></pre>
+<hr>
+<h2 id="Code">Code</h2>
+<pre class=" language-language-csharp"><code class="language-language-csharp">
+public static void MultipleSelectionFilter()
+{
+    // 获取当前文档编辑器
+    Editor ed = Autodesk.AutoCAD.ApplicationServices.Core.Application.DocumentManager.MdiActiveDocument.Editor;
+
+    // 创建一个数组定义筛选条件
+
+    // 定义筛选条件
+    TypedValue[] typeValue = {
+     new TypedValue((int) DxfCode.Operator, "<or"),
+     // 选择标准1
+     new TypedValue((int) DxfCode.Operator, "<and"),
+     new TypedValue((int) DxfCode.Start, "TEXT"),
+     new TypedValue((int) DxfCode.LayerName, "lay01"),
+     new TypedValue((int) DxfCode.Color, "1"),
+     new TypedValue((int) DxfCode.Operator, "and>"),
+     // 选择标准2
+     new TypedValue((int) DxfCode.Operator, "<and"),
+     new TypedValue((int) DxfCode.Start, "LWPOLYLINE"),
+     new TypedValue((int) DxfCode.Color, "5"),
+     new TypedValue((int) DxfCode.Operator, "<or"),
+     new TypedValue((int) DxfCode.LayerName, "lay02"),
+     new TypedValue((int) DxfCode.LayerName, "lay03"),
+     new TypedValue((int) DxfCode.Operator, "or>"),
+     new TypedValue((int) DxfCode.Operator, "and>"),
+     new TypedValue((int) DxfCode.Operator, "or>")
+    };
+
+    // 将筛选条件传到过滤器
+    SelectionFilter selFiter = new SelectionFilter(typeValue);
+
+    // 获取选择对象
+    PromptSelectionResult psr = ed.GetSelection(selFiter);
+
+
+    // 判断选择是否成功
+    if (psr.Status == PromptStatus.OK)
+    {
+        SelectionSet sSet = psr.Value;
+        Autodesk.AutoCAD.ApplicationServices.Core.Application.ShowAlertDialog("Number of objects selected: " + sSet.Count.ToString());
+    }
+    else
+    {
+        Autodesk.AutoCAD.ApplicationServices.Core.Application.ShowAlertDialog("Number of objects selected: 0");
+    }
+}
+</code></pre>
+<h1>Reference</h1>
+<p><a href="https://mp.weixin.qq.com/s/f1UU9ihNL1B0UUKzMFgDAg" target="_blank" rel="noopener">https://mp.weixin.qq.com/s/f1UU9ihNL1B0UUKzMFgDAg</a></p>
+<script>
+        document.querySelectorAll('.github-emoji')
+          .forEach(el => {
+            if (!el.dataset.src) { return; }
+            const img = document.createElement('img');
+            img.style = 'display:none !important;';
+            img.src = el.dataset.src;
+            img.addEventListener('error', () => {
+              img.remove();
+              el.style.color = 'inherit';
+              el.style.backgroundImage = 'none';
+              el.style.background = 'none';
+            });
+            img.addEventListener('load', () => {
+              img.remove();
+            });
+            document.body.appendChild(img);
+          });
+      </script>]]></content>
+      <categories>
+        <category>June 2020</category>
       </categories>
       <tags>
         <tag>Civil3d</tag>
@@ -2106,6 +2072,40 @@ public static DBObjectCollection GetSelection(FilterType[] tps)
       </script>]]></content>
       <categories>
         <category>June 2020</category>
+      </categories>
+      <tags>
+        <tag>Civil3d</tag>
+        <tag>AutoCAD API</tag>
+        <tag>C#</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>My route on AutoCAD .NET Developer&#39;s tools</title>
+    <url>/2020/08/15/20200815My%20route%20on%20AutoCAD%20DOTNET%20Developer/</url>
+    <content><![CDATA[<p>I have applied AutoCAD .NetAPI for writing some tools in the recent several month, but I still have not understand it so well. Every time I had to waste lots of time on searching for related information.  Therefore, I decided to write learning notes for what I have learnt and build my personal knowledge system on this topic from now on.</p>
+<h1>Reference</h1>
+<p><a href="http://docs.autodesk.com/ACD/2010/ENU/AutoCAD%20.NET%20Developer' target=" _blank"="" rel="noopener" s%20guide="" index.html?url="WS1a9193826455f5ff2566ffd511ff6f8c7ca-3e30.htm,topicNumber=d0e26245" "="">http://docs.autodesk.com/ACD/2010/ENU/AutoCAD .NET Developer’s Guide/index.html?url=WS1a9193826455f5ff2566ffd511ff6f8c7ca-3e30.htm,topicNumber=d0e26245</a></p>
+<script>
+        document.querySelectorAll('.github-emoji')
+          .forEach(el => {
+            if (!el.dataset.src) { return; }
+            const img = document.createElement('img');
+            img.style = 'display:none !important;';
+            img.src = el.dataset.src;
+            img.addEventListener('error', () => {
+              img.remove();
+              el.style.color = 'inherit';
+              el.style.backgroundImage = 'none';
+              el.style.background = 'none';
+            });
+            img.addEventListener('load', () => {
+              img.remove();
+            });
+            document.body.appendChild(img);
+          });
+      </script>]]></content>
+      <categories>
+        <category>August 2020</category>
       </categories>
       <tags>
         <tag>Civil3d</tag>
@@ -2233,7 +2233,7 @@ then the .dll file will be built up.<br>
   <entry>
     <title>02. Brief Introduction about AutoCAD Object Hierarchy</title>
     <url>/2020/08/23/20200823AutoCAD%20developer&#39;s%20tools%20--%20Brief%20Introduction/</url>
-    <content><![CDATA[<p>Before entering the main topic, I would like to write some background information.</p>
+    <content><![CDATA[<p>Before entering the main topic, I would like to mention some background information.</p>
 <h2 id="Understand-the-AutoCAD-Object-Hierarchy">Understand the AutoCAD Object Hierarchy</h2>
 <p>In my opinion, Object Hierarchy is the most important part for AutoCAD Developers. Indeed, the DWG file is a database, as a Developer, we are trying to read out/write into the data from the database. Hence, we need to know how the data(objects) build up in the database(DWG FILE). This part will be mentioned again and again later.</p>
 <hr>
@@ -2318,137 +2318,6 @@ Database  db = HostApplicationServices.WorkingDatabase;
 <p>From the database, we can access the Tables as shown in the figure above, from which we can loop object IDs inside the different tables. With the ID, we can get the objects in AutoCAD.</p>
 <p><img src="/2020/08/23/20200823AutoCAD%20developer's%20tools%20--%20Brief%20Introduction/4.png" alt="Table List"></p>
 <p><img src="/2020/08/23/20200823AutoCAD%20developer's%20tools%20--%20Brief%20Introduction/5.png" alt="Database Tables"></p>
-<h3 id="04-Transaction">04. Transaction</h3>
-<p>Transactions are used to group multiple operations on multiple objects together as a single operation. Transactions are started and managed through the Transaction Manager. Once a transaction is started, you can then use the GetObject function to open an object.</p>
-<pre class=" language-language-C#"><code class="language-language-C#">Database  db = HostApplicationServices.WorkingDatabase;  // current database
-using ( Transaction  tr = db.TransactionManager.StartTransaction()) //using method
-{
-// some coding...
-tr.Commit();  // commit the transaction
-}
-</code></pre>
-<h1>Reference</h1>
-<p><a href="http://docs.autodesk.com/ACD/2010/ENU/AutoCAD%20.NET%20Developer' target=" _blank"="" rel="noopener" s%20guide="" index.html?url="WS1a9193826455f5ff2566ffd511ff6f8c7ca-3e30.htm,topicNumber=d0e26245" "="">http://docs.autodesk.com/ACD/2010/ENU/AutoCAD .NET Developer’s Guide/index.html?url=WS1a9193826455f5ff2566ffd511ff6f8c7ca-3e30.htm,topicNumber=d0e26245</a></p>
-<script>
-        document.querySelectorAll('.github-emoji')
-          .forEach(el => {
-            if (!el.dataset.src) { return; }
-            const img = document.createElement('img');
-            img.style = 'display:none !important;';
-            img.src = el.dataset.src;
-            img.addEventListener('error', () => {
-              img.remove();
-              el.style.color = 'inherit';
-              el.style.backgroundImage = 'none';
-              el.style.background = 'none';
-            });
-            img.addEventListener('load', () => {
-              img.remove();
-            });
-            document.body.appendChild(img);
-          });
-      </script>]]></content>
-      <categories>
-        <category>August 2020</category>
-      </categories>
-      <tags>
-        <tag>Civil3d</tag>
-        <tag>AutoCAD API</tag>
-        <tag>C#</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>03. Create the line</title>
-    <url>/2020/08/24/20200824AutoCAD%20developer&#39;s%20tools%20--%20Create%20the%20line/</url>
-    <content><![CDATA[<p>Before entering the main topic, I would like to write some background information.</p>
-<h2 id="Understand-the-AutoCAD-Object-Hierarchy">Understand the AutoCAD Object Hierarchy</h2>
-<p>In my opinion, Object Hierarchy is the most important part for AutoCAD Developers. Indeed, the DWG file is a database, as a Developer, we are trying to read out/write into the data from the database. Hence, we need to know how the data(objects) build up in the database(DWG FILE). This part will be mentioned again and again later.</p>
-<hr>
-<h2 id="The-Document-Object">The Document Object</h2>
-<h3 id="01-Application">01. Application</h3>
-<p>The Application object is the root object of the AutoCAD .NET API. From the Application object, you can access the main window as well as any open drawing. Once you have a drawing, you can then access the objects in the drawing. For information on working with open drawing files (documents) see, The Document Object.<br>
-<img src="/2020/08/24/20200824AutoCAD%20developer's%20tools%20--%20Create%20the%20line/1.png" alt="Application Tree"></p>
-<blockquote>
-<p>DocumentManager</p>
-<blockquote>
-<p>Container for all the document objects (there is a document object for each drawing that is open).</p>
-</blockquote>
-</blockquote>
-<blockquote>
-<p>DocumentWindowCollection</p>
-<blockquote>
-<p>Container for all the document window objects (there is a document window object for each document object in the DocumentManager).</p>
-</blockquote>
-</blockquote>
-<blockquote>
-<p>InfoCenter</p>
-<blockquote>
-<p>Contains a reference to the InfoCenter toolbar.</p>
-</blockquote>
-</blockquote>
-<blockquote>
-<p>MainWindow</p>
-<blockquote>
-<p>Contains a reference to the application window object of AutoCAD.</p>
-</blockquote>
-</blockquote>
-<blockquote>
-<p>MenuBar</p>
-<blockquote>
-<p>Contains a reference to the MenuBar COM object for the menubar in AutoCAD.</p>
-</blockquote>
-</blockquote>
-<blockquote>
-<p>MenuGroups</p>
-<blockquote>
-<p>Contains a reference to the MenuGroups COM object which contains the customization group name for each loaded CUIx file.</p>
-</blockquote>
-</blockquote>
-<blockquote>
-<p>Preferences</p>
-<blockquote>
-<p>Contains a reference to the Preferences COM object which allows you to modify many of the settings in the Options dialog box.</p>
-</blockquote>
-</blockquote>
-<blockquote>
-<p>Publisher</p>
-<blockquote>
-<p>Contains a reference to the Publisher object which is used for publishing drawings.</p>
-</blockquote>
-</blockquote>
-<blockquote>
-<p>StatusBar</p>
-<blockquote>
-<p>Contains a reference to the StatusBar object for the application window.</p>
-</blockquote>
-</blockquote>
-<blockquote>
-<p>UserConfiguration</p>
-<blockquote>
-<p>Contains a reference to the UserConfiguration object which allows you to work with user saved profiles.</p>
-</blockquote>
-</blockquote>
-<h3 id="02-Document">02. Document</h3>
-<p>The Document object, which is actually an AutoCAD drawing, is part of the DocumentCollection object and provides access to the Database object which is associated with the Document object. The Database object contains all of the graphical and most of the nongraphical AutoCAD objects.</p>
-<p><img src="/2020/08/24/20200824AutoCAD%20developer's%20tools%20--%20Create%20the%20line/3.png" alt="Document Tree"></p>
-<pre class=" language-language-C#"><code class="language-language-C#">Get the current document and database
-Document  doc = Autodesk.AutoCAD.ApplicationServices.Application .DocumentManager.MdiActiveDocument;  
-</code></pre>
-<h3 id="03-Database">03. Database</h3>
-<p>The Database object contains all of the graphical and most of the nongraphical AutoCAD objects. Some of the objects contained in the database are entities, symbol tables, and named dictionaries. Entities in the database represent graphical objects within a drawing. Lines, circles, arcs, text, hatch, and polylines are examples of entities. A user can see an entity on the screen and can manipulate it.</p>
-<pre class=" language-language-C#"><code class="language-language-C#">Get the current database
- Database  db = Autodesk.AutoCAD.ApplicationServices. Application .DocumentManager.MdiActiveDocument.Database;
-
-Database  db = HostApplicationServices.WorkingDatabase;  
-</code></pre>
-<p><img src="/2020/08/24/20200824AutoCAD%20developer's%20tools%20--%20Create%20the%20line/2.png" alt="Table"></p>
-<p>From the database, we can access the Tables as shown in the figure above, from which we can get the object ID. With the ID, we can get the objects in AutoCAD.</p>
-<pre class=" language-language-c#"><code class="language-language-c#">
-using (Transaction tr = dbTM.StartTransaction())
-{
-  BlockTableRecord btr = tr.GetObject(SymbolUtilityServices.GetBlockModelSpaceId(db), OpenMode.ForRead) as BlockTableRecord;
-}
-</code></pre>
 <h3 id="04-Transaction">04. Transaction</h3>
 <p>Transactions are used to group multiple operations on multiple objects together as a single operation. Transactions are started and managed through the Transaction Manager. Once a transaction is started, you can then use the GetObject function to open an object.</p>
 <pre class=" language-language-C#"><code class="language-language-C#">Database  db = HostApplicationServices.WorkingDatabase;  // current database
@@ -2579,6 +2448,133 @@ osurface.Rebuild()
       </categories>
       <tags>
         <tag>Civil3d</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>03. Create the line</title>
+    <url>/2020/08/24/20200824AutoCAD%20developer&#39;s%20tools%20--%20Create%20the%20line/</url>
+    <content><![CDATA[<h2 id="Class-Inheritance-Tree">Class Inheritance Tree</h2>
+<p>Firstly, we need to understand how the drawing objects inheritance relationship.<br>
+<img src="/2020/08/24/20200824AutoCAD%20developer's%20tools%20--%20Create%20the%20line/1.png" alt="Objects Relationship"></p>
+<h2 id="Line-Drawing">Line Drawing</h2>
+<h3 id="“Line”-Class">“Line” Class</h3>
+<p><em>Line</em> is the most basic drawing object,  and it is the most simple one to draw.</p>
+<p>Firstly, let’s have a look at the class “Line”</p>
+<ul>
+<li>method</li>
+<li>property</li>
+</ul>
+<p><img src="/2020/08/24/20200824AutoCAD%20developer's%20tools%20--%20Create%20the%20line/2.png" alt="Line Class"></p>
+<h3 id="Create-Line">Create Line</h3>
+<p>I have two ways to create the line:</p>
+<blockquote>
+<p>WAY1</p>
+</blockquote>
+<ol>
+<li>declare a line first (now the line start point and endpoint are 0,0,0)</li>
+<li>define the start and end points</li>
+<li>Assign the point to the line</li>
+</ol>
+<blockquote>
+<p>Way2<br>
+Define the start and end point when declaring the line</p>
+</blockquote>
+<p>Add the two lines into the BlocktableRecord and commit the transaction.</p>
+<pre class=" language-language-C#"><code class="language-language-C#">using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Autodesk.AutoCAD.ApplicationServices;
+using Autodesk.AutoCAD.DatabaseServices;
+using Autodesk.AutoCAD.Geometry;
+using Autodesk.AutoCAD.Runtime;
+
+namespace _03.Create_Line
+{
+    public class LineExam
+    {
+        [CommandMethod("LineDemo")]
+        public void LineDemo()
+        { 
+            //WAY1
+            //declare a line object
+            Line line1 = new Line();
+
+
+            //declare the two points for the line
+            Point3d startPnt = new Point3d(10, 10, 0);
+            Point3d endPnt = new Point3d(100, 100, 0);
+
+            //set the line properties
+            line1.StartPoint = startPnt;
+            line1.EndPoint = endPnt;
+
+
+        
+        
+            //WAY1
+            Line line2 = new Line(new Point3d(0, 0, 0), new Point3d(0, 100, 0));
+
+
+
+            Document doc = Application.DocumentManager.MdiActiveDocument;
+            Database db = doc.Database;
+
+            using (Transaction tr = db.TransactionManager.StartTransaction())
+            {
+                //Open the block table in read mode
+                BlockTable bt = tr.GetObject(db.BlockTableId, OpenMode.ForRead) as BlockTable;
+                //open the block table record in write mode
+                BlockTableRecord btr = tr.GetObject(bt[BlockTableRecord.ModelSpace], OpenMode.ForWrite) as BlockTableRecord;
+
+                //add the two lines into the Blocktable Record
+                btr.AppendEntity(line1);
+                //update the data
+                tr.AddNewlyCreatedDBObject(line1, true);
+
+                btr.AppendEntity(line2);
+                tr.AddNewlyCreatedDBObject(line2, true);
+
+
+                tr.Commit();
+
+
+            }
+        }
+    }
+}
+</code></pre>
+<h3 id="Result">Result</h3>
+<p><img src="/2020/08/24/20200824AutoCAD%20developer's%20tools%20--%20Create%20the%20line/3.png" alt="Result"></p>
+<h1>Reference</h1>
+<p><a href="http://docs.autodesk.com/ACD/2010/ENU/AutoCAD%20.NET%20Developer' target=" _blank"="" rel="noopener" s%20guide="" index.html?url="WS1a9193826455f5ff2566ffd511ff6f8c7ca-3e30.htm,topicNumber=d0e26245" "="">http://docs.autodesk.com/ACD/2010/ENU/AutoCAD .NET Developer’s Guide/index.html?url=WS1a9193826455f5ff2566ffd511ff6f8c7ca-3e30.htm,topicNumber=d0e26245</a></p>
+<script>
+        document.querySelectorAll('.github-emoji')
+          .forEach(el => {
+            if (!el.dataset.src) { return; }
+            const img = document.createElement('img');
+            img.style = 'display:none !important;';
+            img.src = el.dataset.src;
+            img.addEventListener('error', () => {
+              img.remove();
+              el.style.color = 'inherit';
+              el.style.backgroundImage = 'none';
+              el.style.background = 'none';
+            });
+            img.addEventListener('load', () => {
+              img.remove();
+            });
+            document.body.appendChild(img);
+          });
+      </script>]]></content>
+      <categories>
+        <category>August 2020</category>
+      </categories>
+      <tags>
+        <tag>Civil3d</tag>
+        <tag>AutoCAD API</tag>
+        <tag>C#</tag>
       </tags>
   </entry>
   <entry>
@@ -3591,6 +3587,57 @@ ax.set_ylim([-42,-36])
       </tags>
   </entry>
   <entry>
+    <title>Land-use TIF file making for HEC-RAS 2D</title>
+    <url>/2020/04/20/Land-use%20TIF%20file%20making%20for%20HEC-RAS%202D/</url>
+    <content><![CDATA[<p>For 2D analysis in HEC-RAS, we may need to a land use map to assign the manning factor as . How to make it? Of course we can make the detailed land use map by analyzing satellite imagery. But for a simple model, sometime we do not need such a detailed plan. Today I would like to introduce a way to make simple land use map</p>
+<p><img src="/2020/04/20/Land-use%20TIF%20file%20making%20for%20HEC-RAS%202D/11.PNG" alt="HEC-RAS manning.png"></p>
+<p>First, we should download DEM data, building footprint and road information from <a href="https://geomapspublic.aucklandcouncil.govt.nz/viewer/index.html" target="_blank" rel="noopener">Auckland Council Geomap</a>.</p>
+<hr>
+<h3 id="Data-Loading">Data Loading</h3>
+<p>After loading all the data, we can have a map as below.</p>
+<p><img src="/2020/04/20/Land-use%20TIF%20file%20making%20for%20HEC-RAS%202D/22.PNG" alt="HEC-RAS manning.png"></p>
+<p>Now we need to assign different area with different values, and then merge them together.</p>
+<hr>
+<h3 id="Raster-Calculator">Raster Calculator</h3>
+<p>Firstly, we treat the whole catchment area by assigning “1”.</p>
+<p><img src="/2020/04/20/Land-use%20TIF%20file%20making%20for%20HEC-RAS%202D/catchment.PNG" alt="catchment.png"></p>
+<p>Secondly, we apply <em>.\3D Analyst Tools.tbx\Triangulated Surface\Interpolate Polygon to Multipatch</em> to assign the footprint area with value “4”.<br>
+<img src="/2020/04/20/Land-use%20TIF%20file%20making%20for%20HEC-RAS%202D/BFraster.PNG" alt="building footprint.png"></p>
+<p>Similarly, we apply <em>.\3D Analyst Tools.tbx\Triangulated Surface\Interpolate Polygon to Multipatch</em> to assign the roading area with value “3”.<br>
+<img src="/2020/04/20/Land-use%20TIF%20file%20making%20for%20HEC-RAS%202D/roadraster.PNG" alt="road.png"></p>
+<hr>
+<h3 id="Merging-the-files">Merging the files</h3>
+<p><em>.\Spatial Analyst Tools.tbx\Local\Cell Statistics</em> is used to merge the three raster together.Final result will be as the First Photo.</p>
+<p>We just finished a simple one, but the complex one is same, just to merge more seperate raster files.</p>
+<script>
+        document.querySelectorAll('.github-emoji')
+          .forEach(el => {
+            if (!el.dataset.src) { return; }
+            const img = document.createElement('img');
+            img.style = 'display:none !important;';
+            img.src = el.dataset.src;
+            img.addEventListener('error', () => {
+              img.remove();
+              el.style.color = 'inherit';
+              el.style.backgroundImage = 'none';
+              el.style.background = 'none';
+            });
+            img.addEventListener('load', () => {
+              img.remove();
+            });
+            document.body.appendChild(img);
+          });
+      </script>]]></content>
+      <categories>
+        <category>April 2020</category>
+      </categories>
+      <tags>
+        <tag>Arcmap</tag>
+        <tag>Raster</tag>
+        <tag>HEC-RAS</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Objects selection by Ironpython(.NET API in Civil3D) in Dynamo</title>
     <url>/2020/05/15/Objects%20selection%20by%20Ironpython/</url>
     <content><![CDATA[<p>Several ways to select objects According to the type as the result below.</p>
@@ -3707,28 +3754,27 @@ with adoc.LockDocument():
       </tags>
   </entry>
   <entry>
-    <title>Land-use TIF file making for HEC-RAS 2D</title>
-    <url>/2020/04/20/Land-use%20TIF%20file%20making%20for%20HEC-RAS%202D/</url>
-    <content><![CDATA[<p>For 2D analysis in HEC-RAS, we may need to a land use map to assign the manning factor as . How to make it? Of course we can make the detailed land use map by analyzing satellite imagery. But for a simple model, sometime we do not need such a detailed plan. Today I would like to introduce a way to make simple land use map</p>
-<p><img src="/2020/04/20/Land-use%20TIF%20file%20making%20for%20HEC-RAS%202D/11.PNG" alt="HEC-RAS manning.png"></p>
-<p>First, we should download DEM data, building footprint and road information from <a href="https://geomapspublic.aucklandcouncil.govt.nz/viewer/index.html" target="_blank" rel="noopener">Auckland Council Geomap</a>.</p>
+    <title>Present 3D DEM and Building in ArcScene</title>
+    <url>/2020/04/22/Present%20the%20results%20in%20ArcScene/</url>
+    <content><![CDATA[<p>If we want to have an 3D overview of DEM with Building or flooding data, we can use ArcScene.</p>
 <hr>
-<h3 id="Data-Loading">Data Loading</h3>
-<p>After loading all the data, we can have a map as below.</p>
-<p><img src="/2020/04/20/Land-use%20TIF%20file%20making%20for%20HEC-RAS%202D/22.PNG" alt="HEC-RAS manning.png"></p>
-<p>Now we need to assign different area with different values, and then merge them together.</p>
+<h3 id="Load-DEM">Load DEM</h3>
+<p>Firstly, we need to load the DEM raster files in ArcScene, and right-click the DEM layer and choose “Property”. Select the “Base Height” Tab as the figure below.</p>
+<p><img src="/2020/04/22/Present%20the%20results%20in%20ArcScene/11.PNG" alt="DEM Load"></p>
 <hr>
-<h3 id="Raster-Calculator">Raster Calculator</h3>
-<p>Firstly, we treat the whole catchment area by assigning “1”.</p>
-<p><img src="/2020/04/20/Land-use%20TIF%20file%20making%20for%20HEC-RAS%202D/catchment.PNG" alt="catchment.png"></p>
-<p>Secondly, we apply <em>.\3D Analyst Tools.tbx\Triangulated Surface\Interpolate Polygon to Multipatch</em> to assign the footprint area with value “4”.<br>
-<img src="/2020/04/20/Land-use%20TIF%20file%20making%20for%20HEC-RAS%202D/BFraster.PNG" alt="building footprint.png"></p>
-<p>Similarly, we apply <em>.\3D Analyst Tools.tbx\Triangulated Surface\Interpolate Polygon to Multipatch</em> to assign the roading area with value “3”.<br>
-<img src="/2020/04/20/Land-use%20TIF%20file%20making%20for%20HEC-RAS%202D/roadraster.PNG" alt="road.png"></p>
+<h3 id="Load-Building-Footprint-Dataset">Load Building Footprint Dataset</h3>
+<p>Same as the DEM loading, right-click the “Building Footprint” layer and choose “Property”. Select the “Extrustion” Tab as the figure below. Select the building height filed in the “Expression” box.</p>
+<p><img src="/2020/04/22/Present%20the%20results%20in%20ArcScene/22.PNG" alt="Building Extrusion"></p>
+<p>The result is as shown below.</p>
+<p><img src="/2020/04/22/Present%20the%20results%20in%20ArcScene/33.PNG" alt="Building Extrusion result.png"></p>
 <hr>
-<h3 id="Merging-the-files">Merging the files</h3>
-<p><em>.\Spatial Analyst Tools.tbx\Local\Cell Statistics</em> is used to merge the three raster together.Final result will be as the First Photo.</p>
-<p>We just finished a simple one, but the complex one is same, just to merge more seperate raster files.</p>
+<h3 id="Load-the-buiding-on-the-DEM">Load the buiding on the DEM</h3>
+<p>Select the “Base Height” Tab of the building Footprint Dataset as the figure below. Select the DEM Dataset.</p>
+<p><img src="/2020/04/22/Present%20the%20results%20in%20ArcScene/44.PNG" alt="Mosaic Dataset.png"></p>
+<hr>
+<h3 id="Final-result">Final result</h3>
+<p>In a similar way, we can load Road, drainage pipe or flooding, and have a 3D view for the Dataset.</p>
+<p><img src="/2020/04/22/Present%20the%20results%20in%20ArcScene/55.PNG" alt="result.png"></p>
 <script>
         document.querySelectorAll('.github-emoji')
           .forEach(el => {
@@ -3749,12 +3795,10 @@ with adoc.LockDocument():
           });
       </script>]]></content>
       <categories>
-        <category>April 2020</category>
+        <category>May 2020</category>
       </categories>
       <tags>
         <tag>Arcmap</tag>
-        <tag>Raster</tag>
-        <tag>HEC-RAS</tag>
       </tags>
   </entry>
   <entry>
@@ -4416,54 +4460,6 @@ states_with_cities.head()
       <tags>
         <tag>Spatial Analysis</tag>
         <tag>Geopandas</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Present 3D DEM and Building in ArcScene</title>
-    <url>/2020/04/22/Present%20the%20results%20in%20ArcScene/</url>
-    <content><![CDATA[<p>If we want to have an 3D overview of DEM with Building or flooding data, we can use ArcScene.</p>
-<hr>
-<h3 id="Load-DEM">Load DEM</h3>
-<p>Firstly, we need to load the DEM raster files in ArcScene, and right-click the DEM layer and choose “Property”. Select the “Base Height” Tab as the figure below.</p>
-<p><img src="/2020/04/22/Present%20the%20results%20in%20ArcScene/11.PNG" alt="DEM Load"></p>
-<hr>
-<h3 id="Load-Building-Footprint-Dataset">Load Building Footprint Dataset</h3>
-<p>Same as the DEM loading, right-click the “Building Footprint” layer and choose “Property”. Select the “Extrustion” Tab as the figure below. Select the building height filed in the “Expression” box.</p>
-<p><img src="/2020/04/22/Present%20the%20results%20in%20ArcScene/22.PNG" alt="Building Extrusion"></p>
-<p>The result is as shown below.</p>
-<p><img src="/2020/04/22/Present%20the%20results%20in%20ArcScene/33.PNG" alt="Building Extrusion result.png"></p>
-<hr>
-<h3 id="Load-the-buiding-on-the-DEM">Load the buiding on the DEM</h3>
-<p>Select the “Base Height” Tab of the building Footprint Dataset as the figure below. Select the DEM Dataset.</p>
-<p><img src="/2020/04/22/Present%20the%20results%20in%20ArcScene/44.PNG" alt="Mosaic Dataset.png"></p>
-<hr>
-<h3 id="Final-result">Final result</h3>
-<p>In a similar way, we can load Road, drainage pipe or flooding, and have a 3D view for the Dataset.</p>
-<p><img src="/2020/04/22/Present%20the%20results%20in%20ArcScene/55.PNG" alt="result.png"></p>
-<script>
-        document.querySelectorAll('.github-emoji')
-          .forEach(el => {
-            if (!el.dataset.src) { return; }
-            const img = document.createElement('img');
-            img.style = 'display:none !important;';
-            img.src = el.dataset.src;
-            img.addEventListener('error', () => {
-              img.remove();
-              el.style.color = 'inherit';
-              el.style.backgroundImage = 'none';
-              el.style.background = 'none';
-            });
-            img.addEventListener('load', () => {
-              img.remove();
-            });
-            document.body.appendChild(img);
-          });
-      </script>]]></content>
-      <categories>
-        <category>May 2020</category>
-      </categories>
-      <tags>
-        <tag>Arcmap</tag>
       </tags>
   </entry>
   <entry>

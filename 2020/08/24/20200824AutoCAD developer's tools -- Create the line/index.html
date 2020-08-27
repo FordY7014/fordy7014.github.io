@@ -379,14 +379,14 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>Word Count:&nbsp;&nbsp;
-                    624
+                    356
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>Read Times:&nbsp;&nbsp;
-                    3 Min
+                    2 Min
                 </div>
                 
 
@@ -396,104 +396,100 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>Before entering the main topic, I would like to write some background information.</p>
-<h2 id="Understand-the-AutoCAD-Object-Hierarchy">Understand the AutoCAD Object Hierarchy</h2>
-<p>In my opinion, Object Hierarchy is the most important part for AutoCAD Developers. Indeed, the DWG file is a database, as a Developer, we are trying to read out/write into the data from the database. Hence, we need to know how the data(objects) build up in the database(DWG FILE). This part will be mentioned again and again later.</p>
-<hr>
-<h2 id="The-Document-Object">The Document Object</h2>
-<h3 id="01-Application">01. Application</h3>
-<p>The Application object is the root object of the AutoCAD .NET API. From the Application object, you can access the main window as well as any open drawing. Once you have a drawing, you can then access the objects in the drawing. For information on working with open drawing files (documents) see, The Document Object.<br>
-<img src="/2020/08/24/20200824AutoCAD%20developer's%20tools%20--%20Create%20the%20line/1.png" alt="Application Tree"></p>
+                <h2 id="Class-Inheritance-Tree">Class Inheritance Tree</h2>
+<p>Firstly, we need to understand how the drawing objects inheritance relationship.<br>
+<img src="/2020/08/24/20200824AutoCAD%20developer's%20tools%20--%20Create%20the%20line/1.png" alt="Objects Relationship"></p>
+<h2 id="Line-Drawing">Line Drawing</h2>
+<h3 id="“Line”-Class">“Line” Class</h3>
+<p><em>Line</em> is the most basic drawing object,  and it is the most simple one to draw.</p>
+<p>Firstly, let’s have a look at the class “Line”</p>
+<ul>
+<li>method</li>
+<li>property</li>
+</ul>
+<p><img src="/2020/08/24/20200824AutoCAD%20developer's%20tools%20--%20Create%20the%20line/2.png" alt="Line Class"></p>
+<h3 id="Create-Line">Create Line</h3>
+<p>I have two ways to create the line:</p>
 <blockquote>
-<p>DocumentManager</p>
+<p>WAY1</p>
+</blockquote>
+<ol>
+<li>declare a line first (now the line start point and endpoint are 0,0,0)</li>
+<li>define the start and end points</li>
+<li>Assign the point to the line</li>
+</ol>
 <blockquote>
-<p>Container for all the document objects (there is a document object for each drawing that is open).</p>
+<p>Way2<br>
+Define the start and end point when declaring the line</p>
 </blockquote>
-</blockquote>
-<blockquote>
-<p>DocumentWindowCollection</p>
-<blockquote>
-<p>Container for all the document window objects (there is a document window object for each document object in the DocumentManager).</p>
-</blockquote>
-</blockquote>
-<blockquote>
-<p>InfoCenter</p>
-<blockquote>
-<p>Contains a reference to the InfoCenter toolbar.</p>
-</blockquote>
-</blockquote>
-<blockquote>
-<p>MainWindow</p>
-<blockquote>
-<p>Contains a reference to the application window object of AutoCAD.</p>
-</blockquote>
-</blockquote>
-<blockquote>
-<p>MenuBar</p>
-<blockquote>
-<p>Contains a reference to the MenuBar COM object for the menubar in AutoCAD.</p>
-</blockquote>
-</blockquote>
-<blockquote>
-<p>MenuGroups</p>
-<blockquote>
-<p>Contains a reference to the MenuGroups COM object which contains the customization group name for each loaded CUIx file.</p>
-</blockquote>
-</blockquote>
-<blockquote>
-<p>Preferences</p>
-<blockquote>
-<p>Contains a reference to the Preferences COM object which allows you to modify many of the settings in the Options dialog box.</p>
-</blockquote>
-</blockquote>
-<blockquote>
-<p>Publisher</p>
-<blockquote>
-<p>Contains a reference to the Publisher object which is used for publishing drawings.</p>
-</blockquote>
-</blockquote>
-<blockquote>
-<p>StatusBar</p>
-<blockquote>
-<p>Contains a reference to the StatusBar object for the application window.</p>
-</blockquote>
-</blockquote>
-<blockquote>
-<p>UserConfiguration</p>
-<blockquote>
-<p>Contains a reference to the UserConfiguration object which allows you to work with user saved profiles.</p>
-</blockquote>
-</blockquote>
-<h3 id="02-Document">02. Document</h3>
-<p>The Document object, which is actually an AutoCAD drawing, is part of the DocumentCollection object and provides access to the Database object which is associated with the Document object. The Database object contains all of the graphical and most of the nongraphical AutoCAD objects.</p>
-<p><img src="/2020/08/24/20200824AutoCAD%20developer's%20tools%20--%20Create%20the%20line/3.png" alt="Document Tree"></p>
-<pre class=" language-language-C#"><code class="language-language-C#">Get the current document and database
-Document  doc = Autodesk.AutoCAD.ApplicationServices.Application .DocumentManager.MdiActiveDocument;  
-</code></pre>
-<h3 id="03-Database">03. Database</h3>
-<p>The Database object contains all of the graphical and most of the nongraphical AutoCAD objects. Some of the objects contained in the database are entities, symbol tables, and named dictionaries. Entities in the database represent graphical objects within a drawing. Lines, circles, arcs, text, hatch, and polylines are examples of entities. A user can see an entity on the screen and can manipulate it.</p>
-<pre class=" language-language-C#"><code class="language-language-C#">Get the current database
- Database  db = Autodesk.AutoCAD.ApplicationServices. Application .DocumentManager.MdiActiveDocument.Database;
+<p>Add the two lines into the BlocktableRecord and commit the transaction.</p>
+<pre class=" language-language-C#"><code class="language-language-C#">using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Autodesk.AutoCAD.ApplicationServices;
+using Autodesk.AutoCAD.DatabaseServices;
+using Autodesk.AutoCAD.Geometry;
+using Autodesk.AutoCAD.Runtime;
 
-Database  db = HostApplicationServices.WorkingDatabase;  
-</code></pre>
-<p><img src="/2020/08/24/20200824AutoCAD%20developer's%20tools%20--%20Create%20the%20line/2.png" alt="Table"></p>
-<p>From the database, we can access the Tables as shown in the figure above, from which we can get the object ID. With the ID, we can get the objects in AutoCAD.</p>
-<pre class=" language-language-c#"><code class="language-language-c#">
-using (Transaction tr = dbTM.StartTransaction())
+namespace _03.Create_Line
 {
-  BlockTableRecord btr = tr.GetObject(SymbolUtilityServices.GetBlockModelSpaceId(db), OpenMode.ForRead) as BlockTableRecord;
+    public class LineExam
+    {
+        [CommandMethod("LineDemo")]
+        public void LineDemo()
+        { 
+            //WAY1
+            //declare a line object
+            Line line1 = new Line();
+
+
+            //declare the two points for the line
+            Point3d startPnt = new Point3d(10, 10, 0);
+            Point3d endPnt = new Point3d(100, 100, 0);
+
+            //set the line properties
+            line1.StartPoint = startPnt;
+            line1.EndPoint = endPnt;
+
+
+        
+        
+            //WAY1
+            Line line2 = new Line(new Point3d(0, 0, 0), new Point3d(0, 100, 0));
+
+
+
+            Document doc = Application.DocumentManager.MdiActiveDocument;
+            Database db = doc.Database;
+
+            using (Transaction tr = db.TransactionManager.StartTransaction())
+            {
+                //Open the block table in read mode
+                BlockTable bt = tr.GetObject(db.BlockTableId, OpenMode.ForRead) as BlockTable;
+                //open the block table record in write mode
+                BlockTableRecord btr = tr.GetObject(bt[BlockTableRecord.ModelSpace], OpenMode.ForWrite) as BlockTableRecord;
+
+                //add the two lines into the Blocktable Record
+                btr.AppendEntity(line1);
+                //update the data
+                tr.AddNewlyCreatedDBObject(line1, true);
+
+                btr.AppendEntity(line2);
+                tr.AddNewlyCreatedDBObject(line2, true);
+
+
+                tr.Commit();
+
+
+            }
+        }
+    }
 }
 </code></pre>
-<h3 id="04-Transaction">04. Transaction</h3>
-<p>Transactions are used to group multiple operations on multiple objects together as a single operation. Transactions are started and managed through the Transaction Manager. Once a transaction is started, you can then use the GetObject function to open an object.</p>
-<pre class=" language-language-C#"><code class="language-language-C#">Database  db = HostApplicationServices.WorkingDatabase;  // current database
-using ( Transaction  tr = db.TransactionManager.StartTransaction()) //using method
-{
-// some coding...
-tr.Commit();  // commit the transaction
-}
-</code></pre>
+<h3 id="Result">Result</h3>
+<p><img src="/2020/08/24/20200824AutoCAD%20developer's%20tools%20--%20Create%20the%20line/3.png" alt="Result"></p>
 <h1>Reference</h1>
 <p><a href="http://docs.autodesk.com/ACD/2010/ENU/AutoCAD%20.NET%20Developer' target=" _blank"="" rel="noopener" s%20guide="" index.html?url="WS1a9193826455f5ff2566ffd511ff6f8c7ca-3e30.htm,topicNumber=d0e26245" "="">http://docs.autodesk.com/ACD/2010/ENU/AutoCAD .NET Developer’s Guide/index.html?url=WS1a9193826455f5ff2566ffd511ff6f8c7ca-3e30.htm,topicNumber=d0e26245</a></p>
 <script>
@@ -645,8 +641,11 @@ tr.Commit();  // commit the transaction
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            Before entering the main topic, I would like to write some background information.
-Understand the AutoCAD Object Hierarc
+                            Class Inheritance Tree
+Firstly, we need to understand how the drawing objects inheritance relationship.
+
+Line Drawing
+“L
                         
                     </div>
                     <div class="publish-info">
@@ -704,8 +703,8 @@ Understand the AutoCAD Object Hierarc
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            Before entering the main topic, I would like to write some background information.
-Understand the AutoCAD Object Hierarc
+                            Before entering the main topic, I would like to mention some background information.
+Understand the AutoCAD Object Hiera
                         
                     </div>
                     <div class="publish-info">
