@@ -398,7 +398,7 @@
             <div id="articleContent">
                 <h2 id="Introduction">Introduction</h2>
 <p>After learning how to draw a line with AutoCAD API, we can use similar way to create other drawable objects. We only need to go into the content of the objects’ class, and we just feed the objects what they need, the objects can be created.<br>
-<img src="/2020/08/25/20200825AutoCAD%20developer's%20tools%20--%20Create%20the%20line%20copy/1.png" alt="Arc Class"></p>
+<img src="/2020/08/25/20200825AutoCAD%20developer's%20tools%20--%20Modify%20the%20drawable%20object/1.png" alt="Arc Class"></p>
 <p>For example, from the figure above, we can see how to create the Arc.<br>
 There are three method</p>
 <blockquote>
@@ -432,7 +432,7 @@ public Arc(Point3d center, Vector3d normal, double radius, double startAngle, do
 <p>As mentioned before, the object has some methods and properties for us to modify it.</p>
 <h3 id="01-Derivatives">01. Derivatives</h3>
 <p>When checking the inheritage chain, we can find other methods and properties from the derived classes.</p>
-<p><img src="/2020/08/25/20200825AutoCAD%20developer's%20tools%20--%20Create%20the%20line%20copy/2.png" alt="Inheritage Class"></p>
+<p><img src="/2020/08/25/20200825AutoCAD%20developer's%20tools%20--%20Modify%20the%20drawable%20object/2.png" alt="Inheritage Class"></p>
 <p>Let’s have a look at the properties of the entity</p>
 <pre class=" language-language-C#"><code class="language-language-C#">namespace Autodesk.AutoCAD.DatabaseServices
 {
@@ -657,7 +657,7 @@ public static void RotateEntity(this ObjectId entId, Point3d center, double degr
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://fordy7014.github.io/2020/08/25/20200825AutoCAD%20developer's%20tools%20--%20Create%20the%20line%20copy/">https://fordy7014.github.io/2020/08/25/20200825AutoCAD%20developer's%20tools%20--%20Create%20the%20line%20copy/</a>
+                    <a href="https://fordy7014.github.io/2020/08/25/20200825AutoCAD%20developer's%20tools%20--%20Modify%20the%20drawable%20object/">https://fordy7014.github.io/2020/08/25/20200825AutoCAD%20developer's%20tools%20--%20Modify%20the%20drawable%20object/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -751,7 +751,7 @@ public static void RotateEntity(this ObjectId entId, Point3d center, double degr
                 <i class="far fa-dot-circle"></i>&nbsp;Current
             </div>
             <div class="card">
-                <a href="/2020/08/25/20200825AutoCAD%20developer's%20tools%20--%20Create%20the%20line%20copy/">
+                <a href="/2020/08/25/20200825AutoCAD%20developer's%20tools%20--%20Modify%20the%20drawable%20object/">
                     <div class="card-image">
                         
                         
