@@ -1753,6 +1753,87 @@ Mostly we have different plans such as drainage or driveway plan on same site, i
       </tags>
   </entry>
   <entry>
+    <title>Prompt to Select one type of object in .NetAPI(Ironpython)</title>
+    <url>/2020/06/16/20200616Prompt%20to%20Select%20one%20type%20of%20object/</url>
+    <content><![CDATA[<hr>
+<h2 id="Function">Function</h2>
+<pre class=" language-language-python"><code class="language-language-python">def PromptForEntity( prompt, filetype):
+	global adoc
+	global ed
+
+	options = PromptEntityOptions("%s"%prompt)
+	options.SetRejectMessage("\nThe selected object is not a %s\n"%str(filetype))
+	options.AddAllowedClass(clr.GetClrType(filetype), True)
+
+
+	result = doc.Editor.GetEntity(options)
+
+	if result.Status != PromptStatus.OK:
+		ed.WriteMessage("\n The select target is " +str(filetype) +" please select "  +str(filetype) + "  \n")
+
+	if result.Status == PromptStatus.OK:
+		ed.WriteMessage("\ntarget has been selected\n")
+		ed.WriteMessage("\ntarget has been selected%s\n\n\n\n"%str(result.ObjectId))
+		return result.ObjectId
+
+	ed.WriteMessage("I will return Null  ")
+	return ObjectId.Null
+</code></pre>
+<hr>
+<h2 id="Example">Example</h2>
+<pre><code>try:
+	surfaceId = PromptForEntity("Select the surface to add a boundary to", TinSurface)
+	plineId = PromptForEntity("Select the object to use as a boundary", Polyline)
+
+	coll = ObjectIdCollection()
+	coll.Add(plineId)
+	ed.WriteMessage("pLINE COLLECTION HAS BEEN MADE")
+
+	oSurface = t.GetObject(surfaceId, OpenMode.ForWrite)
+
+	#
+	oSurface.BoundariesDefinition.AddBoundaries(coll, 100, SurfaceBoundaryType.Outer, True)
+
+	oSurface.Rebuild()
+	ed.WriteMessage("Rebuilt Done")
+
+	# Commit before end transaction
+	t.Commit()
+except:
+	ed.WriteMessage("Failed to add the boundary")
+
+</code></pre>
+<h1>Reference</h1>
+<p><a href="http://help.autodesk.com/view/CIV3D/2020/ENU/?guid=GUID-7C32E309-9B54-42A0-A4DC-C6FD592071F2" target="_blank" rel="noopener">http://help.autodesk.com/view/CIV3D/2020/ENU/?guid=GUID-7C32E309-9B54-42A0-A4DC-C6FD592071F2</a></p>
+<script>
+        document.querySelectorAll('.github-emoji')
+          .forEach(el => {
+            if (!el.dataset.src) { return; }
+            const img = document.createElement('img');
+            img.style = 'display:none !important;';
+            img.src = el.dataset.src;
+            img.addEventListener('error', () => {
+              img.remove();
+              el.style.color = 'inherit';
+              el.style.backgroundImage = 'none';
+              el.style.background = 'none';
+            });
+            img.addEventListener('load', () => {
+              img.remove();
+            });
+            document.body.appendChild(img);
+          });
+      </script>]]></content>
+      <categories>
+        <category>June 2020</category>
+      </categories>
+      <tags>
+        <tag>Civil3d</tag>
+        <tag>AutoCAD API</tag>
+        <tag>Ironpython</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Move the selected objects to the current layer</title>
     <url>/2020/06/17/20200617Move%20the%20selected%20objects%20to%20the%20current%20layer/</url>
     <content><![CDATA[<hr>
@@ -1856,87 +1937,6 @@ public static DBObjectCollection GetSelection(FilterType[] tps)
         <tag>Civil3d</tag>
         <tag>AutoCAD API</tag>
         <tag>C#</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Prompt to Select one type of object in .NetAPI(Ironpython)</title>
-    <url>/2020/06/16/20200616Prompt%20to%20Select%20one%20type%20of%20object/</url>
-    <content><![CDATA[<hr>
-<h2 id="Function">Function</h2>
-<pre class=" language-language-python"><code class="language-language-python">def PromptForEntity( prompt, filetype):
-	global adoc
-	global ed
-
-	options = PromptEntityOptions("%s"%prompt)
-	options.SetRejectMessage("\nThe selected object is not a %s\n"%str(filetype))
-	options.AddAllowedClass(clr.GetClrType(filetype), True)
-
-
-	result = doc.Editor.GetEntity(options)
-
-	if result.Status != PromptStatus.OK:
-		ed.WriteMessage("\n The select target is " +str(filetype) +" please select "  +str(filetype) + "  \n")
-
-	if result.Status == PromptStatus.OK:
-		ed.WriteMessage("\ntarget has been selected\n")
-		ed.WriteMessage("\ntarget has been selected%s\n\n\n\n"%str(result.ObjectId))
-		return result.ObjectId
-
-	ed.WriteMessage("I will return Null  ")
-	return ObjectId.Null
-</code></pre>
-<hr>
-<h2 id="Example">Example</h2>
-<pre><code>try:
-	surfaceId = PromptForEntity("Select the surface to add a boundary to", TinSurface)
-	plineId = PromptForEntity("Select the object to use as a boundary", Polyline)
-
-	coll = ObjectIdCollection()
-	coll.Add(plineId)
-	ed.WriteMessage("pLINE COLLECTION HAS BEEN MADE")
-
-	oSurface = t.GetObject(surfaceId, OpenMode.ForWrite)
-
-	#
-	oSurface.BoundariesDefinition.AddBoundaries(coll, 100, SurfaceBoundaryType.Outer, True)
-
-	oSurface.Rebuild()
-	ed.WriteMessage("Rebuilt Done")
-
-	# Commit before end transaction
-	t.Commit()
-except:
-	ed.WriteMessage("Failed to add the boundary")
-
-</code></pre>
-<h1>Reference</h1>
-<p><a href="http://help.autodesk.com/view/CIV3D/2020/ENU/?guid=GUID-7C32E309-9B54-42A0-A4DC-C6FD592071F2" target="_blank" rel="noopener">http://help.autodesk.com/view/CIV3D/2020/ENU/?guid=GUID-7C32E309-9B54-42A0-A4DC-C6FD592071F2</a></p>
-<script>
-        document.querySelectorAll('.github-emoji')
-          .forEach(el => {
-            if (!el.dataset.src) { return; }
-            const img = document.createElement('img');
-            img.style = 'display:none !important;';
-            img.src = el.dataset.src;
-            img.addEventListener('error', () => {
-              img.remove();
-              el.style.color = 'inherit';
-              el.style.backgroundImage = 'none';
-              el.style.background = 'none';
-            });
-            img.addEventListener('load', () => {
-              img.remove();
-            });
-            document.body.appendChild(img);
-          });
-      </script>]]></content>
-      <categories>
-        <category>June 2020</category>
-      </categories>
-      <tags>
-        <tag>Civil3d</tag>
-        <tag>AutoCAD API</tag>
-        <tag>Ironpython</tag>
       </tags>
   </entry>
   <entry>
@@ -2358,6 +2358,385 @@ tr.Commit();  // commit the transaction
       </tags>
   </entry>
   <entry>
+    <title>03. Create the line</title>
+    <url>/2020/08/24/20200824AutoCAD%20developer&#39;s%20tools%20--%20Create%20the%20line/</url>
+    <content><![CDATA[<h2 id="Class-Inheritance-Tree">Class Inheritance Tree</h2>
+<p>Firstly, we need to understand how the drawing objects inheritance relationship.<br>
+<img src="/2020/08/24/20200824AutoCAD%20developer's%20tools%20--%20Create%20the%20line/1.png" alt="Objects Relationship"></p>
+<h2 id="Line-Drawing">Line Drawing</h2>
+<h3 id="01-“Line”-Class">01.“Line” Class</h3>
+<p><em>Line</em> is the most basic drawing object,  and it is the most simple one to draw.</p>
+<p>Firstly, let’s have a look at the class “Line”</p>
+<ul>
+<li>method</li>
+<li>property</li>
+</ul>
+<p><img src="/2020/08/24/20200824AutoCAD%20developer's%20tools%20--%20Create%20the%20line/2.png" alt="Line Class"></p>
+<h3 id="02-Create-Line">02.Create Line</h3>
+<p>I have two ways to create the line:</p>
+<blockquote>
+<p>WAY1</p>
+<ol>
+<li>declare a line first (now the line start point and endpoint are 0,0,0)</li>
+<li>define the start and end points</li>
+<li>Assign the point to the line</li>
+</ol>
+</blockquote>
+<blockquote>
+<p>Way2</p>
+<ul>
+<li>Define the start and end point when declaring the line</li>
+</ul>
+</blockquote>
+<p>Add the two lines into the BlocktableRecord and commit the transaction.</p>
+<pre class=" language-language-C#"><code class="language-language-C#">using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Autodesk.AutoCAD.ApplicationServices;
+using Autodesk.AutoCAD.DatabaseServices;
+using Autodesk.AutoCAD.Geometry;
+using Autodesk.AutoCAD.Runtime;
+
+namespace _03.Create_Line
+{
+    public class LineExam
+    {
+        [CommandMethod("LineDemo")]
+        public void LineDemo()
+        { 
+            //WAY1
+            //declare a line object
+            Line line1 = new Line();
+
+
+            //declare the two points for the line
+            Point3d startPnt = new Point3d(10, 10, 0);
+            Point3d endPnt = new Point3d(100, 100, 0);
+
+            //set the line properties
+            line1.StartPoint = startPnt;
+            line1.EndPoint = endPnt;
+
+
+        
+        
+            //WAY1
+            Line line2 = new Line(new Point3d(0, 0, 0), new Point3d(0, 100, 0));
+
+
+
+            Document doc = Application.DocumentManager.MdiActiveDocument;
+            Database db = doc.Database;
+
+            using (Transaction tr = db.TransactionManager.StartTransaction())
+            {
+                //Open the block table in read mode
+                BlockTable bt = tr.GetObject(db.BlockTableId, OpenMode.ForRead) as BlockTable;
+                //open the block table record in write mode
+                BlockTableRecord btr = tr.GetObject(bt[BlockTableRecord.ModelSpace], OpenMode.ForWrite) as BlockTableRecord;
+
+                //add the two lines into the Blocktable Record
+                btr.AppendEntity(line1);
+                //update the data
+                tr.AddNewlyCreatedDBObject(line1, true);
+
+                btr.AppendEntity(line2);
+                tr.AddNewlyCreatedDBObject(line2, true);
+
+
+                tr.Commit();
+
+
+            }
+        }
+    }
+}
+</code></pre>
+<h3 id="03-Result">03. Result</h3>
+<p><img src="/2020/08/24/20200824AutoCAD%20developer's%20tools%20--%20Create%20the%20line/3.png" alt="Result"></p>
+<hr>
+<h1>Reference</h1>
+<p><a href="http://docs.autodesk.com/ACD/2010/ENU/AutoCAD%20.NET%20Developer' target=" _blank"="" rel="noopener" s%20guide="" index.html?url="WS1a9193826455f5ff2566ffd511ff6f8c7ca-3e30.htm,topicNumber=d0e26245" "="">http://docs.autodesk.com/ACD/2010/ENU/AutoCAD .NET Developer’s Guide/index.html?url=WS1a9193826455f5ff2566ffd511ff6f8c7ca-3e30.htm,topicNumber=d0e26245</a></p>
+<script>
+        document.querySelectorAll('.github-emoji')
+          .forEach(el => {
+            if (!el.dataset.src) { return; }
+            const img = document.createElement('img');
+            img.style = 'display:none !important;';
+            img.src = el.dataset.src;
+            img.addEventListener('error', () => {
+              img.remove();
+              el.style.color = 'inherit';
+              el.style.backgroundImage = 'none';
+              el.style.background = 'none';
+            });
+            img.addEventListener('load', () => {
+              img.remove();
+            });
+            document.body.appendChild(img);
+          });
+      </script>]]></content>
+      <categories>
+        <category>August 2020</category>
+      </categories>
+      <tags>
+        <tag>Civil3d</tag>
+        <tag>AutoCAD API</tag>
+        <tag>C#</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>04. Modify the drawable object</title>
+    <url>/2020/08/25/20200825AutoCAD%20developer&#39;s%20tools%20--%20Create%20the%20line%20copy/</url>
+    <content><![CDATA[<h2 id="Introduction">Introduction</h2>
+<p>After learning how to draw a line with AutoCAD API, we can use similar way to create other drawable objects. We only need to go into the content of the objects’ class, and we just feed the objects what they need, the objects can be created.<br>
+<img src="/2020/08/25/20200825AutoCAD%20developer's%20tools%20--%20Create%20the%20line%20copy/1.png" alt="Arc Class"></p>
+<p>For example, from the figure above, we can see how to create the Arc.<br>
+There are three method</p>
+<blockquote>
+<p>WAY1</p>
+<ol>
+<li>Create the empty Arc Object</li>
+<li>The we assign the empty object with other properties</li>
+</ol>
+</blockquote>
+<blockquote>
+<p>WAY2</p>
+<ol>
+<li>While creating the Arc object, we give the center point and radius</li>
+<li>start angle and end angle of the Arc</li>
+</ol>
+</blockquote>
+<blockquote>
+<p>WAY3</p>
+<ol>
+<li>While creating the Arc object, we give the center point, vector and radius</li>
+<li>start angle and end angle of the Arc</li>
+</ol>
+</blockquote>
+<pre class=" language-language-C#"><code class="language-language-C#">public Arc();
+public Arc(Point3d center, double radius, double startAngle, double endAngle);
+public Arc(Point3d center, Vector3d normal, double radius, double startAngle, double endAngle);
+</code></pre>
+<p>Apparently, in AutoCAD we have many more ways to create Arc, since the software helped us to calculate the input values to the parameters for the mothod to create the Arc objects.</p>
+<p>Now we go to the next topic.</p>
+<h2 id="Object-Modification">Object Modification</h2>
+<p>As mentioned before, the object has some methods and properties for us to modify it.</p>
+<h3 id="01-Derivatives">01. Derivatives</h3>
+<p>When checking the inheritage chain, we can find other methods and properties from the derived classes.</p>
+<p><img src="/2020/08/25/20200825AutoCAD%20developer's%20tools%20--%20Create%20the%20line%20copy/2.png" alt="Inheritage Class"></p>
+<p>Let’s have a look at the properties of the entity</p>
+<pre class=" language-language-C#"><code class="language-language-C#">namespace Autodesk.AutoCAD.DatabaseServices
+{
+    [TypeDescriptionProvider("Autodesk.AutoCAD.ComponentModel.TypeDescriptionProvider`1[[Autodesk.AutoCAD.DatabaseServices.Entity, acdbmgd]], acdbmgd")]
+    [Wrapper("AcDbEntity")]
+    public abstract class Entity : DBObject
+    {
+        protected internal Entity(IntPtr unmanagedObjPtr, bool autoDelete);
+
+        [Category("3D Visualization")]
+        public ObjectId FaceStyleId { get; set; }
+        [Category("3D Visualization")]
+        public ObjectId VisualStyleId { get; set; }
+        public virtual bool ForceAnnoAllVisible { get; set; }
+        [Category("Misc")]
+        public string BlockName { get; }
+        [Category("3D Visualization")]
+        public Mapper MaterialMapper { get; set; }
+        [Category("3D Visualization")]
+        public ObjectId MaterialId { get; set; }
+        [Category("3D Visualization")]
+        public string Material { get; set; }
+        [Category("3D Visualization")]
+        public virtual bool ReceiveShadows { get; set; }
+        [Category("3D Visualization")]
+        public virtual bool CastShadows { get; set; }
+        [Category("General")]
+        public HyperLinkCollection Hyperlinks { get; }
+        public virtual bool CloneMeForDragging { get; }
+        [Category("Geometry")]
+        public virtual Matrix3d CompoundObjectTransform { get; }
+        [Category("Geometry")]
+        public virtual Extents3d GeometricExtents { get; }
+        [Category("3D Visualization")]
+        public ObjectId EdgeStyleId { get; set; }
+        public virtual Matrix3d Ecs { get; }
+        [Category("Geometry")]
+        public virtual CollisionType CollisionType { get; }
+        [Category("General")]
+        public virtual LineWeight LineWeight { get; set; }
+        [Category("General")]
+        public virtual bool Visible { get; set; }
+        [Category("General")]
+        [UnitType(UnitType.Unitless)]
+        public virtual double LinetypeScale { get; set; }
+        [Category("General")]
+        public virtual ObjectId LinetypeId { get; set; }
+        [Category("General")]
+        public virtual string Linetype { get; set; }
+        [Category("General")]
+        public virtual ObjectId LayerId { get; set; }
+        [Category("General")]
+        public virtual string Layer { get; set; }
+        [Category("General")]
+        public virtual PlotStyleDescriptor PlotStyleNameId { get; set; }
+        [Category("General")]
+        public virtual string PlotStyleName { get; set; }
+        [Category("General")]
+        public virtual Transparency Transparency { get; set; }
+        [Category("General")]
+        public EntityColor EntityColor { get; }
+        [Category("General")]
+        public virtual int ColorIndex { get; set; }
+        [Category("Geometry")]
+        public virtual bool IsPlanar { get; }
+        [Category("General")]
+        public virtual Color Color { get; set; }
+        [Category("Misc")]
+        public ObjectId BlockId { get; }
+</code></pre>
+<p>Hence, all the derivatives of the entity</p>
+<p><strong>Entity Derivative</strong></p>
+<blockquote>
+<p>Curve</p>
+</blockquote>
+<pre><code> Line
+ Arc
+ Circle
+ PolyLine
+ Ellipse
+</code></pre>
+<blockquote>
+<p>Hatch</p>
+</blockquote>
+<p>Then, we can modify the entity by its property.</p>
+<h3 id="Color-Modification">Color Modification</h3>
+<pre class=" language-language-C#"><code class="language-language-C#">/// <summary>
+/// Change entity color
+/// </summary>
+/// <param name="c1Id">Entity ObjectId</param>
+/// <param name="colorIndex">Color Index</param>
+/// <returns>Entity ObjectId</returns> 
+
+public static ObjectId ChangeEntityColor(this ObjectId c1Id, short colorIndex)
+{
+    // Current Database
+    Database db = HostApplicationServices.WorkingDatabase;
+    // Open a transaction
+    using (Transaction trans = db.TransactionManager.StartTransaction())
+    {
+        // Open block table
+        BlockTable bt = (BlockTable)trans.GetObject(db.BlockTableId, OpenMode.ForRead);
+        // Open blocktable record
+        BlockTableRecord btr = (BlockTableRecord)trans.GetObject(bt[BlockTableRecord.ModelSpace], OpenMode.ForWrite);
+        // Get the object
+        Entity ent1 = (Entity)c1Id.GetObject(OpenMode.ForWrite);
+        // Set object color
+        ent1.ColorIndex = colorIndex;
+        trans.Commit();
+    }
+    return c1Id;
+}
+
+</code></pre>
+<h3 id="Copy-Entity">Copy Entity</h3>
+<pre class=" language-language-C#"><code class="language-language-C#">// <summary>
+///  Copy one entity, and add the copied one into blocktable record
+/// </summary>
+/// <param name="entId">Entity ObjectId</param>
+/// <param name="sourcePoint">Reference source Point</param>
+/// <param name="targetPoint">Reference Target Point</param>
+public static Entity CopyEntity(this ObjectId entId, Point3d sourcePoint, Point3d targetPoint)
+{
+    // Declare a object
+    Entity entR;
+    // Current database
+    Database db = HostApplicationServices.WorkingDatabase; 
+    using (Transaction tr = db.TransactionManager.StartTransaction())
+    {
+        // Open Blocktable
+        BlockTable bt = (BlockTable)tr.GetObject(db.BlockTableId, OpenMode.ForRead);
+        // Open Blocktable Record
+        BlockTableRecord btr = (BlockTableRecord)tr.GetObject(bt[BlockTableRecord.ModelSpace], OpenMode.ForRead);
+
+        // Entity ent = (Entity)tr.GetObject(entId, OpenMode.ForWrite);
+        // Open the entity
+        Entity ent = (Entity)entId.GetObject(OpenMode.ForWrite);
+        // Calculate the Vector from source point to the target point
+        Vector3d vectoc = sourcePoint.GetVectorTo(targetPoint);
+        Matrix3d mt = Matrix3d.Displacement(vectoc);
+        entR = ent.GetTransformedCopy(mt);
+        // Commit the transaction
+        tr.Commit();
+    }
+    return entR;
+}
+
+</code></pre>
+<h3 id="Rotate-the-object">Rotate the object</h3>
+<pre class=" language-language-C#"><code class="language-language-C#">/// <summary>
+/// Rotate the entity 
+/// </summary>
+/// <param name="ent">Object</param>
+/// <param name="center">Rotate base point </param>
+/// <param name="degree">Rotating angle</param>
+public static void RotateEntity(this ObjectId entId, Point3d center, double degree)
+{
+    // Current database
+    Database db = HostApplicationServices.WorkingDatabase;
+    using (Transaction trans = db.TransactionManager.StartTransaction())
+    {
+        // Open BlockTable
+        BlockTable bt = (BlockTable)trans.GetObject(db.BlockTableId, OpenMode.ForRead);
+        // Open BlockTable Record
+        BlockTableRecord btr = (BlockTableRecord)trans.GetObject(bt[BlockTableRecord.ModelSpace], OpenMode.ForRead);
+        //Entity ent = (Entity)trans.GetObject(entId, OpenMode.ForWrite);
+        // Open the entity
+        Entity ent = (Entity)entId.GetObject(OpenMode.ForWrite);
+        // Calculate the vector and Matrix
+        Vector3d vectoc = sourcePoint.GetVectorTo(targetPoint);
+        Matrix3d mt = Matrix3d.Rotation(degree.DegreeToAngle(), Vector3d.ZAxis, center);
+        ent.TransformedCopy(mt);
+        // 提交事务处理
+        trans.Commit();
+    }
+}
+
+</code></pre>
+<hr>
+<h1>Reference</h1>
+<p><a href="http://docs.autodesk.com/ACD/2010/ENU/AutoCAD%20.NET%20Developer' target=" _blank"="" rel="noopener" s%20guide="" index.html?url="WS1a9193826455f5ff2566ffd511ff6f8c7ca-3e30.htm,topicNumber=d0e26245" "="">http://docs.autodesk.com/ACD/2010/ENU/AutoCAD .NET Developer’s Guide/index.html?url=WS1a9193826455f5ff2566ffd511ff6f8c7ca-3e30.htm,topicNumber=d0e26245</a></p>
+<script>
+        document.querySelectorAll('.github-emoji')
+          .forEach(el => {
+            if (!el.dataset.src) { return; }
+            const img = document.createElement('img');
+            img.style = 'display:none !important;';
+            img.src = el.dataset.src;
+            img.addEventListener('error', () => {
+              img.remove();
+              el.style.color = 'inherit';
+              el.style.backgroundImage = 'none';
+              el.style.background = 'none';
+            });
+            img.addEventListener('load', () => {
+              img.remove();
+            });
+            document.body.appendChild(img);
+          });
+      </script>]]></content>
+      <categories>
+        <category>August 2020</category>
+      </categories>
+      <tags>
+        <tag>Civil3d</tag>
+        <tag>AutoCAD API</tag>
+        <tag>C#</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Add boundary Line to Surface by using API</title>
     <url>/2020/05/13/Add%20boundary%20Line%20to%20Surface%20by%20using%20API/</url>
     <content><![CDATA[<p>Today, I saw a post from Dynamo forum that mentioned how to add boundaryline to the surface. Just make a note for future use.  The original post link is listed in the Reference.</p>
@@ -2448,133 +2827,6 @@ osurface.Rebuild()
       </categories>
       <tags>
         <tag>Civil3d</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>03. Create the line</title>
-    <url>/2020/08/24/20200824AutoCAD%20developer&#39;s%20tools%20--%20Create%20the%20line/</url>
-    <content><![CDATA[<h2 id="Class-Inheritance-Tree">Class Inheritance Tree</h2>
-<p>Firstly, we need to understand how the drawing objects inheritance relationship.<br>
-<img src="/2020/08/24/20200824AutoCAD%20developer's%20tools%20--%20Create%20the%20line/1.png" alt="Objects Relationship"></p>
-<h2 id="Line-Drawing">Line Drawing</h2>
-<h3 id="“Line”-Class">“Line” Class</h3>
-<p><em>Line</em> is the most basic drawing object,  and it is the most simple one to draw.</p>
-<p>Firstly, let’s have a look at the class “Line”</p>
-<ul>
-<li>method</li>
-<li>property</li>
-</ul>
-<p><img src="/2020/08/24/20200824AutoCAD%20developer's%20tools%20--%20Create%20the%20line/2.png" alt="Line Class"></p>
-<h3 id="Create-Line">Create Line</h3>
-<p>I have two ways to create the line:</p>
-<blockquote>
-<p>WAY1</p>
-</blockquote>
-<ol>
-<li>declare a line first (now the line start point and endpoint are 0,0,0)</li>
-<li>define the start and end points</li>
-<li>Assign the point to the line</li>
-</ol>
-<blockquote>
-<p>Way2<br>
-Define the start and end point when declaring the line</p>
-</blockquote>
-<p>Add the two lines into the BlocktableRecord and commit the transaction.</p>
-<pre class=" language-language-C#"><code class="language-language-C#">using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Autodesk.AutoCAD.ApplicationServices;
-using Autodesk.AutoCAD.DatabaseServices;
-using Autodesk.AutoCAD.Geometry;
-using Autodesk.AutoCAD.Runtime;
-
-namespace _03.Create_Line
-{
-    public class LineExam
-    {
-        [CommandMethod("LineDemo")]
-        public void LineDemo()
-        { 
-            //WAY1
-            //declare a line object
-            Line line1 = new Line();
-
-
-            //declare the two points for the line
-            Point3d startPnt = new Point3d(10, 10, 0);
-            Point3d endPnt = new Point3d(100, 100, 0);
-
-            //set the line properties
-            line1.StartPoint = startPnt;
-            line1.EndPoint = endPnt;
-
-
-        
-        
-            //WAY1
-            Line line2 = new Line(new Point3d(0, 0, 0), new Point3d(0, 100, 0));
-
-
-
-            Document doc = Application.DocumentManager.MdiActiveDocument;
-            Database db = doc.Database;
-
-            using (Transaction tr = db.TransactionManager.StartTransaction())
-            {
-                //Open the block table in read mode
-                BlockTable bt = tr.GetObject(db.BlockTableId, OpenMode.ForRead) as BlockTable;
-                //open the block table record in write mode
-                BlockTableRecord btr = tr.GetObject(bt[BlockTableRecord.ModelSpace], OpenMode.ForWrite) as BlockTableRecord;
-
-                //add the two lines into the Blocktable Record
-                btr.AppendEntity(line1);
-                //update the data
-                tr.AddNewlyCreatedDBObject(line1, true);
-
-                btr.AppendEntity(line2);
-                tr.AddNewlyCreatedDBObject(line2, true);
-
-
-                tr.Commit();
-
-
-            }
-        }
-    }
-}
-</code></pre>
-<h3 id="Result">Result</h3>
-<p><img src="/2020/08/24/20200824AutoCAD%20developer's%20tools%20--%20Create%20the%20line/3.png" alt="Result"></p>
-<h1>Reference</h1>
-<p><a href="http://docs.autodesk.com/ACD/2010/ENU/AutoCAD%20.NET%20Developer' target=" _blank"="" rel="noopener" s%20guide="" index.html?url="WS1a9193826455f5ff2566ffd511ff6f8c7ca-3e30.htm,topicNumber=d0e26245" "="">http://docs.autodesk.com/ACD/2010/ENU/AutoCAD .NET Developer’s Guide/index.html?url=WS1a9193826455f5ff2566ffd511ff6f8c7ca-3e30.htm,topicNumber=d0e26245</a></p>
-<script>
-        document.querySelectorAll('.github-emoji')
-          .forEach(el => {
-            if (!el.dataset.src) { return; }
-            const img = document.createElement('img');
-            img.style = 'display:none !important;';
-            img.src = el.dataset.src;
-            img.addEventListener('error', () => {
-              img.remove();
-              el.style.color = 'inherit';
-              el.style.backgroundImage = 'none';
-              el.style.background = 'none';
-            });
-            img.addEventListener('load', () => {
-              img.remove();
-            });
-            document.body.appendChild(img);
-          });
-      </script>]]></content>
-      <categories>
-        <category>August 2020</category>
-      </categories>
-      <tags>
-        <tag>Civil3d</tag>
-        <tag>AutoCAD API</tag>
-        <tag>C#</tag>
       </tags>
   </entry>
   <entry>
@@ -3587,57 +3839,6 @@ ax.set_ylim([-42,-36])
       </tags>
   </entry>
   <entry>
-    <title>Land-use TIF file making for HEC-RAS 2D</title>
-    <url>/2020/04/20/Land-use%20TIF%20file%20making%20for%20HEC-RAS%202D/</url>
-    <content><![CDATA[<p>For 2D analysis in HEC-RAS, we may need to a land use map to assign the manning factor as . How to make it? Of course we can make the detailed land use map by analyzing satellite imagery. But for a simple model, sometime we do not need such a detailed plan. Today I would like to introduce a way to make simple land use map</p>
-<p><img src="/2020/04/20/Land-use%20TIF%20file%20making%20for%20HEC-RAS%202D/11.PNG" alt="HEC-RAS manning.png"></p>
-<p>First, we should download DEM data, building footprint and road information from <a href="https://geomapspublic.aucklandcouncil.govt.nz/viewer/index.html" target="_blank" rel="noopener">Auckland Council Geomap</a>.</p>
-<hr>
-<h3 id="Data-Loading">Data Loading</h3>
-<p>After loading all the data, we can have a map as below.</p>
-<p><img src="/2020/04/20/Land-use%20TIF%20file%20making%20for%20HEC-RAS%202D/22.PNG" alt="HEC-RAS manning.png"></p>
-<p>Now we need to assign different area with different values, and then merge them together.</p>
-<hr>
-<h3 id="Raster-Calculator">Raster Calculator</h3>
-<p>Firstly, we treat the whole catchment area by assigning “1”.</p>
-<p><img src="/2020/04/20/Land-use%20TIF%20file%20making%20for%20HEC-RAS%202D/catchment.PNG" alt="catchment.png"></p>
-<p>Secondly, we apply <em>.\3D Analyst Tools.tbx\Triangulated Surface\Interpolate Polygon to Multipatch</em> to assign the footprint area with value “4”.<br>
-<img src="/2020/04/20/Land-use%20TIF%20file%20making%20for%20HEC-RAS%202D/BFraster.PNG" alt="building footprint.png"></p>
-<p>Similarly, we apply <em>.\3D Analyst Tools.tbx\Triangulated Surface\Interpolate Polygon to Multipatch</em> to assign the roading area with value “3”.<br>
-<img src="/2020/04/20/Land-use%20TIF%20file%20making%20for%20HEC-RAS%202D/roadraster.PNG" alt="road.png"></p>
-<hr>
-<h3 id="Merging-the-files">Merging the files</h3>
-<p><em>.\Spatial Analyst Tools.tbx\Local\Cell Statistics</em> is used to merge the three raster together.Final result will be as the First Photo.</p>
-<p>We just finished a simple one, but the complex one is same, just to merge more seperate raster files.</p>
-<script>
-        document.querySelectorAll('.github-emoji')
-          .forEach(el => {
-            if (!el.dataset.src) { return; }
-            const img = document.createElement('img');
-            img.style = 'display:none !important;';
-            img.src = el.dataset.src;
-            img.addEventListener('error', () => {
-              img.remove();
-              el.style.color = 'inherit';
-              el.style.backgroundImage = 'none';
-              el.style.background = 'none';
-            });
-            img.addEventListener('load', () => {
-              img.remove();
-            });
-            document.body.appendChild(img);
-          });
-      </script>]]></content>
-      <categories>
-        <category>April 2020</category>
-      </categories>
-      <tags>
-        <tag>Arcmap</tag>
-        <tag>Raster</tag>
-        <tag>HEC-RAS</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Objects selection by Ironpython(.NET API in Civil3D) in Dynamo</title>
     <url>/2020/05/15/Objects%20selection%20by%20Ironpython/</url>
     <content><![CDATA[<p>Several ways to select objects According to the type as the result below.</p>
@@ -4460,6 +4661,57 @@ states_with_cities.head()
       <tags>
         <tag>Spatial Analysis</tag>
         <tag>Geopandas</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Land-use TIF file making for HEC-RAS 2D</title>
+    <url>/2020/04/20/Land-use%20TIF%20file%20making%20for%20HEC-RAS%202D/</url>
+    <content><![CDATA[<p>For 2D analysis in HEC-RAS, we may need to a land use map to assign the manning factor as . How to make it? Of course we can make the detailed land use map by analyzing satellite imagery. But for a simple model, sometime we do not need such a detailed plan. Today I would like to introduce a way to make simple land use map</p>
+<p><img src="/2020/04/20/Land-use%20TIF%20file%20making%20for%20HEC-RAS%202D/11.PNG" alt="HEC-RAS manning.png"></p>
+<p>First, we should download DEM data, building footprint and road information from <a href="https://geomapspublic.aucklandcouncil.govt.nz/viewer/index.html" target="_blank" rel="noopener">Auckland Council Geomap</a>.</p>
+<hr>
+<h3 id="Data-Loading">Data Loading</h3>
+<p>After loading all the data, we can have a map as below.</p>
+<p><img src="/2020/04/20/Land-use%20TIF%20file%20making%20for%20HEC-RAS%202D/22.PNG" alt="HEC-RAS manning.png"></p>
+<p>Now we need to assign different area with different values, and then merge them together.</p>
+<hr>
+<h3 id="Raster-Calculator">Raster Calculator</h3>
+<p>Firstly, we treat the whole catchment area by assigning “1”.</p>
+<p><img src="/2020/04/20/Land-use%20TIF%20file%20making%20for%20HEC-RAS%202D/catchment.PNG" alt="catchment.png"></p>
+<p>Secondly, we apply <em>.\3D Analyst Tools.tbx\Triangulated Surface\Interpolate Polygon to Multipatch</em> to assign the footprint area with value “4”.<br>
+<img src="/2020/04/20/Land-use%20TIF%20file%20making%20for%20HEC-RAS%202D/BFraster.PNG" alt="building footprint.png"></p>
+<p>Similarly, we apply <em>.\3D Analyst Tools.tbx\Triangulated Surface\Interpolate Polygon to Multipatch</em> to assign the roading area with value “3”.<br>
+<img src="/2020/04/20/Land-use%20TIF%20file%20making%20for%20HEC-RAS%202D/roadraster.PNG" alt="road.png"></p>
+<hr>
+<h3 id="Merging-the-files">Merging the files</h3>
+<p><em>.\Spatial Analyst Tools.tbx\Local\Cell Statistics</em> is used to merge the three raster together.Final result will be as the First Photo.</p>
+<p>We just finished a simple one, but the complex one is same, just to merge more seperate raster files.</p>
+<script>
+        document.querySelectorAll('.github-emoji')
+          .forEach(el => {
+            if (!el.dataset.src) { return; }
+            const img = document.createElement('img');
+            img.style = 'display:none !important;';
+            img.src = el.dataset.src;
+            img.addEventListener('error', () => {
+              img.remove();
+              el.style.color = 'inherit';
+              el.style.backgroundImage = 'none';
+              el.style.background = 'none';
+            });
+            img.addEventListener('load', () => {
+              img.remove();
+            });
+            document.body.appendChild(img);
+          });
+      </script>]]></content>
+      <categories>
+        <category>April 2020</category>
+      </categories>
+      <tags>
+        <tag>Arcmap</tag>
+        <tag>Raster</tag>
+        <tag>HEC-RAS</tag>
       </tags>
   </entry>
   <entry>

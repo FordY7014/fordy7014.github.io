@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://fordy7014.github.io/"/>
-  <updated>2020-08-27T08:01:52.157Z</updated>
+  <updated>2020-08-28T09:50:58.374Z</updated>
   <id>https://fordy7014.github.io/</id>
   
   <author>
@@ -17,11 +17,43 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>04. Modify the drawable object</title>
+    <link href="https://fordy7014.github.io/2020/08/25/20200825AutoCAD%20developer&#39;s%20tools%20--%20Create%20the%20line%20copy/"/>
+    <id>https://fordy7014.github.io/2020/08/25/20200825AutoCAD%20developer&#39;s%20tools%20--%20Create%20the%20line%20copy/</id>
+    <published>2020-08-25T04:04:57.000Z</published>
+    <updated>2020-08-28T09:50:58.374Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h2 id=&quot;Introduction&quot;&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;After learning how to draw a line with AutoCAD API, we can use similar way to create other
+        
+      
+    
+    </summary>
+    
+    
+      <category term="August 2020" scheme="https://fordy7014.github.io/categories/August-2020/"/>
+    
+    
+      <category term="Civil3d" scheme="https://fordy7014.github.io/tags/Civil3d/"/>
+    
+      <category term="AutoCAD API" scheme="https://fordy7014.github.io/tags/AutoCAD-API/"/>
+    
+      <category term="C#" scheme="https://fordy7014.github.io/tags/C/"/>
+    
+  </entry>
+  
+  <entry>
     <title>03. Create the line</title>
     <link href="https://fordy7014.github.io/2020/08/24/20200824AutoCAD%20developer&#39;s%20tools%20--%20Create%20the%20line/"/>
     <id>https://fordy7014.github.io/2020/08/24/20200824AutoCAD%20developer&#39;s%20tools%20--%20Create%20the%20line/</id>
     <published>2020-08-24T04:04:57.000Z</published>
-    <updated>2020-08-27T08:01:52.157Z</updated>
+    <updated>2020-08-27T08:45:07.932Z</updated>
     
     <summary type="html">
     
@@ -588,36 +620,6 @@ from urllib.request import
       <category term="Raster" scheme="https://fordy7014.github.io/tags/Raster/"/>
     
       <category term="HEC-RAS" scheme="https://fordy7014.github.io/tags/HEC-RAS/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Spatial Join in Geopandas</title>
-    <link href="https://fordy7014.github.io/2020/04/17/Spatial%20Join%20in%20Geopandas/"/>
-    <id>https://fordy7014.github.io/2020/04/17/Spatial%20Join%20in%20Geopandas/</id>
-    <published>2020-04-17T06:04:57.000Z</published>
-    <updated>2020-07-16T21:56:47.972Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;h2 id=&quot;Import-the-packages-and-files&quot;&gt;Import the packages and files&lt;/h2&gt;
-&lt;pre class=&quot; language-language-python&quot;&gt;&lt;code
-        
-      
-    
-    </summary>
-    
-    
-      <category term="April 2020" scheme="https://fordy7014.github.io/categories/April-2020/"/>
-    
-    
-      <category term="Spatial Analysis" scheme="https://fordy7014.github.io/tags/Spatial-Analysis/"/>
-    
-      <category term="Geopandas" scheme="https://fordy7014.github.io/tags/Geopandas/"/>
     
   </entry>
   

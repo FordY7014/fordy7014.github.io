@@ -379,7 +379,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>Word Count:&nbsp;&nbsp;
-                    356
+                    359
                 </div>
                 
 
@@ -400,7 +400,7 @@
 <p>Firstly, we need to understand how the drawing objects inheritance relationship.<br>
 <img src="/2020/08/24/20200824AutoCAD%20developer's%20tools%20--%20Create%20the%20line/1.png" alt="Objects Relationship"></p>
 <h2 id="Line-Drawing">Line Drawing</h2>
-<h3 id="“Line”-Class">“Line” Class</h3>
+<h3 id="01-“Line”-Class">01.“Line” Class</h3>
 <p><em>Line</em> is the most basic drawing object,  and it is the most simple one to draw.</p>
 <p>Firstly, let’s have a look at the class “Line”</p>
 <ul>
@@ -408,19 +408,21 @@
 <li>property</li>
 </ul>
 <p><img src="/2020/08/24/20200824AutoCAD%20developer's%20tools%20--%20Create%20the%20line/2.png" alt="Line Class"></p>
-<h3 id="Create-Line">Create Line</h3>
+<h3 id="02-Create-Line">02.Create Line</h3>
 <p>I have two ways to create the line:</p>
 <blockquote>
 <p>WAY1</p>
-</blockquote>
 <ol>
 <li>declare a line first (now the line start point and endpoint are 0,0,0)</li>
 <li>define the start and end points</li>
 <li>Assign the point to the line</li>
 </ol>
+</blockquote>
 <blockquote>
-<p>Way2<br>
-Define the start and end point when declaring the line</p>
+<p>Way2</p>
+<ul>
+<li>Define the start and end point when declaring the line</li>
+</ul>
 </blockquote>
 <p>Add the two lines into the BlocktableRecord and commit the transaction.</p>
 <pre class=" language-language-C#"><code class="language-language-C#">using System;
@@ -488,8 +490,9 @@ namespace _03.Create_Line
     }
 }
 </code></pre>
-<h3 id="Result">Result</h3>
+<h3 id="03-Result">03. Result</h3>
 <p><img src="/2020/08/24/20200824AutoCAD%20developer's%20tools%20--%20Create%20the%20line/3.png" alt="Result"></p>
+<hr>
 <h1>Reference</h1>
 <p><a href="http://docs.autodesk.com/ACD/2010/ENU/AutoCAD%20.NET%20Developer' target=" _blank"="" rel="noopener" s%20guide="" index.html?url="WS1a9193826455f5ff2566ffd511ff6f8c7ca-3e30.htm,topicNumber=d0e26245" "="">http://docs.autodesk.com/ACD/2010/ENU/AutoCAD .NET Developer’s Guide/index.html?url=WS1a9193826455f5ff2566ffd511ff6f8c7ca-3e30.htm,topicNumber=d0e26245</a></p>
 <script>
@@ -624,34 +627,30 @@ namespace _03.Create_Line
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="far fa-dot-circle"></i>&nbsp;Current
-            </div>
+                <i class="fas fa-chevron-left"></i>&nbsp;Previous</div>
             <div class="card">
-                <a href="/2020/08/24/20200824AutoCAD%20developer's%20tools%20--%20Create%20the%20line/">
+                <a href="/2020/08/25/20200825AutoCAD%20developer's%20tools%20--%20Create%20the%20line%20copy/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/18.jpg" class="responsive-img" alt="03. Create the line">
+                        <img src="/medias/featureimages/14.jpg" class="responsive-img" alt="04. Modify the drawable object">
                         
-                        <span class="card-title">03. Create the line</span>
+                        <span class="card-title">04. Modify the drawable object</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            Class Inheritance Tree
-Firstly, we need to understand how the drawing objects inheritance relationship.
-
-Line Drawing
-“L
+                            Introduction
+After learning how to draw a line with AutoCAD API, we can use similar way to create other drawable objects
                         
                     </div>
                     <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-08-24
-                            </span>
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2020-08-25
+                        </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
@@ -664,7 +663,6 @@ Line Drawing
                         </span>
                     </div>
                 </div>
-
                 
                 <div class="card-action article-tags">
                     
