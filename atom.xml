@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://fordy7014.github.io/"/>
-  <updated>2020-08-28T09:57:32.436Z</updated>
+  <updated>2020-08-29T21:04:08.577Z</updated>
   <id>https://fordy7014.github.io/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="https://fordy7014.github.io/2020/08/25/20200825AutoCAD%20developer&#39;s%20tools%20--%20Modify%20the%20drawable%20object/"/>
     <id>https://fordy7014.github.io/2020/08/25/20200825AutoCAD%20developer&#39;s%20tools%20--%20Modify%20the%20drawable%20object/</id>
     <published>2020-08-25T04:04:57.000Z</published>
-    <updated>2020-08-28T09:57:32.436Z</updated>
+    <updated>2020-08-29T21:04:08.577Z</updated>
     
     <summary type="html">
     
@@ -40,8 +40,6 @@
       <category term="August 2020" scheme="https://fordy7014.github.io/categories/August-2020/"/>
     
     
-      <category term="Civil3d" scheme="https://fordy7014.github.io/tags/Civil3d/"/>
-    
       <category term="AutoCAD API" scheme="https://fordy7014.github.io/tags/AutoCAD-API/"/>
     
       <category term="C#" scheme="https://fordy7014.github.io/tags/C/"/>
@@ -53,7 +51,7 @@
     <link href="https://fordy7014.github.io/2020/08/24/20200824AutoCAD%20developer&#39;s%20tools%20--%20Create%20the%20line/"/>
     <id>https://fordy7014.github.io/2020/08/24/20200824AutoCAD%20developer&#39;s%20tools%20--%20Create%20the%20line/</id>
     <published>2020-08-24T04:04:57.000Z</published>
-    <updated>2020-08-27T08:45:07.932Z</updated>
+    <updated>2020-08-29T21:03:55.715Z</updated>
     
     <summary type="html">
     
@@ -72,8 +70,6 @@
       <category term="August 2020" scheme="https://fordy7014.github.io/categories/August-2020/"/>
     
     
-      <category term="Civil3d" scheme="https://fordy7014.github.io/tags/Civil3d/"/>
-    
       <category term="AutoCAD API" scheme="https://fordy7014.github.io/tags/AutoCAD-API/"/>
     
       <category term="C#" scheme="https://fordy7014.github.io/tags/C/"/>
@@ -85,7 +81,7 @@
     <link href="https://fordy7014.github.io/2020/08/23/20200823AutoCAD%20developer&#39;s%20tools%20--%20Brief%20Introduction/"/>
     <id>https://fordy7014.github.io/2020/08/23/20200823AutoCAD%20developer&#39;s%20tools%20--%20Brief%20Introduction/</id>
     <published>2020-08-23T04:04:57.000Z</published>
-    <updated>2020-08-27T07:59:09.269Z</updated>
+    <updated>2020-08-29T21:04:20.592Z</updated>
     
     <summary type="html">
     
@@ -104,8 +100,6 @@
       <category term="August 2020" scheme="https://fordy7014.github.io/categories/August-2020/"/>
     
     
-      <category term="Civil3d" scheme="https://fordy7014.github.io/tags/Civil3d/"/>
-    
       <category term="AutoCAD API" scheme="https://fordy7014.github.io/tags/AutoCAD-API/"/>
     
       <category term="C#" scheme="https://fordy7014.github.io/tags/C/"/>
@@ -117,7 +111,7 @@
     <link href="https://fordy7014.github.io/2020/08/22/20200822AutoCAD%20developer&#39;s%20tools%20--%20Environment/"/>
     <id>https://fordy7014.github.io/2020/08/22/20200822AutoCAD%20developer&#39;s%20tools%20--%20Environment/</id>
     <published>2020-08-22T04:04:57.000Z</published>
-    <updated>2020-08-25T10:25:53.255Z</updated>
+    <updated>2020-08-29T21:04:30.736Z</updated>
     
     <summary type="html">
     
@@ -138,8 +132,6 @@
     
       <category term="August 2020" scheme="https://fordy7014.github.io/categories/August-2020/"/>
     
-    
-      <category term="Civil3d" scheme="https://fordy7014.github.io/tags/Civil3d/"/>
     
       <category term="AutoCAD API" scheme="https://fordy7014.github.io/tags/AutoCAD-API/"/>
     
@@ -564,6 +556,37 @@ from urllib.request import
   </entry>
   
   <entry>
+    <title>Land-use TIF file making for HEC-RAS 2D</title>
+    <link href="https://fordy7014.github.io/2020/04/20/Land-use%20TIF%20file%20making%20for%20HEC-RAS%202D/"/>
+    <id>https://fordy7014.github.io/2020/04/20/Land-use%20TIF%20file%20making%20for%20HEC-RAS%202D/</id>
+    <published>2020-04-20T04:04:57.000Z</published>
+    <updated>2020-05-22T00:55:30.338Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;For 2D analysis in HEC-RAS, we may need to a land use map to assign the manning factor as . How to make it? Of course we can make the
+        
+      
+    
+    </summary>
+    
+    
+      <category term="April 2020" scheme="https://fordy7014.github.io/categories/April-2020/"/>
+    
+    
+      <category term="Arcmap" scheme="https://fordy7014.github.io/tags/Arcmap/"/>
+    
+      <category term="HEC-RAS" scheme="https://fordy7014.github.io/tags/HEC-RAS/"/>
+    
+      <category term="Raster" scheme="https://fordy7014.github.io/tags/Raster/"/>
+    
+  </entry>
+  
+  <entry>
     <title>How to merge many different raster files into one raster</title>
     <link href="https://fordy7014.github.io/2020/04/20/How%20to%20take%20many%20different%20rasters%20into%20one%20raster/"/>
     <id>https://fordy7014.github.io/2020/04/20/How%20to%20take%20many%20different%20rasters%20into%20one%20raster/</id>
@@ -589,37 +612,6 @@ from urllib.request import
       <category term="Arcmap" scheme="https://fordy7014.github.io/tags/Arcmap/"/>
     
       <category term="Raster" scheme="https://fordy7014.github.io/tags/Raster/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Land-use TIF file making for HEC-RAS 2D</title>
-    <link href="https://fordy7014.github.io/2020/04/20/Land-use%20TIF%20file%20making%20for%20HEC-RAS%202D/"/>
-    <id>https://fordy7014.github.io/2020/04/20/Land-use%20TIF%20file%20making%20for%20HEC-RAS%202D/</id>
-    <published>2020-04-20T04:04:57.000Z</published>
-    <updated>2020-05-22T00:55:30.338Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;p&gt;For 2D analysis in HEC-RAS, we may need to a land use map to assign the manning factor as . How to make it? Of course we can make the
-        
-      
-    
-    </summary>
-    
-    
-      <category term="April 2020" scheme="https://fordy7014.github.io/categories/April-2020/"/>
-    
-    
-      <category term="Arcmap" scheme="https://fordy7014.github.io/tags/Arcmap/"/>
-    
-      <category term="Raster" scheme="https://fordy7014.github.io/tags/Raster/"/>
-    
-      <category term="HEC-RAS" scheme="https://fordy7014.github.io/tags/HEC-RAS/"/>
     
   </entry>
   
