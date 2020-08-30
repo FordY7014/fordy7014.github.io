@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="Spatial Join in Geopandas, Python, Pandas">
+    <meta name="keywords" content="04. Selection, Python, Pandas">
     <meta name="description" content="Just to take notes for what I have learnt, and I will be very happy if it helps anyone.">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>Spatial Join in Geopandas | Ford Yang&#39;s Blog</title>
+    <title>04. Selection | Ford Yang&#39;s Blog</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -215,12 +215,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/23.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/10.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">Spatial Join in Geopandas</h1>
+                    <h1 class="description center-align post-title">04. Selection</h1>
                 </div>
             </div>
         </div>
@@ -337,12 +337,12 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/Spatial-Analysis/">
-                                <span class="chip bg-color">Spatial Analysis</span>
+                            <a href="/tags/AutoCAD-API/">
+                                <span class="chip bg-color">AutoCAD API</span>
                             </a>
                         
-                            <a href="/tags/Geopandas/">
-                                <span class="chip bg-color">Geopandas</span>
+                            <a href="/tags/C/">
+                                <span class="chip bg-color">C#</span>
                             </a>
                         
                     </div>
@@ -353,8 +353,8 @@
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/April-2020/" class="post-category">
-                                April 2020
+                            <a href="/categories/August-2020/" class="post-category">
+                                August 2020
                             </a>
                         
                     </div>
@@ -366,7 +366,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>Publish Date:&nbsp;&nbsp;
-                    2020-04-17
+                    2020-08-30
                 </div>
                 
 
@@ -375,14 +375,14 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>Word Count:&nbsp;&nbsp;
-                    1.3k
+                    1.1k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>Read Times:&nbsp;&nbsp;
-                    8 Min
+                    6 Min
                 </div>
                 
 
@@ -392,637 +392,349 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="Import-the-packages-and-files">Import the packages and files</h2>
-<pre class=" language-language-python"><code class="language-language-python">%matplotlib inline  #static images of your plot embedded in the notebook
-</code></pre>
-<p>Import the related package</p>
-<pre class=" language-language-python"><code class="language-language-python">import geopandas as gpd
-import numpy as np
-import matplotlib.pyplot  as plt
-import pandas as pd
-from shapely.geometry import Point
-</code></pre>
-<p>Read the city point shape file and city boundary polyline file</p>
-<pre class=" language-language-python"><code class="language-language-python">states = gpd.read_file('D:\ARCGIS\Covid-19 Cases in New Zealand\output\DHI_POINTS.shp')
-cities = gpd.read_file('D:\ARCGIS\Covid-19 Cases in New Zealand\output\Export_Output_3.shp')
-</code></pre>
-<h2 id="Data-Wrangling">Data Wrangling</h2>
-<pre class=" language-language-python"><code class="language-language-python">states = states.iloc[:,[3,4,-1]]
-states.head(2)
-</code></pre>
-<div>
-<style scoped="">
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-<pre><code>.dataframe tbody tr th {
-    vertical-align: top;
-}
-
-.dataframe thead th {
-    text-align: right;
-}
-</code></pre>
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>DHB2015_Na</th>
-      <th>Shape_Leng</th>
-      <th>geometry</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>0</td>
-      <td>Northland</td>
-      <td>1.651929e+06</td>
-      <td>POINT (173.82591 -35.48993)</td>
-    </tr>
-    <tr>
-      <td>1</td>
-      <td>Waitemata</td>
-      <td>9.273920e+05</td>
-      <td>POINT (174.54665 -36.56396)</td>
-    </tr>
-  </tbody>
-</table>
-</div>
-<pre class=" language-language-python"><code class="language-language-python">states.index
-</code></pre>
-<pre><code>RangeIndex(start=0, stop=20, step=1)
-</code></pre>
-<pre class=" language-language-python"><code class="language-language-python">states.plot()
-</code></pre>
-<pre><code>&lt;matplotlib.axes._subplots.AxesSubplot at 0x1c22a6044e0&gt;
-</code></pre>
-<p><img src="/2020/04/17/Spatial%20Join%20in%20Geopandas/output_5_1.png" alt="png"></p>
-<pre class=" language-language-python"><code class="language-language-python">cities
-</code></pre>
-<div>
-<style scoped="">
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-<pre><code>.dataframe tbody tr th {
-    vertical-align: top;
-}
-
-.dataframe thead th {
-    text-align: right;
-}
-</code></pre>
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>OBJECTID</th>
-      <th>DHB2015_Co</th>
-      <th>DHB2015_Na</th>
-      <th>Shape_Leng</th>
-      <th>Shape_Le_1</th>
-      <th>Shape_Area</th>
-      <th>geometry</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>0</td>
-      <td>1</td>
-      <td>01</td>
-      <td>Northland</td>
-      <td>1.651929e+06</td>
-      <td>16.524423</td>
-      <td>1.320491</td>
-      <td>MULTIPOLYGON (((174.23335 -36.19077, 174.23809...</td>
-    </tr>
-    <tr>
-      <td>1</td>
-      <td>2</td>
-      <td>02</td>
-      <td>Waitemata</td>
-      <td>9.273920e+05</td>
-      <td>9.301324</td>
-      <td>0.295480</td>
-      <td>MULTIPOLYGON (((174.77898 -36.82617, 174.77303...</td>
-    </tr>
-    <tr>
-      <td>2</td>
-      <td>3</td>
-      <td>03</td>
-      <td>Auckland</td>
-      <td>7.781903e+05</td>
-      <td>7.848241</td>
-      <td>0.063644</td>
-      <td>MULTIPOLYGON (((175.16845 -36.90380, 175.15541...</td>
-    </tr>
-    <tr>
-      <td>3</td>
-      <td>4</td>
-      <td>04</td>
-      <td>Counties Manukau</td>
-      <td>6.642233e+05</td>
-      <td>6.732029</td>
-      <td>0.303391</td>
-      <td>POLYGON ((174.72654 -37.15219, 174.74646 -37.1...</td>
-    </tr>
-    <tr>
-      <td>4</td>
-      <td>5</td>
-      <td>05</td>
-      <td>Waikato</td>
-      <td>1.498296e+06</td>
-      <td>15.120324</td>
-      <td>2.201743</td>
-      <td>MULTIPOLYGON (((175.95463 -37.04760, 175.93959...</td>
-    </tr>
-    <tr>
-      <td>5</td>
-      <td>6</td>
-      <td>06</td>
-      <td>Lakes</td>
-      <td>6.236689e+05</td>
-      <td>6.356743</td>
-      <td>0.990685</td>
-      <td>POLYGON ((176.60295 -38.01159, 176.57811 -38.4...</td>
-    </tr>
-    <tr>
-      <td>6</td>
-      <td>7</td>
-      <td>07</td>
-      <td>Bay of Plenty</td>
-      <td>9.468737e+05</td>
-      <td>9.636408</td>
-      <td>1.014598</td>
-      <td>MULTIPOLYGON (((176.43654 -37.62005, 176.40701...</td>
-    </tr>
-    <tr>
-      <td>7</td>
-      <td>8</td>
-      <td>08</td>
-      <td>Tairawhiti</td>
-      <td>6.895486e+05</td>
-      <td>7.001250</td>
-      <td>0.860188</td>
-      <td>MULTIPOLYGON (((178.35631 -38.17577, 178.36485...</td>
-    </tr>
-    <tr>
-      <td>8</td>
-      <td>9</td>
-      <td>09</td>
-      <td>Taranaki</td>
-      <td>5.657958e+05</td>
-      <td>5.886723</td>
-      <td>0.830015</td>
-      <td>POLYGON ((174.98759 -39.66387, 174.78429 -39.8...</td>
-    </tr>
-    <tr>
-      <td>9</td>
-      <td>10</td>
-      <td>10</td>
-      <td>Hawke's Bay</td>
-      <td>9.454397e+05</td>
-      <td>9.687377</td>
-      <td>1.335790</td>
-      <td>MULTIPOLYGON (((177.87052 -39.27876, 177.86687...</td>
-    </tr>
-    <tr>
-      <td>10</td>
-      <td>11</td>
-      <td>11</td>
-      <td>Whanganui</td>
-      <td>6.694279e+05</td>
-      <td>6.927098</td>
-      <td>1.003196</td>
-      <td>POLYGON ((176.29008 -39.24717, 176.26502 -39.3...</td>
-    </tr>
-    <tr>
-      <td>11</td>
-      <td>12</td>
-      <td>12</td>
-      <td>MidCentral</td>
-      <td>6.167762e+05</td>
-      <td>6.345139</td>
-      <td>0.937664</td>
-      <td>POLYGON ((176.49213 -40.53208, 176.26669 -40.7...</td>
-    </tr>
-    <tr>
-      <td>12</td>
-      <td>13</td>
-      <td>13</td>
-      <td>Hutt Valley</td>
-      <td>2.106983e+05</td>
-      <td>2.184028</td>
-      <td>0.098310</td>
-      <td>MULTIPOLYGON (((174.86764 -41.25918, 174.86522...</td>
-    </tr>
-    <tr>
-      <td>13</td>
-      <td>14</td>
-      <td>14</td>
-      <td>Capital and Coast</td>
-      <td>2.923868e+05</td>
-      <td>3.012962</td>
-      <td>0.080068</td>
-      <td>MULTIPOLYGON (((174.78879 -41.09057, 174.77354...</td>
-    </tr>
-    <tr>
-      <td>14</td>
-      <td>15</td>
-      <td>15</td>
-      <td>Wairarapa</td>
-      <td>4.554528e+05</td>
-      <td>4.751018</td>
-      <td>0.636207</td>
-      <td>POLYGON ((176.27048 -40.74387, 176.26669 -40.7...</td>
-    </tr>
-    <tr>
-      <td>15</td>
-      <td>16</td>
-      <td>16</td>
-      <td>Nelson Marlborough</td>
-      <td>1.188104e+06</td>
-      <td>12.372261</td>
-      <td>2.986687</td>
-      <td>POLYGON ((173.36103 -40.80538, 173.20652 -41.2...</td>
-    </tr>
-    <tr>
-      <td>16</td>
-      <td>17</td>
-      <td>17</td>
-      <td>West Coast</td>
-      <td>1.602904e+06</td>
-      <td>17.070329</td>
-      <td>2.569502</td>
-      <td>POLYGON ((172.31080 -41.01154, 172.32531 -41.0...</td>
-    </tr>
-    <tr>
-      <td>17</td>
-      <td>19</td>
-      <td>19</td>
-      <td>South Canterbury</td>
-      <td>5.492453e+05</td>
-      <td>5.835052</td>
-      <td>1.547516</td>
-      <td>POLYGON ((170.61509 -43.43343, 170.59805 -43.4...</td>
-    </tr>
-    <tr>
-      <td>18</td>
-      <td>20</td>
-      <td>22</td>
-      <td>Southern</td>
-      <td>2.725169e+06</td>
-      <td>30.268153</td>
-      <td>7.932661</td>
-      <td>MULTIPOLYGON (((167.39897 -47.26532, 167.39639...</td>
-    </tr>
-  </tbody>
-</table>
-</div>
-<pre class=" language-language-python"><code class="language-language-python">cities.drop(axis=0,  columns=['DHB2015_Co'],inplace=True)
-cities.head(2)
-</code></pre>
-<div>
-<style scoped="">
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-<pre><code>.dataframe tbody tr th {
-    vertical-align: top;
-}
-
-.dataframe thead th {
-    text-align: right;
-}
-</code></pre>
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>OBJECTID</th>
-      <th>DHB2015_Na</th>
-      <th>Shape_Leng</th>
-      <th>Shape_Le_1</th>
-      <th>Shape_Area</th>
-      <th>geometry</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>0</td>
-      <td>1</td>
-      <td>Northland</td>
-      <td>1.651929e+06</td>
-      <td>16.524423</td>
-      <td>1.320491</td>
-      <td>MULTIPOLYGON (((174.23335 -36.19077, 174.23809...</td>
-    </tr>
-    <tr>
-      <td>1</td>
-      <td>2</td>
-      <td>Waitemata</td>
-      <td>9.273920e+05</td>
-      <td>9.301324</td>
-      <td>0.295480</td>
-      <td>MULTIPOLYGON (((174.77898 -36.82617, 174.77303...</td>
-    </tr>
-  </tbody>
-</table>
-</div>
-<pre class=" language-language-python"><code class="language-language-python">cities.index
-</code></pre>
-<pre><code>RangeIndex(start=0, stop=19, step=1)
-</code></pre>
-<pre class=" language-language-python"><code class="language-language-python">cities.plot()
-</code></pre>
-<pre><code>&lt;matplotlib.axes._subplots.AxesSubplot at 0x1c22a63b5f8&gt;
-</code></pre>
-<p><img src="/2020/04/17/Spatial%20Join%20in%20Geopandas/output_9_1.png" alt="png"></p>
-<h2 id="Spatial-Join">Spatial Join</h2>
-<h4 id="Column-join-in-Pandas-take-dataset-A-B-based-on-a-common-column">Column join in Pandas-- take dataset A+ B based on a common column</h4>
-<h4 id="Spatial-Join-take-dataset-A-B-Dataset-AB-based-on-space-geographic-relationship">Spatial Join -take dataset A+B = Dataset AB,based on space/geographic relationship</h4>
-<p>same as the spatial join in ArcGis, but it much more convient to use than Arcpy</p>
-<h4 id="Check-the-coordinate-systems-of-the-to-two-taget-file-if-they-are-not-in-the-same-coordinate-system-then-project-them-into-the-same-coordinate-system">Check the coordinate systems of the to two taget file, if they are not in the same coordinate system, then project them into the same coordinate system</h4>
-<pre class=" language-language-python"><code class="language-language-python">print(states.crs, cities.crs)
-</code></pre>
-<pre><code>epsg:4326 epsg:4326
-</code></pre>
-<pre class=" language-language-python"><code class="language-language-python">states.to_crs(cities.crs, inplace =True)
-</code></pre>
-<pre class=" language-language-python"><code class="language-language-python">len(states)
-</code></pre>
-<pre><code>20
-</code></pre>
-<pre class=" language-language-python"><code class="language-language-python">states_with_cities = gpd.sjoin(states, cities, how = 'inner', op = 'within')
-states_with_cities.head(2)
-</code></pre>
-<div>
-<style scoped="">
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-<pre><code>.dataframe tbody tr th {
-    vertical-align: top;
-}
-
-.dataframe thead th {
-    text-align: right;
-}
-</code></pre>
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>DHB2015_Na_left</th>
-      <th>Shape_Leng_left</th>
-      <th>geometry</th>
-      <th>index_right</th>
-      <th>OBJECTID</th>
-      <th>DHB2015_Na_right</th>
-      <th>Shape_Leng_right</th>
-      <th>Shape_Le_1</th>
-      <th>Shape_Area</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>0</td>
-      <td>Northland</td>
-      <td>1.651929e+06</td>
-      <td>POINT (173.82591 -35.48993)</td>
-      <td>0</td>
-      <td>1</td>
-      <td>Northland</td>
-      <td>1.651929e+06</td>
-      <td>16.524423</td>
-      <td>1.320491</td>
-    </tr>
-    <tr>
-      <td>1</td>
-      <td>Waitemata</td>
-      <td>9.273920e+05</td>
-      <td>POINT (174.54665 -36.56396)</td>
-      <td>1</td>
-      <td>2</td>
-      <td>Waitemata</td>
-      <td>9.273920e+05</td>
-      <td>9.301324</td>
-      <td>0.295480</td>
-    </tr>
-  </tbody>
-</table>
-</div>
-<pre class=" language-language-python"><code class="language-language-python">states_with_cities.shape
-</code></pre>
-<pre><code>(18, 9)
-</code></pre>
-<pre class=" language-language-python"><code class="language-language-python">states.shape
-</code></pre>
-<pre><code>(20, 3)
-</code></pre>
-<h5 id="The-order-here-is-very-important-similar-as-the-join-in-pandas">The order here is very important, similar as the join in pandas.</h5>
-<p>The geometry of the first file(cities here) is  will be kept.<br></p>
-<h4 id="how-b">how:</h4>
+                <h2 id="Introduction">Introduction</h2>
+<p>After learning how to draw a line with AutoCAD API, we can use similar way to create other drawable objects. We only need to go into the content of the objects’ class, and we just feed the objects what they need, the objects can be created.</p>
+<h2 id="Select-Objects-in-the-Drawing-Area">Select Objects in the Drawing Area</h2>
+<p>You can select objects through by having the user interactively select objects, or you can simulate many of the various object selection options through the .NET API. If your routine performs multiple selection sets, you will need to either track each selection set returned or create an ObjectIdCollection object to keep track of all the selected objects. The following functions allow you to select objects from the drawing:</p>
 <ul>
-<li>‘Left’ means to keep all the information in the first file even they do not have matching state <br></li>
-<li>‘inner’ means to drop the information in the first file if they do not have matching state<br></li>
+<li>
+<p>GetSelection</p>
+<p>Prompts the user to pick objects from the screen.</p>
+</li>
+<li>
+<p>SelectAll</p>
+<p>Selects all objects in the current space in which are not locked or frozen.</p>
+</li>
+<li>
+<p>SelectCrossingPolygon</p>
+<p>Selects objects within and crossing a polygon defined by specifying points. The polygon can be any shape but cannot cross or touch itself.</p>
+</li>
+<li>
+<p>SelectCrossingWindow</p>
+<p>Selects objects within and crossing an area defined by two points.</p>
+</li>
+<li>
+<p>SelectFence</p>
+<p>Selects all objects crossing a selection fence. Fence selection is similar to crossing polygon selection except that the fence is not closed, and a fence can cross itself.</p>
+</li>
+<li>
+<p>SelectLast</p>
+<p>Selects the last object created in the current space.</p>
+</li>
+<li>
+<p>SelectPrevious</p>
+<p>Selects all objects selected during the previous Select objects: prompt.</p>
+</li>
+<li>
+<p>SelectWindow</p>
+<p>Selects all objects completely inside a rectangle defined by two points.</p>
+</li>
+<li>
+<p>SelectWindowPolygon</p>
+<p>Selects objects completely inside a polygon defined by points. The polygon can be any shape but cannot cross or touch itself.</p>
+</li>
+<li>
+<p>SelectAtPoint</p>
+<p>Selects objects passing through a given point and places them into the active selection set.</p>
+</li>
+<li>
+<p>SelectByPolygon</p>
+<p>Selects objects within a fence and adds them to the active selection set.</p>
+</li>
 </ul>
-<pre class=" language-language-python"><code class="language-language-python">cities_with_states = gpd.sjoin(cities, states, how = 'inner', op = 'contains')
-cities_with_states.head(2)
-</code></pre>
-<div>
-<style scoped="">
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-<pre><code>.dataframe tbody tr th {
-    vertical-align: top;
+<h2 id="Add-selected-objects-to-a-selection-set">Add selected objects to a selection set</h2>
+<p>This example prompts the user to select objects twice and then merges the two selection sets created into a single selection set.</p>
+<pre class=" language-language-C#"><code class="language-language-C#">using Autodesk.AutoCAD.Runtime;
+using Autodesk.AutoCAD.ApplicationServices;
+using Autodesk.AutoCAD.DatabaseServices;
+using Autodesk.AutoCAD.EditorInput;
+ 
+[CommandMethod("MergeSelectionSets")]
+public static void MergeSelectionSets()
+{
+  // Get the current document editor
+  Editor acDocEd = Application.DocumentManager.MdiActiveDocument.Editor;
+ 
+  // Request for objects to be selected in the drawing area
+  PromptSelectionResult acSSPrompt;
+  acSSPrompt = acDocEd.GetSelection();
+ 
+  SelectionSet acSSet1;
+  ObjectIdCollection acObjIdColl = new ObjectIdCollection();
+ 
+  // If the prompt status is OK, objects were selected
+  if (acSSPrompt.Status == PromptStatus.OK)
+  {
+      // Get the selected objects
+      acSSet1 = acSSPrompt.Value;
+ 
+      // Append the selected objects to the ObjectIdCollection
+      acObjIdColl = new ObjectIdCollection(acSSet1.GetObjectIds());
+  }
+ 
+  // Request for objects to be selected in the drawing area
+  acSSPrompt = acDocEd.GetSelection();
+ 
+  SelectionSet acSSet2;
+ 
+  // If the prompt status is OK, objects were selected
+  if (acSSPrompt.Status == PromptStatus.OK)
+  {
+      acSSet2 = acSSPrompt.Value;
+ 
+      // Check the size of the ObjectIdCollection, if zero, then initialize it
+      if (acObjIdColl.Count == 0)
+      {
+          acObjIdColl = new ObjectIdCollection(acSSet2.GetObjectIds());
+      }
+      else
+      {
+          // Step through the second selection set
+          foreach (ObjectId acObjId in acSSet2.GetObjectIds())
+          {
+              // Add each object id to the ObjectIdCollection
+              acObjIdColl.Add(acObjId);
+          }
+      }
+  }
+ 
+  Application.ShowAlertDialog("Number of objects selected: " +
+                              acObjIdColl.Count.ToString());
 }
-
-.dataframe thead th {
-    text-align: right;
-}
 </code></pre>
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>OBJECTID</th>
-      <th>DHB2015_Na_left</th>
-      <th>Shape_Leng_left</th>
-      <th>Shape_Le_1</th>
-      <th>Shape_Area</th>
-      <th>geometry</th>
-      <th>index_right</th>
-      <th>DHB2015_Na_right</th>
-      <th>Shape_Leng_right</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>0</td>
-      <td>1</td>
-      <td>Northland</td>
-      <td>1.651929e+06</td>
-      <td>16.524423</td>
-      <td>1.320491</td>
-      <td>MULTIPOLYGON (((174.23335 -36.19077, 174.23809...</td>
-      <td>0</td>
-      <td>Northland</td>
-      <td>1.651929e+06</td>
-    </tr>
-    <tr>
-      <td>1</td>
-      <td>2</td>
-      <td>Waitemata</td>
-      <td>9.273920e+05</td>
-      <td>9.301324</td>
-      <td>0.295480</td>
-      <td>MULTIPOLYGON (((174.77898 -36.82617, 174.77303...</td>
-      <td>1</td>
-      <td>Waitemata</td>
-      <td>9.273920e+05</td>
-    </tr>
-  </tbody>
+<h2 id="Define-Rules-for-selection-Filters">Define Rules for selection Filters</h2>
+<table>
+<thead>
+<tr>
+<th>DXF CODES</th>
+<th>Filter Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0 (or DxfCode.Start)</td>
+<td>Object Type (String)Such as “Line,” “Circle,” “Arc,” and so forth.</td>
+</tr>
+<tr>
+<td>2 (or DxfCode.BlockName)</td>
+<td>Block Name (String)The block name of an insert reference.</td>
+</tr>
+<tr>
+<td>8 or (DxfCode.LayerName)</td>
+<td>Layer Name (String)Such as “Layer 0.”</td>
+</tr>
+<tr>
+<td>60 (DxfCode.Visibility)</td>
+<td>Object Visibility (Integer)Use 0 = visible, 1 = invisible.</td>
+</tr>
+<tr>
+<td>62 (or DxfCode.Color)</td>
+<td>Color Number (Integer)Numeric index values ranging from 0 to 256.Zero indicates BYBLOCK. 256 indicates BYLAYER. A negative value indicates that the layer is turned off.</td>
+</tr>
+<tr>
+<td>67</td>
+<td>Model/paper space indicator (Integer)Use 0 or omitted = model space, 1 = paper space.</td>
+</tr>
+</tbody>
 </table>
-</div>
-<pre class=" language-language-python"><code class="language-language-python">cities_with_states.shape
-</code></pre>
-<pre><code>(18, 9)
-</code></pre>
-<pre class=" language-language-python"><code class="language-language-python">gpd.sjoin(cities, states, how = 'inner', op = 'contains').plot()
-</code></pre>
-<pre><code>&lt;matplotlib.axes._subplots.AxesSubplot at 0x1c22a6cdbe0&gt;
-</code></pre>
-<p><img src="/2020/04/17/Spatial%20Join%20in%20Geopandas/output_22_1.png" alt="png"></p>
-<pre class=" language-language-python"><code class="language-language-python">gpd.sjoin(cities, states, how = 'left', op = 'contains').plot()
-</code></pre>
-<pre><code>&lt;matplotlib.axes._subplots.AxesSubplot at 0x1c22a3f0710&gt;
-</code></pre>
-<p><img src="/2020/04/17/Spatial%20Join%20in%20Geopandas/output_23_1.png" alt="png"></p>
-<pre class=" language-language-python"><code class="language-language-python">gpd.sjoin(cities, states, how = 'left', op = 'contains').shape
-</code></pre>
-<pre><code>(19, 9)
-</code></pre>
-<h5 id="Another-way">Another way</h5>
-<pre class=" language-language-python"><code class="language-language-python">states_with_cities = gpd.sjoin(states, cities, how = 'inner', op = 'within')
-states_with_cities.head()
-</code></pre>
-<div>
-<style scoped="">
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-<pre><code>.dataframe tbody tr th {
-    vertical-align: top;
-}
-
-.dataframe thead th {
-    text-align: right;
-}
-</code></pre>
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>DHB2015_Na_left</th>
-      <th>Shape_Leng_left</th>
-      <th>geometry</th>
-      <th>index_right</th>
-      <th>OBJECTID</th>
-      <th>DHB2015_Na_right</th>
-      <th>Shape_Leng_right</th>
-      <th>Shape_Le_1</th>
-      <th>Shape_Area</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>0</td>
-      <td>Northland</td>
-      <td>1.651929e+06</td>
-      <td>POINT (173.82591 -35.48993)</td>
-      <td>0</td>
-      <td>1</td>
-      <td>Northland</td>
-      <td>1.651929e+06</td>
-      <td>16.524423</td>
-      <td>1.320491</td>
-    </tr>
-    <tr>
-      <td>1</td>
-      <td>Waitemata</td>
-      <td>9.273920e+05</td>
-      <td>POINT (174.54665 -36.56396)</td>
-      <td>1</td>
-      <td>2</td>
-      <td>Waitemata</td>
-      <td>9.273920e+05</td>
-      <td>9.301324</td>
-      <td>0.295480</td>
-    </tr>
-    <tr>
-      <td>2</td>
-      <td>Auckland</td>
-      <td>7.781903e+05</td>
-      <td>POINT (175.15511 -36.78522)</td>
-      <td>2</td>
-      <td>3</td>
-      <td>Auckland</td>
-      <td>7.781903e+05</td>
-      <td>7.848241</td>
-      <td>0.063644</td>
-    </tr>
-    <tr>
-      <td>3</td>
-      <td>Counties Manukau</td>
-      <td>6.642233e+05</td>
-      <td>POINT (174.93239 -37.18770)</td>
-      <td>3</td>
-      <td>4</td>
-      <td>Counties Manukau</td>
-      <td>6.642233e+05</td>
-      <td>6.732029</td>
-      <td>0.303391</td>
-    </tr>
-    <tr>
-      <td>4</td>
-      <td>Waikato</td>
-      <td>1.498296e+06</td>
-      <td>POINT (175.35693 -38.04867)</td>
-      <td>4</td>
-      <td>5</td>
-      <td>Waikato</td>
-      <td>1.498296e+06</td>
-      <td>15.120324</td>
-      <td>2.201743</td>
-    </tr>
-  </tbody>
+<p><strong>Relational operators for selection set filter lists</strong></p>
+<table>
+<thead>
+<tr>
+<th>Operator</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>“”"*"""</td>
+<td>Anything goes (always true)</td>
+</tr>
+<tr>
+<td>“”"="""</td>
+<td>Equals</td>
+</tr>
+<tr>
+<td>“”"!="""</td>
+<td>Not equal to</td>
+</tr>
+<tr>
+<td>“”"/="""</td>
+<td>Not equal to</td>
+</tr>
+<tr>
+<td>“”"&lt;&gt;"""</td>
+<td>Not equal to</td>
+</tr>
+<tr>
+<td>“”"&lt;"""</td>
+<td>Less than</td>
+</tr>
+<tr>
+<td>“”"&lt;="""</td>
+<td>Less than or equal to</td>
+</tr>
+<tr>
+<td>“”"&gt;"""</td>
+<td>Greater than</td>
+</tr>
+<tr>
+<td>“”"&gt;="""</td>
+<td>Greater than or equal to</td>
+</tr>
+<tr>
+<td>“”"&amp;"""</td>
+<td>Bitwise AND (integer groups only)</td>
+</tr>
+<tr>
+<td>“”"&amp;="""</td>
+<td>Bitwise masked equals (integer groups only)</td>
+</tr>
+</tbody>
 </table>
-</div>
-<pre class=" language-language-python"><code class="language-language-python">states_with_cities.shape
+<h3 id="Example">Example</h3>
+<p>Demand: Get all the text in red color on “layer01” and all the text in blue on “lay02” and “lay03”</p>
+<pre><code>&lt; or
+    &lt; and
+             Layer == "lay01"
+             Color == "1"    // The index of Color red is 1
+             Entity type == "TEXT"
+    and &gt;
+    &lt; and
+             &lt; or
+             Layer == "lay02"
+             Layer == "lay03"
+             or &gt;
+             Color == "5"     // The index of Color Blue is 5
+             Entity type == "POLYLINE"
+    and &gt;
+or &gt;
 </code></pre>
-<pre><code>(18, 9)
+<h3 id="Code">Code</h3>
+<pre class=" language-language-C#"><code class="language-language-C#">public static void MultipleSelectionFilter()
+{
+    // Get the current editor
+    Editor ed = Autodesk.AutoCAD.ApplicationServices.Core.Application.DocumentManager.MdiActiveDocument.Editor;
+
+    // Create a set filter 
+
+    // Define the filter condition
+    TypedValue[] typeValue = {
+     new TypedValue((int) DxfCode.Operator, "<or"),
+     // Selection filter 1
+     new TypedValue((int) DxfCode.Operator, "<and"),
+     new TypedValue((int) DxfCode.Start, "TEXT"),
+     new TypedValue((int) DxfCode.LayerName, "lay01"),
+     new TypedValue((int) DxfCode.Color, "1"),
+     new TypedValue((int) DxfCode.Operator, "and>"),
+     // Selection filter 2
+     new TypedValue((int) DxfCode.Operator, "<and"),
+     new TypedValue((int) DxfCode.Start, "LWPOLYLINE"),
+     new TypedValue((int) DxfCode.Color, "5"),
+     new TypedValue((int) DxfCode.Operator, "<or"),
+     new TypedValue((int) DxfCode.LayerName, "lay02"),
+     new TypedValue((int) DxfCode.LayerName, "lay03"),
+     new TypedValue((int) DxfCode.Operator, "or>"),
+     new TypedValue((int) DxfCode.Operator, "and>"),
+     new TypedValue((int) DxfCode.Operator, "or>")
+    };
+    
+    // put the condition into the filter 
+    SelectionFilter selFiter = new SelectionFilter(typeValue);
+
+    // get the filtered result
+    PromptSelectionResult psr = ed.GetSelection(selFiter);
+
+
+    
+
+    //  Check the result 
+    if (psr.Status == PromptStatus.OK)
+    {
+        SelectionSet sSet = psr.Value;
+        Autodesk.AutoCAD.ApplicationServices.Core.Application.ShowAlertDialog("Number of objects selected: " + sSet.Count.ToString());
+    }
+    else
+    {
+        Autodesk.AutoCAD.ApplicationServices.Core.Application.ShowAlertDialog("Number of objects selected: 0");
+    }
+}
 </code></pre>
-<pre class=" language-language-python"><code class="language-language-python">states_with_cities.plot()
+<h2 id="PromptStatus">PromptStatus</h2>
+<pre class=" language-language-C#"><code class="language-language-C#">namespace Autodesk.AutoCAD.EditorInput
+{
+    public enum PromptStatus
+    {
+        Keyword = -5005,
+        Cancel = -5002,
+        Error = -5001,
+        None = 5000,
+        Modeless = 5027,
+        Other = 5028,
+        OK = 5100
+    }
+}
 </code></pre>
-<pre><code>&lt;matplotlib.axes._subplots.AxesSubplot at 0x1c22a7317f0&gt;
+<h2 id=""></h2>
+<pre class=" language-language-C#"><code class="language-language-C#">using Autodesk.AutoCAD.ApplicationServices;
+using Autodesk.AutoCAD.EditorInput;
+using Autodesk.AutoCAD.Geometry;
+using Autodesk.AutoCAD.Runtime;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using AcDoNetTools;
+using Autodesk.AutoCAD.DatabaseServices;
+
+namespace _04_用户交互
+{
+    public class Class1
+    {
+       
+        [CommandMethod("PromptDemo")]
+        public void PromptDemo()
+{
+            Database db = HostApplicationServices.WorkingDatabase;
+            // Get the current editor
+            Editor ed = Application.DocumentManager.MdiActiveDocument.Editor;
+            //PromptPointResult ppr = ed.GetPoint("\n Please select the first point：");
+            //if (ppr.Status == PromptStatus.OK)
+            //{
+            //    Point3d p1 = ppr.Value;
+            //    ppr = ed.GetPoint("\n Please select the second point：");
+            //    if (ppr.Status == PromptStatus.OK)
+            //    {
+            //        Point3d p2 = ppr.Value;
+            //        db.AddLineToModeSpace(p1, p2);
+            //    }
+            //}
+
+            Point3d p1 = new Point3d(0, 0, 0);
+            Point3d p2 = new Point3d();
+
+            PromptPointOptions ppo = new PromptPointOptions("Please select the first point：");
+            ppo.AllowNone = true;
+            PromptPointResult ppr = GetPoint(ppo);
+
+            if (ppr.Status == PromptStatus.Cancel) return;
+
+            if (ppr.Status == PromptStatus.OK) p1 = ppr.Value;
+            ppo.Message = "Please select the second point";
+            ppo.BasePoint = p1;
+            ppo.UseBasePoint = true;
+            ppr = GetPoint(ppo);
+            if (ppr.Status == PromptStatus.Cancel) return;
+            if (ppr.Status == PromptStatus.None) return;
+            if (ppr.Status == PromptStatus.OK) p2 = ppr.Value;
+            db.AddLineToModeSpace(p1, p2);  
+        }
 </code></pre>
-<p><img src="/2020/04/17/Spatial%20Join%20in%20Geopandas/output_28_1.png" alt="png"></p>
-<pre class=" language-language-python"><code class="language-language-python">gpd.sjoin(states, cities, how = 'left', op = 'within').shape
-</code></pre>
-<pre><code>(20, 9)
-</code></pre>
-<h5 id="Here-the-shape-is-different-from-the-previous-one-19-9-since-the-data-of-all-the-states-is-kept-then-final-joined-result-is-same-as-the-source-data-states">Here, the shape is different from the previous one(19,9), since the data of all the states is kept, then final joined result is same as the source data(states).</h5>
-<h2 id="Reference">Reference</h2>
-<p><a href="https://geopandas.org/install.html#dependencies" target="_blank" rel="noopener">https://geopandas.org/install.html#dependencies</a><br>
-<a href="https://www.youtube.com/watch?v=mV8bqV2j46M&amp;list=PLewNEVDy7gq3DjrPDxGFLbHE4G2QWe8Qh&amp;index=12" target="_blank" rel="noopener">https://www.youtube.com/watch?v=mV8bqV2j46M&amp;list=PLewNEVDy7gq3DjrPDxGFLbHE4G2QWe8Qh&amp;index=12</a></p>
+<hr>
+<h1>Reference</h1>
+<p><a href="http://docs.autodesk.com/ACD/2010/ENU/AutoCAD%20.NET%20Developer' target=" _blank"="" rel="noopener" s%20guide="" index.html?url="WS1a9193826455f5ff2566ffd511ff6f8c7ca-3e30.htm,topicNumber=d0e26245" "="">http://docs.autodesk.com/ACD/2010/ENU/AutoCAD .NET Developer’s Guide/index.html?url=WS1a9193826455f5ff2566ffd511ff6f8c7ca-3e30.htm,topicNumber=d0e26245</a></p>
+<p><a href="http://docs.autodesk.com/ACD/2011/CHS/filesDXF/WSfacf1429558a55de185c428100849a0ab7-5f35.htm" target="_blank" rel="noopener">http://docs.autodesk.com/ACD/2011/CHS/filesDXF/WSfacf1429558a55de185c428100849a0ab7-5f35.htm</a></p>
 <script>
         document.querySelectorAll('.github-emoji')
           .forEach(el => {
@@ -1056,7 +768,7 @@ states_with_cities.head()
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="/about" rel="external nofollow noreferrer">Fan Yang</a>
+                    <a href="/about" rel="external nofollow noreferrer">Ford Yang</a>
                 </span>
             </div>
             <div class="reprint__type">
@@ -1066,7 +778,7 @@ states_with_cities.head()
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://fordy7014.github.io/2020/04/17/Spatial%20Join%20in%20Geopandas/">https://fordy7014.github.io/2020/04/17/Spatial%20Join%20in%20Geopandas/</a>
+                    <a href="https://fordy7014.github.io/2020/08/30/20200825AutoCAD%20developer's%20tools%20--%20Selection/">https://fordy7014.github.io/2020/08/30/20200825AutoCAD%20developer's%20tools%20--%20Selection/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -1079,7 +791,7 @@ states_with_cities.head()
                     All articles in this blog are used except for special statements
                     <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
                     reprint polocy. If reproduced, please indicate source
-                    <a href="/about" target="_blank">Fan Yang</a>
+                    <a href="/about" target="_blank">Ford Yang</a>
                     !
                 </span>
             </div>
@@ -1104,12 +816,12 @@ states_with_cities.head()
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/Spatial-Analysis/">
-                                    <span class="chip bg-color">Spatial Analysis</span>
+                                <a href="/tags/AutoCAD-API/">
+                                    <span class="chip bg-color">AutoCAD API</span>
                                 </a>
                             
-                                <a href="/tags/Geopandas/">
-                                    <span class="chip bg-color">Geopandas</span>
+                                <a href="/tags/C/">
+                                    <span class="chip bg-color">C#</span>
                                 </a>
                             
                         </div>
@@ -1151,54 +863,53 @@ states_with_cities.head()
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;Previous</div>
+                <i class="far fa-dot-circle"></i>&nbsp;Current
+            </div>
             <div class="card">
-                <a href="/2020/04/20/Land-use%20TIF%20file%20making%20for%20HEC-RAS%202D/">
+                <a href="/2020/08/30/20200825AutoCAD%20developer's%20tools%20--%20Selection/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/23.jpg" class="responsive-img" alt="Land-use TIF file making for HEC-RAS 2D">
+                        <img src="/medias/featureimages/10.jpg" class="responsive-img" alt="04. Selection">
                         
-                        <span class="card-title">Land-use TIF file making for HEC-RAS 2D</span>
+                        <span class="card-title">04. Selection</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            For 2D analysis in HEC-RAS, we may need to a land use map to assign the manning factor as . How to make it? Of course we
+                            Introduction
+After learning how to draw a line with AutoCAD API, we can use similar way to create other drawable objects
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2020-04-20
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-08-30
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/April-2020/" class="post-category">
-                                    April 2020
+                            <a href="/categories/August-2020/" class="post-category">
+                                    August 2020
                                 </a>
                             
                             
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/Arcmap/">
-                        <span class="chip bg-color">Arcmap</span>
+                    <a href="/tags/AutoCAD-API/">
+                        <span class="chip bg-color">AutoCAD API</span>
                     </a>
                     
-                    <a href="/tags/Raster/">
-                        <span class="chip bg-color">Raster</span>
-                    </a>
-                    
-                    <a href="/tags/HEC-RAS/">
-                        <span class="chip bg-color">HEC-RAS</span>
+                    <a href="/tags/C/">
+                        <span class="chip bg-color">C#</span>
                     </a>
                     
                 </div>
@@ -1212,35 +923,32 @@ states_with_cities.head()
                 Next&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/04/16/Pyswmm%20practice/">
+                <a href="/2020/08/25/20200825AutoCAD%20developer's%20tools%20--%20Modify%20the%20drawable%20object/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/15.jpg" class="responsive-img" alt="Pyswmm Learning">
+                        <img src="/medias/featureimages/14.jpg" class="responsive-img" alt="04. Modify the drawable object">
                         
-                        <span class="card-title">Pyswmm Learning</span>
+                        <span class="card-title">04. Modify the drawable object</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            import pandas as pd
-from pandas import DataFrame, Series
-
-from pyswmm import Simulation, Subcatchments
-from swmm5.swmm5t
+                            Introduction
+After learning how to draw a line with AutoCAD API, we can use similar way to create other drawable objects
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-04-16
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-08-25
                             </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/April-2020/" class="post-category">
-                                    April 2020
+                            <a href="/categories/August-2020/" class="post-category">
+                                    August 2020
                                 </a>
                             
                             
@@ -1250,8 +958,12 @@ from swmm5.swmm5t
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/SWMM/">
-                        <span class="chip bg-color">SWMM</span>
+                    <a href="/tags/AutoCAD-API/">
+                        <span class="chip bg-color">AutoCAD API</span>
+                    </a>
+                    
+                    <a href="/tags/C/">
+                        <span class="chip bg-color">C#</span>
                     </a>
                     
                 </div>

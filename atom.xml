@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://fordy7014.github.io/"/>
-  <updated>2020-08-29T21:04:08.577Z</updated>
+  <updated>2020-08-30T08:33:17.074Z</updated>
   <id>https://fordy7014.github.io/</id>
   
   <author>
@@ -17,11 +17,41 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>04. Selection</title>
+    <link href="https://fordy7014.github.io/2020/08/30/20200825AutoCAD%20developer&#39;s%20tools%20--%20Selection/"/>
+    <id>https://fordy7014.github.io/2020/08/30/20200825AutoCAD%20developer&#39;s%20tools%20--%20Selection/</id>
+    <published>2020-08-30T04:04:57.000Z</published>
+    <updated>2020-08-30T08:33:17.074Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h2 id=&quot;Introduction&quot;&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;After learning how to draw a line with AutoCAD API, we can use similar way to create other
+        
+      
+    
+    </summary>
+    
+    
+      <category term="August 2020" scheme="https://fordy7014.github.io/categories/August-2020/"/>
+    
+    
+      <category term="AutoCAD API" scheme="https://fordy7014.github.io/tags/AutoCAD-API/"/>
+    
+      <category term="C#" scheme="https://fordy7014.github.io/tags/C/"/>
+    
+  </entry>
+  
+  <entry>
     <title>04. Modify the drawable object</title>
     <link href="https://fordy7014.github.io/2020/08/25/20200825AutoCAD%20developer&#39;s%20tools%20--%20Modify%20the%20drawable%20object/"/>
     <id>https://fordy7014.github.io/2020/08/25/20200825AutoCAD%20developer&#39;s%20tools%20--%20Modify%20the%20drawable%20object/</id>
     <published>2020-08-25T04:04:57.000Z</published>
-    <updated>2020-08-29T21:04:08.577Z</updated>
+    <updated>2020-08-30T03:31:36.463Z</updated>
     
     <summary type="html">
     
@@ -81,7 +111,7 @@
     <link href="https://fordy7014.github.io/2020/08/23/20200823AutoCAD%20developer&#39;s%20tools%20--%20Brief%20Introduction/"/>
     <id>https://fordy7014.github.io/2020/08/23/20200823AutoCAD%20developer&#39;s%20tools%20--%20Brief%20Introduction/</id>
     <published>2020-08-23T04:04:57.000Z</published>
-    <updated>2020-08-29T21:04:20.592Z</updated>
+    <updated>2020-08-29T23:40:44.937Z</updated>
     
     <summary type="html">
     
@@ -552,37 +582,6 @@ from urllib.request import
     
     
       <category term="Arcmap" scheme="https://fordy7014.github.io/tags/Arcmap/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Land-use TIF file making for HEC-RAS 2D</title>
-    <link href="https://fordy7014.github.io/2020/04/20/Land-use%20TIF%20file%20making%20for%20HEC-RAS%202D/"/>
-    <id>https://fordy7014.github.io/2020/04/20/Land-use%20TIF%20file%20making%20for%20HEC-RAS%202D/</id>
-    <published>2020-04-20T04:04:57.000Z</published>
-    <updated>2020-05-22T00:55:30.338Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;p&gt;For 2D analysis in HEC-RAS, we may need to a land use map to assign the manning factor as . How to make it? Of course we can make the
-        
-      
-    
-    </summary>
-    
-    
-      <category term="April 2020" scheme="https://fordy7014.github.io/categories/April-2020/"/>
-    
-    
-      <category term="Arcmap" scheme="https://fordy7014.github.io/tags/Arcmap/"/>
-    
-      <category term="HEC-RAS" scheme="https://fordy7014.github.io/tags/HEC-RAS/"/>
-    
-      <category term="Raster" scheme="https://fordy7014.github.io/tags/Raster/"/>
     
   </entry>
   

@@ -1,102 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>How to autoload *.dll in AutoCAD</title>
-    <url>/2020/06/01/20200602How%20to%20autoload%20dll%20in%20AutoCAD/</url>
-    <content><![CDATA[<hr>
-<h3 id="Enter-the-folder">Enter the folder</h3>
-<p>First step is to create a bundle folder in “%ProgramData%/Autodesk/ApplicationPlugins”. the bundle folder is a normal windows folder that ends with .bundle (ex. MyApp.bundle)</p>
-<p><img src="/2020/06/01/20200602How%20to%20autoload%20dll%20in%20AutoCAD/11.PNG" alt="FlolderLocation"></p>
-<hr>
-<h3 id="Folder-contents">Folder contents</h3>
-<p>Inside this folder there should be a folder named (“Contents”) and a file named (“PackageContents.xml”).</p>
-<p>Place *.dll inside the contents folder</p>
-<p><img src="/2020/06/01/20200602How%20to%20autoload%20dll%20in%20AutoCAD/22.PNG" alt="folderContent"></p>
-<hr>
-<h3 id="Modify-the-XML-file">Modify the XML file</h3>
-<p>code inside PackageContents.xml can be as simple as the following (Change things like “MyApp”, “MyName”, etc… and it works):</p>
-<pre class=" language-language-xml"><code class="language-language-xml"><?xml version="1.0" encoding="utf-8"?>
-<ApplicationPackage SchemaVersion="1.0" ProductType="Application" Name="MyAPP" AppVersion="1.0" Description="MyAPP, My description" Author="My Name" Icon="./Contents/MyAPPIcon.ico" OnlineDocumentation="http://MyWebSite.com" HelpFile="" ProductCode="{xxxxxx-xxxx-xxxx-xxxx-xxxxxxxxx}" FriendlyVersion="1.0" SupportedLocales="Enu" AutodeskProduct="AutoCAD">
-  <CompanyDetails Name="My Name" Phone=" " Url="http://MyWebsite.com" Email="MyName@MyWebSite.com" />
-  <Components Description="Main">
-    <RuntimeRequirements SupportPath="./Contents" OS="Win32|Win64" Platform="AutoCAD*" SeriesMin="R19.0" SeriesMax="R22.0" />
-    <ComponentEntry AppName="MyAPP" Version="1.0" ModuleName="./Contents/MyAPP.dll" AppDescription="My description" LoadOnAppearance="True" LoadOnAutoCADStartup="True" LoadOnCommandInvocation="True">
-    </ComponentEntry>
-  </Components>
-</ApplicationPackage>
-</code></pre>
-<p>Put the *.dll file inside the Contents folder.</p>
-<hr>
-<h3 id="ProductCode-GUID">ProductCode(GUID)</h3>
-<pre class=" language-language-csharp"><code class="language-language-csharp">private string getGUID()
-   {
-       System.Guid guid = new Guid();
-       guid = Guid.NewGuid();
-       string str = guid.ToString();
-       return str;
-   }
-</code></pre>
-<p>or on the visual Studio</p>
-<pre><code>Tools ----Create GUID
-</code></pre>
-<hr>
-<h3 id="Auto-Run-Command-when-loading-dll-file">Auto Run Command when loading .dll file</h3>
-<pre><code>&lt;?xml version="1.0" encoding="utf-8"?&gt;
-&lt;ApplicationPackage SchemaVersion="1.0" AppVersion="1.0.0" ProductType="Application"
-    ProductCode="{6A1C1EAE-3744-4BD8-AF08-F322E92D9B3B}"
-    Name="RibbonTest"  Description="MyAPP, My description"  SupportedLocales="Enu" AutodeskProduct="AutoCAD"&gt;
-  &lt;CompanyDetails Name="myribbontest" Email="yangfan7014@gmail.com" /&gt;
-  &lt;RuntimeRequirements SupportPath="./Contents" OS="Win32|Win64" Platform="AutoCAD*|AutoCAD" SeriesMin="R20.1" SeriesMax="R24.0"/&gt;
-  &lt;Components Description="Main"&gt;
-
-    &lt;ComponentEntry  AppName="MyAPP" Version="1.0.0" ModuleName="./Contents/18RibbonT.dll" LoadOnAppearance="True" LoadOnAutoCADStartup="True" LoadOnCommandInvocation="True"&gt;
-      &lt;Commands GroupName="_18RibbonT"&gt;
-        &lt;Command Local="RibbonDemo" Global="RibbonDemo" StartupCommand = "True" /&gt;
-      &lt;/Commands&gt;
-	  &lt;/ComponentEntry&gt;
-
-    &lt;ComponentEntry  AppName="Ramps" Version="1.0.0" ModuleName="./Contents/Ramps.dll" LoadOnAutoCADStartup="True"&gt;
-      &lt;Commands GroupName="Commands"&gt;
-        &lt;Command Local="CRAMPS" Global="CRAMPS" /&gt;
-      &lt;/Commands&gt;
-    &lt;/ComponentEntry&gt;		
-
-  &lt;/Components&gt;
-&lt;/ApplicationPackage&gt;
-</code></pre>
-<h1>Reference</h1>
-<p><a href="https://adndevblog.typepad.com/autocad/2013/01/autodesk-autoloader-white-paper.html" target="_blank" rel="noopener">https://adndevblog.typepad.com/autocad/2013/01/autodesk-autoloader-white-paper.html</a><br>
-<a href="https://stackoverflow.com/questions/46282189/autocad-2018-autoload-dll" target="_blank" rel="noopener">https://stackoverflow.com/questions/46282189/autocad-2018-autoload-dll</a><br>
-<a href="https://stackoverflow.com/questions/46282189/autocad-2018-autoload-dll" target="_blank" rel="noopener">https://stackoverflow.com/questions/46282189/autocad-2018-autoload-dll</a><br>
-<a href="https://www.cnblogs.com/linzheng/archive/2010/12/14/1905906.html" target="_blank" rel="noopener">https://www.cnblogs.com/linzheng/archive/2010/12/14/1905906.html</a></p>
-<script>
-        document.querySelectorAll('.github-emoji')
-          .forEach(el => {
-            if (!el.dataset.src) { return; }
-            const img = document.createElement('img');
-            img.style = 'display:none !important;';
-            img.src = el.dataset.src;
-            img.addEventListener('error', () => {
-              img.remove();
-              el.style.color = 'inherit';
-              el.style.backgroundImage = 'none';
-              el.style.background = 'none';
-            });
-            img.addEventListener('load', () => {
-              img.remove();
-            });
-            document.body.appendChild(img);
-          });
-      </script>]]></content>
-      <categories>
-        <category>June 2020</category>
-      </categories>
-      <tags>
-        <tag>Civil3d</tag>
-        <tag>AutoCAD API</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Covid-19 Cases Analysis in New Zealand</title>
     <url>/2020/04/26/20200426%20Covid-19%20Cases%20Figure%20in%20New%20Zealand/</url>
     <content><![CDATA[<pre class=" language-language-python"><code class="language-language-python">from lxml.html import parse
@@ -1753,6 +1657,102 @@ Mostly we have different plans such as drainage or driveway plan on same site, i
       </tags>
   </entry>
   <entry>
+    <title>How to autoload *.dll in AutoCAD</title>
+    <url>/2020/06/01/20200602How%20to%20autoload%20dll%20in%20AutoCAD/</url>
+    <content><![CDATA[<hr>
+<h3 id="Enter-the-folder">Enter the folder</h3>
+<p>First step is to create a bundle folder in “%ProgramData%/Autodesk/ApplicationPlugins”. the bundle folder is a normal windows folder that ends with .bundle (ex. MyApp.bundle)</p>
+<p><img src="/2020/06/01/20200602How%20to%20autoload%20dll%20in%20AutoCAD/11.PNG" alt="FlolderLocation"></p>
+<hr>
+<h3 id="Folder-contents">Folder contents</h3>
+<p>Inside this folder there should be a folder named (“Contents”) and a file named (“PackageContents.xml”).</p>
+<p>Place *.dll inside the contents folder</p>
+<p><img src="/2020/06/01/20200602How%20to%20autoload%20dll%20in%20AutoCAD/22.PNG" alt="folderContent"></p>
+<hr>
+<h3 id="Modify-the-XML-file">Modify the XML file</h3>
+<p>code inside PackageContents.xml can be as simple as the following (Change things like “MyApp”, “MyName”, etc… and it works):</p>
+<pre class=" language-language-xml"><code class="language-language-xml"><?xml version="1.0" encoding="utf-8"?>
+<ApplicationPackage SchemaVersion="1.0" ProductType="Application" Name="MyAPP" AppVersion="1.0" Description="MyAPP, My description" Author="My Name" Icon="./Contents/MyAPPIcon.ico" OnlineDocumentation="http://MyWebSite.com" HelpFile="" ProductCode="{xxxxxx-xxxx-xxxx-xxxx-xxxxxxxxx}" FriendlyVersion="1.0" SupportedLocales="Enu" AutodeskProduct="AutoCAD">
+  <CompanyDetails Name="My Name" Phone=" " Url="http://MyWebsite.com" Email="MyName@MyWebSite.com" />
+  <Components Description="Main">
+    <RuntimeRequirements SupportPath="./Contents" OS="Win32|Win64" Platform="AutoCAD*" SeriesMin="R19.0" SeriesMax="R22.0" />
+    <ComponentEntry AppName="MyAPP" Version="1.0" ModuleName="./Contents/MyAPP.dll" AppDescription="My description" LoadOnAppearance="True" LoadOnAutoCADStartup="True" LoadOnCommandInvocation="True">
+    </ComponentEntry>
+  </Components>
+</ApplicationPackage>
+</code></pre>
+<p>Put the *.dll file inside the Contents folder.</p>
+<hr>
+<h3 id="ProductCode-GUID">ProductCode(GUID)</h3>
+<pre class=" language-language-csharp"><code class="language-language-csharp">private string getGUID()
+   {
+       System.Guid guid = new Guid();
+       guid = Guid.NewGuid();
+       string str = guid.ToString();
+       return str;
+   }
+</code></pre>
+<p>or on the visual Studio</p>
+<pre><code>Tools ----Create GUID
+</code></pre>
+<hr>
+<h3 id="Auto-Run-Command-when-loading-dll-file">Auto Run Command when loading .dll file</h3>
+<pre><code>&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;ApplicationPackage SchemaVersion="1.0" AppVersion="1.0.0" ProductType="Application"
+    ProductCode="{6A1C1EAE-3744-4BD8-AF08-F322E92D9B3B}"
+    Name="RibbonTest"  Description="MyAPP, My description"  SupportedLocales="Enu" AutodeskProduct="AutoCAD"&gt;
+  &lt;CompanyDetails Name="myribbontest" Email="yangfan7014@gmail.com" /&gt;
+  &lt;RuntimeRequirements SupportPath="./Contents" OS="Win32|Win64" Platform="AutoCAD*|AutoCAD" SeriesMin="R20.1" SeriesMax="R24.0"/&gt;
+  &lt;Components Description="Main"&gt;
+
+    &lt;ComponentEntry  AppName="MyAPP" Version="1.0.0" ModuleName="./Contents/18RibbonT.dll" LoadOnAppearance="True" LoadOnAutoCADStartup="True" LoadOnCommandInvocation="True"&gt;
+      &lt;Commands GroupName="_18RibbonT"&gt;
+        &lt;Command Local="RibbonDemo" Global="RibbonDemo" StartupCommand = "True" /&gt;
+      &lt;/Commands&gt;
+	  &lt;/ComponentEntry&gt;
+
+    &lt;ComponentEntry  AppName="Ramps" Version="1.0.0" ModuleName="./Contents/Ramps.dll" LoadOnAutoCADStartup="True"&gt;
+      &lt;Commands GroupName="Commands"&gt;
+        &lt;Command Local="CRAMPS" Global="CRAMPS" /&gt;
+      &lt;/Commands&gt;
+    &lt;/ComponentEntry&gt;		
+
+  &lt;/Components&gt;
+&lt;/ApplicationPackage&gt;
+</code></pre>
+<h1>Reference</h1>
+<p><a href="https://adndevblog.typepad.com/autocad/2013/01/autodesk-autoloader-white-paper.html" target="_blank" rel="noopener">https://adndevblog.typepad.com/autocad/2013/01/autodesk-autoloader-white-paper.html</a><br>
+<a href="https://stackoverflow.com/questions/46282189/autocad-2018-autoload-dll" target="_blank" rel="noopener">https://stackoverflow.com/questions/46282189/autocad-2018-autoload-dll</a><br>
+<a href="https://stackoverflow.com/questions/46282189/autocad-2018-autoload-dll" target="_blank" rel="noopener">https://stackoverflow.com/questions/46282189/autocad-2018-autoload-dll</a><br>
+<a href="https://www.cnblogs.com/linzheng/archive/2010/12/14/1905906.html" target="_blank" rel="noopener">https://www.cnblogs.com/linzheng/archive/2010/12/14/1905906.html</a></p>
+<script>
+        document.querySelectorAll('.github-emoji')
+          .forEach(el => {
+            if (!el.dataset.src) { return; }
+            const img = document.createElement('img');
+            img.style = 'display:none !important;';
+            img.src = el.dataset.src;
+            img.addEventListener('error', () => {
+              img.remove();
+              el.style.color = 'inherit';
+              el.style.backgroundImage = 'none';
+              el.style.background = 'none';
+            });
+            img.addEventListener('load', () => {
+              img.remove();
+            });
+            document.body.appendChild(img);
+          });
+      </script>]]></content>
+      <categories>
+        <category>June 2020</category>
+      </categories>
+      <tags>
+        <tag>Civil3d</tag>
+        <tag>AutoCAD API</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Prompt to Select one type of object in .NetAPI(Ironpython)</title>
     <url>/2020/06/16/20200616Prompt%20to%20Select%20one%20type%20of%20object/</url>
     <content><![CDATA[<hr>
@@ -1831,107 +1831,6 @@ except:
         <tag>Civil3d</tag>
         <tag>AutoCAD API</tag>
         <tag>Ironpython</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>FilterType[] in dotNetAPI</title>
-    <url>/2020/06/18/20200618FilterType%5B%5D%20in%20dotNetAPI/</url>
-    <content><![CDATA[<h2 id="This-one-is-just-to-make-a-record-for-the-passage-in-the-Reference-The-content-and-code-are-all-from-this-passage">This one is just to make a record for the passage in the Reference. The content and code are all from <a href="https://mp.weixin.qq.com/s/f1UU9ihNL1B0UUKzMFgDAg" target="_blank" rel="noopener">this passage</a>.</h2>
-<h2 id="Aim">Aim</h2>
-<pre><code>&lt; or
-    &lt; and
-             Layer == "lay01"
-             Color == "1"    // 红色索引值为1
-             Entity type == "TEXT"
-    and &gt;
-    &lt; and
-             &lt; or
-             Layer == "lay02"
-             Layer == "lay03"
-             or &gt;
-             Color == "5"     // 蓝色索引值为5
-             Entity type == "POLYLINE"
-    and &gt;
-or &gt;
-</code></pre>
-<hr>
-<h2 id="Code">Code</h2>
-<pre class=" language-language-csharp"><code class="language-language-csharp">
-public static void MultipleSelectionFilter()
-{
-    // 获取当前文档编辑器
-    Editor ed = Autodesk.AutoCAD.ApplicationServices.Core.Application.DocumentManager.MdiActiveDocument.Editor;
-
-    // 创建一个数组定义筛选条件
-
-    // 定义筛选条件
-    TypedValue[] typeValue = {
-     new TypedValue((int) DxfCode.Operator, "<or"),
-     // 选择标准1
-     new TypedValue((int) DxfCode.Operator, "<and"),
-     new TypedValue((int) DxfCode.Start, "TEXT"),
-     new TypedValue((int) DxfCode.LayerName, "lay01"),
-     new TypedValue((int) DxfCode.Color, "1"),
-     new TypedValue((int) DxfCode.Operator, "and>"),
-     // 选择标准2
-     new TypedValue((int) DxfCode.Operator, "<and"),
-     new TypedValue((int) DxfCode.Start, "LWPOLYLINE"),
-     new TypedValue((int) DxfCode.Color, "5"),
-     new TypedValue((int) DxfCode.Operator, "<or"),
-     new TypedValue((int) DxfCode.LayerName, "lay02"),
-     new TypedValue((int) DxfCode.LayerName, "lay03"),
-     new TypedValue((int) DxfCode.Operator, "or>"),
-     new TypedValue((int) DxfCode.Operator, "and>"),
-     new TypedValue((int) DxfCode.Operator, "or>")
-    };
-
-    // 将筛选条件传到过滤器
-    SelectionFilter selFiter = new SelectionFilter(typeValue);
-
-    // 获取选择对象
-    PromptSelectionResult psr = ed.GetSelection(selFiter);
-
-
-    // 判断选择是否成功
-    if (psr.Status == PromptStatus.OK)
-    {
-        SelectionSet sSet = psr.Value;
-        Autodesk.AutoCAD.ApplicationServices.Core.Application.ShowAlertDialog("Number of objects selected: " + sSet.Count.ToString());
-    }
-    else
-    {
-        Autodesk.AutoCAD.ApplicationServices.Core.Application.ShowAlertDialog("Number of objects selected: 0");
-    }
-}
-</code></pre>
-<h1>Reference</h1>
-<p><a href="https://mp.weixin.qq.com/s/f1UU9ihNL1B0UUKzMFgDAg" target="_blank" rel="noopener">https://mp.weixin.qq.com/s/f1UU9ihNL1B0UUKzMFgDAg</a></p>
-<script>
-        document.querySelectorAll('.github-emoji')
-          .forEach(el => {
-            if (!el.dataset.src) { return; }
-            const img = document.createElement('img');
-            img.style = 'display:none !important;';
-            img.src = el.dataset.src;
-            img.addEventListener('error', () => {
-              img.remove();
-              el.style.color = 'inherit';
-              el.style.backgroundImage = 'none';
-              el.style.background = 'none';
-            });
-            img.addEventListener('load', () => {
-              img.remove();
-            });
-            document.body.appendChild(img);
-          });
-      </script>]]></content>
-      <categories>
-        <category>June 2020</category>
-      </categories>
-      <tags>
-        <tag>Civil3d</tag>
-        <tag>AutoCAD API</tag>
-        <tag>C#</tag>
       </tags>
   </entry>
   <entry>
@@ -2041,6 +1940,107 @@ public static DBObjectCollection GetSelection(FilterType[] tps)
       </tags>
   </entry>
   <entry>
+    <title>FilterType[] in dotNetAPI</title>
+    <url>/2020/06/18/20200618FilterType%5B%5D%20in%20dotNetAPI/</url>
+    <content><![CDATA[<h2 id="This-one-is-just-to-make-a-record-for-the-passage-in-the-Reference-The-content-and-code-are-all-from-this-passage">This one is just to make a record for the passage in the Reference. The content and code are all from <a href="https://mp.weixin.qq.com/s/f1UU9ihNL1B0UUKzMFgDAg" target="_blank" rel="noopener">this passage</a>.</h2>
+<h2 id="Aim">Aim</h2>
+<pre><code>&lt; or
+    &lt; and
+             Layer == "lay01"
+             Color == "1"    // 红色索引值为1
+             Entity type == "TEXT"
+    and &gt;
+    &lt; and
+             &lt; or
+             Layer == "lay02"
+             Layer == "lay03"
+             or &gt;
+             Color == "5"     // 蓝色索引值为5
+             Entity type == "POLYLINE"
+    and &gt;
+or &gt;
+</code></pre>
+<hr>
+<h2 id="Code">Code</h2>
+<pre class=" language-language-csharp"><code class="language-language-csharp">
+public static void MultipleSelectionFilter()
+{
+    // 获取当前文档编辑器
+    Editor ed = Autodesk.AutoCAD.ApplicationServices.Core.Application.DocumentManager.MdiActiveDocument.Editor;
+
+    // 创建一个数组定义筛选条件
+
+    // 定义筛选条件
+    TypedValue[] typeValue = {
+     new TypedValue((int) DxfCode.Operator, "<or"),
+     // 选择标准1
+     new TypedValue((int) DxfCode.Operator, "<and"),
+     new TypedValue((int) DxfCode.Start, "TEXT"),
+     new TypedValue((int) DxfCode.LayerName, "lay01"),
+     new TypedValue((int) DxfCode.Color, "1"),
+     new TypedValue((int) DxfCode.Operator, "and>"),
+     // 选择标准2
+     new TypedValue((int) DxfCode.Operator, "<and"),
+     new TypedValue((int) DxfCode.Start, "LWPOLYLINE"),
+     new TypedValue((int) DxfCode.Color, "5"),
+     new TypedValue((int) DxfCode.Operator, "<or"),
+     new TypedValue((int) DxfCode.LayerName, "lay02"),
+     new TypedValue((int) DxfCode.LayerName, "lay03"),
+     new TypedValue((int) DxfCode.Operator, "or>"),
+     new TypedValue((int) DxfCode.Operator, "and>"),
+     new TypedValue((int) DxfCode.Operator, "or>")
+    };
+
+    // 将筛选条件传到过滤器
+    SelectionFilter selFiter = new SelectionFilter(typeValue);
+
+    // 获取选择对象
+    PromptSelectionResult psr = ed.GetSelection(selFiter);
+
+
+    // 判断选择是否成功
+    if (psr.Status == PromptStatus.OK)
+    {
+        SelectionSet sSet = psr.Value;
+        Autodesk.AutoCAD.ApplicationServices.Core.Application.ShowAlertDialog("Number of objects selected: " + sSet.Count.ToString());
+    }
+    else
+    {
+        Autodesk.AutoCAD.ApplicationServices.Core.Application.ShowAlertDialog("Number of objects selected: 0");
+    }
+}
+</code></pre>
+<h1>Reference</h1>
+<p><a href="https://mp.weixin.qq.com/s/f1UU9ihNL1B0UUKzMFgDAg" target="_blank" rel="noopener">https://mp.weixin.qq.com/s/f1UU9ihNL1B0UUKzMFgDAg</a></p>
+<script>
+        document.querySelectorAll('.github-emoji')
+          .forEach(el => {
+            if (!el.dataset.src) { return; }
+            const img = document.createElement('img');
+            img.style = 'display:none !important;';
+            img.src = el.dataset.src;
+            img.addEventListener('error', () => {
+              img.remove();
+              el.style.color = 'inherit';
+              el.style.backgroundImage = 'none';
+              el.style.background = 'none';
+            });
+            img.addEventListener('load', () => {
+              img.remove();
+            });
+            document.body.appendChild(img);
+          });
+      </script>]]></content>
+      <categories>
+        <category>June 2020</category>
+      </categories>
+      <tags>
+        <tag>Civil3d</tag>
+        <tag>AutoCAD API</tag>
+        <tag>C#</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Civil3d Ribbon Demo (Automate the repetitive tasks)</title>
     <url>/2020/06/22/20200622Civil3D%20Ribbon%20Demo/</url>
     <content><![CDATA[<p>Recently I create a custom #Civil3D ribbon menu with #.NET API for the script I wrote. Now it is easier to use and can save us time for repetitive tasks.</p>
@@ -2114,72 +2114,94 @@ public static DBObjectCollection GetSelection(FilterType[] tps)
       </tags>
   </entry>
   <entry>
-    <title>Add boundary Line to Surface by using API</title>
-    <url>/2020/05/13/Add%20boundary%20Line%20to%20Surface%20by%20using%20API/</url>
-    <content><![CDATA[<p>Today, I saw a post from Dynamo forum that mentioned how to add boundaryline to the surface. Just make a note for future use.  The original post link is listed in the Reference.</p>
-<h2 id="NETAPI-C">.NETAPI-C#</h2>
-<pre class=" language-language-csharp"><code class="language-language-csharp">[CommandMethod("AddSurfaceBoundary")]
-public void AddSurfaceBoundary()
+    <title>01. &quot;Hello world&quot; message in AutoCAD editor Example</title>
+    <url>/2020/08/22/20200822AutoCAD%20developer&#39;s%20tools%20--%20Environment/</url>
+    <content><![CDATA[<h2 id="01-Start-up-with-the-Environment">01.Start up with the Environment</h2>
+<ul>
+<li>Language: C#</li>
+<li>IDE: VS2019</li>
+<li>CAD: 2019</li>
+</ul>
+<p>The relationship between CAD edition and product codes for installation</p>
+<pre><code>R19.0: 2013
+R19.1: 2014
+R20.0: 2015
+R20.1:2016
+R21.0:2017
+R22.0:2018
+R23.0:2019
+R23.1:2020  
+R24.0:2021
+
+</code></pre>
+<hr>
+<h2 id="02-Create-a-new-project">02. Create a new project</h2>
+<p>Build up  a class file which can be loaded by AutoCAD later for use.</p>
+<ol>
+<li>Start Visual Studio</li>
+</ol>
+<p><img src="/2020/08/22/20200822AutoCAD%20developer's%20tools%20--%20Environment/1.png" alt="Create new project"></p>
+<ol start="2">
+<li>Create new project with .NetFramework 4.7<br>
+<img src="/2020/08/22/20200822AutoCAD%20developer's%20tools%20--%20Environment/2.png" alt="Input the Project name"></li>
+</ol>
+<hr>
+<h2 id="03-Load-the-files">03. Load the files</h2>
+<p>The we load the .dll file in the AutoCAD root folder into the projects, then the code we write can use them to command AutoCAD.</p>
+<p><img src="/2020/08/22/20200822AutoCAD%20developer's%20tools%20--%20Environment/4.png" alt="Load AutoCAD assembly files"></p>
+<blockquote>
+<p>turn “copy Local” to False</p>
+</blockquote>
+<p>The brief info the main three .dll files are listed as below.</p>
+<pre><code>AcDbMgd.dll. Use when working with objects in a drawing file.
+AcMgd.dll. Use when working with the AutoCAD application.
+AcCui.dll. Use when working with customization files.
+</code></pre>
+<hr>
+<h2 id="04-Write-the-code">04. Write the code</h2>
+<p>Once we load the .dll files, Visual Studio is smart enough to remind us to using the right assembly as show in the figure below.</p>
+<p><img src="/2020/08/22/20200822AutoCAD%20developer's%20tools%20--%20Environment/5.png" alt="Using the assembly"></p>
+<pre class=" language-language-C#"><code class="language-language-C#">namespace _01.Environment_Build_up_Demo
 {
-    using (Transaction ts = Application.DocumentManager.MdiActiveDocument.Database.TransactionManager.StartTransaction())
+    public class Class1
     {
-        // Prompt the user to select a surface and a polyline
-        ObjectId surfaceId = promptForEntity("Select the surface to add a boundary to", typeof(TinSurface));
-        ObjectId polyId = promptForEntity("Select the object to use as a boundary", typeof(Polyline));
-
-        // The boundary or boundaries must be added to an ObjectIdCollection for the AddBoundaries method:
-        ObjectId[] boundaries = { polyId };
-        TinSurface oSurface = surfaceId.GetObject(OpenMode.ForWrite) as TinSurface;
-
-        try
+        [CommandMethod("CommandDemo")]
+        public void Demo1()
         {
-            oSurface.BoundariesDefinition.AddBoundaries(new ObjectIdCollection(boundaries), 100, Autodesk.Civil.Land.SurfaceBoundaryType.Outer, true);
-            oSurface.Rebuild();
+            Editor ed = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument.Editor;
+            ed.WriteMessage("Hello World");
         }
 
-        catch (System.Exception e)
-        {
-            editor.WriteMessage("Failed to add the boundary: {0}", e.Message);
-        }
-
-        // commit the transaction
-        ts.Commit();
     }
 }
 
-private ObjectId promptForTinSurface(String prompt)
-{
-    PromptEntityOptions options = new PromptEntityOptions(
-        String.Format("\n{0}: ", prompt));
-    options.SetRejectMessage(
-        "\nThe selected object is not a TIN Surface.");
-    options.AddAllowedClass(typeof(TinSurface), true);
-
-    PromptEntityResult result = editor.GetEntity(options);
-    if (result.Status == PromptStatus.OK)
-    {
-        // We have the correct object type
-        return result.ObjectId;
-    }
-    return ObjectId.Null;   // Indicating error.
-}
-
 </code></pre>
-<h2 id="IronPython-in-Dynamo">IronPython in Dynamo</h2>
-<pre class=" language-language-python"><code class="language-language-python">surfaceId = promptForEntity("Select the surface to add a boundary to", clr.GetClrType(TinSurface))
-polyId = promptForEntity("Select the object to use as a boundary", clr.GetClrType(Polyline))
-
-coll = ObjectIdCollection()
-coll.Add(plineId)
-
-oSurface = surfaceId.GetObject(OpenMode.ForWrite)
-
-osurface.BoundariesDefinition.AddBoundaries(coll, 100, SurfaceBoundaryType.Outer, True)
-osurface.Rebuild()
-</code></pre>
-<h1>Reference:</h1>
-<p><a href="http://help.autodesk.com/view/CIV3D/2020/ENU/?guid=GUID-7C32E309-9B54-42A0-A4DC-C6FD592071F2" target="_blank" rel="noopener">http://help.autodesk.com/view/CIV3D/2020/ENU/?guid=GUID-7C32E309-9B54-42A0-A4DC-C6FD592071F2</a><br>
-<a href="https://forum.dynamobim.com/t/create-object-id-collection/49472" target="_blank" rel="noopener">https://forum.dynamobim.com/t/create-object-id-collection/49472</a></p>
+<hr>
+<h2 id="05-Build-up-the-code">05. Build up the code</h2>
+<p>Main Menu -&gt; Build -&gt; Rebuild solution<br>
+then the .dll file will be built up.<br>
+<img src="/2020/08/22/20200822AutoCAD%20developer's%20tools%20--%20Environment/6.png" alt="Build up the first .dll file"></p>
+<p>Several seconds later, we can see the “succeeded” information.</p>
+<p><img src="/2020/08/22/20200822AutoCAD%20developer's%20tools%20--%20Environment/7.png" alt="Succeeded in Build-up"></p>
+<hr>
+<h2 id="06-Run-the-code-in-AutoCAD">06. Run the code in AutoCAD</h2>
+<p>The we need to start up AutoCAD, and then input netload to load the .dll we write into CAD,</p>
+<p><img src="/2020/08/22/20200822AutoCAD%20developer's%20tools%20--%20Environment/8.png" alt="Load our dll file"></p>
+<p>The we input the command into the</p>
+<blockquote>
+<p><em>CommandDemo</em></p>
+</blockquote>
+<p><img src="/2020/08/22/20200822AutoCAD%20developer's%20tools%20--%20Environment/9.png" alt="Show up the message"></p>
+<hr>
+<h2 id="07-Solution-files-in-VS">07. Solution files in VS</h2>
+<p>Project and solution files have the following file extensions:</p>
+<ol>
+<li>VBPROJ - Microsoft Visual Basic (VB) .NET project file</li>
+<li>CSPROJ - Microsoft Visual C# project file</li>
+<li>SLN - Microsoft Visual Studio solution file```</li>
+</ol>
+<h1>Reference</h1>
+<p><a href="http://docs.autodesk.com/ACD/2010/ENU/AutoCAD%20.NET%20Developer' target=" _blank"="" rel="noopener" s%20guide="" index.html?url="WS1a9193826455f5ff2566ffd511ff6f8c7ca-3e30.htm,topicNumber=d0e26245" "="">http://docs.autodesk.com/ACD/2010/ENU/AutoCAD .NET Developer’s Guide/index.html?url=WS1a9193826455f5ff2566ffd511ff6f8c7ca-3e30.htm,topicNumber=d0e26245</a></p>
 <script>
         document.querySelectorAll('.github-emoji')
           .forEach(el => {
@@ -2200,10 +2222,11 @@ osurface.Rebuild()
           });
       </script>]]></content>
       <categories>
-        <category>May 2020</category>
+        <category>August 2020</category>
       </categories>
       <tags>
-        <tag>Civil3d</tag>
+        <tag>AutoCAD API</tag>
+        <tag>C#</tag>
       </tags>
   </entry>
   <entry>
@@ -2303,122 +2326,6 @@ using ( Transaction  tr = db.TransactionManager.StartTransaction()) //using meth
 tr.Commit();  // commit the transaction
 }
 </code></pre>
-<h1>Reference</h1>
-<p><a href="http://docs.autodesk.com/ACD/2010/ENU/AutoCAD%20.NET%20Developer' target=" _blank"="" rel="noopener" s%20guide="" index.html?url="WS1a9193826455f5ff2566ffd511ff6f8c7ca-3e30.htm,topicNumber=d0e26245" "="">http://docs.autodesk.com/ACD/2010/ENU/AutoCAD .NET Developer’s Guide/index.html?url=WS1a9193826455f5ff2566ffd511ff6f8c7ca-3e30.htm,topicNumber=d0e26245</a></p>
-<script>
-        document.querySelectorAll('.github-emoji')
-          .forEach(el => {
-            if (!el.dataset.src) { return; }
-            const img = document.createElement('img');
-            img.style = 'display:none !important;';
-            img.src = el.dataset.src;
-            img.addEventListener('error', () => {
-              img.remove();
-              el.style.color = 'inherit';
-              el.style.backgroundImage = 'none';
-              el.style.background = 'none';
-            });
-            img.addEventListener('load', () => {
-              img.remove();
-            });
-            document.body.appendChild(img);
-          });
-      </script>]]></content>
-      <categories>
-        <category>August 2020</category>
-      </categories>
-      <tags>
-        <tag>AutoCAD API</tag>
-        <tag>C#</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>01. &quot;Hello world&quot; message in AutoCAD editor Example</title>
-    <url>/2020/08/22/20200822AutoCAD%20developer&#39;s%20tools%20--%20Environment/</url>
-    <content><![CDATA[<h2 id="01-Start-up-with-the-Environment">01.Start up with the Environment</h2>
-<ul>
-<li>Language: C#</li>
-<li>IDE: VS2019</li>
-<li>CAD: 2019</li>
-</ul>
-<p>The relationship between CAD edition and product codes for installation</p>
-<pre><code>R19.0: 2013
-R19.1: 2014
-R20.0: 2015
-R20.1:2016
-R21.0:2017
-R22.0:2018
-R23.0:2019
-R23.1:2020  
-R24.0:2021
-
-</code></pre>
-<hr>
-<h2 id="02-Create-a-new-project">02. Create a new project</h2>
-<p>Build up  a class file which can be loaded by AutoCAD later for use.</p>
-<ol>
-<li>Start Visual Studio</li>
-</ol>
-<p><img src="/2020/08/22/20200822AutoCAD%20developer's%20tools%20--%20Environment/1.png" alt="Create new project"></p>
-<ol start="2">
-<li>Create new project with .NetFramework 4.7<br>
-<img src="/2020/08/22/20200822AutoCAD%20developer's%20tools%20--%20Environment/2.png" alt="Input the Project name"></li>
-</ol>
-<hr>
-<h2 id="03-Load-the-files">03. Load the files</h2>
-<p>The we load the .dll file in the AutoCAD root folder into the projects, then the code we write can use them to command AutoCAD.</p>
-<p><img src="/2020/08/22/20200822AutoCAD%20developer's%20tools%20--%20Environment/4.png" alt="Load AutoCAD assembly files"></p>
-<blockquote>
-<p>turn “copy Local” to False</p>
-</blockquote>
-<p>The brief info the main three .dll files are listed as below.</p>
-<pre><code>AcDbMgd.dll. Use when working with objects in a drawing file.
-AcMgd.dll. Use when working with the AutoCAD application.
-AcCui.dll. Use when working with customization files.
-</code></pre>
-<hr>
-<h2 id="04-Write-the-code">04. Write the code</h2>
-<p>Once we load the .dll files, Visual Studio is smart enough to remind us to using the right assembly as show in the figure below.</p>
-<p><img src="/2020/08/22/20200822AutoCAD%20developer's%20tools%20--%20Environment/5.png" alt="Using the assembly"></p>
-<pre class=" language-language-C#"><code class="language-language-C#">namespace _01.Environment_Build_up_Demo
-{
-    public class Class1
-    {
-        [CommandMethod("CommandDemo")]
-        public void Demo1()
-        {
-            Editor ed = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument.Editor;
-            ed.WriteMessage("Hello World");
-        }
-
-    }
-}
-
-</code></pre>
-<hr>
-<h2 id="05-Build-up-the-code">05. Build up the code</h2>
-<p>Main Menu -&gt; Build -&gt; Rebuild solution<br>
-then the .dll file will be built up.<br>
-<img src="/2020/08/22/20200822AutoCAD%20developer's%20tools%20--%20Environment/6.png" alt="Build up the first .dll file"></p>
-<p>Several seconds later, we can see the “succeeded” information.</p>
-<p><img src="/2020/08/22/20200822AutoCAD%20developer's%20tools%20--%20Environment/7.png" alt="Succeeded in Build-up"></p>
-<hr>
-<h2 id="06-Run-the-code-in-AutoCAD">06. Run the code in AutoCAD</h2>
-<p>The we need to start up AutoCAD, and then input netload to load the .dll we write into CAD,</p>
-<p><img src="/2020/08/22/20200822AutoCAD%20developer's%20tools%20--%20Environment/8.png" alt="Load our dll file"></p>
-<p>The we input the command into the</p>
-<blockquote>
-<p><em>CommandDemo</em></p>
-</blockquote>
-<p><img src="/2020/08/22/20200822AutoCAD%20developer's%20tools%20--%20Environment/9.png" alt="Show up the message"></p>
-<hr>
-<h2 id="07-Solution-files-in-VS">07. Solution files in VS</h2>
-<p>Project and solution files have the following file extensions:</p>
-<ol>
-<li>VBPROJ - Microsoft Visual Basic (VB) .NET project file</li>
-<li>CSPROJ - Microsoft Visual C# project file</li>
-<li>SLN - Microsoft Visual Studio solution file```</li>
-</ol>
 <h1>Reference</h1>
 <p><a href="http://docs.autodesk.com/ACD/2010/ENU/AutoCAD%20.NET%20Developer' target=" _blank"="" rel="noopener" s%20guide="" index.html?url="WS1a9193826455f5ff2566ffd511ff6f8c7ca-3e30.htm,topicNumber=d0e26245" "="">http://docs.autodesk.com/ACD/2010/ENU/AutoCAD .NET Developer’s Guide/index.html?url=WS1a9193826455f5ff2566ffd511ff6f8c7ca-3e30.htm,topicNumber=d0e26245</a></p>
 <script>
@@ -2688,6 +2595,17 @@ public Arc(Point3d center, Vector3d normal, double radius, double startAngle, do
         public ObjectId BlockId { get; }
 </code></pre>
 <p>Hence, all the derivatives of the entity</p>
+<p>The main property we can modify is listed as below.</p>
+<ul>
+<li>Color</li>
+<li>Layer</li>
+<li>Linetype</li>
+<li>Linetype scale</li>
+<li>Lineweight</li>
+<li>Plot style name</li>
+<li>Visibility</li>
+<li>Transparency</li>
+</ul>
 <p><strong>Entity Derivative</strong></p>
 <blockquote>
 <p>Curve</p>
@@ -2827,6 +2745,544 @@ public static void RotateEntity(this ObjectId entId, Point3d center, double degr
       </tags>
   </entry>
   <entry>
+    <title>Add boundary Line to Surface by using API</title>
+    <url>/2020/05/13/Add%20boundary%20Line%20to%20Surface%20by%20using%20API/</url>
+    <content><![CDATA[<p>Today, I saw a post from Dynamo forum that mentioned how to add boundaryline to the surface. Just make a note for future use.  The original post link is listed in the Reference.</p>
+<h2 id="NETAPI-C">.NETAPI-C#</h2>
+<pre class=" language-language-csharp"><code class="language-language-csharp">[CommandMethod("AddSurfaceBoundary")]
+public void AddSurfaceBoundary()
+{
+    using (Transaction ts = Application.DocumentManager.MdiActiveDocument.Database.TransactionManager.StartTransaction())
+    {
+        // Prompt the user to select a surface and a polyline
+        ObjectId surfaceId = promptForEntity("Select the surface to add a boundary to", typeof(TinSurface));
+        ObjectId polyId = promptForEntity("Select the object to use as a boundary", typeof(Polyline));
+
+        // The boundary or boundaries must be added to an ObjectIdCollection for the AddBoundaries method:
+        ObjectId[] boundaries = { polyId };
+        TinSurface oSurface = surfaceId.GetObject(OpenMode.ForWrite) as TinSurface;
+
+        try
+        {
+            oSurface.BoundariesDefinition.AddBoundaries(new ObjectIdCollection(boundaries), 100, Autodesk.Civil.Land.SurfaceBoundaryType.Outer, true);
+            oSurface.Rebuild();
+        }
+
+        catch (System.Exception e)
+        {
+            editor.WriteMessage("Failed to add the boundary: {0}", e.Message);
+        }
+
+        // commit the transaction
+        ts.Commit();
+    }
+}
+
+private ObjectId promptForTinSurface(String prompt)
+{
+    PromptEntityOptions options = new PromptEntityOptions(
+        String.Format("\n{0}: ", prompt));
+    options.SetRejectMessage(
+        "\nThe selected object is not a TIN Surface.");
+    options.AddAllowedClass(typeof(TinSurface), true);
+
+    PromptEntityResult result = editor.GetEntity(options);
+    if (result.Status == PromptStatus.OK)
+    {
+        // We have the correct object type
+        return result.ObjectId;
+    }
+    return ObjectId.Null;   // Indicating error.
+}
+
+</code></pre>
+<h2 id="IronPython-in-Dynamo">IronPython in Dynamo</h2>
+<pre class=" language-language-python"><code class="language-language-python">surfaceId = promptForEntity("Select the surface to add a boundary to", clr.GetClrType(TinSurface))
+polyId = promptForEntity("Select the object to use as a boundary", clr.GetClrType(Polyline))
+
+coll = ObjectIdCollection()
+coll.Add(plineId)
+
+oSurface = surfaceId.GetObject(OpenMode.ForWrite)
+
+osurface.BoundariesDefinition.AddBoundaries(coll, 100, SurfaceBoundaryType.Outer, True)
+osurface.Rebuild()
+</code></pre>
+<h1>Reference:</h1>
+<p><a href="http://help.autodesk.com/view/CIV3D/2020/ENU/?guid=GUID-7C32E309-9B54-42A0-A4DC-C6FD592071F2" target="_blank" rel="noopener">http://help.autodesk.com/view/CIV3D/2020/ENU/?guid=GUID-7C32E309-9B54-42A0-A4DC-C6FD592071F2</a><br>
+<a href="https://forum.dynamobim.com/t/create-object-id-collection/49472" target="_blank" rel="noopener">https://forum.dynamobim.com/t/create-object-id-collection/49472</a></p>
+<script>
+        document.querySelectorAll('.github-emoji')
+          .forEach(el => {
+            if (!el.dataset.src) { return; }
+            const img = document.createElement('img');
+            img.style = 'display:none !important;';
+            img.src = el.dataset.src;
+            img.addEventListener('error', () => {
+              img.remove();
+              el.style.color = 'inherit';
+              el.style.backgroundImage = 'none';
+              el.style.background = 'none';
+            });
+            img.addEventListener('load', () => {
+              img.remove();
+            });
+            document.body.appendChild(img);
+          });
+      </script>]]></content>
+      <categories>
+        <category>May 2020</category>
+      </categories>
+      <tags>
+        <tag>Civil3d</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>04. Selection</title>
+    <url>/2020/08/30/20200825AutoCAD%20developer&#39;s%20tools%20--%20Selection/</url>
+    <content><![CDATA[<h2 id="Introduction">Introduction</h2>
+<p>After learning how to draw a line with AutoCAD API, we can use similar way to create other drawable objects. We only need to go into the content of the objects’ class, and we just feed the objects what they need, the objects can be created.</p>
+<h2 id="Select-Objects-in-the-Drawing-Area">Select Objects in the Drawing Area</h2>
+<p>You can select objects through by having the user interactively select objects, or you can simulate many of the various object selection options through the .NET API. If your routine performs multiple selection sets, you will need to either track each selection set returned or create an ObjectIdCollection object to keep track of all the selected objects. The following functions allow you to select objects from the drawing:</p>
+<ul>
+<li>
+<p>GetSelection</p>
+<p>Prompts the user to pick objects from the screen.</p>
+</li>
+<li>
+<p>SelectAll</p>
+<p>Selects all objects in the current space in which are not locked or frozen.</p>
+</li>
+<li>
+<p>SelectCrossingPolygon</p>
+<p>Selects objects within and crossing a polygon defined by specifying points. The polygon can be any shape but cannot cross or touch itself.</p>
+</li>
+<li>
+<p>SelectCrossingWindow</p>
+<p>Selects objects within and crossing an area defined by two points.</p>
+</li>
+<li>
+<p>SelectFence</p>
+<p>Selects all objects crossing a selection fence. Fence selection is similar to crossing polygon selection except that the fence is not closed, and a fence can cross itself.</p>
+</li>
+<li>
+<p>SelectLast</p>
+<p>Selects the last object created in the current space.</p>
+</li>
+<li>
+<p>SelectPrevious</p>
+<p>Selects all objects selected during the previous Select objects: prompt.</p>
+</li>
+<li>
+<p>SelectWindow</p>
+<p>Selects all objects completely inside a rectangle defined by two points.</p>
+</li>
+<li>
+<p>SelectWindowPolygon</p>
+<p>Selects objects completely inside a polygon defined by points. The polygon can be any shape but cannot cross or touch itself.</p>
+</li>
+<li>
+<p>SelectAtPoint</p>
+<p>Selects objects passing through a given point and places them into the active selection set.</p>
+</li>
+<li>
+<p>SelectByPolygon</p>
+<p>Selects objects within a fence and adds them to the active selection set.</p>
+</li>
+</ul>
+<h2 id="Add-selected-objects-to-a-selection-set">Add selected objects to a selection set</h2>
+<p>This example prompts the user to select objects twice and then merges the two selection sets created into a single selection set.</p>
+<pre class=" language-language-C#"><code class="language-language-C#">using Autodesk.AutoCAD.Runtime;
+using Autodesk.AutoCAD.ApplicationServices;
+using Autodesk.AutoCAD.DatabaseServices;
+using Autodesk.AutoCAD.EditorInput;
+ 
+[CommandMethod("MergeSelectionSets")]
+public static void MergeSelectionSets()
+{
+  // Get the current document editor
+  Editor acDocEd = Application.DocumentManager.MdiActiveDocument.Editor;
+ 
+  // Request for objects to be selected in the drawing area
+  PromptSelectionResult acSSPrompt;
+  acSSPrompt = acDocEd.GetSelection();
+ 
+  SelectionSet acSSet1;
+  ObjectIdCollection acObjIdColl = new ObjectIdCollection();
+ 
+  // If the prompt status is OK, objects were selected
+  if (acSSPrompt.Status == PromptStatus.OK)
+  {
+      // Get the selected objects
+      acSSet1 = acSSPrompt.Value;
+ 
+      // Append the selected objects to the ObjectIdCollection
+      acObjIdColl = new ObjectIdCollection(acSSet1.GetObjectIds());
+  }
+ 
+  // Request for objects to be selected in the drawing area
+  acSSPrompt = acDocEd.GetSelection();
+ 
+  SelectionSet acSSet2;
+ 
+  // If the prompt status is OK, objects were selected
+  if (acSSPrompt.Status == PromptStatus.OK)
+  {
+      acSSet2 = acSSPrompt.Value;
+ 
+      // Check the size of the ObjectIdCollection, if zero, then initialize it
+      if (acObjIdColl.Count == 0)
+      {
+          acObjIdColl = new ObjectIdCollection(acSSet2.GetObjectIds());
+      }
+      else
+      {
+          // Step through the second selection set
+          foreach (ObjectId acObjId in acSSet2.GetObjectIds())
+          {
+              // Add each object id to the ObjectIdCollection
+              acObjIdColl.Add(acObjId);
+          }
+      }
+  }
+ 
+  Application.ShowAlertDialog("Number of objects selected: " +
+                              acObjIdColl.Count.ToString());
+}
+</code></pre>
+<h2 id="Define-Rules-for-selection-Filters">Define Rules for selection Filters</h2>
+<table>
+<thead>
+<tr>
+<th>DXF CODES</th>
+<th>Filter Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0 (or DxfCode.Start)</td>
+<td>Object Type (String)Such as “Line,” “Circle,” “Arc,” and so forth.</td>
+</tr>
+<tr>
+<td>2 (or DxfCode.BlockName)</td>
+<td>Block Name (String)The block name of an insert reference.</td>
+</tr>
+<tr>
+<td>8 or (DxfCode.LayerName)</td>
+<td>Layer Name (String)Such as “Layer 0.”</td>
+</tr>
+<tr>
+<td>60 (DxfCode.Visibility)</td>
+<td>Object Visibility (Integer)Use 0 = visible, 1 = invisible.</td>
+</tr>
+<tr>
+<td>62 (or DxfCode.Color)</td>
+<td>Color Number (Integer)Numeric index values ranging from 0 to 256.Zero indicates BYBLOCK. 256 indicates BYLAYER. A negative value indicates that the layer is turned off.</td>
+</tr>
+<tr>
+<td>67</td>
+<td>Model/paper space indicator (Integer)Use 0 or omitted = model space, 1 = paper space.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Relational operators for selection set filter lists</strong></p>
+<table>
+<thead>
+<tr>
+<th>Operator</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>“”"*"""</td>
+<td>Anything goes (always true)</td>
+</tr>
+<tr>
+<td>“”"="""</td>
+<td>Equals</td>
+</tr>
+<tr>
+<td>“”"!="""</td>
+<td>Not equal to</td>
+</tr>
+<tr>
+<td>“”"/="""</td>
+<td>Not equal to</td>
+</tr>
+<tr>
+<td>“”"&lt;&gt;"""</td>
+<td>Not equal to</td>
+</tr>
+<tr>
+<td>“”"&lt;"""</td>
+<td>Less than</td>
+</tr>
+<tr>
+<td>“”"&lt;="""</td>
+<td>Less than or equal to</td>
+</tr>
+<tr>
+<td>“”"&gt;"""</td>
+<td>Greater than</td>
+</tr>
+<tr>
+<td>“”"&gt;="""</td>
+<td>Greater than or equal to</td>
+</tr>
+<tr>
+<td>“”"&amp;"""</td>
+<td>Bitwise AND (integer groups only)</td>
+</tr>
+<tr>
+<td>“”"&amp;="""</td>
+<td>Bitwise masked equals (integer groups only)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="Example">Example</h3>
+<p>Demand: Get all the text in red color on “layer01” and all the text in blue on “lay02” and “lay03”</p>
+<pre><code>&lt; or
+    &lt; and
+             Layer == "lay01"
+             Color == "1"    // The index of Color red is 1
+             Entity type == "TEXT"
+    and &gt;
+    &lt; and
+             &lt; or
+             Layer == "lay02"
+             Layer == "lay03"
+             or &gt;
+             Color == "5"     // The index of Color Blue is 5
+             Entity type == "POLYLINE"
+    and &gt;
+or &gt;
+</code></pre>
+<h3 id="Code">Code</h3>
+<pre class=" language-language-C#"><code class="language-language-C#">public static void MultipleSelectionFilter()
+{
+    // Get the current editor
+    Editor ed = Autodesk.AutoCAD.ApplicationServices.Core.Application.DocumentManager.MdiActiveDocument.Editor;
+
+    // Create a set filter 
+
+    // Define the filter condition
+    TypedValue[] typeValue = {
+     new TypedValue((int) DxfCode.Operator, "<or"),
+     // Selection filter 1
+     new TypedValue((int) DxfCode.Operator, "<and"),
+     new TypedValue((int) DxfCode.Start, "TEXT"),
+     new TypedValue((int) DxfCode.LayerName, "lay01"),
+     new TypedValue((int) DxfCode.Color, "1"),
+     new TypedValue((int) DxfCode.Operator, "and>"),
+     // Selection filter 2
+     new TypedValue((int) DxfCode.Operator, "<and"),
+     new TypedValue((int) DxfCode.Start, "LWPOLYLINE"),
+     new TypedValue((int) DxfCode.Color, "5"),
+     new TypedValue((int) DxfCode.Operator, "<or"),
+     new TypedValue((int) DxfCode.LayerName, "lay02"),
+     new TypedValue((int) DxfCode.LayerName, "lay03"),
+     new TypedValue((int) DxfCode.Operator, "or>"),
+     new TypedValue((int) DxfCode.Operator, "and>"),
+     new TypedValue((int) DxfCode.Operator, "or>")
+    };
+    
+    // put the condition into the filter 
+    SelectionFilter selFiter = new SelectionFilter(typeValue);
+
+    // get the filtered result
+    PromptSelectionResult psr = ed.GetSelection(selFiter);
+
+
+    
+
+    //  Check the result 
+    if (psr.Status == PromptStatus.OK)
+    {
+        SelectionSet sSet = psr.Value;
+        Autodesk.AutoCAD.ApplicationServices.Core.Application.ShowAlertDialog("Number of objects selected: " + sSet.Count.ToString());
+    }
+    else
+    {
+        Autodesk.AutoCAD.ApplicationServices.Core.Application.ShowAlertDialog("Number of objects selected: 0");
+    }
+}
+</code></pre>
+<h2 id="PromptStatus">PromptStatus</h2>
+<pre class=" language-language-C#"><code class="language-language-C#">namespace Autodesk.AutoCAD.EditorInput
+{
+    public enum PromptStatus
+    {
+        Keyword = -5005,
+        Cancel = -5002,
+        Error = -5001,
+        None = 5000,
+        Modeless = 5027,
+        Other = 5028,
+        OK = 5100
+    }
+}
+</code></pre>
+<h2 id=""></h2>
+<pre class=" language-language-C#"><code class="language-language-C#">using Autodesk.AutoCAD.ApplicationServices;
+using Autodesk.AutoCAD.EditorInput;
+using Autodesk.AutoCAD.Geometry;
+using Autodesk.AutoCAD.Runtime;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using AcDoNetTools;
+using Autodesk.AutoCAD.DatabaseServices;
+
+namespace _04_用户交互
+{
+    public class Class1
+    {
+       
+        [CommandMethod("PromptDemo")]
+        public void PromptDemo()
+{
+            Database db = HostApplicationServices.WorkingDatabase;
+            // Get the current editor
+            Editor ed = Application.DocumentManager.MdiActiveDocument.Editor;
+            //PromptPointResult ppr = ed.GetPoint("\n Please select the first point：");
+            //if (ppr.Status == PromptStatus.OK)
+            //{
+            //    Point3d p1 = ppr.Value;
+            //    ppr = ed.GetPoint("\n Please select the second point：");
+            //    if (ppr.Status == PromptStatus.OK)
+            //    {
+            //        Point3d p2 = ppr.Value;
+            //        db.AddLineToModeSpace(p1, p2);
+            //    }
+            //}
+
+            Point3d p1 = new Point3d(0, 0, 0);
+            Point3d p2 = new Point3d();
+
+            PromptPointOptions ppo = new PromptPointOptions("Please select the first point：");
+            ppo.AllowNone = true;
+            PromptPointResult ppr = GetPoint(ppo);
+
+            if (ppr.Status == PromptStatus.Cancel) return;
+
+            if (ppr.Status == PromptStatus.OK) p1 = ppr.Value;
+            ppo.Message = "Please select the second point";
+            ppo.BasePoint = p1;
+            ppo.UseBasePoint = true;
+            ppr = GetPoint(ppo);
+            if (ppr.Status == PromptStatus.Cancel) return;
+            if (ppr.Status == PromptStatus.None) return;
+            if (ppr.Status == PromptStatus.OK) p2 = ppr.Value;
+            db.AddLineToModeSpace(p1, p2);  
+        }
+</code></pre>
+<hr>
+<h1>Reference</h1>
+<p><a href="http://docs.autodesk.com/ACD/2010/ENU/AutoCAD%20.NET%20Developer' target=" _blank"="" rel="noopener" s%20guide="" index.html?url="WS1a9193826455f5ff2566ffd511ff6f8c7ca-3e30.htm,topicNumber=d0e26245" "="">http://docs.autodesk.com/ACD/2010/ENU/AutoCAD .NET Developer’s Guide/index.html?url=WS1a9193826455f5ff2566ffd511ff6f8c7ca-3e30.htm,topicNumber=d0e26245</a></p>
+<p><a href="http://docs.autodesk.com/ACD/2011/CHS/filesDXF/WSfacf1429558a55de185c428100849a0ab7-5f35.htm" target="_blank" rel="noopener">http://docs.autodesk.com/ACD/2011/CHS/filesDXF/WSfacf1429558a55de185c428100849a0ab7-5f35.htm</a></p>
+<script>
+        document.querySelectorAll('.github-emoji')
+          .forEach(el => {
+            if (!el.dataset.src) { return; }
+            const img = document.createElement('img');
+            img.style = 'display:none !important;';
+            img.src = el.dataset.src;
+            img.addEventListener('error', () => {
+              img.remove();
+              el.style.color = 'inherit';
+              el.style.backgroundImage = 'none';
+              el.style.background = 'none';
+            });
+            img.addEventListener('load', () => {
+              img.remove();
+            });
+            document.body.appendChild(img);
+          });
+      </script>]]></content>
+      <categories>
+        <category>August 2020</category>
+      </categories>
+      <tags>
+        <tag>AutoCAD API</tag>
+        <tag>C#</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Delineate watershed based on DEM data on ArcMAP</title>
+    <url>/2020/04/24/Delinenate%20the%20watershed%20based%20on%20DEM%20data%20on%20ArcMAP/</url>
+    <content><![CDATA[<p>Before input data into hydrologic or hydraulic data, we need to know the catchment boundary first. Arcmap has wonderful tool suite to proceed this</p>
+<p>The basic step flow is as below:</p>
+<blockquote>
+<p>dem-- fill–flow direction–flow accumulation–raster calculator or reclassify --stream link–watershed</p>
+</blockquote>
+<p>After knowing the basic workflow, we can generate our own defined workflow by <em>Model Builder</em> in ArcGIS as the figure below, or we can use the existing tool, for example, <em>ArcHydro</em>. However, we should know how to achieve it by ArcMAP first to understand the basic theory.</p>
+<p><img src="/2020/04/24/Delinenate%20the%20watershed%20based%20on%20DEM%20data%20on%20ArcMAP/1.PNG" alt="Create Streamlines"></p>
+<hr>
+<h3 id="Fill">Fill</h3>
+<p>Firstly, we need to load the DEM raster files into ArcMAP, and then select fill tool as followed:<em>Arctool boxes/spatial Analyst Tools/Hydrology/Fill</em></p>
+<p>The window as followed figure will pop out:<br>
+<img src="/2020/04/24/Delinenate%20the%20watershed%20based%20on%20DEM%20data%20on%20ArcMAP/2.PNG" alt="DEM FILL"></p>
+<p>Then a new DEM data will be generated, it seems that there is no difference between the two raster datasets. But we can select the <em>Arctool boxes\Spatial Analyst Tools.tbx\Map Algebra\Raster Calculator</em> and calculate the difference between the two DEM datasets.<br>
+<img src="/2020/04/24/Delinenate%20the%20watershed%20based%20on%20DEM%20data%20on%20ArcMAP/3.PNG" alt="dem difference"></p>
+<hr>
+<h3 id="Flow-Direction">Flow Direction</h3>
+<p>The we can click <em>Flow direction</em> and apply the filled DEM dataset.</p>
+<p>The result is as shown below.</p>
+<p><img src="/2020/04/24/Delinenate%20the%20watershed%20based%20on%20DEM%20data%20on%20ArcMAP/4.PNG" alt="flow direction"></p>
+<hr>
+<h3 id="Flow-Accumulation">Flow Accumulation</h3>
+<p>Similarly, we choose <em>Flow Accumulation</em> and select the datasets <em>Filled DEM</em> and <em>Flow Accumulation</em>, then the raster of flow Accumulation will be generated.</p>
+<p>But we do not need to care about those raster with small No. of accumulation. We need to classify the result to select the data we are interested.</p>
+<p><img src="/2020/04/24/Delinenate%20the%20watershed%20based%20on%20DEM%20data%20on%20ArcMAP/5.png" alt="flow Accumulation"></p>
+<hr>
+<h3 id="Flow-Length">Flow Length</h3>
+<p>Flow Length is an important factor to calculate the catchment time of concentration(<em>tc</em>) , we choose <em>Flow Length</em> tool and select the datasets from <em>Flow Accumulation</em>, then we can get a raster map of concentration.</p>
+<p>If we choose downstream, each raster value will record the length to the discharge point.</p>
+<p><img src="/2020/04/24/Delinenate%20the%20watershed%20based%20on%20DEM%20data%20on%20ArcMAP/6.png" alt="flow Length"></p>
+<hr>
+<h3 id="Reclassify">Reclassify</h3>
+<p>We assume the line with catchment of over 900,000 m2 will have apparent stream flow. We choose <em>Arctool boxes\3D Analyst Tools.tbx\Raster Reclass\Reclassify</em>.</p>
+<p><img src="/2020/04/24/Delinenate%20the%20watershed%20based%20on%20DEM%20data%20on%20ArcMAP/7.PNG" alt="Reclassifing Flow"></p>
+<hr>
+<h3 id="Stream-Link">Stream Link</h3>
+<p>After reclassifying, we can get the discharge link with large catchment of over 900000 square meter.</p>
+<p><img src="/2020/04/24/Delinenate%20the%20watershed%20based%20on%20DEM%20data%20on%20ArcMAP/8.PNG" alt="Stream Link"></p>
+<hr>
+<h3 id="Watershed">Watershed</h3>
+<p>we choose <em>Watershed</em> and select the corresponding data from datasets, then we can get a raster map of watershed. We can use <em>Arctool boxes\Conversion Tools.tbx\From Raster\Raster to Polygon</em> to change to result to polygon.</p>
+<p>We can also input point data for <em>Input raster or feature pour point data</em>, this will be useful when we have the stormwater discharge point, like manholes.</p>
+<p><img src="/2020/04/24/Delinenate%20the%20watershed%20based%20on%20DEM%20data%20on%20ArcMAP/9.PNG" alt="result.png"></p>
+<p><img src="/2020/04/24/Delinenate%20the%20watershed%20based%20on%20DEM%20data%20on%20ArcMAP/10.PNG" alt="Watershed.png"></p>
+<script>
+        document.querySelectorAll('.github-emoji')
+          .forEach(el => {
+            if (!el.dataset.src) { return; }
+            const img = document.createElement('img');
+            img.style = 'display:none !important;';
+            img.src = el.dataset.src;
+            img.addEventListener('error', () => {
+              img.remove();
+              el.style.color = 'inherit';
+              el.style.backgroundImage = 'none';
+              el.style.background = 'none';
+            });
+            img.addEventListener('load', () => {
+              img.remove();
+            });
+            document.body.appendChild(img);
+          });
+      </script>]]></content>
+      <categories>
+        <category>April 2020</category>
+      </categories>
+      <tags>
+        <tag>Arcmap</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>the Covid19 case Number Growth by DHB in NZ</title>
     <url>/2020/04/25/Generate%20the%20Covid19%20case%20growth%20video/</url>
     <content><![CDATA[<h2 id="Read-the-data-from-excel">Read the data from excel</h2>
@@ -2957,78 +3413,6 @@ plt.show()
       <tags>
         <tag>Pandas</tag>
         <tag>Matplotlib</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Delineate watershed based on DEM data on ArcMAP</title>
-    <url>/2020/04/24/Delinenate%20the%20watershed%20based%20on%20DEM%20data%20on%20ArcMAP/</url>
-    <content><![CDATA[<p>Before input data into hydrologic or hydraulic data, we need to know the catchment boundary first. Arcmap has wonderful tool suite to proceed this</p>
-<p>The basic step flow is as below:</p>
-<blockquote>
-<p>dem-- fill–flow direction–flow accumulation–raster calculator or reclassify --stream link–watershed</p>
-</blockquote>
-<p>After knowing the basic workflow, we can generate our own defined workflow by <em>Model Builder</em> in ArcGIS as the figure below, or we can use the existing tool, for example, <em>ArcHydro</em>. However, we should know how to achieve it by ArcMAP first to understand the basic theory.</p>
-<p><img src="/2020/04/24/Delinenate%20the%20watershed%20based%20on%20DEM%20data%20on%20ArcMAP/1.PNG" alt="Create Streamlines"></p>
-<hr>
-<h3 id="Fill">Fill</h3>
-<p>Firstly, we need to load the DEM raster files into ArcMAP, and then select fill tool as followed:<em>Arctool boxes/spatial Analyst Tools/Hydrology/Fill</em></p>
-<p>The window as followed figure will pop out:<br>
-<img src="/2020/04/24/Delinenate%20the%20watershed%20based%20on%20DEM%20data%20on%20ArcMAP/2.PNG" alt="DEM FILL"></p>
-<p>Then a new DEM data will be generated, it seems that there is no difference between the two raster datasets. But we can select the <em>Arctool boxes\Spatial Analyst Tools.tbx\Map Algebra\Raster Calculator</em> and calculate the difference between the two DEM datasets.<br>
-<img src="/2020/04/24/Delinenate%20the%20watershed%20based%20on%20DEM%20data%20on%20ArcMAP/3.PNG" alt="dem difference"></p>
-<hr>
-<h3 id="Flow-Direction">Flow Direction</h3>
-<p>The we can click <em>Flow direction</em> and apply the filled DEM dataset.</p>
-<p>The result is as shown below.</p>
-<p><img src="/2020/04/24/Delinenate%20the%20watershed%20based%20on%20DEM%20data%20on%20ArcMAP/4.PNG" alt="flow direction"></p>
-<hr>
-<h3 id="Flow-Accumulation">Flow Accumulation</h3>
-<p>Similarly, we choose <em>Flow Accumulation</em> and select the datasets <em>Filled DEM</em> and <em>Flow Accumulation</em>, then the raster of flow Accumulation will be generated.</p>
-<p>But we do not need to care about those raster with small No. of accumulation. We need to classify the result to select the data we are interested.</p>
-<p><img src="/2020/04/24/Delinenate%20the%20watershed%20based%20on%20DEM%20data%20on%20ArcMAP/5.png" alt="flow Accumulation"></p>
-<hr>
-<h3 id="Flow-Length">Flow Length</h3>
-<p>Flow Length is an important factor to calculate the catchment time of concentration(<em>tc</em>) , we choose <em>Flow Length</em> tool and select the datasets from <em>Flow Accumulation</em>, then we can get a raster map of concentration.</p>
-<p>If we choose downstream, each raster value will record the length to the discharge point.</p>
-<p><img src="/2020/04/24/Delinenate%20the%20watershed%20based%20on%20DEM%20data%20on%20ArcMAP/6.png" alt="flow Length"></p>
-<hr>
-<h3 id="Reclassify">Reclassify</h3>
-<p>We assume the line with catchment of over 900,000 m2 will have apparent stream flow. We choose <em>Arctool boxes\3D Analyst Tools.tbx\Raster Reclass\Reclassify</em>.</p>
-<p><img src="/2020/04/24/Delinenate%20the%20watershed%20based%20on%20DEM%20data%20on%20ArcMAP/7.PNG" alt="Reclassifing Flow"></p>
-<hr>
-<h3 id="Stream-Link">Stream Link</h3>
-<p>After reclassifying, we can get the discharge link with large catchment of over 900000 square meter.</p>
-<p><img src="/2020/04/24/Delinenate%20the%20watershed%20based%20on%20DEM%20data%20on%20ArcMAP/8.PNG" alt="Stream Link"></p>
-<hr>
-<h3 id="Watershed">Watershed</h3>
-<p>we choose <em>Watershed</em> and select the corresponding data from datasets, then we can get a raster map of watershed. We can use <em>Arctool boxes\Conversion Tools.tbx\From Raster\Raster to Polygon</em> to change to result to polygon.</p>
-<p>We can also input point data for <em>Input raster or feature pour point data</em>, this will be useful when we have the stormwater discharge point, like manholes.</p>
-<p><img src="/2020/04/24/Delinenate%20the%20watershed%20based%20on%20DEM%20data%20on%20ArcMAP/9.PNG" alt="result.png"></p>
-<p><img src="/2020/04/24/Delinenate%20the%20watershed%20based%20on%20DEM%20data%20on%20ArcMAP/10.PNG" alt="Watershed.png"></p>
-<script>
-        document.querySelectorAll('.github-emoji')
-          .forEach(el => {
-            if (!el.dataset.src) { return; }
-            const img = document.createElement('img');
-            img.style = 'display:none !important;';
-            img.src = el.dataset.src;
-            img.addEventListener('error', () => {
-              img.remove();
-              el.style.color = 'inherit';
-              el.style.backgroundImage = 'none';
-              el.style.background = 'none';
-            });
-            img.addEventListener('load', () => {
-              img.remove();
-            });
-            document.body.appendChild(img);
-          });
-      </script>]]></content>
-      <categories>
-        <category>April 2020</category>
-      </categories>
-      <tags>
-        <tag>Arcmap</tag>
       </tags>
   </entry>
   <entry>
@@ -3784,6 +4168,58 @@ ax.set_ylim([-42,-36])
       </tags>
   </entry>
   <entry>
+    <title>How to merge many different raster files into one raster</title>
+    <url>/2020/04/20/How%20to%20take%20many%20different%20rasters%20into%20one%20raster/</url>
+    <content><![CDATA[<p>On <a href="https://geomapspublic.aucklandcouncil.govt.nz/viewer/index.html" target="_blank" rel="noopener">Auckland Council Geomap</a>, we can download the high resolution DEM data, but the uplimit area is 6 Square Km. What if the catchment area we are interested in is more than the number, than we can download the DEM data from <a href="https://data.linz.govt.nz/search/?q=DEM" target="_blank" rel="noopener">LINZ</a>.</p>
+<hr>
+<h3 id="Raster-files-check">Raster files check</h3>
+<p>After download the DEM data in Auckland area, we will find that there will be many different raster files, which is not available for analysis. So we need to merge many raster files into one raster file.</p>
+<hr>
+<h3 id="Location-check">Location check</h3>
+<p>Firstly, we need to check the name of related raster files in our interested catchment, find all the raster files and then move them into one folder.</p>
+<p><img src="/2020/04/20/How%20to%20take%20many%20different%20rasters%20into%20one%20raster/1.PNG" alt="Location.png"></p>
+<hr>
+<h3 id="Create-an-empty-Mosaic-Dataset">Create an empty Mosaic Dataset</h3>
+<p>Create an empty Mosaic Dataset as the route in the figure below.</p>
+<p><img src="/2020/04/20/How%20to%20take%20many%20different%20rasters%20into%20one%20raster/22.png" alt="Mosaic Dataset.png"></p>
+<p>Then we need to add the raster data into the empty Mosaic. Directly right-click the file and choose “add raster”.</p>
+<p>Select the files we have picked from the last steps, remember to check the “Upload Overview” box.<br>
+<img src="/2020/04/20/How%20to%20take%20many%20different%20rasters%20into%20one%20raster/44.png" alt="Add Dataset.png"></p>
+<hr>
+<h3 id="Final-result">Final result</h3>
+<p>Wait for several seconds or minutes, the raster will output.</p>
+<p><img src="/2020/04/20/How%20to%20take%20many%20different%20rasters%20into%20one%20raster/55.png" alt="Mosaic Dataset.png"></p>
+<hr>
+<h3 id="Reference">Reference</h3>
+<p><a href="https://data.linz.govt.nz/" target="_blank" rel="noopener">https://data.linz.govt.nz/</a></p>
+<script>
+        document.querySelectorAll('.github-emoji')
+          .forEach(el => {
+            if (!el.dataset.src) { return; }
+            const img = document.createElement('img');
+            img.style = 'display:none !important;';
+            img.src = el.dataset.src;
+            img.addEventListener('error', () => {
+              img.remove();
+              el.style.color = 'inherit';
+              el.style.backgroundImage = 'none';
+              el.style.background = 'none';
+            });
+            img.addEventListener('load', () => {
+              img.remove();
+            });
+            document.body.appendChild(img);
+          });
+      </script>]]></content>
+      <categories>
+        <category>April 2020</category>
+      </categories>
+      <tags>
+        <tag>Arcmap</tag>
+        <tag>Raster</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Land-use TIF file making for HEC-RAS 2D</title>
     <url>/2020/04/20/Land-use%20TIF%20file%20making%20for%20HEC-RAS%202D/</url>
     <content><![CDATA[<p>For 2D analysis in HEC-RAS, we may need to a land use map to assign the manning factor as . How to make it? Of course we can make the detailed land use map by analyzing satellite imagery. But for a simple model, sometime we do not need such a detailed plan. Today I would like to introduce a way to make simple land use map</p>
@@ -3830,8 +4266,8 @@ ax.set_ylim([-42,-36])
       </categories>
       <tags>
         <tag>Arcmap</tag>
-        <tag>HEC-RAS</tag>
         <tag>Raster</tag>
+        <tag>HEC-RAS</tag>
       </tags>
   </entry>
   <entry>
@@ -3999,55 +4435,22 @@ with adoc.LockDocument():
       </tags>
   </entry>
   <entry>
-    <title>How to merge many different raster files into one raster</title>
-    <url>/2020/04/20/How%20to%20take%20many%20different%20rasters%20into%20one%20raster/</url>
-    <content><![CDATA[<p>On <a href="https://geomapspublic.aucklandcouncil.govt.nz/viewer/index.html" target="_blank" rel="noopener">Auckland Council Geomap</a>, we can download the high resolution DEM data, but the uplimit area is 6 Square Km. What if the catchment area we are interested in is more than the number, than we can download the DEM data from <a href="https://data.linz.govt.nz/search/?q=DEM" target="_blank" rel="noopener">LINZ</a>.</p>
-<hr>
-<h3 id="Raster-files-check">Raster files check</h3>
-<p>After download the DEM data in Auckland area, we will find that there will be many different raster files, which is not available for analysis. So we need to merge many raster files into one raster file.</p>
-<hr>
-<h3 id="Location-check">Location check</h3>
-<p>Firstly, we need to check the name of related raster files in our interested catchment, find all the raster files and then move them into one folder.</p>
-<p><img src="/2020/04/20/How%20to%20take%20many%20different%20rasters%20into%20one%20raster/1.PNG" alt="Location.png"></p>
-<hr>
-<h3 id="Create-an-empty-Mosaic-Dataset">Create an empty Mosaic Dataset</h3>
-<p>Create an empty Mosaic Dataset as the route in the figure below.</p>
-<p><img src="/2020/04/20/How%20to%20take%20many%20different%20rasters%20into%20one%20raster/22.png" alt="Mosaic Dataset.png"></p>
-<p>Then we need to add the raster data into the empty Mosaic. Directly right-click the file and choose “add raster”.</p>
-<p>Select the files we have picked from the last steps, remember to check the “Upload Overview” box.<br>
-<img src="/2020/04/20/How%20to%20take%20many%20different%20rasters%20into%20one%20raster/44.png" alt="Add Dataset.png"></p>
-<hr>
-<h3 id="Final-result">Final result</h3>
-<p>Wait for several seconds or minutes, the raster will output.</p>
-<p><img src="/2020/04/20/How%20to%20take%20many%20different%20rasters%20into%20one%20raster/55.png" alt="Mosaic Dataset.png"></p>
-<hr>
-<h3 id="Reference">Reference</h3>
-<p><a href="https://data.linz.govt.nz/" target="_blank" rel="noopener">https://data.linz.govt.nz/</a></p>
-<script>
-        document.querySelectorAll('.github-emoji')
-          .forEach(el => {
-            if (!el.dataset.src) { return; }
-            const img = document.createElement('img');
-            img.style = 'display:none !important;';
-            img.src = el.dataset.src;
-            img.addEventListener('error', () => {
-              img.remove();
-              el.style.color = 'inherit';
-              el.style.backgroundImage = 'none';
-              el.style.background = 'none';
-            });
-            img.addEventListener('load', () => {
-              img.remove();
-            });
-            document.body.appendChild(img);
-          });
-      </script>]]></content>
+    <title>Visual Studio Shortcut in C#</title>
+    <url>/2020/05/13/Visual%20Studio%20C#%20Code%20Snippet/</url>
+    <content><![CDATA[<div id="hexo-blog-encrypt" data-wpm="Oh, this is an invalid password. Check and try again, please." data-whm="OOPS, these decrypted content may changed, but you can still have a look.">
+  <div class="hbe-input-container">
+  <input type="password" id="hbePass" placeholder="" />
+    <label for="hbePass">Hey, password is required here.</label>
+    <div class="bottom-line"></div>
+  </div>
+  <script id="hbeData" type="hbeData" data-hmacdigest="f4e230db7f895e83807b4683001f0ca385e6e51b963ab46395c16289cfa20e68">9818994cc23b9627459a1ad4ecd373487638ddb07293fb7afd06e1bca8f3e84dc718f85f9e72843f57195504930d2c9269181f17dca7ae6a4d27de71c5a4bc060f012b9390ea49ec79b0465e40f99594178b4b9d53fda2cbf44aace39b34069c6fce4a20ec7bc3cefe84269ba302ec3e490a8921a680bc9190d5eba091b8359ab16cb1db098f39fd1e30921c8f82f2bff703299a4a7f9d485184b43f6941c3e1e4fecc284d9610ea910e2098bce49cf286823809eaf685d1db7a84ef11e8b5ab0778e6028bd8ddc7c13c4f1a94d051780cdd6f240f142ca64192dc91583a8f98bb508d7f6b228bdc4dfc65decbc12c82ee8d71779180a0fb1329efda94440ee7985dc4277f8e7f1c61a38c11a732b271d97720572bfce5e1ad0095ded10492dbe4c6f7dcd8030804db276eeeef97a5e0a9542d785b627d6b7db96502d01db77bd3104843309d787c2e28426f7b02701373db7bcf2a9bce27018502f4092947dfb91384e158574cc2cb53c2cd1cf1344b55490e54920851f14ccf5919cd535eaa02c31f7bbdc13ff7d81f0e25850129f9f7980eff266b659002170164f5e0163ca45f123f6f0bf3c77a3ae0b39c0a86a2903670fca80f7d2f5fc50a568e34c91247359b32d0bd1be23a5592cad29dc373fed7e4e0dacdea1b56d4f1b46c7a1e8be747948f8a63851c92cf904161d4cbb982cbd840035c5fcbdbde59153e86633211f9aa26805307da7882fae89bc9f5b4b880a74184b49b496690f8c561e71e87ef2106a757cd1aca0f23316a1bac1a5059d1a211c4126d159e1570ddf90a46846d9bc0773175096bc986fe7ce352c1c4459482abcc4494a3c06a494ccdab6ead3b3dbbbe81bc370e1f5d400c0784d83f42136fb0b0aed60b5f973d6a08e7149ffce35cd1bde65c1991494865ce696657d15f5aa926e20d4dd510838fca103c8dc75b9f7a1207c1357be1ffe9afa3a11d2befd0a6993b64d5d880ae0a4ca7da20aed206db1e595a65ce216c50b180929489b5fbd92c1ea342d522c64d9562f29f09a8e5c36ee6b3369c2c12895448a7c1988056b2ad3597fcb604ab1d959457bf5f4f37944bba968fab98b7e3c9e6cdb2ef80e2990621b2b33dd2578753ce8b355785f3a20aaa428c455c9d8d1e53c10e2a9c0220e8f99d94db1cf7e8fb367450e20285b6ff69f41e302d8178a7cce2f821cb7ffb78896cb625c554bdfe62098fe5b632aea251ab88a05874536071007b4d7648748bfa19fbd1082dcea1bc67f983a1cb82cf003efb46a00ee4b6c9efa3f00971e4505df9baa6e418eb26fa8bf679454183e53d1f9ae62928702e0cf551</script>
+</div>
+<script src="/lib/blog-encrypt.js"></script><link href="/css/blog-encrypt.css" rel="stylesheet" type="text/css">]]></content>
       <categories>
-        <category>April 2020</category>
+        <category>May 2020</category>
       </categories>
       <tags>
-        <tag>Arcmap</tag>
-        <tag>Raster</tag>
+        <tag>C#</tag>
       </tags>
   </entry>
   <entry>
@@ -4709,25 +5112,6 @@ states_with_cities.head()
       <tags>
         <tag>Spatial Analysis</tag>
         <tag>Geopandas</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Visual Studio Shortcut in C#</title>
-    <url>/2020/05/13/Visual%20Studio%20C#%20Code%20Snippet/</url>
-    <content><![CDATA[<div id="hexo-blog-encrypt" data-wpm="Oh, this is an invalid password. Check and try again, please." data-whm="OOPS, these decrypted content may changed, but you can still have a look.">
-  <div class="hbe-input-container">
-  <input type="password" id="hbePass" placeholder="" />
-    <label for="hbePass">Hey, password is required here.</label>
-    <div class="bottom-line"></div>
-  </div>
-  <script id="hbeData" type="hbeData" data-hmacdigest="f4e230db7f895e83807b4683001f0ca385e6e51b963ab46395c16289cfa20e68">9818994cc23b9627459a1ad4ecd373487638ddb07293fb7afd06e1bca8f3e84dc718f85f9e72843f57195504930d2c9269181f17dca7ae6a4d27de71c5a4bc060f012b9390ea49ec79b0465e40f99594178b4b9d53fda2cbf44aace39b34069c6fce4a20ec7bc3cefe84269ba302ec3e490a8921a680bc9190d5eba091b8359ab16cb1db098f39fd1e30921c8f82f2bff703299a4a7f9d485184b43f6941c3e1e4fecc284d9610ea910e2098bce49cf286823809eaf685d1db7a84ef11e8b5ab0778e6028bd8ddc7c13c4f1a94d051780cdd6f240f142ca64192dc91583a8f98bb508d7f6b228bdc4dfc65decbc12c82ee8d71779180a0fb1329efda94440ee7985dc4277f8e7f1c61a38c11a732b271d97720572bfce5e1ad0095ded10492dbe4c6f7dcd8030804db276eeeef97a5e0a9542d785b627d6b7db96502d01db77bd3104843309d787c2e28426f7b02701373db7bcf2a9bce27018502f4092947dfb91384e158574cc2cb53c2cd1cf1344b55490e54920851f14ccf5919cd535eaa02c31f7bbdc13ff7d81f0e25850129f9f7980eff266b659002170164f5e0163ca45f123f6f0bf3c77a3ae0b39c0a86a2903670fca80f7d2f5fc50a568e34c91247359b32d0bd1be23a5592cad29dc373fed7e4e0dacdea1b56d4f1b46c7a1e8be747948f8a63851c92cf904161d4cbb982cbd840035c5fcbdbde59153e86633211f9aa26805307da7882fae89bc9f5b4b880a74184b49b496690f8c561e71e87ef2106a757cd1aca0f23316a1bac1a5059d1a211c4126d159e1570ddf90a46846d9bc0773175096bc986fe7ce352c1c4459482abcc4494a3c06a494ccdab6ead3b3dbbbe81bc370e1f5d400c0784d83f42136fb0b0aed60b5f973d6a08e7149ffce35cd1bde65c1991494865ce696657d15f5aa926e20d4dd510838fca103c8dc75b9f7a1207c1357be1ffe9afa3a11d2befd0a6993b64d5d880ae0a4ca7da20aed206db1e595a65ce216c50b180929489b5fbd92c1ea342d522c64d9562f29f09a8e5c36ee6b3369c2c12895448a7c1988056b2ad3597fcb604ab1d959457bf5f4f37944bba968fab98b7e3c9e6cdb2ef80e2990621b2b33dd2578753ce8b355785f3a20aaa428c455c9d8d1e53c10e2a9c0220e8f99d94db1cf7e8fb367450e20285b6ff69f41e302d8178a7cce2f821cb7ffb78896cb625c554bdfe62098fe5b632aea251ab88a05874536071007b4d7648748bfa19fbd1082dcea1bc67f983a1cb82cf003efb46a00ee4b6c9efa3f00971e4505df9baa6e418eb26fa8bf679454183e53d1f9ae62928702e0cf551</script>
-</div>
-<script src="/lib/blog-encrypt.js"></script><link href="/css/blog-encrypt.css" rel="stylesheet" type="text/css">]]></content>
-      <categories>
-        <category>May 2020</category>
-      </categories>
-      <tags>
-        <tag>C#</tag>
       </tags>
   </entry>
   <entry>
