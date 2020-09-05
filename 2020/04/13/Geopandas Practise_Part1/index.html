@@ -375,7 +375,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>Word Count:&nbsp;&nbsp;
-                    1.7k
+                    1.6k
                 </div>
                 
 
@@ -419,7 +419,7 @@ But no matter what kind of file we are reading in Geopandas, we use <b>gpd.read_
 <pre class=" language-language-python"><code class="language-language-python">cities.head(2)
 </code></pre>
 <div>
-<style scoped="">
+<style scoped>
     .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
     }
@@ -489,7 +489,7 @@ Districts.plot()
 <pre class=" language-language-python"><code class="language-language-python">Districts.head(5)
 </code></pre>
 <div>
-<style scoped="">
+<style scoped>
     .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
     }
@@ -569,7 +569,7 @@ Districts.plot()
 <pre class=" language-language-python"><code class="language-language-python">Districts[Districts.AREA_SQ_KM > 10000]
 </code></pre>
 <div>
-<style scoped="">
+<style scoped>
     .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
     }
@@ -634,7 +634,7 @@ Districts.plot()
 <pre class=" language-language-python"><code class="language-language-python">Districts[Districts.TA2016_NAM.str.startswith('A')]
 </code></pre>
 <div>
-<style scoped="">
+<style scoped>
     .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
     }
@@ -705,7 +705,7 @@ Districts.plot()
 df.head(2)
 </code></pre>
 <div>
-<style scoped="">
+<style scoped>
     .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
     }
@@ -804,7 +804,7 @@ df.head(2)
 <pre class=" language-language-python"><code class="language-language-python">df2.head()
 </code></pre>
 <div>
-<style scoped="">
+<style scoped>
     .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
     }
@@ -886,10 +886,10 @@ schools.crs = {'init':'epsg:4326'}   #project system
 schools.head(2)
 </code></pre>
 <pre><code>C:\Python37\lib\site-packages\pyproj\crs\crs.py:53: FutureWarning: '+init=&lt;authority&gt;:&lt;code&gt;' syntax is deprecated. '&lt;authority&gt;:&lt;code&gt;' is the preferred initialization method. When making the change, be mindful of axis order changes: https://pyproj4.github.io/pyproj/stable/gotchas.html#axis-order-changes-in-proj-6
-  return _prepare_from_string(" ".join(pjargs))
+  return _prepare_from_string(&quot; &quot;.join(pjargs))
 </code></pre>
 <div>
-<style scoped="">
+<style scoped>
     .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
     }
@@ -1006,7 +1006,7 @@ ax.axis('off')
 <pre class=" language-language-python"><code class="language-language-python">Districts.head()
 </code></pre>
 <div>
-<style scoped="">
+<style scoped>
     .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
     }
@@ -1110,29 +1110,11 @@ ax.set_ylim([-42,-36])
 </code></pre>
 <p><img src="/2020/04/13/Geopandas%20Practise_Part1/output_66_1.png" alt="png"></p>
 <h1>Reference:</h1>
-<li>https://www.youtube.com/watch?v=JN35I8EYD4M&amp;list=PLewNEVDy7gq3DjrPDxGFLbHE4G2QWe8Qh&amp;index=9
+<li>https://www.youtube.com/watch?v=JN35I8EYD4M&list=PLewNEVDy7gq3DjrPDxGFLbHE4G2QWe8Qh&index=9
 </li><li>https://geopandas.org/
 </li><li>http://epsg.io/
 </li><li>https://catalogue.data.govt.nz/dataset?res_format=GeoJSON
-</li><script>
-        document.querySelectorAll('.github-emoji')
-          .forEach(el => {
-            if (!el.dataset.src) { return; }
-            const img = document.createElement('img');
-            img.style = 'display:none !important;';
-            img.src = el.dataset.src;
-            img.addEventListener('error', () => {
-              img.remove();
-              el.style.color = 'inherit';
-              el.style.backgroundImage = 'none';
-              el.style.background = 'none';
-            });
-            img.addEventListener('load', () => {
-              img.remove();
-            });
-            document.body.appendChild(img);
-          });
-      </script>
+</li>
             </div>
             <hr/>
 

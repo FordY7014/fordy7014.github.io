@@ -434,7 +434,7 @@ print ('Data read into a pandas dataframe!')
 # tip: You can specify the number of rows you'd like to see as follows: df_can.head(10)
 </code></pre>
 <div>
-<style scoped="">
+<style scoped>
     .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
     }
@@ -603,7 +603,7 @@ print ('Data read into a pandas dataframe!')
 <pre class=" language-language-python"><code class="language-language-python">df_can.tail()
 </code></pre>
 <div>
-<style scoped="">
+<style scoped>
     .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
     }
@@ -879,7 +879,7 @@ df_can.drop(['AREA','REG','DEV','Type','Coverage'], axis=1, inplace=True)
 df_can.head(2)
 </code></pre>
 <div>
-<style scoped="">
+<style scoped>
     .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
     }
@@ -1037,7 +1037,7 @@ dtype: int64
 <pre class=" language-language-python"><code class="language-language-python">df_can.describe()
 </code></pre>
 <div>
-<style scoped="">
+<style scoped>
     .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
     }
@@ -1312,7 +1312,7 @@ Name: Country, Length: 195, dtype: object
 # for the sake of consistency, we will convert all column names to string later on.
 </code></pre>
 <div>
-<style scoped="">
+<style scoped>
     .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
     }
@@ -1456,7 +1456,7 @@ Name: Country, Length: 195, dtype: object
 <pre class=" language-language-python"><code class="language-language-python">df_can.head()
 </code></pre>
 <div>
-<style scoped="">
+<style scoped>
     .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
     }
@@ -1636,7 +1636,7 @@ Name: Country, Length: 195, dtype: object
 <pre class=" language-language-python"><code class="language-language-python">df_can.head(3)
 </code></pre>
 <div>
-<style scoped="">
+<style scoped>
     .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
     }
@@ -2006,7 +2006,7 @@ Name: Continent, Length: 195, dtype: bool
 df_can[condition]
 </code></pre>
 <div>
-<style scoped="">
+<style scoped>
     .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
     }
@@ -3236,7 +3236,7 @@ df_can[(df_can['Continent']=='Asia') & (df_can['Region']=='Southern Asia')]
 # don't forget to enclose the two conditions in parentheses
 </code></pre>
 <div>
-<style scoped="">
+<style scoped>
     .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
     }
@@ -3511,7 +3511,7 @@ Index(['Continent', 'Region', 'DevName', '1980', '1981', '1982', '1983',
       dtype='object')
 </code></pre>
 <div>
-<style scoped="">
+<style scoped>
     .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
     }
@@ -3710,7 +3710,7 @@ df_CI
 
 </code></pre>
 <div>
-<style scoped="">
+<style scoped>
     .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
     }
@@ -3929,25 +3929,7 @@ plt.show()
 <p>This notebook is part of a course on <strong>Coursera</strong> called <em>Data Visualization with Python</em>. If you accessed this notebook outside the course, you can take this course online by clicking <a href="http://cocl.us/DV0101EN_Coursera_Week1_LAB1" target="_blank" rel="noopener">here</a>.</p>
 <hr>
 <p>Copyright © 2019 <a href="https://cognitiveclass.ai/?utm_source=bducopyrightlink&amp;utm_medium=dswb&amp;utm_campaign=bdu" target="_blank" rel="noopener">Cognitive Class</a>. This notebook and its source code are released under the terms of the <a href="https://bigdatauniversity.com/mit-license/" target="_blank" rel="noopener">MIT License</a>.</p>
-<script>
-        document.querySelectorAll('.github-emoji')
-          .forEach(el => {
-            if (!el.dataset.src) { return; }
-            const img = document.createElement('img');
-            img.style = 'display:none !important;';
-            img.src = el.dataset.src;
-            img.addEventListener('error', () => {
-              img.remove();
-              el.style.color = 'inherit';
-              el.style.backgroundImage = 'none';
-              el.style.background = 'none';
-            });
-            img.addEventListener('load', () => {
-              img.remove();
-            });
-            document.body.appendChild(img);
-          });
-      </script>
+
             </div>
             <hr/>
 

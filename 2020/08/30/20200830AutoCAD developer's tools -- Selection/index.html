@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="04. Selection, Python, Pandas">
+    <meta name="keywords" content="05. Selection, Python, Pandas">
     <meta name="description" content="Just to take notes for what I have learnt, and I will be very happy if it helps anyone.">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>04. Selection | Ford Yang&#39;s Blog</title>
+    <title>05. Selection | Ford Yang&#39;s Blog</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -215,12 +215,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/10.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/19.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">04. Selection</h1>
+                    <h1 class="description center-align post-title">05. Selection</h1>
                 </div>
             </div>
         </div>
@@ -547,47 +547,47 @@ public static void MergeSelectionSets()
 </thead>
 <tbody>
 <tr>
-<td>“”"*"""</td>
+<td>“”&quot;*&quot;&quot;&quot;</td>
 <td>Anything goes (always true)</td>
 </tr>
 <tr>
-<td>“”"="""</td>
+<td>“”&quot;=&quot;&quot;&quot;</td>
 <td>Equals</td>
 </tr>
 <tr>
-<td>“”"!="""</td>
+<td>“”&quot;!=&quot;&quot;&quot;</td>
 <td>Not equal to</td>
 </tr>
 <tr>
-<td>“”"/="""</td>
+<td>“”&quot;/=&quot;&quot;&quot;</td>
 <td>Not equal to</td>
 </tr>
 <tr>
-<td>“”"&lt;&gt;"""</td>
+<td>“”&quot;&lt;&gt;&quot;&quot;&quot;</td>
 <td>Not equal to</td>
 </tr>
 <tr>
-<td>“”"&lt;"""</td>
+<td>“”&quot;&lt;&quot;&quot;&quot;</td>
 <td>Less than</td>
 </tr>
 <tr>
-<td>“”"&lt;="""</td>
+<td>“”&quot;&lt;=&quot;&quot;&quot;</td>
 <td>Less than or equal to</td>
 </tr>
 <tr>
-<td>“”"&gt;"""</td>
+<td>“”&quot;&gt;&quot;&quot;&quot;</td>
 <td>Greater than</td>
 </tr>
 <tr>
-<td>“”"&gt;="""</td>
+<td>“”&quot;&gt;=&quot;&quot;&quot;</td>
 <td>Greater than or equal to</td>
 </tr>
 <tr>
-<td>“”"&amp;"""</td>
+<td>“”&quot;&amp;&quot;&quot;&quot;</td>
 <td>Bitwise AND (integer groups only)</td>
 </tr>
 <tr>
-<td>“”"&amp;="""</td>
+<td>“”&quot;&amp;=&quot;&quot;&quot;</td>
 <td>Bitwise masked equals (integer groups only)</td>
 </tr>
 </tbody>
@@ -596,17 +596,17 @@ public static void MergeSelectionSets()
 <p>Demand: Get all the text in red color on “layer01” and all the text in blue on “lay02” and “lay03”</p>
 <pre><code>&lt; or
     &lt; and
-             Layer == "lay01"
-             Color == "1"    // The index of Color red is 1
-             Entity type == "TEXT"
+             Layer == &quot;lay01&quot;
+             Color == &quot;1&quot;    // The index of Color red is 1
+             Entity type == &quot;TEXT&quot;
     and &gt;
     &lt; and
              &lt; or
-             Layer == "lay02"
-             Layer == "lay03"
+             Layer == &quot;lay02&quot;
+             Layer == &quot;lay03&quot;
              or &gt;
-             Color == "5"     // The index of Color Blue is 5
-             Entity type == "POLYLINE"
+             Color == &quot;5&quot;     // The index of Color Blue is 5
+             Entity type == &quot;POLYLINE&quot;
     and &gt;
 or &gt;
 </code></pre>
@@ -675,7 +675,7 @@ or &gt;
     }
 }
 </code></pre>
-<h2 id=""></h2>
+<h2 id></h2>
 <pre class=" language-language-C#"><code class="language-language-C#">using Autodesk.AutoCAD.ApplicationServices;
 using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.Geometry;
@@ -688,7 +688,7 @@ using System.Threading.Tasks;
 using AcDoNetTools;
 using Autodesk.AutoCAD.DatabaseServices;
 
-namespace _04_用户交互
+namespace _04_SelectionDemo
 {
     public class Class1
     {
@@ -733,27 +733,9 @@ namespace _04_用户交互
 </code></pre>
 <hr>
 <h1>Reference</h1>
-<p><a href="http://docs.autodesk.com/ACD/2010/ENU/AutoCAD%20.NET%20Developer' target=" _blank"="" rel="noopener" s%20guide="" index.html?url="WS1a9193826455f5ff2566ffd511ff6f8c7ca-3e30.htm,topicNumber=d0e26245" "="">http://docs.autodesk.com/ACD/2010/ENU/AutoCAD .NET Developer’s Guide/index.html?url=WS1a9193826455f5ff2566ffd511ff6f8c7ca-3e30.htm,topicNumber=d0e26245</a></p>
+<p><a href="http://docs.autodesk.com/ACD/2010/ENU/AutoCAD%20.NET%20Developer' target=" _blank" rel="noopener" s%20guide index.html?url="WS1a9193826455f5ff2566ffd511ff6f8c7ca-3e30.htm,topicNumber=d0e26245"">http://docs.autodesk.com/ACD/2010/ENU/AutoCAD .NET Developer’s Guide/index.html?url=WS1a9193826455f5ff2566ffd511ff6f8c7ca-3e30.htm,topicNumber=d0e26245</a></p>
 <p><a href="http://docs.autodesk.com/ACD/2011/CHS/filesDXF/WSfacf1429558a55de185c428100849a0ab7-5f35.htm" target="_blank" rel="noopener">http://docs.autodesk.com/ACD/2011/CHS/filesDXF/WSfacf1429558a55de185c428100849a0ab7-5f35.htm</a></p>
-<script>
-        document.querySelectorAll('.github-emoji')
-          .forEach(el => {
-            if (!el.dataset.src) { return; }
-            const img = document.createElement('img');
-            img.style = 'display:none !important;';
-            img.src = el.dataset.src;
-            img.addEventListener('error', () => {
-              img.remove();
-              el.style.color = 'inherit';
-              el.style.backgroundImage = 'none';
-              el.style.background = 'none';
-            });
-            img.addEventListener('load', () => {
-              img.remove();
-            });
-            document.body.appendChild(img);
-          });
-      </script>
+
             </div>
             <hr/>
 
@@ -778,7 +760,7 @@ namespace _04_用户交互
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://fordy7014.github.io/2020/08/30/20200825AutoCAD%20developer's%20tools%20--%20Selection/">https://fordy7014.github.io/2020/08/30/20200825AutoCAD%20developer's%20tools%20--%20Selection/</a>
+                    <a href="https://fordy7014.github.io/2020/08/30/20200830AutoCAD%20developer's%20tools%20--%20Selection/">https://fordy7014.github.io/2020/08/30/20200830AutoCAD%20developer's%20tools%20--%20Selection/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -868,13 +850,13 @@ namespace _04_用户交互
                 <i class="far fa-dot-circle"></i>&nbsp;Current
             </div>
             <div class="card">
-                <a href="/2020/08/30/20200825AutoCAD%20developer's%20tools%20--%20Selection/">
+                <a href="/2020/08/30/20200830AutoCAD%20developer's%20tools%20--%20Selection/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/10.jpg" class="responsive-img" alt="04. Selection">
+                        <img src="/medias/featureimages/19.jpg" class="responsive-img" alt="05. Selection">
                         
-                        <span class="card-title">04. Selection</span>
+                        <span class="card-title">05. Selection</span>
                     </div>
                 </a>
                 <div class="card-content article-content">

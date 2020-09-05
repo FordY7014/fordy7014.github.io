@@ -379,7 +379,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>Word Count:&nbsp;&nbsp;
-                    231
+                    189
                 </div>
                 
 
@@ -423,12 +423,12 @@
 <hr>
 <h2 id="Example">Example</h2>
 <pre><code>try:
-	surfaceId = PromptForEntity("Select the surface to add a boundary to", TinSurface)
-	plineId = PromptForEntity("Select the object to use as a boundary", Polyline)
+	surfaceId = PromptForEntity(&quot;Select the surface to add a boundary to&quot;, TinSurface)
+	plineId = PromptForEntity(&quot;Select the object to use as a boundary&quot;, Polyline)
 
 	coll = ObjectIdCollection()
 	coll.Add(plineId)
-	ed.WriteMessage("pLINE COLLECTION HAS BEEN MADE")
+	ed.WriteMessage(&quot;pLINE COLLECTION HAS BEEN MADE&quot;)
 
 	oSurface = t.GetObject(surfaceId, OpenMode.ForWrite)
 
@@ -436,35 +436,17 @@
 	oSurface.BoundariesDefinition.AddBoundaries(coll, 100, SurfaceBoundaryType.Outer, True)
 
 	oSurface.Rebuild()
-	ed.WriteMessage("Rebuilt Done")
+	ed.WriteMessage(&quot;Rebuilt Done&quot;)
 
 	# Commit before end transaction
 	t.Commit()
 except:
-	ed.WriteMessage("Failed to add the boundary")
+	ed.WriteMessage(&quot;Failed to add the boundary&quot;)
 
 </code></pre>
 <h1>Reference</h1>
 <p><a href="http://help.autodesk.com/view/CIV3D/2020/ENU/?guid=GUID-7C32E309-9B54-42A0-A4DC-C6FD592071F2" target="_blank" rel="noopener">http://help.autodesk.com/view/CIV3D/2020/ENU/?guid=GUID-7C32E309-9B54-42A0-A4DC-C6FD592071F2</a></p>
-<script>
-        document.querySelectorAll('.github-emoji')
-          .forEach(el => {
-            if (!el.dataset.src) { return; }
-            const img = document.createElement('img');
-            img.style = 'display:none !important;';
-            img.src = el.dataset.src;
-            img.addEventListener('error', () => {
-              img.remove();
-              el.style.color = 'inherit';
-              el.style.backgroundImage = 'none';
-              el.style.background = 'none';
-            });
-            img.addEventListener('load', () => {
-              img.remove();
-            });
-            document.body.appendChild(img);
-          });
-      </script>
+
             </div>
             <hr/>
 
