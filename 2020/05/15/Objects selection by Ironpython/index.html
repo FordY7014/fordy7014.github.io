@@ -337,8 +337,8 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/Civil3d/">
-                                <span class="chip bg-color">Civil3d</span>
+                            <a href="/tags/Civil-3d/">
+                                <span class="chip bg-color">Civil 3d</span>
                             </a>
                         
                     </div>
@@ -371,7 +371,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>Word Count:&nbsp;&nbsp;
-                    376
+                    418
                 </div>
                 
 
@@ -443,13 +443,13 @@ with adoc.LockDocument():
 					pass
 </code></pre>
 <h3 id="Notes">Notes:</h3>
-<pre><code>if obj1.GetType()==Line and obj1.Layer == &quot;Ramps-Side&quot;:
+<pre><code>if obj1.GetType()==Line and obj1.Layer == "Ramps-Side":
 	rList.append((obj1.GetType() is clr.GetClrType(Line))) #result is true
 </code></pre>
-<pre><code>if obj1.GetType()==Line and obj1.Layer == &quot;Ramps-Side&quot;:
+<pre><code>if obj1.GetType()==Line and obj1.Layer == "Ramps-Side":
 	rList.append((obj1.GetType() is Line)) #result is false
 </code></pre>
-<pre><code>if obj1.GetType()==Line and obj1.Layer == &quot;Ramps-Side&quot;:
+<pre><code>if obj1.GetType()==Line and obj1.Layer == "Ramps-Side":
 	rList.append((obj1.GetType() == Line)) #result is True
 </code></pre>
 <h1>Select via the class of the object and we donot need to get the object.</h1>
@@ -467,15 +467,33 @@ with adoc.LockDocument():
 			rList = []
 
 
-			#Get the Lines on Layer&quot;Ramps&quot;
+			#Get the Lines on Layer"Ramps"
 			for objectid in btr:
 				obj1 = t.GetObject(objectid, OpenMode.ForRead)
-				if (obj1.ObjectId.ObjectClass)==(RXClass.GetClass(Line)) and obj1.Layer == &quot;Ramps-Side&quot;:
+				if (obj1.ObjectId.ObjectClass)==(RXClass.GetClass(Line)) and obj1.Layer == "Ramps-Side":
 					rList.append(str(obj1.Handle))
 				else:
 					pass
 </code></pre>
-
+<script>
+        document.querySelectorAll('.github-emoji')
+          .forEach(el => {
+            if (!el.dataset.src) { return; }
+            const img = document.createElement('img');
+            img.style = 'display:none !important;';
+            img.src = el.dataset.src;
+            img.addEventListener('error', () => {
+              img.remove();
+              el.style.color = 'inherit';
+              el.style.backgroundImage = 'none';
+              el.style.background = 'none';
+            });
+            img.addEventListener('load', () => {
+              img.remove();
+            });
+            document.body.appendChild(img);
+          });
+      </script>
             </div>
             <hr/>
 
@@ -538,8 +556,8 @@ with adoc.LockDocument():
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/Civil3d/">
-                                    <span class="chip bg-color">Civil3d</span>
+                                <a href="/tags/Civil-3d/">
+                                    <span class="chip bg-color">Civil 3d</span>
                                 </a>
                             
                         </div>
@@ -621,8 +639,8 @@ First step is to create a bundle folder in “%ProgramData%/Autodesk/Application
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/Civil3d/">
-                        <span class="chip bg-color">Civil3d</span>
+                    <a href="/tags/Civil-3d/">
+                        <span class="chip bg-color">Civil 3d</span>
                     </a>
                     
                     <a href="/tags/AutoCAD-API/">
@@ -674,8 +692,8 @@ First step is to create a bundle folder in “%ProgramData%/Autodesk/Application
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/Civil3d/">
-                        <span class="chip bg-color">Civil3d</span>
+                    <a href="/tags/Civil-3d/">
+                        <span class="chip bg-color">Civil 3d</span>
                     </a>
                     
                 </div>

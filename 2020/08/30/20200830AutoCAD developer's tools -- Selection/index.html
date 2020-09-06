@@ -393,7 +393,7 @@
         <div class="card-content article-card-content">
             <div id="articleContent">
                 <h2 id="Introduction">Introduction</h2>
-<p>After learning how to draw a line with AutoCAD API, we can use similar way to create other drawable objects. We only need to go into the content of the objects’ class, and we just feed the objects what they need, the objects can be created.</p>
+<p>Today we will learn how to interact with AutoCAD.</p>
 <h2 id="Select-Objects-in-the-Drawing-Area">Select Objects in the Drawing Area</h2>
 <p>You can select objects through by having the user interactively select objects, or you can simulate many of the various object selection options through the .NET API. If your routine performs multiple selection sets, you will need to either track each selection set returned or create an ObjectIdCollection object to keep track of all the selected objects. The following functions allow you to select objects from the drawing:</p>
 <ul>
@@ -547,47 +547,47 @@ public static void MergeSelectionSets()
 </thead>
 <tbody>
 <tr>
-<td>“”&quot;*&quot;&quot;&quot;</td>
+<td>“”"*"""</td>
 <td>Anything goes (always true)</td>
 </tr>
 <tr>
-<td>“”&quot;=&quot;&quot;&quot;</td>
+<td>“”"="""</td>
 <td>Equals</td>
 </tr>
 <tr>
-<td>“”&quot;!=&quot;&quot;&quot;</td>
+<td>“”"!="""</td>
 <td>Not equal to</td>
 </tr>
 <tr>
-<td>“”&quot;/=&quot;&quot;&quot;</td>
+<td>“”"/="""</td>
 <td>Not equal to</td>
 </tr>
 <tr>
-<td>“”&quot;&lt;&gt;&quot;&quot;&quot;</td>
+<td>“”"&lt;&gt;"""</td>
 <td>Not equal to</td>
 </tr>
 <tr>
-<td>“”&quot;&lt;&quot;&quot;&quot;</td>
+<td>“”"&lt;"""</td>
 <td>Less than</td>
 </tr>
 <tr>
-<td>“”&quot;&lt;=&quot;&quot;&quot;</td>
+<td>“”"&lt;="""</td>
 <td>Less than or equal to</td>
 </tr>
 <tr>
-<td>“”&quot;&gt;&quot;&quot;&quot;</td>
+<td>“”"&gt;"""</td>
 <td>Greater than</td>
 </tr>
 <tr>
-<td>“”&quot;&gt;=&quot;&quot;&quot;</td>
+<td>“”"&gt;="""</td>
 <td>Greater than or equal to</td>
 </tr>
 <tr>
-<td>“”&quot;&amp;&quot;&quot;&quot;</td>
+<td>“”"&amp;"""</td>
 <td>Bitwise AND (integer groups only)</td>
 </tr>
 <tr>
-<td>“”&quot;&amp;=&quot;&quot;&quot;</td>
+<td>“”"&amp;="""</td>
 <td>Bitwise masked equals (integer groups only)</td>
 </tr>
 </tbody>
@@ -596,17 +596,17 @@ public static void MergeSelectionSets()
 <p>Demand: Get all the text in red color on “layer01” and all the text in blue on “lay02” and “lay03”</p>
 <pre><code>&lt; or
     &lt; and
-             Layer == &quot;lay01&quot;
-             Color == &quot;1&quot;    // The index of Color red is 1
-             Entity type == &quot;TEXT&quot;
+             Layer == "lay01"
+             Color == "1"    // The index of Color red is 1
+             Entity type == "TEXT"
     and &gt;
     &lt; and
              &lt; or
-             Layer == &quot;lay02&quot;
-             Layer == &quot;lay03&quot;
+             Layer == "lay02"
+             Layer == "lay03"
              or &gt;
-             Color == &quot;5&quot;     // The index of Color Blue is 5
-             Entity type == &quot;POLYLINE&quot;
+             Color == "5"     // The index of Color Blue is 5
+             Entity type == "POLYLINE"
     and &gt;
 or &gt;
 </code></pre>
@@ -675,7 +675,7 @@ or &gt;
     }
 }
 </code></pre>
-<h2 id></h2>
+<h2 id=""></h2>
 <pre class=" language-language-C#"><code class="language-language-C#">using Autodesk.AutoCAD.ApplicationServices;
 using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.Geometry;
@@ -733,9 +733,27 @@ namespace _04_SelectionDemo
 </code></pre>
 <hr>
 <h1>Reference</h1>
-<p><a href="http://docs.autodesk.com/ACD/2010/ENU/AutoCAD%20.NET%20Developer' target=" _blank" rel="noopener" s%20guide index.html?url="WS1a9193826455f5ff2566ffd511ff6f8c7ca-3e30.htm,topicNumber=d0e26245"">http://docs.autodesk.com/ACD/2010/ENU/AutoCAD .NET Developer’s Guide/index.html?url=WS1a9193826455f5ff2566ffd511ff6f8c7ca-3e30.htm,topicNumber=d0e26245</a></p>
+<p><a href="http://docs.autodesk.com/ACD/2010/ENU/AutoCAD%20.NET%20Developer' target=" _blank"="" rel="noopener" s%20guide="" index.html?url="WS1a9193826455f5ff2566ffd511ff6f8c7ca-3e30.htm,topicNumber=d0e26245" "="">http://docs.autodesk.com/ACD/2010/ENU/AutoCAD .NET Developer’s Guide/index.html?url=WS1a9193826455f5ff2566ffd511ff6f8c7ca-3e30.htm,topicNumber=d0e26245</a></p>
 <p><a href="http://docs.autodesk.com/ACD/2011/CHS/filesDXF/WSfacf1429558a55de185c428100849a0ab7-5f35.htm" target="_blank" rel="noopener">http://docs.autodesk.com/ACD/2011/CHS/filesDXF/WSfacf1429558a55de185c428100849a0ab7-5f35.htm</a></p>
-
+<script>
+        document.querySelectorAll('.github-emoji')
+          .forEach(el => {
+            if (!el.dataset.src) { return; }
+            const img = document.createElement('img');
+            img.style = 'display:none !important;';
+            img.src = el.dataset.src;
+            img.addEventListener('error', () => {
+              img.remove();
+              el.style.color = 'inherit';
+              el.style.backgroundImage = 'none';
+              el.style.background = 'none';
+            });
+            img.addEventListener('load', () => {
+              img.remove();
+            });
+            document.body.appendChild(img);
+          });
+      </script>
             </div>
             <hr/>
 
@@ -863,7 +881,9 @@ namespace _04_SelectionDemo
                     <div class="summary block-with-text">
                         
                             Introduction
-After learning how to draw a line with AutoCAD API, we can use similar way to create other drawable objects
+Today we will learn how to interact with AutoCAD.
+Select Objects in the Drawing Area
+You can select objects
                         
                     </div>
                     <div class="publish-info">

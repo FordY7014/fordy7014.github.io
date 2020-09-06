@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://fordy7014.github.io/"/>
-  <updated>2020-09-05T01:48:25.970Z</updated>
+  <updated>2020-09-06T02:14:30.699Z</updated>
   <id>https://fordy7014.github.io/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="https://fordy7014.github.io/2020/08/30/20200830AutoCAD%20developer&#39;s%20tools%20--%20Selection/"/>
     <id>https://fordy7014.github.io/2020/08/30/20200830AutoCAD%20developer&#39;s%20tools%20--%20Selection/</id>
     <published>2020-08-30T04:04:57.000Z</published>
-    <updated>2020-09-05T01:48:25.970Z</updated>
+    <updated>2020-09-06T02:14:30.699Z</updated>
     
     <summary type="html">
     
@@ -30,7 +30,8 @@
         
         
           &lt;h2 id=&quot;Introduction&quot;&gt;Introduction&lt;/h2&gt;
-&lt;p&gt;After learning how to draw a line with AutoCAD API, we can use similar way to create other
+&lt;p&gt;Today we will learn how to interact with AutoCAD.&lt;/p&gt;
+&lt;h2
         
       
     
@@ -111,7 +112,7 @@
     <link href="https://fordy7014.github.io/2020/08/23/20200823AutoCAD%20developer&#39;s%20tools%20--%20Brief%20Introduction/"/>
     <id>https://fordy7014.github.io/2020/08/23/20200823AutoCAD%20developer&#39;s%20tools%20--%20Brief%20Introduction/</id>
     <published>2020-08-23T04:04:57.000Z</published>
-    <updated>2020-08-29T23:40:44.937Z</updated>
+    <updated>2020-09-06T02:14:27.564Z</updated>
     
     <summary type="html">
     
@@ -174,7 +175,7 @@
     <link href="https://fordy7014.github.io/2020/08/15/20200815My%20route%20on%20AutoCAD%20DOTNET%20Developer/"/>
     <id>https://fordy7014.github.io/2020/08/15/20200815My%20route%20on%20AutoCAD%20DOTNET%20Developer/</id>
     <published>2020-08-15T04:04:57.000Z</published>
-    <updated>2020-08-24T08:44:59.171Z</updated>
+    <updated>2020-09-06T02:15:50.148Z</updated>
     
     <summary type="html">
     
@@ -192,7 +193,7 @@
       <category term="August 2020" scheme="https://fordy7014.github.io/categories/August-2020/"/>
     
     
-      <category term="Civil3d" scheme="https://fordy7014.github.io/tags/Civil3d/"/>
+      <category term="Civil 3d" scheme="https://fordy7014.github.io/tags/Civil-3d/"/>
     
       <category term="AutoCAD API" scheme="https://fordy7014.github.io/tags/AutoCAD-API/"/>
     
@@ -205,7 +206,7 @@
     <link href="https://fordy7014.github.io/2020/06/22/20200622Civil3D%20Ribbon%20Demo/"/>
     <id>https://fordy7014.github.io/2020/06/22/20200622Civil3D%20Ribbon%20Demo/</id>
     <published>2020-06-22T04:04:57.000Z</published>
-    <updated>2020-06-25T23:59:40.648Z</updated>
+    <updated>2020-09-06T02:14:24.283Z</updated>
     
     <summary type="html">
     
@@ -223,7 +224,7 @@
       <category term="June 2020" scheme="https://fordy7014.github.io/categories/June-2020/"/>
     
     
-      <category term="Civil3d" scheme="https://fordy7014.github.io/tags/Civil3d/"/>
+      <category term="Civil 3d" scheme="https://fordy7014.github.io/tags/Civil-3d/"/>
     
       <category term="AutoCAD API" scheme="https://fordy7014.github.io/tags/AutoCAD-API/"/>
     
@@ -236,7 +237,7 @@
     <link href="https://fordy7014.github.io/2020/06/18/20200618FilterType[]%20in%20dotNetAPI/"/>
     <id>https://fordy7014.github.io/2020/06/18/20200618FilterType[]%20in%20dotNetAPI/</id>
     <published>2020-06-18T04:04:57.000Z</published>
-    <updated>2020-07-17T08:30:58.191Z</updated>
+    <updated>2020-09-06T02:14:09.574Z</updated>
     
     <summary type="html">
     
@@ -254,7 +255,7 @@
       <category term="June 2020" scheme="https://fordy7014.github.io/categories/June-2020/"/>
     
     
-      <category term="Civil3d" scheme="https://fordy7014.github.io/tags/Civil3d/"/>
+      <category term="Civil 3d" scheme="https://fordy7014.github.io/tags/Civil-3d/"/>
     
       <category term="AutoCAD API" scheme="https://fordy7014.github.io/tags/AutoCAD-API/"/>
     
@@ -267,7 +268,7 @@
     <link href="https://fordy7014.github.io/2020/06/17/20200617Move%20the%20selected%20objects%20to%20the%20current%20layer/"/>
     <id>https://fordy7014.github.io/2020/06/17/20200617Move%20the%20selected%20objects%20to%20the%20current%20layer/</id>
     <published>2020-06-17T04:04:57.000Z</published>
-    <updated>2020-07-17T08:30:55.862Z</updated>
+    <updated>2020-09-06T02:14:11.029Z</updated>
     
     <summary type="html">
     
@@ -287,7 +288,7 @@
       <category term="June 2020" scheme="https://fordy7014.github.io/categories/June-2020/"/>
     
     
-      <category term="Civil3d" scheme="https://fordy7014.github.io/tags/Civil3d/"/>
+      <category term="Civil 3d" scheme="https://fordy7014.github.io/tags/Civil-3d/"/>
     
       <category term="AutoCAD API" scheme="https://fordy7014.github.io/tags/AutoCAD-API/"/>
     
@@ -300,7 +301,7 @@
     <link href="https://fordy7014.github.io/2020/06/16/20200616Prompt%20to%20Select%20one%20type%20of%20object/"/>
     <id>https://fordy7014.github.io/2020/06/16/20200616Prompt%20to%20Select%20one%20type%20of%20object/</id>
     <published>2020-06-16T04:04:57.000Z</published>
-    <updated>2020-07-17T08:31:22.918Z</updated>
+    <updated>2020-09-06T02:14:14.620Z</updated>
     
     <summary type="html">
     
@@ -320,7 +321,7 @@
       <category term="June 2020" scheme="https://fordy7014.github.io/categories/June-2020/"/>
     
     
-      <category term="Civil3d" scheme="https://fordy7014.github.io/tags/Civil3d/"/>
+      <category term="Civil 3d" scheme="https://fordy7014.github.io/tags/Civil-3d/"/>
     
       <category term="AutoCAD API" scheme="https://fordy7014.github.io/tags/AutoCAD-API/"/>
     
@@ -333,7 +334,7 @@
     <link href="https://fordy7014.github.io/2020/06/15/20200615Set%20Viewport%20in%20AutoCad%20.Net%20API/"/>
     <id>https://fordy7014.github.io/2020/06/15/20200615Set%20Viewport%20in%20AutoCad%20.Net%20API/</id>
     <published>2020-06-15T04:04:57.000Z</published>
-    <updated>2020-07-18T02:05:09.352Z</updated>
+    <updated>2020-09-06T02:14:15.453Z</updated>
     
     <summary type="html">
     
@@ -354,7 +355,7 @@
       <category term="June 2020" scheme="https://fordy7014.github.io/categories/June-2020/"/>
     
     
-      <category term="Civil3d" scheme="https://fordy7014.github.io/tags/Civil3d/"/>
+      <category term="Civil 3d" scheme="https://fordy7014.github.io/tags/Civil-3d/"/>
     
       <category term="AutoCAD API" scheme="https://fordy7014.github.io/tags/AutoCAD-API/"/>
     
@@ -367,7 +368,7 @@
     <link href="https://fordy7014.github.io/2020/06/01/20200602How%20to%20autoload%20dll%20in%20AutoCAD/"/>
     <id>https://fordy7014.github.io/2020/06/01/20200602How%20to%20autoload%20dll%20in%20AutoCAD/</id>
     <published>2020-06-01T04:04:57.000Z</published>
-    <updated>2020-07-17T08:32:09.550Z</updated>
+    <updated>2020-09-06T02:14:20.100Z</updated>
     
     <summary type="html">
     
@@ -387,7 +388,7 @@
       <category term="June 2020" scheme="https://fordy7014.github.io/categories/June-2020/"/>
     
     
-      <category term="Civil3d" scheme="https://fordy7014.github.io/tags/Civil3d/"/>
+      <category term="Civil 3d" scheme="https://fordy7014.github.io/tags/Civil-3d/"/>
     
       <category term="AutoCAD API" scheme="https://fordy7014.github.io/tags/AutoCAD-API/"/>
     
@@ -398,7 +399,7 @@
     <link href="https://fordy7014.github.io/2020/05/15/Objects%20selection%20by%20Ironpython/"/>
     <id>https://fordy7014.github.io/2020/05/15/Objects%20selection%20by%20Ironpython/</id>
     <published>2020-05-15T04:04:57.000Z</published>
-    <updated>2020-07-17T08:28:07.774Z</updated>
+    <updated>2020-09-06T02:16:10.252Z</updated>
     
     <summary type="html">
     
@@ -417,7 +418,7 @@
       <category term="May 2020" scheme="https://fordy7014.github.io/categories/May-2020/"/>
     
     
-      <category term="Civil3d" scheme="https://fordy7014.github.io/tags/Civil3d/"/>
+      <category term="Civil 3d" scheme="https://fordy7014.github.io/tags/Civil-3d/"/>
     
   </entry>
   
@@ -426,7 +427,7 @@
     <link href="https://fordy7014.github.io/2020/05/13/Add%20boundary%20Line%20to%20Surface%20by%20using%20API/"/>
     <id>https://fordy7014.github.io/2020/05/13/Add%20boundary%20Line%20to%20Surface%20by%20using%20API/</id>
     <published>2020-05-13T04:04:57.000Z</published>
-    <updated>2020-07-17T08:30:29.846Z</updated>
+    <updated>2020-09-06T02:16:27.020Z</updated>
     
     <summary type="html">
     
@@ -444,7 +445,7 @@
       <category term="May 2020" scheme="https://fordy7014.github.io/categories/May-2020/"/>
     
     
-      <category term="Civil3d" scheme="https://fordy7014.github.io/tags/Civil3d/"/>
+      <category term="Civil 3d" scheme="https://fordy7014.github.io/tags/Civil-3d/"/>
     
   </entry>
   
