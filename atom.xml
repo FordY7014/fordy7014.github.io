@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://fordy7014.github.io/"/>
-  <updated>2020-09-06T02:14:30.699Z</updated>
+  <updated>2020-12-26T03:18:21.778Z</updated>
   <id>https://fordy7014.github.io/</id>
   
   <author>
@@ -17,11 +17,41 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>06. Selection Filters</title>
+    <link href="https://fordy7014.github.io/2020/12/01/20200830AutoCAD%20developer&#39;s%20tools%20--%20Selection0/"/>
+    <id>https://fordy7014.github.io/2020/12/01/20200830AutoCAD%20developer&#39;s%20tools%20--%20Selection0/</id>
+    <published>2020-12-01T03:04:57.000Z</published>
+    <updated>2020-12-26T03:18:21.778Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1&gt;Introduction&lt;/h1&gt;
+&lt;p&gt;Last time, we have learnt selection, but what if we have to filter certain types of object from the selection
+        
+      
+    
+    </summary>
+    
+    
+      <category term="August 2020" scheme="https://fordy7014.github.io/categories/August-2020/"/>
+    
+    
+      <category term="AutoCAD API" scheme="https://fordy7014.github.io/tags/AutoCAD-API/"/>
+    
+      <category term="C#" scheme="https://fordy7014.github.io/tags/C/"/>
+    
+  </entry>
+  
+  <entry>
     <title>05. Selection</title>
     <link href="https://fordy7014.github.io/2020/08/30/20200830AutoCAD%20developer&#39;s%20tools%20--%20Selection/"/>
     <id>https://fordy7014.github.io/2020/08/30/20200830AutoCAD%20developer&#39;s%20tools%20--%20Selection/</id>
     <published>2020-08-30T04:04:57.000Z</published>
-    <updated>2020-09-06T02:14:30.699Z</updated>
+    <updated>2020-12-26T03:11:53.285Z</updated>
     
     <summary type="html">
     
@@ -583,35 +613,6 @@ from urllib.request import
     
     
       <category term="Arcmap" scheme="https://fordy7014.github.io/tags/Arcmap/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>How to merge many different raster files into one raster</title>
-    <link href="https://fordy7014.github.io/2020/04/20/How%20to%20take%20many%20different%20rasters%20into%20one%20raster/"/>
-    <id>https://fordy7014.github.io/2020/04/20/How%20to%20take%20many%20different%20rasters%20into%20one%20raster/</id>
-    <published>2020-04-20T04:04:57.000Z</published>
-    <updated>2020-05-22T00:55:21.297Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;p&gt;On &lt;a href=&quot;https://geomapspublic.aucklandcouncil.govt.nz/viewer/index.html&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Auckland Council Geomap&lt;/a&gt;,
-        
-      
-    
-    </summary>
-    
-    
-      <category term="April 2020" scheme="https://fordy7014.github.io/categories/April-2020/"/>
-    
-    
-      <category term="Arcmap" scheme="https://fordy7014.github.io/tags/Arcmap/"/>
-    
-      <category term="Raster" scheme="https://fordy7014.github.io/tags/Raster/"/>
     
   </entry>
   
