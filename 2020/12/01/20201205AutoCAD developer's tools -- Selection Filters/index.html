@@ -375,14 +375,14 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>Word Count:&nbsp;&nbsp;
-                    527
+                    647
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>Read Times:&nbsp;&nbsp;
-                    3 Min
+                    4 Min
                 </div>
                 
 
@@ -486,23 +486,24 @@
 </table>
 <h3 id="Example">Example</h3>
 <p>Demand: Get all the text in red color on “layer01” and all the text in blue on “lay02” and “lay03”.</p>
-<pre class=" language-language-Text"><code class="language-language-Text">DxfCode.Start, "LWPOLYLINE"
-</code></pre>
-<pre><code>&lt; or
-    &lt; and
+<blockquote>
+<p>For Polyline objects , the type in DxfCode.Start is “LWPOLYLINE” rather than “Ployline”. I don’t know why Autodesk design like this, but it took me long time to figure it out.</p>
+</blockquote>
+<pre class=" language-language-Text"><code class="language-language-Text">< or
+    < and
              Layer == "lay01"
              Color == "1"    // The index of Color red is 1
              Entity type == "TEXT"
-    and &gt;
-    &lt; and
-             &lt; or
+    and >
+    < and
+             < or
              Layer == "lay02"
              Layer == "lay03"
-             or &gt;
+             or >
              Color == "5"     // The index of Color Blue is 5
              Entity type == "POLYLINE"
-    and &gt;
-or &gt;
+    and >
+or >
 </code></pre>
 <h3 id="Code">Code</h3>
 <pre><code>
@@ -528,7 +529,7 @@ TypedValue[] typeValue = {
 };
 </code></pre>
 <h2 id="Full-Code">Full Code</h2>
-<pre class=" language-language-C#"><code class="language-language-C#">public static void MultipleSelectionFilter()
+<pre><code>public static void MultipleSelectionFilter()
 {
     // Get the current editor
     Editor ed = Autodesk.AutoCAD.ApplicationServices.Core.Application.DocumentManager.MdiActiveDocument.Editor;
@@ -537,23 +538,23 @@ TypedValue[] typeValue = {
 
     // Define the filter condition
     TypedValue[] typeValue = {
-     new TypedValue((int) DxfCode.Operator, "<or"),
+     new TypedValue((int) DxfCode.Operator, "&lt;or"),
      // Selection filter 1
-     new TypedValue((int) DxfCode.Operator, "<and"),
+     new TypedValue((int) DxfCode.Operator, "&lt;and"),
      new TypedValue((int) DxfCode.Start, "TEXT"),
      new TypedValue((int) DxfCode.LayerName, "lay01"),
      new TypedValue((int) DxfCode.Color, "1"),
-     new TypedValue((int) DxfCode.Operator, "and>"),
+     new TypedValue((int) DxfCode.Operator, "and&gt;"),
      // Selection filter 2
-     new TypedValue((int) DxfCode.Operator, "<and"),
+     new TypedValue((int) DxfCode.Operator, "&lt;and"),
      new TypedValue((int) DxfCode.Start, "LWPOLYLINE"),
      new TypedValue((int) DxfCode.Color, "5"),
-     new TypedValue((int) DxfCode.Operator, "<or"),
+     new TypedValue((int) DxfCode.Operator, "&lt;or"),
      new TypedValue((int) DxfCode.LayerName, "lay02"),
      new TypedValue((int) DxfCode.LayerName, "lay03"),
-     new TypedValue((int) DxfCode.Operator, "or>"),
-     new TypedValue((int) DxfCode.Operator, "and>"),
-     new TypedValue((int) DxfCode.Operator, "or>")
+     new TypedValue((int) DxfCode.Operator, "or&gt;"),
+     new TypedValue((int) DxfCode.Operator, "and&gt;"),
+     new TypedValue((int) DxfCode.Operator, "or&gt;")
     };
 
     // put the condition into the filter
@@ -623,7 +624,7 @@ TypedValue[] typeValue = {
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://fordy7014.github.io/2020/12/01/20200830AutoCAD%20developer's%20tools%20--%20Selection0/">https://fordy7014.github.io/2020/12/01/20200830AutoCAD%20developer's%20tools%20--%20Selection0/</a>
+                    <a href="https://fordy7014.github.io/2020/12/01/20201205AutoCAD%20developer's%20tools%20--%20Selection%20Filters/">https://fordy7014.github.io/2020/12/01/20201205AutoCAD%20developer's%20tools%20--%20Selection%20Filters/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -713,7 +714,7 @@ TypedValue[] typeValue = {
                 <i class="far fa-dot-circle"></i>&nbsp;Current
             </div>
             <div class="card">
-                <a href="/2020/12/01/20200830AutoCAD%20developer's%20tools%20--%20Selection0/">
+                <a href="/2020/12/01/20201205AutoCAD%20developer's%20tools%20--%20Selection%20Filters/">
                     <div class="card-image">
                         
                         
