@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="06. Selection Filters, Python, Pandas">
+    <meta name="keywords" content="07. Hatch, Python, Pandas">
     <meta name="description" content="Just to take notes for what I have learnt, and I will be very happy if it helps anyone.">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>06. Selection Filters | Ford Yang&#39;s Blog</title>
+    <title>07. Hatch | Ford Yang&#39;s Blog</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -215,12 +215,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/1.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/9.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">06. Selection Filters</h1>
+                    <h1 class="description center-align post-title">07. Hatch</h1>
                 </div>
             </div>
         </div>
@@ -353,8 +353,8 @@
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/August-2020/" class="post-category">
-                                August 2020
+                            <a href="/categories/December-2020/" class="post-category">
+                                December 2020
                             </a>
                         
                     </div>
@@ -366,7 +366,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>Publish Date:&nbsp;&nbsp;
-                    2020-12-01
+                    2020-12-05
                 </div>
                 
 
@@ -375,14 +375,14 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>Word Count:&nbsp;&nbsp;
-                    647
+                    277
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>Read Times:&nbsp;&nbsp;
-                    4 Min
+                    1 Min
                 </div>
                 
 
@@ -392,195 +392,58 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1>Introduction</h1>
-<p>Last time, we have learnt selection, but what if we have to filter certain types of object from the selection result. Today, we will learn how to</p>
-<h1>Define Rules for selection Filters</h1>
-<table>
-<thead>
-<tr>
-<th>DXF CODES</th>
-<th>Filter Type</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>0 (or DxfCode.Start)</td>
-<td>Object Type (String)Such as “Line,” “Circle,” “Arc,” and so forth.</td>
-</tr>
-<tr>
-<td>2 (or DxfCode.BlockName)</td>
-<td>Block Name (String)The block name of an insert reference.</td>
-</tr>
-<tr>
-<td>8 or (DxfCode.LayerName)</td>
-<td>Layer Name (String)Such as “Layer 0.”</td>
-</tr>
-<tr>
-<td>60 (DxfCode.Visibility)</td>
-<td>Object Visibility (Integer)Use 0 = visible, 1 = invisible.</td>
-</tr>
-<tr>
-<td>62 (or DxfCode.Color)</td>
-<td>Color Number (Integer)Numeric index values ranging from 0 to 256.Zero indicates BYBLOCK. 256 indicates BYLAYER. A negative value indicates that the layer is turned off.</td>
-</tr>
-<tr>
-<td>67</td>
-<td>Model/paper space indicator (Integer)Use 0 or omitted = model space, 1 = paper space.</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Relational operators for selection set filter lists</strong></p>
-<table>
-<thead>
-<tr>
-<th>Operator</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>“”"*"""</td>
-<td>Anything goes (always true)</td>
-</tr>
-<tr>
-<td>“”"="""</td>
-<td>Equals</td>
-</tr>
-<tr>
-<td>“”"!="""</td>
-<td>Not equal to</td>
-</tr>
-<tr>
-<td>“”"/="""</td>
-<td>Not equal to</td>
-</tr>
-<tr>
-<td>“”"&lt;&gt;"""</td>
-<td>Not equal to</td>
-</tr>
-<tr>
-<td>“”"&lt;"""</td>
-<td>Less than</td>
-</tr>
-<tr>
-<td>“”"&lt;="""</td>
-<td>Less than or equal to</td>
-</tr>
-<tr>
-<td>“”"&gt;"""</td>
-<td>Greater than</td>
-</tr>
-<tr>
-<td>“”"&gt;="""</td>
-<td>Greater than or equal to</td>
-</tr>
-<tr>
-<td>“”"&amp;"""</td>
-<td>Bitwise AND (integer groups only)</td>
-</tr>
-<tr>
-<td>“”"&amp;="""</td>
-<td>Bitwise masked equals (integer groups only)</td>
-</tr>
-</tbody>
-</table>
-<h3 id="Example">Example</h3>
-<p>Demand: Get all the text in red color on “layer01” and all the text in blue on “lay02” and “lay03”.</p>
+                <h2 id="Introduction">Introduction</h2>
+<p>After learning how to select the objects from the drawings, now we begin to learn how to do something to the objects. Assume that we want to hatch the polygons on the certain layer. We can select out the polygons based on the knowledge before. Here we will learn how to hatch the polygons.</p>
+<p>First of all, we have a look at the <em>CLASS</em>  HATCH.<br>
+<img src="/2020/12/05/20201205AutoCAD%20developer's%20tools%20--%20Hatch/1.png" alt="HATCH Class"></p>
+<p>For example, from the figure above, we can see how to create the <em>HATCH</em>.<br>
+It is quite similar as the creation of other objects.</p>
 <blockquote>
-<p>For Polyline objects , the type in DxfCode.Start is “LWPOLYLINE” rather than “Ployline”. I don’t know why Autodesk design like this, but it took me long time to figure it out.</p>
+<ol>
+<li>Create the empty HATCH Object</li>
+<li>The we assign the empty object with other properties</li>
+</ol>
 </blockquote>
-<pre class=" language-language-Text"><code class="language-language-Text">< or
-    < and
-             Layer == "lay01"
-             Color == "1"    // The index of Color red is 1
-             Entity type == "TEXT"
-    and >
-    < and
-             < or
-             Layer == "lay02"
-             Layer == "lay03"
-             or >
-             Color == "5"     // The index of Color Blue is 5
-             Entity type == "POLYLINE"
-    and >
-or >
+<h2 id="SOME-CODE">SOME CODE</h2>
+<pre class=" language-language-C#"><code class="language-language-C#">  public Hatch HatchPolygon(Transaction tr,BlockTableRecord btr, string layername, short colorindex, ObjectIdCollection objectIdCollection)
+  {
+      //declare a hatch pbject
+      Hatch ent = new Hatch();
+
+
+      ent.HatchObjectType = HatchObjectType.HatchObject;
+
+      //set the hatch pattern, scaleand other properties
+      ent.SetHatchPattern(HatchPatternType.PreDefined, "SOLID");
+      ent.PatternScale = 1.0;
+      ent.Elevation = 0;
+      ent.Layer = layername;
+      ent.PatternAngle = Math.PI / 4;
+      ent.Color = Color.FromColorIndex(ColorMethod.ByAci, colorindex);
+
+
+      //add the hatch object into the BlockTableRecord
+      btr.AppendEntity(ent);
+      tr.AddNewlyCreatedDBObject(ent, true);
+
+      //associate the hatch object with the boundary
+      ent.Associative = true;
+
+      ObjectIdCollection obIds = new ObjectIdCollection();
+      for (int i = 0; i < objectIdCollection.Count; i++)
+      {
+          obIds.Clear();
+          obIds.Add(objectIdCollection[i]);
+          ent.AppendLoop(HatchLoopTypes.Outermost, obIds);
+      }
+
+
+      //calculate the hatch area and how the result
+      ent.EvaluateHatch(true);
+
+      return ent;
+  }
 </code></pre>
-<h3 id="Code">Code</h3>
-<pre><code>
-// Define the filter condition
-TypedValue[] typeValue = {
- new TypedValue((int) DxfCode.Operator, "&lt;or"),
- // Selection filter 1
- new TypedValue((int) DxfCode.Operator, "&lt;and"),
- new TypedValue((int) DxfCode.Start, "TEXT"),
- new TypedValue((int) DxfCode.LayerName, "lay01"),
- new TypedValue((int) DxfCode.Color, "1"),
- new TypedValue((int) DxfCode.Operator, "and&gt;"),
- // Selection filter 2
- new TypedValue((int) DxfCode.Operator, "&lt;and"),
- new TypedValue((int) DxfCode.Start, "LWPOLYLINE"),
- new TypedValue((int) DxfCode.Color, "5"),
- new TypedValue((int) DxfCode.Operator, "&lt;or"),
- new TypedValue((int) DxfCode.LayerName, "lay02"),
- new TypedValue((int) DxfCode.LayerName, "lay03"),
- new TypedValue((int) DxfCode.Operator, "or&gt;"),
- new TypedValue((int) DxfCode.Operator, "and&gt;"),
- new TypedValue((int) DxfCode.Operator, "or&gt;")
-};
-</code></pre>
-<h2 id="Full-Code">Full Code</h2>
-<pre><code>public static void MultipleSelectionFilter()
-{
-    // Get the current editor
-    Editor ed = Autodesk.AutoCAD.ApplicationServices.Core.Application.DocumentManager.MdiActiveDocument.Editor;
-
-    // Create a set filter
-
-    // Define the filter condition
-    TypedValue[] typeValue = {
-     new TypedValue((int) DxfCode.Operator, "&lt;or"),
-     // Selection filter 1
-     new TypedValue((int) DxfCode.Operator, "&lt;and"),
-     new TypedValue((int) DxfCode.Start, "TEXT"),
-     new TypedValue((int) DxfCode.LayerName, "lay01"),
-     new TypedValue((int) DxfCode.Color, "1"),
-     new TypedValue((int) DxfCode.Operator, "and&gt;"),
-     // Selection filter 2
-     new TypedValue((int) DxfCode.Operator, "&lt;and"),
-     new TypedValue((int) DxfCode.Start, "LWPOLYLINE"),
-     new TypedValue((int) DxfCode.Color, "5"),
-     new TypedValue((int) DxfCode.Operator, "&lt;or"),
-     new TypedValue((int) DxfCode.LayerName, "lay02"),
-     new TypedValue((int) DxfCode.LayerName, "lay03"),
-     new TypedValue((int) DxfCode.Operator, "or&gt;"),
-     new TypedValue((int) DxfCode.Operator, "and&gt;"),
-     new TypedValue((int) DxfCode.Operator, "or&gt;")
-    };
-
-    // put the condition into the filter
-    SelectionFilter selFiter = new SelectionFilter(typeValue);
-
-    // get the filtered result
-    PromptSelectionResult psr = ed.GetSelection(selFiter);
-
-
-
-
-    //  Check the result
-    if (psr.Status == PromptStatus.OK)
-    {
-        SelectionSet sSet = psr.Value;
-        Autodesk.AutoCAD.ApplicationServices.Core.Application.ShowAlertDialog("Number of objects selected: " + sSet.Count.ToString());
-    }
-    else
-    {
-        Autodesk.AutoCAD.ApplicationServices.Core.Application.ShowAlertDialog("Number of objects selected: 0");
-    }
-}
-</code></pre>
-<hr>
-<h1>Reference</h1>
-<p><a href="http://docs.autodesk.com/ACD/2011/CHS/filesDXF/WSfacf1429558a55de185c428100849a0ab7-5f35.htm" target="_blank" rel="noopener">http://docs.autodesk.com/ACD/2011/CHS/filesDXF/WSfacf1429558a55de185c428100849a0ab7-5f35.htm</a></p>
 <script>
         document.querySelectorAll('.github-emoji')
           .forEach(el => {
@@ -624,7 +487,7 @@ TypedValue[] typeValue = {
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://fordy7014.github.io/2020/12/01/20201205AutoCAD%20developer's%20tools%20--%20Selection%20Filters/">https://fordy7014.github.io/2020/12/01/20201205AutoCAD%20developer's%20tools%20--%20Selection%20Filters/</a>
+                    <a href="https://fordy7014.github.io/2020/12/05/20201205AutoCAD%20developer's%20tools%20--%20Hatch/">https://fordy7014.github.io/2020/12/05/20201205AutoCAD%20developer's%20tools%20--%20Hatch/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -709,46 +572,48 @@ TypedValue[] typeValue = {
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="far fa-dot-circle"></i>&nbsp;Current
-            </div>
+                <i class="fas fa-chevron-left"></i>&nbsp;Previous</div>
             <div class="card">
-                <a href="/2020/12/01/20201205AutoCAD%20developer's%20tools%20--%20Selection%20Filters/">
+                <a href="/2020/12/10/20201210AutoCAD%20developer's%20tools%20--%20Renumber%20the%20Objects/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/1.jpg" class="responsive-img" alt="06. Selection Filters">
+                        <img src="/medias/featureimages/20.jpg" class="responsive-img" alt="08. Renumbering the manholes and pipelines">
                         
-                        <span class="card-title">06. Selection Filters</span>
+                        <span class="card-title">08. Renumbering the manholes and pipelines</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
                             Introduction
-Last time, we have learnt selection, but what if we have to filter certain types of object from the selecti
+In my work, I always use the past Civil3d template to continue my design, hence the initial number of some 
                         
                     </div>
                     <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-12-01
-                            </span>
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2020-12-10
+                        </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/August-2020/" class="post-category">
-                                    August 2020
+                            <a href="/categories/December-2020/" class="post-category">
+                                    December 2020
                                 </a>
                             
                             
                         </span>
                     </div>
                 </div>
-
                 
                 <div class="card-action article-tags">
+                    
+                    <a href="/tags/Civil-3d/">
+                        <span class="chip bg-color">Civil 3d</span>
+                    </a>
                     
                     <a href="/tags/AutoCAD-API/">
                         <span class="chip bg-color">AutoCAD API</span>
@@ -769,34 +634,32 @@ Last time, we have learnt selection, but what if we have to filter certain types
                 Next&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/08/30/20200830AutoCAD%20developer's%20tools%20--%20Selection/">
+                <a href="/2020/11/22/20201201AutoCAD%20developer's%20tools%20--%20Selection%20Filters/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/19.jpg" class="responsive-img" alt="05. Selection">
+                        <img src="/medias/featureimages/1.jpg" class="responsive-img" alt="06. Selection Filters">
                         
-                        <span class="card-title">05. Selection</span>
+                        <span class="card-title">06. Selection Filters</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
                             Introduction
-Today we will learn how to interact with AutoCAD.
-Select Objects in the Drawing Area
-You can select objects
+Last time, we have learnt selection, but what if we have to filter certain types of object from the selecti
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-08-30
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-11-22
                             </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/August-2020/" class="post-category">
-                                    August 2020
+                            <a href="/categories/December-2020/" class="post-category">
+                                    December 2020
                                 </a>
                             
                             

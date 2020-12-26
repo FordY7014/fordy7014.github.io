@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="05. Selection, Python, Pandas">
+    <meta name="keywords" content="06. Selection Filters, Python, Pandas">
     <meta name="description" content="Just to take notes for what I have learnt, and I will be very happy if it helps anyone.">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>05. Selection | Ford Yang&#39;s Blog</title>
+    <title>06. Selection Filters | Ford Yang&#39;s Blog</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -215,12 +215,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/19.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/1.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">05. Selection</h1>
+                    <h1 class="description center-align post-title">06. Selection Filters</h1>
                 </div>
             </div>
         </div>
@@ -353,8 +353,8 @@
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/August-2020/" class="post-category">
-                                August 2020
+                            <a href="/categories/December-2020/" class="post-category">
+                                December 2020
                             </a>
                         
                     </div>
@@ -366,7 +366,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>Publish Date:&nbsp;&nbsp;
-                    2020-08-30
+                    2020-11-22
                 </div>
                 
 
@@ -375,14 +375,14 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>Word Count:&nbsp;&nbsp;
-                    913
+                    665
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>Read Times:&nbsp;&nbsp;
-                    5 Min
+                    4 Min
                 </div>
                 
 
@@ -392,117 +392,9 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="Introduction">Introduction</h2>
-<p>Today we will learn how to interact with AutoCAD.</p>
-<h2 id="Select-Objects-in-the-Drawing-Area">Select Objects in the Drawing Area</h2>
-<p>You can select objects through by having the user interactively select objects, or you can simulate many of the various object selection options through the .NET API. If your routine performs multiple selection sets, you will need to either track each selection set returned or create an ObjectIdCollection object to keep track of all the selected objects. The following functions allow you to select objects from the drawing:</p>
-<ul>
-<li>
-<p>GetSelection</p>
-<p>Prompts the user to pick objects from the screen.</p>
-</li>
-<li>
-<p>SelectAll</p>
-<p>Selects all objects in the current space in which are not locked or frozen.</p>
-</li>
-<li>
-<p>SelectCrossingPolygon</p>
-<p>Selects objects within and crossing a polygon defined by specifying points. The polygon can be any shape but cannot cross or touch itself.</p>
-</li>
-<li>
-<p>SelectCrossingWindow</p>
-<p>Selects objects within and crossing an area defined by two points.</p>
-</li>
-<li>
-<p>SelectFence</p>
-<p>Selects all objects crossing a selection fence. Fence selection is similar to crossing polygon selection except that the fence is not closed, and a fence can cross itself.</p>
-</li>
-<li>
-<p>SelectLast</p>
-<p>Selects the last object created in the current space.</p>
-</li>
-<li>
-<p>SelectPrevious</p>
-<p>Selects all objects selected during the previous Select objects: prompt.</p>
-</li>
-<li>
-<p>SelectWindow</p>
-<p>Selects all objects completely inside a rectangle defined by two points.</p>
-</li>
-<li>
-<p>SelectWindowPolygon</p>
-<p>Selects objects completely inside a polygon defined by points. The polygon can be any shape but cannot cross or touch itself.</p>
-</li>
-<li>
-<p>SelectAtPoint</p>
-<p>Selects objects passing through a given point and places them into the active selection set.</p>
-</li>
-<li>
-<p>SelectByPolygon</p>
-<p>Selects objects within a fence and adds them to the active selection set.</p>
-</li>
-</ul>
-<h2 id="Add-selected-objects-to-a-selection-set">Add selected objects to a selection set</h2>
-<p>This example prompts the user to select objects twice and then merges the two selection sets created into a single selection set.</p>
-<pre class=" language-language-C#"><code class="language-language-C#">using Autodesk.AutoCAD.Runtime;
-using Autodesk.AutoCAD.ApplicationServices;
-using Autodesk.AutoCAD.DatabaseServices;
-using Autodesk.AutoCAD.EditorInput;
-
-[CommandMethod("MergeSelectionSets")]
-public static void MergeSelectionSets()
-{
-  // Get the current document editor
-  Editor acDocEd = Application.DocumentManager.MdiActiveDocument.Editor;
-
-  // Request for objects to be selected in the drawing area
-  PromptSelectionResult acSSPrompt;
-  acSSPrompt = acDocEd.GetSelection();
-
-  SelectionSet acSSet1;
-  ObjectIdCollection acObjIdColl = new ObjectIdCollection();
-
-  // If the prompt status is OK, objects were selected
-  if (acSSPrompt.Status == PromptStatus.OK)
-  {
-      // Get the selected objects
-      acSSet1 = acSSPrompt.Value;
-
-      // Append the selected objects to the ObjectIdCollection
-      acObjIdColl = new ObjectIdCollection(acSSet1.GetObjectIds());
-  }
-
-  // Request for objects to be selected in the drawing area
-  acSSPrompt = acDocEd.GetSelection();
-
-  SelectionSet acSSet2;
-
-  // If the prompt status is OK, objects were selected
-  if (acSSPrompt.Status == PromptStatus.OK)
-  {
-      acSSet2 = acSSPrompt.Value;
-
-      // Check the size of the ObjectIdCollection, if zero, then initialize it
-      if (acObjIdColl.Count == 0)
-      {
-          acObjIdColl = new ObjectIdCollection(acSSet2.GetObjectIds());
-      }
-      else
-      {
-          // Step through the second selection set
-          foreach (ObjectId acObjId in acSSet2.GetObjectIds())
-          {
-              // Add each object id to the ObjectIdCollection
-              acObjIdColl.Add(acObjId);
-          }
-      }
-  }
-
-  Application.ShowAlertDialog("Number of objects selected: " +
-                              acObjIdColl.Count.ToString());
-}
-</code></pre>
-<h2 id="Define-Rules-for-selection-Filters">Define Rules for selection Filters</h2>
+                <h1>Introduction</h1>
+<p>Last time, we have learnt selection, but what if we have to filter certain types of object from the selection result. Today, we will learn how to select certain type of the object from the selection result</p>
+<h1>Define Rules for selection Filters</h1>
 <table>
 <thead>
 <tr>
@@ -592,80 +484,103 @@ public static void MergeSelectionSets()
 </tr>
 </tbody>
 </table>
-<h2 id="PromptStatus">PromptStatus</h2>
-<pre class=" language-language-C#"><code class="language-language-C#">namespace Autodesk.AutoCAD.EditorInput
+<h3 id="Example">Example</h3>
+<p>Demand: Get all the text in red color on “layer01” and all the text in blue on “lay02” and “lay03”.</p>
+<blockquote>
+<p>For Polyline objects , the type in DxfCode.Start is “LWPOLYLINE” rather than “Ployline”.<br>
+I don’t know why Autodesk design like this, but it took me long time to figure it out. Hence, I would like to emphesis this point.</p>
+</blockquote>
+<pre class=" language-language-Text"><code class="language-language-Text">< or
+    < and
+             Layer == "lay01"
+             Color == "1"    // The index of Color red is 1
+             Entity type == "TEXT"
+    and >
+    < and
+             < or
+             Layer == "lay02"
+             Layer == "lay03"
+             or >
+             Color == "5"     // The index of Color Blue is 5
+             Entity type == "POLYLINE"
+    and >
+or >
+</code></pre>
+<h3 id="Code">Code</h3>
+<pre><code>
+// Define the filter condition
+TypedValue[] typeValue = {
+ new TypedValue((int) DxfCode.Operator, "&lt;or"),
+ // Selection filter 1
+ new TypedValue((int) DxfCode.Operator, "&lt;and"),
+ new TypedValue((int) DxfCode.Start, "TEXT"),
+ new TypedValue((int) DxfCode.LayerName, "lay01"),
+ new TypedValue((int) DxfCode.Color, "1"),
+ new TypedValue((int) DxfCode.Operator, "and&gt;"),
+ // Selection filter 2
+ new TypedValue((int) DxfCode.Operator, "&lt;and"),
+ new TypedValue((int) DxfCode.Start, "LWPOLYLINE"),
+ new TypedValue((int) DxfCode.Color, "5"),
+ new TypedValue((int) DxfCode.Operator, "&lt;or"),
+ new TypedValue((int) DxfCode.LayerName, "lay02"),
+ new TypedValue((int) DxfCode.LayerName, "lay03"),
+ new TypedValue((int) DxfCode.Operator, "or&gt;"),
+ new TypedValue((int) DxfCode.Operator, "and&gt;"),
+ new TypedValue((int) DxfCode.Operator, "or&gt;")
+};
+</code></pre>
+<h2 id="Full-Code">Full Code</h2>
+<pre><code>public static void MultipleSelectionFilter()
 {
-    public enum PromptStatus
+    // Get the current editor
+    Editor ed = Autodesk.AutoCAD.ApplicationServices.Core.Application.DocumentManager.MdiActiveDocument.Editor;
+
+    // Create a set filter
+
+    // Define the filter condition
+    TypedValue[] typeValue = {
+     new TypedValue((int) DxfCode.Operator, "&lt;or"),
+     // Selection filter 1
+     new TypedValue((int) DxfCode.Operator, "&lt;and"),
+     new TypedValue((int) DxfCode.Start, "TEXT"),
+     new TypedValue((int) DxfCode.LayerName, "lay01"),
+     new TypedValue((int) DxfCode.Color, "1"),
+     new TypedValue((int) DxfCode.Operator, "and&gt;"),
+     // Selection filter 2
+     new TypedValue((int) DxfCode.Operator, "&lt;and"),
+     new TypedValue((int) DxfCode.Start, "LWPOLYLINE"),
+     new TypedValue((int) DxfCode.Color, "5"),
+     new TypedValue((int) DxfCode.Operator, "&lt;or"),
+     new TypedValue((int) DxfCode.LayerName, "lay02"),
+     new TypedValue((int) DxfCode.LayerName, "lay03"),
+     new TypedValue((int) DxfCode.Operator, "or&gt;"),
+     new TypedValue((int) DxfCode.Operator, "and&gt;"),
+     new TypedValue((int) DxfCode.Operator, "or&gt;")
+    };
+
+    // put the condition into the filter
+    SelectionFilter selFiter = new SelectionFilter(typeValue);
+
+    // get the filtered result
+    PromptSelectionResult psr = ed.GetSelection(selFiter);
+
+
+
+
+    //  Check the result
+    if (psr.Status == PromptStatus.OK)
     {
-        Keyword = -5005,
-        Cancel = -5002,
-        Error = -5001,
-        None = 5000,
-        Modeless = 5027,
-        Other = 5028,
-        OK = 5100
+        SelectionSet sSet = psr.Value;
+        Autodesk.AutoCAD.ApplicationServices.Core.Application.ShowAlertDialog("Number of objects selected: " + sSet.Count.ToString());
+    }
+    else
+    {
+        Autodesk.AutoCAD.ApplicationServices.Core.Application.ShowAlertDialog("Number of objects selected: 0");
     }
 }
 </code></pre>
-<h2 id="SelectionDemo-Code">SelectionDemo Code</h2>
-<pre class=" language-language-C#"><code class="language-language-C#">using Autodesk.AutoCAD.ApplicationServices;
-using Autodesk.AutoCAD.EditorInput;
-using Autodesk.AutoCAD.Geometry;
-using Autodesk.AutoCAD.Runtime;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AcDoNetTools;
-using Autodesk.AutoCAD.DatabaseServices;
-
-namespace SelectionDemo
-{
-    public class Class1
-    {
-
-        [CommandMethod("PromptDemo")]
-        public void PromptDemo()
-{
-            Database db = HostApplicationServices.WorkingDatabase;
-            // Get the current editor
-            Editor ed = Application.DocumentManager.MdiActiveDocument.Editor;
-            //PromptPointResult ppr = ed.GetPoint("\n Please select the first point：");
-            //if (ppr.Status == PromptStatus.OK)
-            //{
-            //    Point3d p1 = ppr.Value;
-            //    ppr = ed.GetPoint("\n Please select the second point：");
-            //    if (ppr.Status == PromptStatus.OK)
-            //    {
-            //        Point3d p2 = ppr.Value;
-            //        db.AddLineToModeSpace(p1, p2);
-            //    }
-            //}
-
-            Point3d p1 = new Point3d(0, 0, 0);
-            Point3d p2 = new Point3d();
-
-            PromptPointOptions ppo = new PromptPointOptions("Please select the first point：");
-            ppo.AllowNone = true;
-            PromptPointResult ppr = GetPoint(ppo);
-
-            if (ppr.Status == PromptStatus.Cancel) return;
-
-            if (ppr.Status == PromptStatus.OK) p1 = ppr.Value;
-            ppo.Message = "Please select the second point";
-            ppo.BasePoint = p1;
-            ppo.UseBasePoint = true;
-            ppr = GetPoint(ppo);
-            if (ppr.Status == PromptStatus.Cancel) return;
-            if (ppr.Status == PromptStatus.None) return;
-            if (ppr.Status == PromptStatus.OK) p2 = ppr.Value;
-            db.AddLineToModeSpace(p1, p2);  
-        }
-</code></pre>
 <hr>
 <h1>Reference</h1>
-<p><a href="http://docs.autodesk.com/ACD/2010/ENU/AutoCAD%20.NET%20Developer' target=" _blank"="" rel="noopener" s%20guide="" index.html?url="WS1a9193826455f5ff2566ffd511ff6f8c7ca-3e30.htm,topicNumber=d0e26245" "="">http://docs.autodesk.com/ACD/2010/ENU/AutoCAD .NET Developer’s Guide/index.html?url=WS1a9193826455f5ff2566ffd511ff6f8c7ca-3e30.htm,topicNumber=d0e26245</a></p>
 <p><a href="http://docs.autodesk.com/ACD/2011/CHS/filesDXF/WSfacf1429558a55de185c428100849a0ab7-5f35.htm" target="_blank" rel="noopener">http://docs.autodesk.com/ACD/2011/CHS/filesDXF/WSfacf1429558a55de185c428100849a0ab7-5f35.htm</a></p>
 <script>
         document.querySelectorAll('.github-emoji')
@@ -710,7 +625,7 @@ namespace SelectionDemo
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://fordy7014.github.io/2020/08/30/20200830AutoCAD%20developer's%20tools%20--%20Selection/">https://fordy7014.github.io/2020/08/30/20200830AutoCAD%20developer's%20tools%20--%20Selection/</a>
+                    <a href="https://fordy7014.github.io/2020/11/22/20201201AutoCAD%20developer's%20tools%20--%20Selection%20Filters/">https://fordy7014.github.io/2020/11/22/20201201AutoCAD%20developer's%20tools%20--%20Selection%20Filters/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -799,25 +714,25 @@ namespace SelectionDemo
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;Previous</div>
             <div class="card">
-                <a href="/2020/11/22/20201201AutoCAD%20developer's%20tools%20--%20Selection%20Filters/">
+                <a href="/2020/12/05/20201205AutoCAD%20developer's%20tools%20--%20Hatch/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/1.jpg" class="responsive-img" alt="06. Selection Filters">
+                        <img src="/medias/featureimages/9.jpg" class="responsive-img" alt="07. Hatch">
                         
-                        <span class="card-title">06. Selection Filters</span>
+                        <span class="card-title">07. Hatch</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
                             Introduction
-Last time, we have learnt selection, but what if we have to filter certain types of object from the selecti
+After learning how to select the objects from the drawings, now we begin to learn how to do something to th
                         
                     </div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2020-11-22
+                            <i class="far fa-clock fa-fw icon-date"></i>2020-12-05
                         </span>
                         <span class="publish-author">
                             
@@ -853,25 +768,27 @@ Last time, we have learnt selection, but what if we have to filter certain types
                 Next&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/08/25/20200825AutoCAD%20developer's%20tools%20--%20Modify%20the%20drawable%20object/">
+                <a href="/2020/08/30/20200830AutoCAD%20developer's%20tools%20--%20Selection/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/14.jpg" class="responsive-img" alt="04. Modify the drawable object">
+                        <img src="/medias/featureimages/19.jpg" class="responsive-img" alt="05. Selection">
                         
-                        <span class="card-title">04. Modify the drawable object</span>
+                        <span class="card-title">05. Selection</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
                             Introduction
-After learning how to draw a line with AutoCAD API, we can use similar way to create other drawable objects
+Today we will learn how to interact with AutoCAD.
+Select Objects in the Drawing Area
+You can select objects
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-08-25
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-08-30
                             </span>
                         <span class="publish-author">
                             

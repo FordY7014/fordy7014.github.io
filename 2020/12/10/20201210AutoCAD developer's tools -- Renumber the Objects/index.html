@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="05. Selection, Python, Pandas">
+    <meta name="keywords" content="08. Renumbering the manholes and pipelines, Python, Pandas">
     <meta name="description" content="Just to take notes for what I have learnt, and I will be very happy if it helps anyone.">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>05. Selection | Ford Yang&#39;s Blog</title>
+    <title>08. Renumbering the manholes and pipelines | Ford Yang&#39;s Blog</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -215,12 +215,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/19.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/20.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">05. Selection</h1>
+                    <h1 class="description center-align post-title">08. Renumbering the manholes and pipelines</h1>
                 </div>
             </div>
         </div>
@@ -337,6 +337,10 @@
                     
                     <div class="article-tag">
                         
+                            <a href="/tags/Civil-3d/">
+                                <span class="chip bg-color">Civil 3d</span>
+                            </a>
+                        
                             <a href="/tags/AutoCAD-API/">
                                 <span class="chip bg-color">AutoCAD API</span>
                             </a>
@@ -353,8 +357,8 @@
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/August-2020/" class="post-category">
-                                August 2020
+                            <a href="/categories/December-2020/" class="post-category">
+                                December 2020
                             </a>
                         
                     </div>
@@ -366,7 +370,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>Publish Date:&nbsp;&nbsp;
-                    2020-08-30
+                    2020-12-10
                 </div>
                 
 
@@ -375,14 +379,14 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>Word Count:&nbsp;&nbsp;
-                    913
+                    117
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>Read Times:&nbsp;&nbsp;
-                    5 Min
+                    1 Min
                 </div>
                 
 
@@ -393,280 +397,9 @@
         <div class="card-content article-card-content">
             <div id="articleContent">
                 <h2 id="Introduction">Introduction</h2>
-<p>Today we will learn how to interact with AutoCAD.</p>
-<h2 id="Select-Objects-in-the-Drawing-Area">Select Objects in the Drawing Area</h2>
-<p>You can select objects through by having the user interactively select objects, or you can simulate many of the various object selection options through the .NET API. If your routine performs multiple selection sets, you will need to either track each selection set returned or create an ObjectIdCollection object to keep track of all the selected objects. The following functions allow you to select objects from the drawing:</p>
-<ul>
-<li>
-<p>GetSelection</p>
-<p>Prompts the user to pick objects from the screen.</p>
-</li>
-<li>
-<p>SelectAll</p>
-<p>Selects all objects in the current space in which are not locked or frozen.</p>
-</li>
-<li>
-<p>SelectCrossingPolygon</p>
-<p>Selects objects within and crossing a polygon defined by specifying points. The polygon can be any shape but cannot cross or touch itself.</p>
-</li>
-<li>
-<p>SelectCrossingWindow</p>
-<p>Selects objects within and crossing an area defined by two points.</p>
-</li>
-<li>
-<p>SelectFence</p>
-<p>Selects all objects crossing a selection fence. Fence selection is similar to crossing polygon selection except that the fence is not closed, and a fence can cross itself.</p>
-</li>
-<li>
-<p>SelectLast</p>
-<p>Selects the last object created in the current space.</p>
-</li>
-<li>
-<p>SelectPrevious</p>
-<p>Selects all objects selected during the previous Select objects: prompt.</p>
-</li>
-<li>
-<p>SelectWindow</p>
-<p>Selects all objects completely inside a rectangle defined by two points.</p>
-</li>
-<li>
-<p>SelectWindowPolygon</p>
-<p>Selects objects completely inside a polygon defined by points. The polygon can be any shape but cannot cross or touch itself.</p>
-</li>
-<li>
-<p>SelectAtPoint</p>
-<p>Selects objects passing through a given point and places them into the active selection set.</p>
-</li>
-<li>
-<p>SelectByPolygon</p>
-<p>Selects objects within a fence and adds them to the active selection set.</p>
-</li>
-</ul>
-<h2 id="Add-selected-objects-to-a-selection-set">Add selected objects to a selection set</h2>
-<p>This example prompts the user to select objects twice and then merges the two selection sets created into a single selection set.</p>
-<pre class=" language-language-C#"><code class="language-language-C#">using Autodesk.AutoCAD.Runtime;
-using Autodesk.AutoCAD.ApplicationServices;
-using Autodesk.AutoCAD.DatabaseServices;
-using Autodesk.AutoCAD.EditorInput;
-
-[CommandMethod("MergeSelectionSets")]
-public static void MergeSelectionSets()
-{
-  // Get the current document editor
-  Editor acDocEd = Application.DocumentManager.MdiActiveDocument.Editor;
-
-  // Request for objects to be selected in the drawing area
-  PromptSelectionResult acSSPrompt;
-  acSSPrompt = acDocEd.GetSelection();
-
-  SelectionSet acSSet1;
-  ObjectIdCollection acObjIdColl = new ObjectIdCollection();
-
-  // If the prompt status is OK, objects were selected
-  if (acSSPrompt.Status == PromptStatus.OK)
-  {
-      // Get the selected objects
-      acSSet1 = acSSPrompt.Value;
-
-      // Append the selected objects to the ObjectIdCollection
-      acObjIdColl = new ObjectIdCollection(acSSet1.GetObjectIds());
-  }
-
-  // Request for objects to be selected in the drawing area
-  acSSPrompt = acDocEd.GetSelection();
-
-  SelectionSet acSSet2;
-
-  // If the prompt status is OK, objects were selected
-  if (acSSPrompt.Status == PromptStatus.OK)
-  {
-      acSSet2 = acSSPrompt.Value;
-
-      // Check the size of the ObjectIdCollection, if zero, then initialize it
-      if (acObjIdColl.Count == 0)
-      {
-          acObjIdColl = new ObjectIdCollection(acSSet2.GetObjectIds());
-      }
-      else
-      {
-          // Step through the second selection set
-          foreach (ObjectId acObjId in acSSet2.GetObjectIds())
-          {
-              // Add each object id to the ObjectIdCollection
-              acObjIdColl.Add(acObjId);
-          }
-      }
-  }
-
-  Application.ShowAlertDialog("Number of objects selected: " +
-                              acObjIdColl.Count.ToString());
-}
-</code></pre>
-<h2 id="Define-Rules-for-selection-Filters">Define Rules for selection Filters</h2>
-<table>
-<thead>
-<tr>
-<th>DXF CODES</th>
-<th>Filter Type</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>0 (or DxfCode.Start)</td>
-<td>Object Type (String)Such as “Line,” “Circle,” “Arc,” and so forth.</td>
-</tr>
-<tr>
-<td>2 (or DxfCode.BlockName)</td>
-<td>Block Name (String)The block name of an insert reference.</td>
-</tr>
-<tr>
-<td>8 or (DxfCode.LayerName)</td>
-<td>Layer Name (String)Such as “Layer 0.”</td>
-</tr>
-<tr>
-<td>60 (DxfCode.Visibility)</td>
-<td>Object Visibility (Integer)Use 0 = visible, 1 = invisible.</td>
-</tr>
-<tr>
-<td>62 (or DxfCode.Color)</td>
-<td>Color Number (Integer)Numeric index values ranging from 0 to 256.Zero indicates BYBLOCK. 256 indicates BYLAYER. A negative value indicates that the layer is turned off.</td>
-</tr>
-<tr>
-<td>67</td>
-<td>Model/paper space indicator (Integer)Use 0 or omitted = model space, 1 = paper space.</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Relational operators for selection set filter lists</strong></p>
-<table>
-<thead>
-<tr>
-<th>Operator</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>“”"*"""</td>
-<td>Anything goes (always true)</td>
-</tr>
-<tr>
-<td>“”"="""</td>
-<td>Equals</td>
-</tr>
-<tr>
-<td>“”"!="""</td>
-<td>Not equal to</td>
-</tr>
-<tr>
-<td>“”"/="""</td>
-<td>Not equal to</td>
-</tr>
-<tr>
-<td>“”"&lt;&gt;"""</td>
-<td>Not equal to</td>
-</tr>
-<tr>
-<td>“”"&lt;"""</td>
-<td>Less than</td>
-</tr>
-<tr>
-<td>“”"&lt;="""</td>
-<td>Less than or equal to</td>
-</tr>
-<tr>
-<td>“”"&gt;"""</td>
-<td>Greater than</td>
-</tr>
-<tr>
-<td>“”"&gt;="""</td>
-<td>Greater than or equal to</td>
-</tr>
-<tr>
-<td>“”"&amp;"""</td>
-<td>Bitwise AND (integer groups only)</td>
-</tr>
-<tr>
-<td>“”"&amp;="""</td>
-<td>Bitwise masked equals (integer groups only)</td>
-</tr>
-</tbody>
-</table>
-<h2 id="PromptStatus">PromptStatus</h2>
-<pre class=" language-language-C#"><code class="language-language-C#">namespace Autodesk.AutoCAD.EditorInput
-{
-    public enum PromptStatus
-    {
-        Keyword = -5005,
-        Cancel = -5002,
-        Error = -5001,
-        None = 5000,
-        Modeless = 5027,
-        Other = 5028,
-        OK = 5100
-    }
-}
-</code></pre>
-<h2 id="SelectionDemo-Code">SelectionDemo Code</h2>
-<pre class=" language-language-C#"><code class="language-language-C#">using Autodesk.AutoCAD.ApplicationServices;
-using Autodesk.AutoCAD.EditorInput;
-using Autodesk.AutoCAD.Geometry;
-using Autodesk.AutoCAD.Runtime;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AcDoNetTools;
-using Autodesk.AutoCAD.DatabaseServices;
-
-namespace SelectionDemo
-{
-    public class Class1
-    {
-
-        [CommandMethod("PromptDemo")]
-        public void PromptDemo()
-{
-            Database db = HostApplicationServices.WorkingDatabase;
-            // Get the current editor
-            Editor ed = Application.DocumentManager.MdiActiveDocument.Editor;
-            //PromptPointResult ppr = ed.GetPoint("\n Please select the first point：");
-            //if (ppr.Status == PromptStatus.OK)
-            //{
-            //    Point3d p1 = ppr.Value;
-            //    ppr = ed.GetPoint("\n Please select the second point：");
-            //    if (ppr.Status == PromptStatus.OK)
-            //    {
-            //        Point3d p2 = ppr.Value;
-            //        db.AddLineToModeSpace(p1, p2);
-            //    }
-            //}
-
-            Point3d p1 = new Point3d(0, 0, 0);
-            Point3d p2 = new Point3d();
-
-            PromptPointOptions ppo = new PromptPointOptions("Please select the first point：");
-            ppo.AllowNone = true;
-            PromptPointResult ppr = GetPoint(ppo);
-
-            if (ppr.Status == PromptStatus.Cancel) return;
-
-            if (ppr.Status == PromptStatus.OK) p1 = ppr.Value;
-            ppo.Message = "Please select the second point";
-            ppo.BasePoint = p1;
-            ppo.UseBasePoint = true;
-            ppr = GetPoint(ppo);
-            if (ppr.Status == PromptStatus.Cancel) return;
-            if (ppr.Status == PromptStatus.None) return;
-            if (ppr.Status == PromptStatus.OK) p2 = ppr.Value;
-            db.AddLineToModeSpace(p1, p2);  
-        }
-</code></pre>
-<hr>
-<h1>Reference</h1>
-<p><a href="http://docs.autodesk.com/ACD/2010/ENU/AutoCAD%20.NET%20Developer' target=" _blank"="" rel="noopener" s%20guide="" index.html?url="WS1a9193826455f5ff2566ffd511ff6f8c7ca-3e30.htm,topicNumber=d0e26245" "="">http://docs.autodesk.com/ACD/2010/ENU/AutoCAD .NET Developer’s Guide/index.html?url=WS1a9193826455f5ff2566ffd511ff6f8c7ca-3e30.htm,topicNumber=d0e26245</a></p>
-<p><a href="http://docs.autodesk.com/ACD/2011/CHS/filesDXF/WSfacf1429558a55de185c428100849a0ab7-5f35.htm" target="_blank" rel="noopener">http://docs.autodesk.com/ACD/2011/CHS/filesDXF/WSfacf1429558a55de185c428100849a0ab7-5f35.htm</a></p>
+<p>In my work, I always use the past Civil3d template to continue my design, hence the initial number of some objects are usually high, for example, manholes and pipelines. What is worse, sometimes I would delete some of them, hence their names are not continuous.</p>
+<p>Hence, I write a plugin to rename the object. It should be a easy job, I just</p>
+<h2 id="SOME-CODE">SOME CODE</h2>
 <script>
         document.querySelectorAll('.github-emoji')
           .forEach(el => {
@@ -710,7 +443,7 @@ namespace SelectionDemo
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://fordy7014.github.io/2020/08/30/20200830AutoCAD%20developer's%20tools%20--%20Selection/">https://fordy7014.github.io/2020/08/30/20200830AutoCAD%20developer's%20tools%20--%20Selection/</a>
+                    <a href="https://fordy7014.github.io/2020/12/10/20201210AutoCAD%20developer's%20tools%20--%20Renumber%20the%20Objects/">https://fordy7014.github.io/2020/12/10/20201210AutoCAD%20developer's%20tools%20--%20Renumber%20the%20Objects/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -747,6 +480,10 @@ namespace SelectionDemo
                 <div class="post-meta__tag-list" style="display: inline-block;">
                     
                         <div class="article-tag">
+                            
+                                <a href="/tags/Civil-3d/">
+                                    <span class="chip bg-color">Civil 3d</span>
+                                </a>
                             
                                 <a href="/tags/AutoCAD-API/">
                                     <span class="chip bg-color">AutoCAD API</span>
@@ -795,30 +532,31 @@ namespace SelectionDemo
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;Previous</div>
+                <i class="far fa-dot-circle"></i>&nbsp;Current
+            </div>
             <div class="card">
-                <a href="/2020/11/22/20201201AutoCAD%20developer's%20tools%20--%20Selection%20Filters/">
+                <a href="/2020/12/10/20201210AutoCAD%20developer's%20tools%20--%20Renumber%20the%20Objects/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/1.jpg" class="responsive-img" alt="06. Selection Filters">
+                        <img src="/medias/featureimages/20.jpg" class="responsive-img" alt="08. Renumbering the manholes and pipelines">
                         
-                        <span class="card-title">06. Selection Filters</span>
+                        <span class="card-title">08. Renumbering the manholes and pipelines</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
                             Introduction
-Last time, we have learnt selection, but what if we have to filter certain types of object from the selecti
+In my work, I always use the past Civil3d template to continue my design, hence the initial number of some 
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2020-11-22
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-12-10
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
@@ -831,8 +569,13 @@ Last time, we have learnt selection, but what if we have to filter certain types
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
+                    
+                    <a href="/tags/Civil-3d/">
+                        <span class="chip bg-color">Civil 3d</span>
+                    </a>
                     
                     <a href="/tags/AutoCAD-API/">
                         <span class="chip bg-color">AutoCAD API</span>
@@ -853,32 +596,32 @@ Last time, we have learnt selection, but what if we have to filter certain types
                 Next&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/08/25/20200825AutoCAD%20developer's%20tools%20--%20Modify%20the%20drawable%20object/">
+                <a href="/2020/12/05/20201205AutoCAD%20developer's%20tools%20--%20Hatch/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/14.jpg" class="responsive-img" alt="04. Modify the drawable object">
+                        <img src="/medias/featureimages/9.jpg" class="responsive-img" alt="07. Hatch">
                         
-                        <span class="card-title">04. Modify the drawable object</span>
+                        <span class="card-title">07. Hatch</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
                             Introduction
-After learning how to draw a line with AutoCAD API, we can use similar way to create other drawable objects
+After learning how to select the objects from the drawings, now we begin to learn how to do something to th
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-08-25
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-12-05
                             </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/August-2020/" class="post-category">
-                                    August 2020
+                            <a href="/categories/December-2020/" class="post-category">
+                                    December 2020
                                 </a>
                             
                             
