@@ -1559,6 +1559,104 @@ ax.legend()
       </tags>
   </entry>
   <entry>
+    <title>Set Viewport in AutoCad .Net API</title>
+    <url>/2020/06/15/20200615Set%20Viewport%20in%20AutoCad%20.Net%20API/</url>
+    <content><![CDATA[<hr>
+<pre class=" language-language-python"><code class="language-language-python">with adoc.LockDocument():
+  with adoc.Database as db:
+    with db.TransactionManager.StartTransaction() as t:
+      bt = t.GetObject(db.BlockTableId, OpenMode.ForWrite)
+      btr = t.GetObject(bt[BlockTableRecord.ModelSpace], OpenMode.ForWrite)
+
+      #Get the dict object and layouts object
+      Dict = t.GetObject(db.NamedObjectsDictionaryId, OpenMode.ForWrite)
+      obj = t.GetObject(Dict.GetAt('ACAD_LAYOUT'),  OpenMode.ForWrite);  
+      obj2 = t.GetObject(Dict['ACAD_LAYOUT'],  OpenMode.ForWrite);
+
+      #Get the layout
+      layout1 = t.GetObject(obj["01"], OpenMode.ForRead)
+
+      #Get viewports
+      vps = layout1.GetViewports()
+
+      #Setting the viewport
+      vp1 = t.GetObject(vps[1], OpenMode.ForWrite)
+      vp2 = t.GetObject(vps[2], OpenMode.ForWrite)
+      vp1.Ucs = vp2.Ucs
+      vp1.CustomScale = vp2.CustomScale
+      vp1.ViewCenter = vp2.ViewCenter
+      vp1.ViewTarget = vp2.ViewTarget
+      vp1.ViewDirection = vp2.ViewDirection
+      vp1.TwistAngle = vp2.TwistAngle
+
+
+      vp1.UpdateDisplay()
+      t.Commit()
+</code></pre>
+<hr>
+<h3 id="Meaning-of-the-Viewport-Properties">Meaning of the Viewport Properties</h3>
+<table>
+<thead>
+<tr>
+<th>Properties</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ViewCenter</td>
+<td>the view center of the view in the viewport</td>
+</tr>
+<tr>
+<td>ViewTarget</td>
+<td>location of the model space in the viewport</td>
+</tr>
+<tr>
+<td>ViewDirection</td>
+<td>the vector from the target to the camera of the view in the viewport</td>
+</tr>
+<tr>
+<td>CenterPoint</td>
+<td>the centerpoint of viewport in paperspace</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h3 id="Application">Application</h3>
+<p>So what can we do with this function?<br>
+Mostly we have different plans such as drainage or driveway plan on same site, in various viewports. We need to relocate the site in the viewports one by one, However, with this function, we can adjust multiple viewports at the same time. Check the followed figure.</p>
+<p><img src="/2020/06/15/20200615Set%20Viewport%20in%20AutoCad%20.Net%20API/Adjustthemultipleviewportsinseconds2.gif" alt="Adjust the multiple viewports by several clicks"></p>
+<h1>Reference</h1>
+<p><a href="http://docs.autodesk.com/ACD/2010/ENU/AutoCAD%20.NET%20Developer%27s%20Guide/index.html?url=WS1a9193826455f5ff2566ffd511ff6f8c7ca-3416.htm,topicNumber=d0e50529" target="_blank" rel="noopener">http://docs.autodesk.com/ACD/2010/ENU/AutoCAD .NET Developer's Guide/index.html?url=WS1a9193826455f5ff2566ffd511ff6f8c7ca-3416.htm,topicNumber=d0e50529</a></p>
+<script>
+        document.querySelectorAll('.github-emoji')
+          .forEach(el => {
+            if (!el.dataset.src) { return; }
+            const img = document.createElement('img');
+            img.style = 'display:none !important;';
+            img.src = el.dataset.src;
+            img.addEventListener('error', () => {
+              img.remove();
+              el.style.color = 'inherit';
+              el.style.backgroundImage = 'none';
+              el.style.background = 'none';
+            });
+            img.addEventListener('load', () => {
+              img.remove();
+            });
+            document.body.appendChild(img);
+          });
+      </script>]]></content>
+      <categories>
+        <category>June 2020</category>
+      </categories>
+      <tags>
+        <tag>Civil 3d</tag>
+        <tag>AutoCAD API</tag>
+        <tag>Ironpython</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>How to autoload *.dll in AutoCAD</title>
     <url>/2020/06/01/20200602How%20to%20autoload%20dll%20in%20AutoCAD/</url>
     <content><![CDATA[<hr>
@@ -1655,75 +1753,58 @@ ax.legend()
       </tags>
   </entry>
   <entry>
-    <title>Set Viewport in AutoCad .Net API</title>
-    <url>/2020/06/15/20200615Set%20Viewport%20in%20AutoCad%20.Net%20API/</url>
+    <title>Prompt to Select one type of object in .NetAPI(Ironpython)</title>
+    <url>/2020/06/16/20200616Prompt%20to%20Select%20one%20type%20of%20object/</url>
     <content><![CDATA[<hr>
-<pre class=" language-language-python"><code class="language-language-python">with adoc.LockDocument():
-  with adoc.Database as db:
-    with db.TransactionManager.StartTransaction() as t:
-      bt = t.GetObject(db.BlockTableId, OpenMode.ForWrite)
-      btr = t.GetObject(bt[BlockTableRecord.ModelSpace], OpenMode.ForWrite)
+<h2 id="Function">Function</h2>
+<pre class=" language-language-python"><code class="language-language-python">def PromptForEntity( prompt, filetype):
+	global adoc
+	global ed
 
-      #Get the dict object and layouts object
-      Dict = t.GetObject(db.NamedObjectsDictionaryId, OpenMode.ForWrite)
-      obj = t.GetObject(Dict.GetAt('ACAD_LAYOUT'),  OpenMode.ForWrite);  
-      obj2 = t.GetObject(Dict['ACAD_LAYOUT'],  OpenMode.ForWrite);
-
-      #Get the layout
-      layout1 = t.GetObject(obj["01"], OpenMode.ForRead)
-
-      #Get viewports
-      vps = layout1.GetViewports()
-
-      #Setting the viewport
-      vp1 = t.GetObject(vps[1], OpenMode.ForWrite)
-      vp2 = t.GetObject(vps[2], OpenMode.ForWrite)
-      vp1.Ucs = vp2.Ucs
-      vp1.CustomScale = vp2.CustomScale
-      vp1.ViewCenter = vp2.ViewCenter
-      vp1.ViewTarget = vp2.ViewTarget
-      vp1.ViewDirection = vp2.ViewDirection
-      vp1.TwistAngle = vp2.TwistAngle
+	options = PromptEntityOptions("%s"%prompt)
+	options.SetRejectMessage("\nThe selected object is not a %s\n"%str(filetype))
+	options.AddAllowedClass(clr.GetClrType(filetype), True)
 
 
-      vp1.UpdateDisplay()
-      t.Commit()
+	result = doc.Editor.GetEntity(options)
+
+	if result.Status != PromptStatus.OK:
+		ed.WriteMessage("\n The select target is " +str(filetype) +" please select "  +str(filetype) + "  \n")
+
+	if result.Status == PromptStatus.OK:
+		ed.WriteMessage("\ntarget has been selected\n")
+		ed.WriteMessage("\ntarget has been selected%s\n\n\n\n"%str(result.ObjectId))
+		return result.ObjectId
+
+	ed.WriteMessage("I will return Null  ")
+	return ObjectId.Null
 </code></pre>
 <hr>
-<h3 id="Meaning-of-the-Viewport-Properties">Meaning of the Viewport Properties</h3>
-<table>
-<thead>
-<tr>
-<th>Properties</th>
-<th>Meaning</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>ViewCenter</td>
-<td>the view center of the view in the viewport</td>
-</tr>
-<tr>
-<td>ViewTarget</td>
-<td>location of the model space in the viewport</td>
-</tr>
-<tr>
-<td>ViewDirection</td>
-<td>the vector from the target to the camera of the view in the viewport</td>
-</tr>
-<tr>
-<td>CenterPoint</td>
-<td>the centerpoint of viewport in paperspace</td>
-</tr>
-</tbody>
-</table>
-<hr>
-<h3 id="Application">Application</h3>
-<p>So what can we do with this function?<br>
-Mostly we have different plans such as drainage or driveway plan on same site, in various viewports. We need to relocate the site in the viewports one by one, However, with this function, we can adjust multiple viewports at the same time. Check the followed figure.</p>
-<p><img src="/2020/06/15/20200615Set%20Viewport%20in%20AutoCad%20.Net%20API/Adjustthemultipleviewportsinseconds2.gif" alt="Adjust the multiple viewports by several clicks"></p>
+<h2 id="Example">Example</h2>
+<pre><code>try:
+	surfaceId = PromptForEntity("Select the surface to add a boundary to", TinSurface)
+	plineId = PromptForEntity("Select the object to use as a boundary", Polyline)
+
+	coll = ObjectIdCollection()
+	coll.Add(plineId)
+	ed.WriteMessage("pLINE COLLECTION HAS BEEN MADE")
+
+	oSurface = t.GetObject(surfaceId, OpenMode.ForWrite)
+
+	#
+	oSurface.BoundariesDefinition.AddBoundaries(coll, 100, SurfaceBoundaryType.Outer, True)
+
+	oSurface.Rebuild()
+	ed.WriteMessage("Rebuilt Done")
+
+	# Commit before end transaction
+	t.Commit()
+except:
+	ed.WriteMessage("Failed to add the boundary")
+
+</code></pre>
 <h1>Reference</h1>
-<p><a href="http://docs.autodesk.com/ACD/2010/ENU/AutoCAD%20.NET%20Developer%27s%20Guide/index.html?url=WS1a9193826455f5ff2566ffd511ff6f8c7ca-3416.htm,topicNumber=d0e50529" target="_blank" rel="noopener">http://docs.autodesk.com/ACD/2010/ENU/AutoCAD .NET Developer's Guide/index.html?url=WS1a9193826455f5ff2566ffd511ff6f8c7ca-3416.htm,topicNumber=d0e50529</a></p>
+<p><a href="http://help.autodesk.com/view/CIV3D/2020/ENU/?guid=GUID-7C32E309-9B54-42A0-A4DC-C6FD592071F2" target="_blank" rel="noopener">http://help.autodesk.com/view/CIV3D/2020/ENU/?guid=GUID-7C32E309-9B54-42A0-A4DC-C6FD592071F2</a></p>
 <script>
         document.querySelectorAll('.github-emoji')
           .forEach(el => {
@@ -1856,87 +1937,6 @@ public static DBObjectCollection GetSelection(FilterType[] tps)
         <tag>Civil 3d</tag>
         <tag>AutoCAD API</tag>
         <tag>C#</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Prompt to Select one type of object in .NetAPI(Ironpython)</title>
-    <url>/2020/06/16/20200616Prompt%20to%20Select%20one%20type%20of%20object/</url>
-    <content><![CDATA[<hr>
-<h2 id="Function">Function</h2>
-<pre class=" language-language-python"><code class="language-language-python">def PromptForEntity( prompt, filetype):
-	global adoc
-	global ed
-
-	options = PromptEntityOptions("%s"%prompt)
-	options.SetRejectMessage("\nThe selected object is not a %s\n"%str(filetype))
-	options.AddAllowedClass(clr.GetClrType(filetype), True)
-
-
-	result = doc.Editor.GetEntity(options)
-
-	if result.Status != PromptStatus.OK:
-		ed.WriteMessage("\n The select target is " +str(filetype) +" please select "  +str(filetype) + "  \n")
-
-	if result.Status == PromptStatus.OK:
-		ed.WriteMessage("\ntarget has been selected\n")
-		ed.WriteMessage("\ntarget has been selected%s\n\n\n\n"%str(result.ObjectId))
-		return result.ObjectId
-
-	ed.WriteMessage("I will return Null  ")
-	return ObjectId.Null
-</code></pre>
-<hr>
-<h2 id="Example">Example</h2>
-<pre><code>try:
-	surfaceId = PromptForEntity("Select the surface to add a boundary to", TinSurface)
-	plineId = PromptForEntity("Select the object to use as a boundary", Polyline)
-
-	coll = ObjectIdCollection()
-	coll.Add(plineId)
-	ed.WriteMessage("pLINE COLLECTION HAS BEEN MADE")
-
-	oSurface = t.GetObject(surfaceId, OpenMode.ForWrite)
-
-	#
-	oSurface.BoundariesDefinition.AddBoundaries(coll, 100, SurfaceBoundaryType.Outer, True)
-
-	oSurface.Rebuild()
-	ed.WriteMessage("Rebuilt Done")
-
-	# Commit before end transaction
-	t.Commit()
-except:
-	ed.WriteMessage("Failed to add the boundary")
-
-</code></pre>
-<h1>Reference</h1>
-<p><a href="http://help.autodesk.com/view/CIV3D/2020/ENU/?guid=GUID-7C32E309-9B54-42A0-A4DC-C6FD592071F2" target="_blank" rel="noopener">http://help.autodesk.com/view/CIV3D/2020/ENU/?guid=GUID-7C32E309-9B54-42A0-A4DC-C6FD592071F2</a></p>
-<script>
-        document.querySelectorAll('.github-emoji')
-          .forEach(el => {
-            if (!el.dataset.src) { return; }
-            const img = document.createElement('img');
-            img.style = 'display:none !important;';
-            img.src = el.dataset.src;
-            img.addEventListener('error', () => {
-              img.remove();
-              el.style.color = 'inherit';
-              el.style.backgroundImage = 'none';
-              el.style.background = 'none';
-            });
-            img.addEventListener('load', () => {
-              img.remove();
-            });
-            document.body.appendChild(img);
-          });
-      </script>]]></content>
-      <categories>
-        <category>June 2020</category>
-      </categories>
-      <tags>
-        <tag>Civil 3d</tag>
-        <tag>AutoCAD API</tag>
-        <tag>Ironpython</tag>
       </tags>
   </entry>
   <entry>
@@ -2486,6 +2486,391 @@ namespace _03.Create_Line
       </tags>
   </entry>
   <entry>
+    <title>06. Selection Filters</title>
+    <url>/2020/11/22/20201201AutoCAD%20developer&#39;s%20tools%20--%20Selection%20Filters/</url>
+    <content><![CDATA[<h1>Introduction</h1>
+<p>Last time, we have learnt selection, but what if we have to filter certain types of object from the selection result. Today, we will learn how to select certain type of the object from the selection result</p>
+<h1>Define Rules for selection Filters</h1>
+<table>
+<thead>
+<tr>
+<th>DXF CODES</th>
+<th>Filter Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0 (or DxfCode.Start)</td>
+<td>Object Type (String)Such as “Line,” “Circle,” “Arc,” and so forth.</td>
+</tr>
+<tr>
+<td>2 (or DxfCode.BlockName)</td>
+<td>Block Name (String)The block name of an insert reference.</td>
+</tr>
+<tr>
+<td>8 or (DxfCode.LayerName)</td>
+<td>Layer Name (String)Such as “Layer 0.”</td>
+</tr>
+<tr>
+<td>60 (DxfCode.Visibility)</td>
+<td>Object Visibility (Integer)Use 0 = visible, 1 = invisible.</td>
+</tr>
+<tr>
+<td>62 (or DxfCode.Color)</td>
+<td>Color Number (Integer)Numeric index values ranging from 0 to 256.Zero indicates BYBLOCK. 256 indicates BYLAYER. A negative value indicates that the layer is turned off.</td>
+</tr>
+<tr>
+<td>67</td>
+<td>Model/paper space indicator (Integer)Use 0 or omitted = model space, 1 = paper space.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Relational operators for selection set filter lists</strong></p>
+<table>
+<thead>
+<tr>
+<th>Operator</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>“”"*"""</td>
+<td>Anything goes (always true)</td>
+</tr>
+<tr>
+<td>“”"="""</td>
+<td>Equals</td>
+</tr>
+<tr>
+<td>“”"!="""</td>
+<td>Not equal to</td>
+</tr>
+<tr>
+<td>“”"/="""</td>
+<td>Not equal to</td>
+</tr>
+<tr>
+<td>“”"&lt;&gt;"""</td>
+<td>Not equal to</td>
+</tr>
+<tr>
+<td>“”"&lt;"""</td>
+<td>Less than</td>
+</tr>
+<tr>
+<td>“”"&lt;="""</td>
+<td>Less than or equal to</td>
+</tr>
+<tr>
+<td>“”"&gt;"""</td>
+<td>Greater than</td>
+</tr>
+<tr>
+<td>“”"&gt;="""</td>
+<td>Greater than or equal to</td>
+</tr>
+<tr>
+<td>“”"&amp;"""</td>
+<td>Bitwise AND (integer groups only)</td>
+</tr>
+<tr>
+<td>“”"&amp;="""</td>
+<td>Bitwise masked equals (integer groups only)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="Example">Example</h3>
+<p>Demand: Get all the text in red color on “layer01” and all the text in blue on “lay02” and “lay03”.</p>
+<blockquote>
+<p>For Polyline objects , the type in DxfCode.Start is “LWPOLYLINE” rather than “Ployline”.<br>
+I don’t know why Autodesk design like this, but it took me long time to figure it out. Hence, I would like to emphesis this point.</p>
+</blockquote>
+<pre class=" language-language-Text"><code class="language-language-Text">< or
+    < and
+             Layer == "layer01"
+             Color == "1"    // The index of Color red is 1
+             Entity type == "TEXT"
+    and >
+    < and
+             < or
+             Layer == "layer02"
+             Layer == "layer03"
+             or >
+             Color == "5"     // The index of Color Blue is 5
+             Entity type == "POLYLINE" or "Line", "Circle"
+    and >
+or >
+</code></pre>
+<h3 id="Code">Code</h3>
+<pre><code>
+// Define the filter condition
+TypedValue[] typeValue = {
+ new TypedValue((int) DxfCode.Operator, "&lt;or"),
+ // Selection filter 1
+ new TypedValue((int) DxfCode.Operator, "&lt;and"),
+ new TypedValue((int) DxfCode.Start, "TEXT"),
+ new TypedValue((int) DxfCode.LayerName, "layer01"),
+ new TypedValue((int) DxfCode.Color, "1"),
+ new TypedValue((int) DxfCode.Operator, "and&gt;"),
+ // Selection filter 2
+ new TypedValue((int) DxfCode.Operator, "&lt;and"),
+ new TypedValue((int) DxfCode.Start, "LWPOLYLINE, LINE, CIRCLE"),
+ new TypedValue((int) DxfCode.Color, "5"),
+ new TypedValue((int) DxfCode.Operator, "&lt;or"),
+ new TypedValue((int) DxfCode.LayerName, "layer02"),
+ new TypedValue((int) DxfCode.LayerName, "layer03"),
+ new TypedValue((int) DxfCode.Operator, "or&gt;"),
+ new TypedValue((int) DxfCode.Operator, "and&gt;"),
+ // end of Selection filter 2
+ new TypedValue((int) DxfCode.Operator, "or&gt;")
+};
+</code></pre>
+<h2 id="Full-Code">Full Code</h2>
+<pre><code>public static void MultipleSelectionFilter()
+{
+    // Get the current editor
+    Editor ed = Autodesk.AutoCAD.ApplicationServices.Core.Application.DocumentManager.MdiActiveDocument.Editor;
+
+    // Create a set filter
+
+    // Define the filter condition
+    TypedValue[] typeValue = {
+     new TypedValue((int) DxfCode.Operator, "&lt;or"),
+     // Selection filter 1
+     new TypedValue((int) DxfCode.Operator, "&lt;and"),
+     new TypedValue((int) DxfCode.Start, "TEXT"),
+     new TypedValue((int) DxfCode.LayerName, "layer01"),
+     new TypedValue((int) DxfCode.Color, "1"),
+     new TypedValue((int) DxfCode.Operator, "and&gt;"),
+     // Selection filter 2
+     new TypedValue((int) DxfCode.Operator, "&lt;and"),
+     new TypedValue((int) DxfCode.Start, "LWPOLYLINE,LINE, CIRCLE"),
+     new TypedValue((int) DxfCode.Color, "5"),
+     new TypedValue((int) DxfCode.Operator, "&lt;or"),
+     new TypedValue((int) DxfCode.LayerName, "layer02"),
+     new TypedValue((int) DxfCode.LayerName, "layer03"),
+     new TypedValue((int) DxfCode.Operator, "or&gt;"),
+     new TypedValue((int) DxfCode.Operator, "and&gt;"),
+     new TypedValue((int) DxfCode.Operator, "or&gt;")
+    };
+
+    // put the condition into the filter
+    SelectionFilter selFiter = new SelectionFilter(typeValue);
+
+    // get the filtered result
+    PromptSelectionResult psr = ed.GetSelection(selFiter);
+
+
+
+
+    //  Check the result
+    if (psr.Status == PromptStatus.OK)
+    {
+        SelectionSet sSet = psr.Value;
+        Autodesk.AutoCAD.ApplicationServices.Core.Application.ShowAlertDialog("Number of objects selected: " + sSet.Count.ToString());
+    }
+    else
+    {
+        Autodesk.AutoCAD.ApplicationServices.Core.Application.ShowAlertDialog("Number of objects selected: 0");
+    }
+}
+</code></pre>
+<hr>
+<h1>Reference</h1>
+<p><a href="http://docs.autodesk.com/ACD/2011/CHS/filesDXF/WSfacf1429558a55de185c428100849a0ab7-5f35.htm" target="_blank" rel="noopener">http://docs.autodesk.com/ACD/2011/CHS/filesDXF/WSfacf1429558a55de185c428100849a0ab7-5f35.htm</a></p>
+<script>
+        document.querySelectorAll('.github-emoji')
+          .forEach(el => {
+            if (!el.dataset.src) { return; }
+            const img = document.createElement('img');
+            img.style = 'display:none !important;';
+            img.src = el.dataset.src;
+            img.addEventListener('error', () => {
+              img.remove();
+              el.style.color = 'inherit';
+              el.style.backgroundImage = 'none';
+              el.style.background = 'none';
+            });
+            img.addEventListener('load', () => {
+              img.remove();
+            });
+            document.body.appendChild(img);
+          });
+      </script>]]></content>
+      <categories>
+        <category>December 2020</category>
+      </categories>
+      <tags>
+        <tag>AutoCAD API</tag>
+        <tag>C#</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>08. Renumbering the manholes and pipelines</title>
+    <url>/2020/12/10/20201210AutoCAD%20developer&#39;s%20tools%20--%20Renumber%20the%20Objects/</url>
+    <content><![CDATA[<h2 id="Introduction">Introduction</h2>
+<p>In my work, I always use the past Civil3d template to continue my design, hence the initial number of some objects are usually high, for example, manholes and pipelines. What is worse, sometimes I would delete some of them, hence their names are not continuous.</p>
+<p>Hence, I write a plugin to rename the object. It should be a easy job, I just</p>
+<h2 id="SOME-CODE">SOME CODE</h2>
+<pre class=" language-language-C#"><code class="language-language-C#">        [CommandMethod("RenameWW")]
+        public static void RenameWWPipes()
+        {
+            Editor ed = Helper.Ed();
+            CivilDocument civilDoc = CivilApplication.ActiveDocument;
+            using (Transaction tr = Application.DocumentManager.MdiActiveDocument.
+                Database.TransactionManager.StartTransaction())
+            {
+
+                ObjectId partId = PipeNetworks.PromptForPart("Please select one of the structures or pipes in targeted Network: ");
+                if (partId != ObjectId.Null)
+                {
+                    //Select one part of the target netowrk
+                    Part part = tr.GetObject(partId, OpenMode.ForRead) as Part;
+                    ObjectId netWorkId = part.NetworkId;
+
+                    //Get the object of the network by object id
+                    Network oNetwork = tr.GetObject(netWorkId, OpenMode.ForWrite) as Network;
+                    ObjectIdCollection pipeIds = oNetwork.GetPipeIds();
+
+                    int count = 1;
+                    foreach (ObjectId pipeId in pipeIds)
+                    {
+                        // get the pipe objects  and rename them
+                        Pipe pipe = tr.GetObject(pipeId, OpenMode.ForWrite) as Pipe;
+                        String name1 = string.Format("LOT{0} WW", count); ;
+                        pipe.Name = name1;
+                        count += 1;
+                    }
+                }
+
+                tr.Commit();
+            }
+        }
+
+</code></pre>
+<script>
+        document.querySelectorAll('.github-emoji')
+          .forEach(el => {
+            if (!el.dataset.src) { return; }
+            const img = document.createElement('img');
+            img.style = 'display:none !important;';
+            img.src = el.dataset.src;
+            img.addEventListener('error', () => {
+              img.remove();
+              el.style.color = 'inherit';
+              el.style.backgroundImage = 'none';
+              el.style.background = 'none';
+            });
+            img.addEventListener('load', () => {
+              img.remove();
+            });
+            document.body.appendChild(img);
+          });
+      </script>]]></content>
+      <categories>
+        <category>December 2020</category>
+      </categories>
+      <tags>
+        <tag>Civil 3d</tag>
+        <tag>AutoCAD API</tag>
+        <tag>C#</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Add boundary Line to Surface by using API</title>
+    <url>/2020/05/13/Add%20boundary%20Line%20to%20Surface%20by%20using%20API/</url>
+    <content><![CDATA[<p>Today, I saw a post from Dynamo forum that mentioned how to add boundaryline to the surface. Just make a note for future use.  The original post link is listed in the Reference.</p>
+<h2 id="NETAPI-C">.NETAPI-C#</h2>
+<pre class=" language-language-csharp"><code class="language-language-csharp">[CommandMethod("AddSurfaceBoundary")]
+public void AddSurfaceBoundary()
+{
+    using (Transaction ts = Application.DocumentManager.MdiActiveDocument.Database.TransactionManager.StartTransaction())
+    {
+        // Prompt the user to select a surface and a polyline
+        ObjectId surfaceId = promptForEntity("Select the surface to add a boundary to", typeof(TinSurface));
+        ObjectId polyId = promptForEntity("Select the object to use as a boundary", typeof(Polyline));
+
+        // The boundary or boundaries must be added to an ObjectIdCollection for the AddBoundaries method:
+        ObjectId[] boundaries = { polyId };
+        TinSurface oSurface = surfaceId.GetObject(OpenMode.ForWrite) as TinSurface;
+
+        try
+        {
+            oSurface.BoundariesDefinition.AddBoundaries(new ObjectIdCollection(boundaries), 100, Autodesk.Civil.Land.SurfaceBoundaryType.Outer, true);
+            oSurface.Rebuild();
+        }
+
+        catch (System.Exception e)
+        {
+            editor.WriteMessage("Failed to add the boundary: {0}", e.Message);
+        }
+
+        // commit the transaction
+        ts.Commit();
+    }
+}
+
+private ObjectId promptForTinSurface(String prompt)
+{
+    PromptEntityOptions options = new PromptEntityOptions(
+        String.Format("\n{0}: ", prompt));
+    options.SetRejectMessage(
+        "\nThe selected object is not a TIN Surface.");
+    options.AddAllowedClass(typeof(TinSurface), true);
+
+    PromptEntityResult result = editor.GetEntity(options);
+    if (result.Status == PromptStatus.OK)
+    {
+        // We have the correct object type
+        return result.ObjectId;
+    }
+    return ObjectId.Null;   // Indicating error.
+}
+
+</code></pre>
+<h2 id="IronPython-in-Dynamo">IronPython in Dynamo</h2>
+<pre class=" language-language-python"><code class="language-language-python">surfaceId = promptForEntity("Select the surface to add a boundary to", clr.GetClrType(TinSurface))
+polyId = promptForEntity("Select the object to use as a boundary", clr.GetClrType(Polyline))
+
+coll = ObjectIdCollection()
+coll.Add(plineId)
+
+oSurface = surfaceId.GetObject(OpenMode.ForWrite)
+
+osurface.BoundariesDefinition.AddBoundaries(coll, 100, SurfaceBoundaryType.Outer, True)
+osurface.Rebuild()
+</code></pre>
+<h1>Reference:</h1>
+<p><a href="http://help.autodesk.com/view/CIV3D/2020/ENU/?guid=GUID-7C32E309-9B54-42A0-A4DC-C6FD592071F2" target="_blank" rel="noopener">http://help.autodesk.com/view/CIV3D/2020/ENU/?guid=GUID-7C32E309-9B54-42A0-A4DC-C6FD592071F2</a><br>
+<a href="https://forum.dynamobim.com/t/create-object-id-collection/49472" target="_blank" rel="noopener">https://forum.dynamobim.com/t/create-object-id-collection/49472</a></p>
+<script>
+        document.querySelectorAll('.github-emoji')
+          .forEach(el => {
+            if (!el.dataset.src) { return; }
+            const img = document.createElement('img');
+            img.style = 'display:none !important;';
+            img.src = el.dataset.src;
+            img.addEventListener('error', () => {
+              img.remove();
+              el.style.color = 'inherit';
+              el.style.backgroundImage = 'none';
+              el.style.background = 'none';
+            });
+            img.addEventListener('load', () => {
+              img.remove();
+            });
+            document.body.appendChild(img);
+          });
+      </script>]]></content>
+      <categories>
+        <category>May 2020</category>
+      </categories>
+      <tags>
+        <tag>Civil 3d</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>04. Modify the drawable object</title>
     <url>/2020/08/25/20200825AutoCAD%20developer&#39;s%20tools%20--%20Modify%20the%20drawable%20object/</url>
     <content><![CDATA[<h2 id="Introduction">Introduction</h2>
@@ -2739,6 +3124,88 @@ public static void RotateEntity(this ObjectId entId, Point3d center, double degr
       </script>]]></content>
       <categories>
         <category>August 2020</category>
+      </categories>
+      <tags>
+        <tag>AutoCAD API</tag>
+        <tag>C#</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>07. Hatch</title>
+    <url>/2020/12/05/20201205AutoCAD%20developer&#39;s%20tools%20--%20Hatch/</url>
+    <content><![CDATA[<h2 id="Introduction">Introduction</h2>
+<p>After learning how to select the objects from the drawings, now we begin to learn how to do something to the objects. Assume that we want to hatch the polygons on the certain layer. We can select out the polygons based on the knowledge before. Here we will learn how to hatch the polygons.</p>
+<p>First of all, we have a look at the <em>CLASS</em>  HATCH.<br>
+<img src="/2020/12/05/20201205AutoCAD%20developer's%20tools%20--%20Hatch/1.png" alt="HATCH Class"></p>
+<p>For example, from the figure above, we can see how to create the <em>HATCH</em>.<br>
+It is quite similar as the creation of other objects.</p>
+<blockquote>
+<ol>
+<li>Create the empty HATCH Object</li>
+<li>The we assign the empty object with other properties</li>
+</ol>
+</blockquote>
+<h2 id="SOME-CODE">SOME CODE</h2>
+<pre class=" language-language-C#"><code class="language-language-C#">  public Hatch HatchPolygon(Transaction tr,BlockTableRecord btr, string layername, short colorindex, ObjectIdCollection objectIdCollection)
+  {
+      //declare a hatch pbject
+      Hatch ent = new Hatch();
+
+
+      ent.HatchObjectType = HatchObjectType.HatchObject;
+
+      //set the hatch pattern, scaleand other properties
+      ent.SetHatchPattern(HatchPatternType.PreDefined, "SOLID");
+      ent.PatternScale = 1.0;
+      ent.Elevation = 0;
+      ent.Layer = layername;
+      ent.PatternAngle = Math.PI / 4;
+      ent.Color = Color.FromColorIndex(ColorMethod.ByAci, colorindex);
+
+
+      //add the hatch object into the BlockTableRecord
+      btr.AppendEntity(ent);
+      tr.AddNewlyCreatedDBObject(ent, true);
+
+      //associate the hatch object with the boundary
+      ent.Associative = true;
+
+      ObjectIdCollection obIds = new ObjectIdCollection();
+      for (int i = 0; i < objectIdCollection.Count; i++)
+      {
+          obIds.Clear();
+          obIds.Add(objectIdCollection[i]);
+          ent.AppendLoop(HatchLoopTypes.Outermost, obIds);
+      }
+
+
+      //calculate the hatch area and how the result
+      ent.EvaluateHatch(true);
+
+      return ent;
+  }
+</code></pre>
+<script>
+        document.querySelectorAll('.github-emoji')
+          .forEach(el => {
+            if (!el.dataset.src) { return; }
+            const img = document.createElement('img');
+            img.style = 'display:none !important;';
+            img.src = el.dataset.src;
+            img.addEventListener('error', () => {
+              img.remove();
+              el.style.color = 'inherit';
+              el.style.backgroundImage = 'none';
+              el.style.background = 'none';
+            });
+            img.addEventListener('load', () => {
+              img.remove();
+            });
+            document.body.appendChild(img);
+          });
+      </script>]]></content>
+      <categories>
+        <category>December 2020</category>
       </categories>
       <tags>
         <tag>AutoCAD API</tag>
@@ -3048,436 +3515,6 @@ namespace SelectionDemo
       <tags>
         <tag>AutoCAD API</tag>
         <tag>C#</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>06. Selection Filters</title>
-    <url>/2020/11/22/20201201AutoCAD%20developer&#39;s%20tools%20--%20Selection%20Filters/</url>
-    <content><![CDATA[<h1>Introduction</h1>
-<p>Last time, we have learnt selection, but what if we have to filter certain types of object from the selection result. Today, we will learn how to select certain type of the object from the selection result</p>
-<h1>Define Rules for selection Filters</h1>
-<table>
-<thead>
-<tr>
-<th>DXF CODES</th>
-<th>Filter Type</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>0 (or DxfCode.Start)</td>
-<td>Object Type (String)Such as “Line,” “Circle,” “Arc,” and so forth.</td>
-</tr>
-<tr>
-<td>2 (or DxfCode.BlockName)</td>
-<td>Block Name (String)The block name of an insert reference.</td>
-</tr>
-<tr>
-<td>8 or (DxfCode.LayerName)</td>
-<td>Layer Name (String)Such as “Layer 0.”</td>
-</tr>
-<tr>
-<td>60 (DxfCode.Visibility)</td>
-<td>Object Visibility (Integer)Use 0 = visible, 1 = invisible.</td>
-</tr>
-<tr>
-<td>62 (or DxfCode.Color)</td>
-<td>Color Number (Integer)Numeric index values ranging from 0 to 256.Zero indicates BYBLOCK. 256 indicates BYLAYER. A negative value indicates that the layer is turned off.</td>
-</tr>
-<tr>
-<td>67</td>
-<td>Model/paper space indicator (Integer)Use 0 or omitted = model space, 1 = paper space.</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Relational operators for selection set filter lists</strong></p>
-<table>
-<thead>
-<tr>
-<th>Operator</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>“”"*"""</td>
-<td>Anything goes (always true)</td>
-</tr>
-<tr>
-<td>“”"="""</td>
-<td>Equals</td>
-</tr>
-<tr>
-<td>“”"!="""</td>
-<td>Not equal to</td>
-</tr>
-<tr>
-<td>“”"/="""</td>
-<td>Not equal to</td>
-</tr>
-<tr>
-<td>“”"&lt;&gt;"""</td>
-<td>Not equal to</td>
-</tr>
-<tr>
-<td>“”"&lt;"""</td>
-<td>Less than</td>
-</tr>
-<tr>
-<td>“”"&lt;="""</td>
-<td>Less than or equal to</td>
-</tr>
-<tr>
-<td>“”"&gt;"""</td>
-<td>Greater than</td>
-</tr>
-<tr>
-<td>“”"&gt;="""</td>
-<td>Greater than or equal to</td>
-</tr>
-<tr>
-<td>“”"&amp;"""</td>
-<td>Bitwise AND (integer groups only)</td>
-</tr>
-<tr>
-<td>“”"&amp;="""</td>
-<td>Bitwise masked equals (integer groups only)</td>
-</tr>
-</tbody>
-</table>
-<h3 id="Example">Example</h3>
-<p>Demand: Get all the text in red color on “layer01” and all the text in blue on “lay02” and “lay03”.</p>
-<blockquote>
-<p>For Polyline objects , the type in DxfCode.Start is “LWPOLYLINE” rather than “Ployline”.<br>
-I don’t know why Autodesk design like this, but it took me long time to figure it out. Hence, I would like to emphesis this point.</p>
-</blockquote>
-<pre class=" language-language-Text"><code class="language-language-Text">< or
-    < and
-             Layer == "lay01"
-             Color == "1"    // The index of Color red is 1
-             Entity type == "TEXT"
-    and >
-    < and
-             < or
-             Layer == "lay02"
-             Layer == "lay03"
-             or >
-             Color == "5"     // The index of Color Blue is 5
-             Entity type == "POLYLINE"
-    and >
-or >
-</code></pre>
-<h3 id="Code">Code</h3>
-<pre><code>
-// Define the filter condition
-TypedValue[] typeValue = {
- new TypedValue((int) DxfCode.Operator, "&lt;or"),
- // Selection filter 1
- new TypedValue((int) DxfCode.Operator, "&lt;and"),
- new TypedValue((int) DxfCode.Start, "TEXT"),
- new TypedValue((int) DxfCode.LayerName, "lay01"),
- new TypedValue((int) DxfCode.Color, "1"),
- new TypedValue((int) DxfCode.Operator, "and&gt;"),
- // Selection filter 2
- new TypedValue((int) DxfCode.Operator, "&lt;and"),
- new TypedValue((int) DxfCode.Start, "LWPOLYLINE"),
- new TypedValue((int) DxfCode.Color, "5"),
- new TypedValue((int) DxfCode.Operator, "&lt;or"),
- new TypedValue((int) DxfCode.LayerName, "lay02"),
- new TypedValue((int) DxfCode.LayerName, "lay03"),
- new TypedValue((int) DxfCode.Operator, "or&gt;"),
- new TypedValue((int) DxfCode.Operator, "and&gt;"),
- new TypedValue((int) DxfCode.Operator, "or&gt;")
-};
-</code></pre>
-<h2 id="Full-Code">Full Code</h2>
-<pre><code>public static void MultipleSelectionFilter()
-{
-    // Get the current editor
-    Editor ed = Autodesk.AutoCAD.ApplicationServices.Core.Application.DocumentManager.MdiActiveDocument.Editor;
-
-    // Create a set filter
-
-    // Define the filter condition
-    TypedValue[] typeValue = {
-     new TypedValue((int) DxfCode.Operator, "&lt;or"),
-     // Selection filter 1
-     new TypedValue((int) DxfCode.Operator, "&lt;and"),
-     new TypedValue((int) DxfCode.Start, "TEXT"),
-     new TypedValue((int) DxfCode.LayerName, "lay01"),
-     new TypedValue((int) DxfCode.Color, "1"),
-     new TypedValue((int) DxfCode.Operator, "and&gt;"),
-     // Selection filter 2
-     new TypedValue((int) DxfCode.Operator, "&lt;and"),
-     new TypedValue((int) DxfCode.Start, "LWPOLYLINE"),
-     new TypedValue((int) DxfCode.Color, "5"),
-     new TypedValue((int) DxfCode.Operator, "&lt;or"),
-     new TypedValue((int) DxfCode.LayerName, "lay02"),
-     new TypedValue((int) DxfCode.LayerName, "lay03"),
-     new TypedValue((int) DxfCode.Operator, "or&gt;"),
-     new TypedValue((int) DxfCode.Operator, "and&gt;"),
-     new TypedValue((int) DxfCode.Operator, "or&gt;")
-    };
-
-    // put the condition into the filter
-    SelectionFilter selFiter = new SelectionFilter(typeValue);
-
-    // get the filtered result
-    PromptSelectionResult psr = ed.GetSelection(selFiter);
-
-
-
-
-    //  Check the result
-    if (psr.Status == PromptStatus.OK)
-    {
-        SelectionSet sSet = psr.Value;
-        Autodesk.AutoCAD.ApplicationServices.Core.Application.ShowAlertDialog("Number of objects selected: " + sSet.Count.ToString());
-    }
-    else
-    {
-        Autodesk.AutoCAD.ApplicationServices.Core.Application.ShowAlertDialog("Number of objects selected: 0");
-    }
-}
-</code></pre>
-<hr>
-<h1>Reference</h1>
-<p><a href="http://docs.autodesk.com/ACD/2011/CHS/filesDXF/WSfacf1429558a55de185c428100849a0ab7-5f35.htm" target="_blank" rel="noopener">http://docs.autodesk.com/ACD/2011/CHS/filesDXF/WSfacf1429558a55de185c428100849a0ab7-5f35.htm</a></p>
-<script>
-        document.querySelectorAll('.github-emoji')
-          .forEach(el => {
-            if (!el.dataset.src) { return; }
-            const img = document.createElement('img');
-            img.style = 'display:none !important;';
-            img.src = el.dataset.src;
-            img.addEventListener('error', () => {
-              img.remove();
-              el.style.color = 'inherit';
-              el.style.backgroundImage = 'none';
-              el.style.background = 'none';
-            });
-            img.addEventListener('load', () => {
-              img.remove();
-            });
-            document.body.appendChild(img);
-          });
-      </script>]]></content>
-      <categories>
-        <category>December 2020</category>
-      </categories>
-      <tags>
-        <tag>AutoCAD API</tag>
-        <tag>C#</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>07. Hatch</title>
-    <url>/2020/12/05/20201205AutoCAD%20developer&#39;s%20tools%20--%20Hatch/</url>
-    <content><![CDATA[<h2 id="Introduction">Introduction</h2>
-<p>After learning how to select the objects from the drawings, now we begin to learn how to do something to the objects. Assume that we want to hatch the polygons on the certain layer. We can select out the polygons based on the knowledge before. Here we will learn how to hatch the polygons.</p>
-<p>First of all, we have a look at the <em>CLASS</em>  HATCH.<br>
-<img src="/2020/12/05/20201205AutoCAD%20developer's%20tools%20--%20Hatch/1.png" alt="HATCH Class"></p>
-<p>For example, from the figure above, we can see how to create the <em>HATCH</em>.<br>
-It is quite similar as the creation of other objects.</p>
-<blockquote>
-<ol>
-<li>Create the empty HATCH Object</li>
-<li>The we assign the empty object with other properties</li>
-</ol>
-</blockquote>
-<h2 id="SOME-CODE">SOME CODE</h2>
-<pre class=" language-language-C#"><code class="language-language-C#">  public Hatch HatchPolygon(Transaction tr,BlockTableRecord btr, string layername, short colorindex, ObjectIdCollection objectIdCollection)
-  {
-      //declare a hatch pbject
-      Hatch ent = new Hatch();
-
-
-      ent.HatchObjectType = HatchObjectType.HatchObject;
-
-      //set the hatch pattern, scaleand other properties
-      ent.SetHatchPattern(HatchPatternType.PreDefined, "SOLID");
-      ent.PatternScale = 1.0;
-      ent.Elevation = 0;
-      ent.Layer = layername;
-      ent.PatternAngle = Math.PI / 4;
-      ent.Color = Color.FromColorIndex(ColorMethod.ByAci, colorindex);
-
-
-      //add the hatch object into the BlockTableRecord
-      btr.AppendEntity(ent);
-      tr.AddNewlyCreatedDBObject(ent, true);
-
-      //associate the hatch object with the boundary
-      ent.Associative = true;
-
-      ObjectIdCollection obIds = new ObjectIdCollection();
-      for (int i = 0; i < objectIdCollection.Count; i++)
-      {
-          obIds.Clear();
-          obIds.Add(objectIdCollection[i]);
-          ent.AppendLoop(HatchLoopTypes.Outermost, obIds);
-      }
-
-
-      //calculate the hatch area and how the result
-      ent.EvaluateHatch(true);
-
-      return ent;
-  }
-</code></pre>
-<script>
-        document.querySelectorAll('.github-emoji')
-          .forEach(el => {
-            if (!el.dataset.src) { return; }
-            const img = document.createElement('img');
-            img.style = 'display:none !important;';
-            img.src = el.dataset.src;
-            img.addEventListener('error', () => {
-              img.remove();
-              el.style.color = 'inherit';
-              el.style.backgroundImage = 'none';
-              el.style.background = 'none';
-            });
-            img.addEventListener('load', () => {
-              img.remove();
-            });
-            document.body.appendChild(img);
-          });
-      </script>]]></content>
-      <categories>
-        <category>December 2020</category>
-      </categories>
-      <tags>
-        <tag>AutoCAD API</tag>
-        <tag>C#</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>08. Renumbering the manholes and pipelines</title>
-    <url>/2020/12/10/20201210AutoCAD%20developer&#39;s%20tools%20--%20Renumber%20the%20Objects/</url>
-    <content><![CDATA[<h2 id="Introduction">Introduction</h2>
-<p>In my work, I always use the past Civil3d template to continue my design, hence the initial number of some objects are usually high, for example, manholes and pipelines. What is worse, sometimes I would delete some of them, hence their names are not continuous.</p>
-<p>Hence, I write a plugin to rename the object. It should be a easy job, I just</p>
-<h2 id="SOME-CODE">SOME CODE</h2>
-<script>
-        document.querySelectorAll('.github-emoji')
-          .forEach(el => {
-            if (!el.dataset.src) { return; }
-            const img = document.createElement('img');
-            img.style = 'display:none !important;';
-            img.src = el.dataset.src;
-            img.addEventListener('error', () => {
-              img.remove();
-              el.style.color = 'inherit';
-              el.style.backgroundImage = 'none';
-              el.style.background = 'none';
-            });
-            img.addEventListener('load', () => {
-              img.remove();
-            });
-            document.body.appendChild(img);
-          });
-      </script>]]></content>
-      <categories>
-        <category>December 2020</category>
-      </categories>
-      <tags>
-        <tag>Civil 3d</tag>
-        <tag>AutoCAD API</tag>
-        <tag>C#</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Add boundary Line to Surface by using API</title>
-    <url>/2020/05/13/Add%20boundary%20Line%20to%20Surface%20by%20using%20API/</url>
-    <content><![CDATA[<p>Today, I saw a post from Dynamo forum that mentioned how to add boundaryline to the surface. Just make a note for future use.  The original post link is listed in the Reference.</p>
-<h2 id="NETAPI-C">.NETAPI-C#</h2>
-<pre class=" language-language-csharp"><code class="language-language-csharp">[CommandMethod("AddSurfaceBoundary")]
-public void AddSurfaceBoundary()
-{
-    using (Transaction ts = Application.DocumentManager.MdiActiveDocument.Database.TransactionManager.StartTransaction())
-    {
-        // Prompt the user to select a surface and a polyline
-        ObjectId surfaceId = promptForEntity("Select the surface to add a boundary to", typeof(TinSurface));
-        ObjectId polyId = promptForEntity("Select the object to use as a boundary", typeof(Polyline));
-
-        // The boundary or boundaries must be added to an ObjectIdCollection for the AddBoundaries method:
-        ObjectId[] boundaries = { polyId };
-        TinSurface oSurface = surfaceId.GetObject(OpenMode.ForWrite) as TinSurface;
-
-        try
-        {
-            oSurface.BoundariesDefinition.AddBoundaries(new ObjectIdCollection(boundaries), 100, Autodesk.Civil.Land.SurfaceBoundaryType.Outer, true);
-            oSurface.Rebuild();
-        }
-
-        catch (System.Exception e)
-        {
-            editor.WriteMessage("Failed to add the boundary: {0}", e.Message);
-        }
-
-        // commit the transaction
-        ts.Commit();
-    }
-}
-
-private ObjectId promptForTinSurface(String prompt)
-{
-    PromptEntityOptions options = new PromptEntityOptions(
-        String.Format("\n{0}: ", prompt));
-    options.SetRejectMessage(
-        "\nThe selected object is not a TIN Surface.");
-    options.AddAllowedClass(typeof(TinSurface), true);
-
-    PromptEntityResult result = editor.GetEntity(options);
-    if (result.Status == PromptStatus.OK)
-    {
-        // We have the correct object type
-        return result.ObjectId;
-    }
-    return ObjectId.Null;   // Indicating error.
-}
-
-</code></pre>
-<h2 id="IronPython-in-Dynamo">IronPython in Dynamo</h2>
-<pre class=" language-language-python"><code class="language-language-python">surfaceId = promptForEntity("Select the surface to add a boundary to", clr.GetClrType(TinSurface))
-polyId = promptForEntity("Select the object to use as a boundary", clr.GetClrType(Polyline))
-
-coll = ObjectIdCollection()
-coll.Add(plineId)
-
-oSurface = surfaceId.GetObject(OpenMode.ForWrite)
-
-osurface.BoundariesDefinition.AddBoundaries(coll, 100, SurfaceBoundaryType.Outer, True)
-osurface.Rebuild()
-</code></pre>
-<h1>Reference:</h1>
-<p><a href="http://help.autodesk.com/view/CIV3D/2020/ENU/?guid=GUID-7C32E309-9B54-42A0-A4DC-C6FD592071F2" target="_blank" rel="noopener">http://help.autodesk.com/view/CIV3D/2020/ENU/?guid=GUID-7C32E309-9B54-42A0-A4DC-C6FD592071F2</a><br>
-<a href="https://forum.dynamobim.com/t/create-object-id-collection/49472" target="_blank" rel="noopener">https://forum.dynamobim.com/t/create-object-id-collection/49472</a></p>
-<script>
-        document.querySelectorAll('.github-emoji')
-          .forEach(el => {
-            if (!el.dataset.src) { return; }
-            const img = document.createElement('img');
-            img.style = 'display:none !important;';
-            img.src = el.dataset.src;
-            img.addEventListener('error', () => {
-              img.remove();
-              el.style.color = 'inherit';
-              el.style.backgroundImage = 'none';
-              el.style.background = 'none';
-            });
-            img.addEventListener('load', () => {
-              img.remove();
-            });
-            document.body.appendChild(img);
-          });
-      </script>]]></content>
-      <categories>
-        <category>May 2020</category>
-      </categories>
-      <tags>
-        <tag>Civil 3d</tag>
       </tags>
   </entry>
   <entry>
@@ -4541,122 +4578,6 @@ ax.set_ylim([-42,-36])
       </tags>
   </entry>
   <entry>
-    <title>Objects selection by Ironpython(.NET API in Civil3D) in Dynamo</title>
-    <url>/2020/05/15/Objects%20selection%20by%20Ironpython/</url>
-    <content><![CDATA[<p>Several ways to select objects According to the type as the result below.</p>
-<p><img src="/2020/05/15/Objects%20selection%20by%20Ironpython/Capture.PNG" alt="Selection Result.png"></p>
-<h1>Based on TypeName:</h1>
-<pre class=" language-language-python"><code class="language-language-python">
-output = []
-
-adoc = Application.DocumentManager.MdiActiveDocument
-ed = adoc.Editor
-
-
-with adoc.LockDocument():
-	with adoc.Database as db:
-		with db.TransactionManager.StartTransaction() as t:
-  			bt = t.GetObject(db.BlockTableId, OpenMode.ForWrite)
-  			btr = t.GetObject(bt[BlockTableRecord.ModelSpace], OpenMode.ForWrite)
-
-        rList = []
-
-
-  			#Get the Lines on Layer"Ramps". TypeName could be "Dbtext", "Line"
-  			for objectid in btr:
-				obj1 = t.GetObject(objectid, OpenMode.ForRead)
-				if obj1.GetType().Name.ToString() == "Line" and obj1.Layer == "Ramps-Side":
-						rList.append(str(obj1.Handle))
-				else:
-  					pass
-
-ed.WriteMessage("Done")
-</code></pre>
-<h1>Type of the object</h1>
-<pre class=" language-language-python"><code class="language-language-python">
-adoc = acapp.DocumentManager.MdiActiveDocument
-cdoc = CivilApplication.ActiveDocument
-ed = adoc.Editor
-# The inputs to this node will be stored as a list in the IN variables.
-with adoc.LockDocument():
-	with adoc.Database as db:
-		with db.TransactionManager.StartTransaction() as t:
-			bt = t.GetObject(db.BlockTableId, OpenMode.ForWrite)
-			btr = t.GetObject(bt[BlockTableRecord.ModelSpace], OpenMode.ForWrite)
-
-
-			rList = []
-
-
-			#Get the Lines on Layer"Ramps"
-			for objectid in btr:
-				obj1 = t.GetObject(objectid, OpenMode.ForRead)
-				if obj1.GetType()==Line and obj1.Layer == "Ramps-Side":
-				# or we can use  "obj1.GetType() == clr.GetClrType(Line)" to ensure get the same type by .Net types
-					rList.append(str(obj1.Handle))
-				else:
-					pass
-</code></pre>
-<h3 id="Notes">Notes:</h3>
-<pre><code>if obj1.GetType()==Line and obj1.Layer == "Ramps-Side":
-	rList.append((obj1.GetType() is clr.GetClrType(Line))) #result is true
-</code></pre>
-<pre><code>if obj1.GetType()==Line and obj1.Layer == "Ramps-Side":
-	rList.append((obj1.GetType() is Line)) #result is false
-</code></pre>
-<pre><code>if obj1.GetType()==Line and obj1.Layer == "Ramps-Side":
-	rList.append((obj1.GetType() == Line)) #result is True
-</code></pre>
-<h1>Select via the class of the object and we donot need to get the object.</h1>
-<pre><code>adoc = acapp.DocumentManager.MdiActiveDocument
-cdoc = CivilApplication.ActiveDocument
-ed = adoc.Editor
-# The inputs to this node will be stored as a list in the IN variables.
-with adoc.LockDocument():
-	with adoc.Database as db:
-		with db.TransactionManager.StartTransaction() as t:
-			bt = t.GetObject(db.BlockTableId, OpenMode.ForWrite)
-			btr = t.GetObject(bt[BlockTableRecord.ModelSpace], OpenMode.ForWrite)
-
-
-			rList = []
-
-
-			#Get the Lines on Layer"Ramps"
-			for objectid in btr:
-				obj1 = t.GetObject(objectid, OpenMode.ForRead)
-				if (obj1.ObjectId.ObjectClass)==(RXClass.GetClass(Line)) and obj1.Layer == "Ramps-Side":
-					rList.append(str(obj1.Handle))
-				else:
-					pass
-</code></pre>
-<script>
-        document.querySelectorAll('.github-emoji')
-          .forEach(el => {
-            if (!el.dataset.src) { return; }
-            const img = document.createElement('img');
-            img.style = 'display:none !important;';
-            img.src = el.dataset.src;
-            img.addEventListener('error', () => {
-              img.remove();
-              el.style.color = 'inherit';
-              el.style.backgroundImage = 'none';
-              el.style.background = 'none';
-            });
-            img.addEventListener('load', () => {
-              img.remove();
-            });
-            document.body.appendChild(img);
-          });
-      </script>]]></content>
-      <categories>
-        <category>May 2020</category>
-      </categories>
-      <tags>
-        <tag>Civil 3d</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Present 3D DEM and Building in ArcScene</title>
     <url>/2020/04/22/Present%20the%20results%20in%20ArcScene/</url>
     <content><![CDATA[<p>If we want to have an 3D overview of DEM with Building or flooding data, we can use ArcScene.</p>
@@ -5382,6 +5303,122 @@ states_with_cities.head()
       </categories>
       <tags>
         <tag>C#</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Objects selection by Ironpython(.NET API in Civil3D) in Dynamo</title>
+    <url>/2020/05/15/Objects%20selection%20by%20Ironpython/</url>
+    <content><![CDATA[<p>Several ways to select objects According to the type as the result below.</p>
+<p><img src="/2020/05/15/Objects%20selection%20by%20Ironpython/Capture.PNG" alt="Selection Result.png"></p>
+<h1>Based on TypeName:</h1>
+<pre class=" language-language-python"><code class="language-language-python">
+output = []
+
+adoc = Application.DocumentManager.MdiActiveDocument
+ed = adoc.Editor
+
+
+with adoc.LockDocument():
+	with adoc.Database as db:
+		with db.TransactionManager.StartTransaction() as t:
+  			bt = t.GetObject(db.BlockTableId, OpenMode.ForWrite)
+  			btr = t.GetObject(bt[BlockTableRecord.ModelSpace], OpenMode.ForWrite)
+
+        rList = []
+
+
+  			#Get the Lines on Layer"Ramps". TypeName could be "Dbtext", "Line"
+  			for objectid in btr:
+				obj1 = t.GetObject(objectid, OpenMode.ForRead)
+				if obj1.GetType().Name.ToString() == "Line" and obj1.Layer == "Ramps-Side":
+						rList.append(str(obj1.Handle))
+				else:
+  					pass
+
+ed.WriteMessage("Done")
+</code></pre>
+<h1>Type of the object</h1>
+<pre class=" language-language-python"><code class="language-language-python">
+adoc = acapp.DocumentManager.MdiActiveDocument
+cdoc = CivilApplication.ActiveDocument
+ed = adoc.Editor
+# The inputs to this node will be stored as a list in the IN variables.
+with adoc.LockDocument():
+	with adoc.Database as db:
+		with db.TransactionManager.StartTransaction() as t:
+			bt = t.GetObject(db.BlockTableId, OpenMode.ForWrite)
+			btr = t.GetObject(bt[BlockTableRecord.ModelSpace], OpenMode.ForWrite)
+
+
+			rList = []
+
+
+			#Get the Lines on Layer"Ramps"
+			for objectid in btr:
+				obj1 = t.GetObject(objectid, OpenMode.ForRead)
+				if obj1.GetType()==Line and obj1.Layer == "Ramps-Side":
+				# or we can use  "obj1.GetType() == clr.GetClrType(Line)" to ensure get the same type by .Net types
+					rList.append(str(obj1.Handle))
+				else:
+					pass
+</code></pre>
+<h3 id="Notes">Notes:</h3>
+<pre><code>if obj1.GetType()==Line and obj1.Layer == "Ramps-Side":
+	rList.append((obj1.GetType() is clr.GetClrType(Line))) #result is true
+</code></pre>
+<pre><code>if obj1.GetType()==Line and obj1.Layer == "Ramps-Side":
+	rList.append((obj1.GetType() is Line)) #result is false
+</code></pre>
+<pre><code>if obj1.GetType()==Line and obj1.Layer == "Ramps-Side":
+	rList.append((obj1.GetType() == Line)) #result is True
+</code></pre>
+<h1>Select via the class of the object and we donot need to get the object.</h1>
+<pre><code>adoc = acapp.DocumentManager.MdiActiveDocument
+cdoc = CivilApplication.ActiveDocument
+ed = adoc.Editor
+# The inputs to this node will be stored as a list in the IN variables.
+with adoc.LockDocument():
+	with adoc.Database as db:
+		with db.TransactionManager.StartTransaction() as t:
+			bt = t.GetObject(db.BlockTableId, OpenMode.ForWrite)
+			btr = t.GetObject(bt[BlockTableRecord.ModelSpace], OpenMode.ForWrite)
+
+
+			rList = []
+
+
+			#Get the Lines on Layer"Ramps"
+			for objectid in btr:
+				obj1 = t.GetObject(objectid, OpenMode.ForRead)
+				if (obj1.ObjectId.ObjectClass)==(RXClass.GetClass(Line)) and obj1.Layer == "Ramps-Side":
+					rList.append(str(obj1.Handle))
+				else:
+					pass
+</code></pre>
+<script>
+        document.querySelectorAll('.github-emoji')
+          .forEach(el => {
+            if (!el.dataset.src) { return; }
+            const img = document.createElement('img');
+            img.style = 'display:none !important;';
+            img.src = el.dataset.src;
+            img.addEventListener('error', () => {
+              img.remove();
+              el.style.color = 'inherit';
+              el.style.backgroundImage = 'none';
+              el.style.background = 'none';
+            });
+            img.addEventListener('load', () => {
+              img.remove();
+            });
+            document.body.appendChild(img);
+          });
+      </script>]]></content>
+      <categories>
+        <category>May 2020</category>
+      </categories>
+      <tags>
+        <tag>Civil 3d</tag>
       </tags>
   </entry>
   <entry>

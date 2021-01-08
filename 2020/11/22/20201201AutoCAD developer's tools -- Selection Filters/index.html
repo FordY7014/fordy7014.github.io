@@ -375,7 +375,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>Word Count:&nbsp;&nbsp;
-                    665
+                    677
                 </div>
                 
 
@@ -492,17 +492,17 @@ I don’t know why Autodesk design like this, but it took me long time to figure
 </blockquote>
 <pre class=" language-language-Text"><code class="language-language-Text">< or
     < and
-             Layer == "lay01"
+             Layer == "layer01"
              Color == "1"    // The index of Color red is 1
              Entity type == "TEXT"
     and >
     < and
              < or
-             Layer == "lay02"
-             Layer == "lay03"
+             Layer == "layer02"
+             Layer == "layer03"
              or >
              Color == "5"     // The index of Color Blue is 5
-             Entity type == "POLYLINE"
+             Entity type == "POLYLINE" or "Line", "Circle"
     and >
 or >
 </code></pre>
@@ -514,18 +514,19 @@ TypedValue[] typeValue = {
  // Selection filter 1
  new TypedValue((int) DxfCode.Operator, "&lt;and"),
  new TypedValue((int) DxfCode.Start, "TEXT"),
- new TypedValue((int) DxfCode.LayerName, "lay01"),
+ new TypedValue((int) DxfCode.LayerName, "layer01"),
  new TypedValue((int) DxfCode.Color, "1"),
  new TypedValue((int) DxfCode.Operator, "and&gt;"),
  // Selection filter 2
  new TypedValue((int) DxfCode.Operator, "&lt;and"),
- new TypedValue((int) DxfCode.Start, "LWPOLYLINE"),
+ new TypedValue((int) DxfCode.Start, "LWPOLYLINE, LINE, CIRCLE"),
  new TypedValue((int) DxfCode.Color, "5"),
  new TypedValue((int) DxfCode.Operator, "&lt;or"),
- new TypedValue((int) DxfCode.LayerName, "lay02"),
- new TypedValue((int) DxfCode.LayerName, "lay03"),
+ new TypedValue((int) DxfCode.LayerName, "layer02"),
+ new TypedValue((int) DxfCode.LayerName, "layer03"),
  new TypedValue((int) DxfCode.Operator, "or&gt;"),
  new TypedValue((int) DxfCode.Operator, "and&gt;"),
+ // end of Selection filter 2
  new TypedValue((int) DxfCode.Operator, "or&gt;")
 };
 </code></pre>
@@ -543,16 +544,16 @@ TypedValue[] typeValue = {
      // Selection filter 1
      new TypedValue((int) DxfCode.Operator, "&lt;and"),
      new TypedValue((int) DxfCode.Start, "TEXT"),
-     new TypedValue((int) DxfCode.LayerName, "lay01"),
+     new TypedValue((int) DxfCode.LayerName, "layer01"),
      new TypedValue((int) DxfCode.Color, "1"),
      new TypedValue((int) DxfCode.Operator, "and&gt;"),
      // Selection filter 2
      new TypedValue((int) DxfCode.Operator, "&lt;and"),
-     new TypedValue((int) DxfCode.Start, "LWPOLYLINE"),
+     new TypedValue((int) DxfCode.Start, "LWPOLYLINE,LINE, CIRCLE"),
      new TypedValue((int) DxfCode.Color, "5"),
      new TypedValue((int) DxfCode.Operator, "&lt;or"),
-     new TypedValue((int) DxfCode.LayerName, "lay02"),
-     new TypedValue((int) DxfCode.LayerName, "lay03"),
+     new TypedValue((int) DxfCode.LayerName, "layer02"),
+     new TypedValue((int) DxfCode.LayerName, "layer03"),
      new TypedValue((int) DxfCode.Operator, "or&gt;"),
      new TypedValue((int) DxfCode.Operator, "and&gt;"),
      new TypedValue((int) DxfCode.Operator, "or&gt;")

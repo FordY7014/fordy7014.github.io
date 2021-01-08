@@ -379,7 +379,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>Word Count:&nbsp;&nbsp;
-                    117
+                    240
                 </div>
                 
 
@@ -400,6 +400,42 @@
 <p>In my work, I always use the past Civil3d template to continue my design, hence the initial number of some objects are usually high, for example, manholes and pipelines. What is worse, sometimes I would delete some of them, hence their names are not continuous.</p>
 <p>Hence, I write a plugin to rename the object. It should be a easy job, I just</p>
 <h2 id="SOME-CODE">SOME CODE</h2>
+<pre class=" language-language-C#"><code class="language-language-C#">        [CommandMethod("RenameWW")]
+        public static void RenameWWPipes()
+        {
+            Editor ed = Helper.Ed();
+            CivilDocument civilDoc = CivilApplication.ActiveDocument;
+            using (Transaction tr = Application.DocumentManager.MdiActiveDocument.
+                Database.TransactionManager.StartTransaction())
+            {
+
+                ObjectId partId = PipeNetworks.PromptForPart("Please select one of the structures or pipes in targeted Network: ");
+                if (partId != ObjectId.Null)
+                {
+                    //Select one part of the target netowrk
+                    Part part = tr.GetObject(partId, OpenMode.ForRead) as Part;
+                    ObjectId netWorkId = part.NetworkId;
+
+                    //Get the object of the network by object id
+                    Network oNetwork = tr.GetObject(netWorkId, OpenMode.ForWrite) as Network;
+                    ObjectIdCollection pipeIds = oNetwork.GetPipeIds();
+
+                    int count = 1;
+                    foreach (ObjectId pipeId in pipeIds)
+                    {
+                        // get the pipe objects  and rename them
+                        Pipe pipe = tr.GetObject(pipeId, OpenMode.ForWrite) as Pipe;
+                        String name1 = string.Format("LOT{0} WW", count); ;
+                        pipe.Name = name1;
+                        count += 1;
+                    }
+                }
+
+                tr.Commit();
+            }
+        }
+
+</code></pre>
 <script>
         document.querySelectorAll('.github-emoji')
           .forEach(el => {
