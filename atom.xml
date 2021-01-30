@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://fordy7014.github.io/"/>
-  <updated>2021-01-30T21:41:59.198Z</updated>
+  <updated>2021-01-30T21:50:15.540Z</updated>
   <id>https://fordy7014.github.io/</id>
   
   <author>
@@ -17,11 +17,11 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>Revit API -- Show revision on sheet</title>
-    <link href="https://fordy7014.github.io/2021/01/20/20210125Revit%20UI%20Ribbon/"/>
-    <id>https://fordy7014.github.io/2021/01/20/20210125Revit%20UI%20Ribbon/</id>
-    <published>2021-01-20T03:04:57.000Z</published>
-    <updated>2021-01-30T21:41:59.198Z</updated>
+    <title>Revit API -- Revit Ribbon</title>
+    <link href="https://fordy7014.github.io/2021/01/25/20210125Revit%20UI%20Ribbon/"/>
+    <id>https://fordy7014.github.io/2021/01/25/20210125Revit%20UI%20Ribbon/</id>
+    <published>2021-01-25T03:04:57.000Z</published>
+    <updated>2021-01-30T21:50:15.540Z</updated>
     
     <summary type="html">
     
@@ -31,7 +31,8 @@
         
           &lt;ul&gt;
 &lt;li&gt;&lt;a href=&quot;#1-background&quot;&gt;1. Background&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;#2-show-revision-on-viewsheet&quot;&gt;2. Show revision on
+&lt;li&gt;&lt;a href=&quot;#2-full-code&quot;&gt;2. Full CODE&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#3-reference&quot;&gt;3.
         
       
     

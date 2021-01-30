@@ -1753,6 +1753,112 @@ Mostly we have different plans such as drainage or driveway plan on same site, i
       </tags>
   </entry>
   <entry>
+    <title>Move the selected objects to the current layer</title>
+    <url>/2020/06/17/20200617Move%20the%20selected%20objects%20to%20the%20current%20layer/</url>
+    <content><![CDATA[<hr>
+<h2 id="Build-a-FilterType-to-select">Build a FilterType[] to select</h2>
+<pre class=" language-language-csharp"><code class="language-language-csharp">public enum FilterType
+    {
+        Curve, Dimension, Polyline, BlockRef, Circle, Line, Arc, Text, MText
+    }
+
+
+public static DBObjectCollection GetSelection(FilterType[] tps)
+        {
+            Document doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
+            Database db = doc.Database;
+            Editor ed = doc.Editor;
+            Entity entity = null;
+            DBObjectCollection EntityCollection = new DBObjectCollection();
+            PromptSelectionOptions selops = new PromptSelectionOptions();
+
+            // Name the filter contents
+            TypedValue[] filList = new TypedValue[tps.Length + 2];
+            filList[0] = new TypedValue((int)DxfCode.Operator, "<or");
+            filList[tps.Length + 1] = new TypedValue((int)DxfCode.Operator, "or>");
+            for (int i = 0; i < tps.Length; i++)
+            {
+                filList[i + 1] = new TypedValue((int)DxfCode.Start, tps[i].ToString());
+            }
+
+
+             // Build the filter
+            SelectionFilter filter = new SelectionFilter(filList);
+            // 按照过滤器进行选择
+            PromptSelectionResult ents = ed.GetSelection(selops, filter);
+            if  (ents.Status == PromptStatus.OK)  
+            {
+                using  (Transaction transaction = db.TransactionManager.StartTransaction())
+                 {
+                    SelectionSet SS = ents.Value;
+                    foreach (ObjectId id in   SS.GetObjectIds())
+                    {
+                        entity = (Entity) transaction.GetObject(id, OpenMode.ForWrite,  true );  
+                        if(entity!=null)
+                        {
+                            LayerTableRecord ltr = LayerTools.GetCurrentLayer(db);
+                            entity.Layer = ltr.Name;
+                            EntityCollection.Add(entity);
+                            ed = Autodesk.AutoCAD.ApplicationServices. Application .DocumentManager.MdiActiveDocument.Editor;
+                            ed.SelectPrevious();
+                        }
+                    }
+                    transaction.Commit( );  
+                }
+            }
+            return   EntityCollection;
+        }
+</code></pre>
+<hr>
+<h2 id="Select-Lines-and-Polylines">Select Lines and Polylines</h2>
+<pre><code>public void SelectLines()
+        {
+            Database db = HostApplicationServices.WorkingDatabase;
+            LayerTableRecord ltr = new LayerTableRecord();
+            ltr = LayerTools.GetCurrentLayer(db);
+
+
+            FilterType LineType = FilterType.Line;
+            FilterType PolyLineType = FilterType.Polyline;
+            FilterType CircleType = FilterType.Circle;
+
+            FilterType[] Types = new FilterType[3];
+            Types[0] = LineType;
+            Types[1] = PolyLineType;
+            Types[2] = CircleType;
+            DBObjectCollection EntityCollection = Selection.GetSelection(Types);
+        }
+
+</code></pre>
+<script>
+        document.querySelectorAll('.github-emoji')
+          .forEach(el => {
+            if (!el.dataset.src) { return; }
+            const img = document.createElement('img');
+            img.style = 'display:none !important;';
+            img.src = el.dataset.src;
+            img.addEventListener('error', () => {
+              img.remove();
+              el.style.color = 'inherit';
+              el.style.backgroundImage = 'none';
+              el.style.background = 'none';
+            });
+            img.addEventListener('load', () => {
+              img.remove();
+            });
+            document.body.appendChild(img);
+          });
+      </script>]]></content>
+      <categories>
+        <category>June 2020</category>
+      </categories>
+      <tags>
+        <tag>Civil 3d</tag>
+        <tag>AutoCAD API</tag>
+        <tag>C#</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Prompt to Select one type of object in .NetAPI(Ironpython)</title>
     <url>/2020/06/16/20200616Prompt%20to%20Select%20one%20type%20of%20object/</url>
     <content><![CDATA[<hr>
@@ -1834,83 +1940,16 @@ except:
       </tags>
   </entry>
   <entry>
-    <title>Move the selected objects to the current layer</title>
-    <url>/2020/06/17/20200617Move%20the%20selected%20objects%20to%20the%20current%20layer/</url>
-    <content><![CDATA[<hr>
-<h2 id="Build-a-FilterType-to-select">Build a FilterType[] to select</h2>
-<pre class=" language-language-csharp"><code class="language-language-csharp">public enum FilterType
-    {
-        Curve, Dimension, Polyline, BlockRef, Circle, Line, Arc, Text, MText
-    }
-
-
-public static DBObjectCollection GetSelection(FilterType[] tps)
-        {
-            Document doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
-            Database db = doc.Database;
-            Editor ed = doc.Editor;
-            Entity entity = null;
-            DBObjectCollection EntityCollection = new DBObjectCollection();
-            PromptSelectionOptions selops = new PromptSelectionOptions();
-
-            // Name the filter contents
-            TypedValue[] filList = new TypedValue[tps.Length + 2];
-            filList[0] = new TypedValue((int)DxfCode.Operator, "<or");
-            filList[tps.Length + 1] = new TypedValue((int)DxfCode.Operator, "or>");
-            for (int i = 0; i < tps.Length; i++)
-            {
-                filList[i + 1] = new TypedValue((int)DxfCode.Start, tps[i].ToString());
-            }
-
-
-             // Build the filter
-            SelectionFilter filter = new SelectionFilter(filList);
-            // 按照过滤器进行选择
-            PromptSelectionResult ents = ed.GetSelection(selops, filter);
-            if  (ents.Status == PromptStatus.OK)  
-            {
-                using  (Transaction transaction = db.TransactionManager.StartTransaction())
-                 {
-                    SelectionSet SS = ents.Value;
-                    foreach (ObjectId id in   SS.GetObjectIds())
-                    {
-                        entity = (Entity) transaction.GetObject(id, OpenMode.ForWrite,  true );  
-                        if(entity!=null)
-                        {
-                            LayerTableRecord ltr = LayerTools.GetCurrentLayer(db);
-                            entity.Layer = ltr.Name;
-                            EntityCollection.Add(entity);
-                            ed = Autodesk.AutoCAD.ApplicationServices. Application .DocumentManager.MdiActiveDocument.Editor;
-                            ed.SelectPrevious();
-                        }
-                    }
-                    transaction.Commit( );  
-                }
-            }
-            return   EntityCollection;
-        }
-</code></pre>
+    <title>Civil3d Ribbon Demo (Automate the repetitive tasks)</title>
+    <url>/2020/06/22/20200622Civil3D%20Ribbon%20Demo/</url>
+    <content><![CDATA[<p>Recently I create a custom #Civil3D ribbon menu with #.NET API for the script I wrote. Now it is easier to use and can save us time for repetitive tasks.</p>
 <hr>
-<h2 id="Select-Lines-and-Polylines">Select Lines and Polylines</h2>
-<pre><code>public void SelectLines()
-        {
-            Database db = HostApplicationServices.WorkingDatabase;
-            LayerTableRecord ltr = new LayerTableRecord();
-            ltr = LayerTools.GetCurrentLayer(db);
-
-
-            FilterType LineType = FilterType.Line;
-            FilterType PolyLineType = FilterType.Polyline;
-            FilterType CircleType = FilterType.Circle;
-
-            FilterType[] Types = new FilterType[3];
-            Types[0] = LineType;
-            Types[1] = PolyLineType;
-            Types[2] = CircleType;
-            DBObjectCollection EntityCollection = Selection.GetSelection(Types);
-        }
-
-</code></pre>
+<h2 id="Edit-Reference-Surface-Of-Network">Edit Reference Surface Of Network</h2>
+<h2 id="Edit-Reference-Surface-Of-Network-2"><img src="/2020/06/22/20200622Civil3D%20Ribbon%20Demo/EditReferenceSurfaceOfNetwork.gif" alt="Edit Reference Surface Of Network"></h2>
+<h2 id="Adjust-the-multiple-viewports-by-several-clicks">Adjust the multiple viewports by several clicks</h2>
+<p><img src="/2020/06/22/20200622Civil3D%20Ribbon%20Demo/Adjustthemultipleviewportsinseconds2.gif" alt="Adjust the multiple viewports by several clicks"></p>
+<h2 id="get-Lot-Area-Info-and-export-to-Excel-file">get Lot Area Info and export to Excel file</h2>
+<p><img src="/2020/06/22/20200622Civil3D%20Ribbon%20Demo/LotAreaTableGeneration3.gif" alt="get Lot Area Info and export to Excel file"></p>
 <script>
         document.querySelectorAll('.github-emoji')
           .forEach(el => {
@@ -2067,45 +2106,6 @@ public static void MultipleSelectionFilter()
       </script>]]></content>
       <categories>
         <category>August 2020</category>
-      </categories>
-      <tags>
-        <tag>Civil 3d</tag>
-        <tag>AutoCAD API</tag>
-        <tag>C#</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Civil3d Ribbon Demo (Automate the repetitive tasks)</title>
-    <url>/2020/06/22/20200622Civil3D%20Ribbon%20Demo/</url>
-    <content><![CDATA[<p>Recently I create a custom #Civil3D ribbon menu with #.NET API for the script I wrote. Now it is easier to use and can save us time for repetitive tasks.</p>
-<hr>
-<h2 id="Edit-Reference-Surface-Of-Network">Edit Reference Surface Of Network</h2>
-<h2 id="Edit-Reference-Surface-Of-Network-2"><img src="/2020/06/22/20200622Civil3D%20Ribbon%20Demo/EditReferenceSurfaceOfNetwork.gif" alt="Edit Reference Surface Of Network"></h2>
-<h2 id="Adjust-the-multiple-viewports-by-several-clicks">Adjust the multiple viewports by several clicks</h2>
-<p><img src="/2020/06/22/20200622Civil3D%20Ribbon%20Demo/Adjustthemultipleviewportsinseconds2.gif" alt="Adjust the multiple viewports by several clicks"></p>
-<h2 id="get-Lot-Area-Info-and-export-to-Excel-file">get Lot Area Info and export to Excel file</h2>
-<p><img src="/2020/06/22/20200622Civil3D%20Ribbon%20Demo/LotAreaTableGeneration3.gif" alt="get Lot Area Info and export to Excel file"></p>
-<script>
-        document.querySelectorAll('.github-emoji')
-          .forEach(el => {
-            if (!el.dataset.src) { return; }
-            const img = document.createElement('img');
-            img.style = 'display:none !important;';
-            img.src = el.dataset.src;
-            img.addEventListener('error', () => {
-              img.remove();
-              el.style.color = 'inherit';
-              el.style.backgroundImage = 'none';
-              el.style.background = 'none';
-            });
-            img.addEventListener('load', () => {
-              img.remove();
-            });
-            document.body.appendChild(img);
-          });
-      </script>]]></content>
-      <categories>
-        <category>June 2020</category>
       </categories>
       <tags>
         <tag>Civil 3d</tag>
@@ -2331,133 +2331,6 @@ namespace _03.Create_Line
 <hr>
 <h1>Reference</h1>
 <p><a href="http://docs.autodesk.com/ACD/2010/ENU/AutoCAD%20.NET%20Developer' target=" _blank"="" rel="noopener" s%20guide="" index.html?url="WS1a9193826455f5ff2566ffd511ff6f8c7ca-3e30.htm,topicNumber=d0e26245" "="">http://docs.autodesk.com/ACD/2010/ENU/AutoCAD .NET Developer’s Guide/index.html?url=WS1a9193826455f5ff2566ffd511ff6f8c7ca-3e30.htm,topicNumber=d0e26245</a></p>
-<script>
-        document.querySelectorAll('.github-emoji')
-          .forEach(el => {
-            if (!el.dataset.src) { return; }
-            const img = document.createElement('img');
-            img.style = 'display:none !important;';
-            img.src = el.dataset.src;
-            img.addEventListener('error', () => {
-              img.remove();
-              el.style.color = 'inherit';
-              el.style.backgroundImage = 'none';
-              el.style.background = 'none';
-            });
-            img.addEventListener('load', () => {
-              img.remove();
-            });
-            document.body.appendChild(img);
-          });
-      </script>]]></content>
-      <categories>
-        <category>August 2020</category>
-      </categories>
-      <tags>
-        <tag>AutoCAD API</tag>
-        <tag>C#</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>02. Brief Introduction about AutoCAD Object Hierarchy</title>
-    <url>/2020/08/23/20200823AutoCAD%20developer&#39;s%20tools%20--%20Brief%20Introduction/</url>
-    <content><![CDATA[<p>Before entering the main topic, I would like to mention some background information.</p>
-<h2 id="Understand-the-AutoCAD-Object-Hierarchy">Understand the AutoCAD Object Hierarchy</h2>
-<p>In my opinion, Object Hierarchy is the most important part for AutoCAD Developers. Indeed, the DWG file is a database, as a Developer, we are trying to read out/write into the data from the database. Hence, we need to know how the data(objects) build up in the database(DWG FILE). This part will be mentioned again and again later.</p>
-<hr>
-<h2 id="The-Document-Object">The Document Object</h2>
-<h3 id="01-Application">01. Application</h3>
-<p>The Application object is the root object of the AutoCAD .NET API. From the Application object, you can access the main window as well as any open drawing. Once you have a drawing, you can then access the objects in the drawing. For information on working with open drawing files (documents) see, The Document Object.<br>
-<img src="/2020/08/23/20200823AutoCAD%20developer's%20tools%20--%20Brief%20Introduction/1.png" alt="Application Tree"></p>
-<blockquote>
-<p>DocumentManager</p>
-<blockquote>
-<p>Container for all the document objects (there is a document object for each drawing that is open).</p>
-</blockquote>
-</blockquote>
-<blockquote>
-<p>DocumentWindowCollection</p>
-<blockquote>
-<p>Container for all the document window objects (there is a document window object for each document object in the DocumentManager).</p>
-</blockquote>
-</blockquote>
-<blockquote>
-<p>InfoCenter</p>
-<blockquote>
-<p>Contains a reference to the InfoCenter toolbar.</p>
-</blockquote>
-</blockquote>
-<blockquote>
-<p>MainWindow</p>
-<blockquote>
-<p>Contains a reference to the application window object of AutoCAD.</p>
-</blockquote>
-</blockquote>
-<blockquote>
-<p>MenuBar</p>
-<blockquote>
-<p>Contains a reference to the MenuBar COM object for the menubar in AutoCAD.</p>
-</blockquote>
-</blockquote>
-<blockquote>
-<p>MenuGroups</p>
-<blockquote>
-<p>Contains a reference to the MenuGroups COM object which contains the customization group name for each loaded CUIx file.</p>
-</blockquote>
-</blockquote>
-<blockquote>
-<p>Preferences</p>
-<blockquote>
-<p>Contains a reference to the Preferences COM object which allows you to modify many of the settings in the Options dialog box.</p>
-</blockquote>
-</blockquote>
-<blockquote>
-<p>Publisher</p>
-<blockquote>
-<p>Contains a reference to the Publisher object which is used for publishing drawings.</p>
-</blockquote>
-</blockquote>
-<blockquote>
-<p>StatusBar</p>
-<blockquote>
-<p>Contains a reference to the StatusBar object for the application window.</p>
-</blockquote>
-</blockquote>
-<blockquote>
-<p>UserConfiguration</p>
-<blockquote>
-<p>Contains a reference to the UserConfiguration object which allows you to work with user saved profiles.</p>
-</blockquote>
-</blockquote>
-<h3 id="02-Document">02. Document</h3>
-<p>The Document object, which is actually an AutoCAD drawing, is part of the DocumentCollection object and provides access to the Database object which is associated with the Document object. The Database object contains all of the graphical and most of the nongraphical AutoCAD objects.</p>
-<p><img src="/2020/08/23/20200823AutoCAD%20developer's%20tools%20--%20Brief%20Introduction/3.png" alt="Document Tree"></p>
-<pre class=" language-language-C#"><code class="language-language-C#">Get the current document and database
-Document  doc = Autodesk.AutoCAD.ApplicationServices.Application .DocumentManager.MdiActiveDocument;  
-</code></pre>
-<h3 id="03-Database">03. Database</h3>
-<p>The Database object contains all of the graphical and most of the nongraphical AutoCAD objects. Some of the objects contained in the database are entities, symbol tables, and named dictionaries. Entities in the database represent graphical objects within a drawing. Lines, circles, arcs, text, hatch, and polylines are examples of entities. A user can see an entity on the screen and can manipulate it.</p>
-<pre class=" language-language-C#"><code class="language-language-C#">Get the current database
- Database  db = Autodesk.AutoCAD.ApplicationServices. Application .DocumentManager.MdiActiveDocument.Database;
-
-Database  db = HostApplicationServices.WorkingDatabase;  
-</code></pre>
-<p><img src="/2020/08/23/20200823AutoCAD%20developer's%20tools%20--%20Brief%20Introduction/2.png" alt="Table"></p>
-<p>From the database, we can access the Tables as shown in the figure above, from which we can loop object IDs inside the different tables. With the ID, we can get the objects in AutoCAD.</p>
-<p><img src="/2020/08/23/20200823AutoCAD%20developer's%20tools%20--%20Brief%20Introduction/4.png" alt="Table List"></p>
-<p><img src="/2020/08/23/20200823AutoCAD%20developer's%20tools%20--%20Brief%20Introduction/5.png" alt="Database Tables"></p>
-<h3 id="04-Transaction">04. Transaction</h3>
-<p>Transactions are used to group multiple operations on multiple objects together as a single operation. Transactions are started and managed through the Transaction Manager. Once a transaction is started, you can then use the GetObject function to open an object.</p>
-<pre class=" language-language-C#"><code class="language-language-C#">Database  db = HostApplicationServices.WorkingDatabase;  // current database
-using ( Transaction  tr = db.TransactionManager.StartTransaction()) //using method
-{
-// some coding...
-tr.Commit();  // commit the transaction
-}
-</code></pre>
-<h1>Reference</h1>
-<p><a href="http://docs.autodesk.com/ACD/2010/ENU/AutoCAD%20.NET%20Developer' target=" _blank"="" rel="noopener" s%20guide="" index.html?url="WS1a9193826455f5ff2566ffd511ff6f8c7ca-3e30.htm,topicNumber=d0e26245" "="">http://docs.autodesk.com/ACD/2010/ENU/AutoCAD .NET Developer’s Guide/index.html?url=WS1a9193826455f5ff2566ffd511ff6f8c7ca-3e30.htm,topicNumber=d0e26245</a><br>
-<a href="https://help.autodesk.com/view/OARX/2021/ENU/?guid=GUID-7E64FDE7-C818-4566-ADF8-C40D50D91E32" target="_blank" rel="noopener">https://help.autodesk.com/view/OARX/2021/ENU/?guid=GUID-7E64FDE7-C818-4566-ADF8-C40D50D91E32</a></p>
 <script>
         document.querySelectorAll('.github-emoji')
           .forEach(el => {
@@ -3051,6 +2924,133 @@ namespace SelectionDemo
       </tags>
   </entry>
   <entry>
+    <title>02. Brief Introduction about AutoCAD Object Hierarchy</title>
+    <url>/2020/08/23/20200823AutoCAD%20developer&#39;s%20tools%20--%20Brief%20Introduction/</url>
+    <content><![CDATA[<p>Before entering the main topic, I would like to mention some background information.</p>
+<h2 id="Understand-the-AutoCAD-Object-Hierarchy">Understand the AutoCAD Object Hierarchy</h2>
+<p>In my opinion, Object Hierarchy is the most important part for AutoCAD Developers. Indeed, the DWG file is a database, as a Developer, we are trying to read out/write into the data from the database. Hence, we need to know how the data(objects) build up in the database(DWG FILE). This part will be mentioned again and again later.</p>
+<hr>
+<h2 id="The-Document-Object">The Document Object</h2>
+<h3 id="01-Application">01. Application</h3>
+<p>The Application object is the root object of the AutoCAD .NET API. From the Application object, you can access the main window as well as any open drawing. Once you have a drawing, you can then access the objects in the drawing. For information on working with open drawing files (documents) see, The Document Object.<br>
+<img src="/2020/08/23/20200823AutoCAD%20developer's%20tools%20--%20Brief%20Introduction/1.png" alt="Application Tree"></p>
+<blockquote>
+<p>DocumentManager</p>
+<blockquote>
+<p>Container for all the document objects (there is a document object for each drawing that is open).</p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p>DocumentWindowCollection</p>
+<blockquote>
+<p>Container for all the document window objects (there is a document window object for each document object in the DocumentManager).</p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p>InfoCenter</p>
+<blockquote>
+<p>Contains a reference to the InfoCenter toolbar.</p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p>MainWindow</p>
+<blockquote>
+<p>Contains a reference to the application window object of AutoCAD.</p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p>MenuBar</p>
+<blockquote>
+<p>Contains a reference to the MenuBar COM object for the menubar in AutoCAD.</p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p>MenuGroups</p>
+<blockquote>
+<p>Contains a reference to the MenuGroups COM object which contains the customization group name for each loaded CUIx file.</p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p>Preferences</p>
+<blockquote>
+<p>Contains a reference to the Preferences COM object which allows you to modify many of the settings in the Options dialog box.</p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p>Publisher</p>
+<blockquote>
+<p>Contains a reference to the Publisher object which is used for publishing drawings.</p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p>StatusBar</p>
+<blockquote>
+<p>Contains a reference to the StatusBar object for the application window.</p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p>UserConfiguration</p>
+<blockquote>
+<p>Contains a reference to the UserConfiguration object which allows you to work with user saved profiles.</p>
+</blockquote>
+</blockquote>
+<h3 id="02-Document">02. Document</h3>
+<p>The Document object, which is actually an AutoCAD drawing, is part of the DocumentCollection object and provides access to the Database object which is associated with the Document object. The Database object contains all of the graphical and most of the nongraphical AutoCAD objects.</p>
+<p><img src="/2020/08/23/20200823AutoCAD%20developer's%20tools%20--%20Brief%20Introduction/3.png" alt="Document Tree"></p>
+<pre class=" language-language-C#"><code class="language-language-C#">Get the current document and database
+Document  doc = Autodesk.AutoCAD.ApplicationServices.Application .DocumentManager.MdiActiveDocument;  
+</code></pre>
+<h3 id="03-Database">03. Database</h3>
+<p>The Database object contains all of the graphical and most of the nongraphical AutoCAD objects. Some of the objects contained in the database are entities, symbol tables, and named dictionaries. Entities in the database represent graphical objects within a drawing. Lines, circles, arcs, text, hatch, and polylines are examples of entities. A user can see an entity on the screen and can manipulate it.</p>
+<pre class=" language-language-C#"><code class="language-language-C#">Get the current database
+ Database  db = Autodesk.AutoCAD.ApplicationServices. Application .DocumentManager.MdiActiveDocument.Database;
+
+Database  db = HostApplicationServices.WorkingDatabase;  
+</code></pre>
+<p><img src="/2020/08/23/20200823AutoCAD%20developer's%20tools%20--%20Brief%20Introduction/2.png" alt="Table"></p>
+<p>From the database, we can access the Tables as shown in the figure above, from which we can loop object IDs inside the different tables. With the ID, we can get the objects in AutoCAD.</p>
+<p><img src="/2020/08/23/20200823AutoCAD%20developer's%20tools%20--%20Brief%20Introduction/4.png" alt="Table List"></p>
+<p><img src="/2020/08/23/20200823AutoCAD%20developer's%20tools%20--%20Brief%20Introduction/5.png" alt="Database Tables"></p>
+<h3 id="04-Transaction">04. Transaction</h3>
+<p>Transactions are used to group multiple operations on multiple objects together as a single operation. Transactions are started and managed through the Transaction Manager. Once a transaction is started, you can then use the GetObject function to open an object.</p>
+<pre class=" language-language-C#"><code class="language-language-C#">Database  db = HostApplicationServices.WorkingDatabase;  // current database
+using ( Transaction  tr = db.TransactionManager.StartTransaction()) //using method
+{
+// some coding...
+tr.Commit();  // commit the transaction
+}
+</code></pre>
+<h1>Reference</h1>
+<p><a href="http://docs.autodesk.com/ACD/2010/ENU/AutoCAD%20.NET%20Developer' target=" _blank"="" rel="noopener" s%20guide="" index.html?url="WS1a9193826455f5ff2566ffd511ff6f8c7ca-3e30.htm,topicNumber=d0e26245" "="">http://docs.autodesk.com/ACD/2010/ENU/AutoCAD .NET Developer’s Guide/index.html?url=WS1a9193826455f5ff2566ffd511ff6f8c7ca-3e30.htm,topicNumber=d0e26245</a><br>
+<a href="https://help.autodesk.com/view/OARX/2021/ENU/?guid=GUID-7E64FDE7-C818-4566-ADF8-C40D50D91E32" target="_blank" rel="noopener">https://help.autodesk.com/view/OARX/2021/ENU/?guid=GUID-7E64FDE7-C818-4566-ADF8-C40D50D91E32</a></p>
+<script>
+        document.querySelectorAll('.github-emoji')
+          .forEach(el => {
+            if (!el.dataset.src) { return; }
+            const img = document.createElement('img');
+            img.style = 'display:none !important;';
+            img.src = el.dataset.src;
+            img.addEventListener('error', () => {
+              img.remove();
+              el.style.color = 'inherit';
+              el.style.backgroundImage = 'none';
+              el.style.background = 'none';
+            });
+            img.addEventListener('load', () => {
+              img.remove();
+            });
+            document.body.appendChild(img);
+          });
+      </script>]]></content>
+      <categories>
+        <category>August 2020</category>
+      </categories>
+      <tags>
+        <tag>AutoCAD API</tag>
+        <tag>C#</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>06. Selection Filters</title>
     <url>/2020/11/22/20201201AutoCAD%20developer&#39;s%20tools%20--%20Selection%20Filters/</url>
     <content><![CDATA[<h1>Introduction</h1>
@@ -3582,122 +3582,6 @@ windowInstance.LookupParameter("Mark").Set(String.Format("EW-{0}", count));
   </entry>
   <entry>
     <title>Revit API -- Show revision on sheet</title>
-    <url>/2021/01/20/20210125Revit%20UI%20Ribbon/</url>
-    <content><![CDATA[<ul>
-<li><a href="#1-background">1. Background</a></li>
-<li><a href="#2-show-revision-on-viewsheet">2. Show revision on viewsheet</a>
-<ul>
-<li><a href="#21-selecting">2.1. Selecting</a></li>
-<li><a href="#22-revision-property">2.2. Revision “Property”</a></li>
-<li><a href="#23-full-code">2.3. Full CODE</a></li>
-</ul>
-</li>
-<li><a href="#3-summary">3. Summary</a></li>
-<li><a href="#4-reference">4. Reference</a></li>
-</ul>
-<h1>1. Background</h1>
-<p>The same archi friend proposed a new request,</p>
-<blockquote>
-<p>He want to show the default revision(BC LODGEMENT) on sheet when creating the sheet.</p>
-</blockquote>
-<p>He explained that when creating a sheet, there is no default revision as below.<br>
-<img src="/2021/01/20/20210125Revit%20UI%20Ribbon/1.png" alt=""></p>
-<p>Unless you mark the plan with cloud line, then the version will show on the same sheet as below.<br>
-<img src="/2021/01/20/20210125Revit%20UI%20Ribbon/2.png" alt=""></p>
-<p>Hence, he can intentionly click <em>shown in Revision Schedule</em> one by one on each sheet, which will be quite time-consuming</p>
-<p>At first I think it will be a easy task, but it takes me several hours to understand how the data structure is.</p>
-<h1>2. Show revision on viewsheet</h1>
-<h2 id="2-1-Selecting">2.1. Selecting</h2>
-<p>Firstly, what we need to do is to select all the sheet view , which I have explained clearly in the last part.</p>
-<pre class=" language-language-C#"><code class="language-language-C#">var viewSheets = new FilteredElementCollector(doc).OfClass(typeof(ViewSheet)
-
-</code></pre>
-<h2 id="2-2-Revision-“Property”">2.2. Revision “Property”</h2>
-<p>At first, using the *<strong><a href="https://github.com/jeremytammik/RevitLookup" target="_blank" rel="noopener">Revit Lookup</a></strong> to find the properties of the viewsheet. We can find as below , all the revions of a sheet will be accessed by <strong>GetAllRevisionIds</strong>,<br>
-<img src="/2021/01/20/20210125Revit%20UI%20Ribbon/3.png" alt=""><br>
-but how to set the revisions of a sheet, let’s look into the ViewSheet</p>
-<pre class=" language-language-C#"><code class="language-language-C#">    public class ViewSheet : View
-    {
-        public string GetRevisionCloudNumberOnSheet(ElementId revisionCloudId);
-        public string GetRevisionNumberOnSheet(ElementId revisionId);
-        public void SetAdditionalRevisionIds(ICollection<ElementId> projectRevisionIds);
-    }
-
-</code></pre>
-<p>We can tell that we can use the function <strong>SetAdditionalRevisionIds(ICollection<elementid> projectRevisionIds);</elementid></strong></p>
-<p>But what is the <strong>projectRevisionIds</strong>, to further understand this, you can refer to <a href="https://thebuildingcoder.typepad.com/blog/2014/06/the-revision-api-and-a-form-on-the-fly.html" target="_blank" rel="noopener">Jeremy’s blog</a>, but now we can get from the way below:</p>
-<p><img src="/2021/01/20/20210125Revit%20UI%20Ribbon/4.png" alt=""></p>
-<p>Hence, we can get the all the revisions by</p>
-<pre class=" language-language-C#"><code class="language-language-C#">public static IList<ElementId> GetAllRevisionIds(Document document);
-</code></pre>
-<p>We can make if statement to decide which revisions need to add into the current sheet. My friend want all the revisions.The code is as below.</p>
-<h2 id="2-3-Full-CODE">2.3. Full CODE</h2>
-<pre class=" language-language-C#"><code class="language-language-C#">    [Transaction(TransactionMode.Manual)]
-    public class RevisionShown:IExternalCommand
-    {
-        public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
-        {
-            //1. Select the current document
-            UIDocument uidoc = commandData.Application.ActiveUIDocument;
-            Document doc = commandData.Application.ActiveUIDocument.Document;
-
-            IList<ElementId> ids = Revision.GetAllRevisionIds(doc);
-
-            int count = 0;
-            using (Transaction t = new Transaction(doc, "ClearMark"))
-            {
-                t.Start();
-
-                foreach (ViewSheet item in new FilteredElementCollector(doc).OfClass(typeof(ViewSheet)).Cast<ViewSheet>())
-                {
-
-                    item.SetAdditionalRevisionIds(ids);
-                    count += 1;
-
-                }
-                t.Commit();
-            }
-            TaskDialog.Show("Result", String.Format("{0} sheets has been modified to BC lodgement, done", count));
-            return Result.Succeeded;
-        }
-    }
-</code></pre>
-<h1>3. Summary</h1>
-<p>Most of the objects can be found and modified from this way, and  Dynamo can achieve the  same goal, but maybe even easier.</p>
-<p>Next time, I will analyze how to modify the revision of the sheet, which I didnot find a way in Dynamo.</p>
-<h1>4. Reference</h1>
-<p><a href="https://github.com/jeremytammik/RevitLookup" target="_blank" rel="noopener">https://github.com/jeremytammik/RevitLookup</a></p>
-<p><a href="http://help.autodesk.com/view/RVT/2019/ENU/?guid=Revit_API_Revit_API_Developers_Guide_html" target="_blank" rel="noopener">http://help.autodesk.com/view/RVT/2019/ENU/?guid=Revit_API_Revit_API_Developers_Guide_html</a></p>
-<p><a href="https://thebuildingcoder.typepad.com/blog/2014/06/the-revision-api-and-a-form-on-the-fly.html" target="_blank" rel="noopener">https://thebuildingcoder.typepad.com/blog/2014/06/the-revision-api-and-a-form-on-the-fly.html</a></p>
-<script>
-        document.querySelectorAll('.github-emoji')
-          .forEach(el => {
-            if (!el.dataset.src) { return; }
-            const img = document.createElement('img');
-            img.style = 'display:none !important;';
-            img.src = el.dataset.src;
-            img.addEventListener('error', () => {
-              img.remove();
-              el.style.color = 'inherit';
-              el.style.backgroundImage = 'none';
-              el.style.background = 'none';
-            });
-            img.addEventListener('load', () => {
-              img.remove();
-            });
-            document.body.appendChild(img);
-          });
-      </script>]]></content>
-      <categories>
-        <category>January 2020</category>
-      </categories>
-      <tags>
-        <tag>C#</tag>
-        <tag>Revit API</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Revit API -- Show revision on sheet</title>
     <url>/2021/01/20/20210120Revit%20API%20--%20Show%20revision%20on%20sheet/</url>
     <content><![CDATA[<ul>
 <li><a href="#1-background">1. Background</a></li>
@@ -3903,6 +3787,90 @@ osurface.Rebuild()
       </categories>
       <tags>
         <tag>Civil 3d</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Revit API -- Revit Ribbon</title>
+    <url>/2021/01/25/20210125Revit%20UI%20Ribbon/</url>
+    <content><![CDATA[<ul>
+<li><a href="#1-background">1. Background</a></li>
+<li><a href="#2-full-code">2. Full CODE</a></li>
+<li><a href="#3-reference">3. Reference</a></li>
+</ul>
+<h1>1. Background</h1>
+<p>After writing several tools for Reivt, for myself, I can use it by coding, but to make it more friendly for other users, we need to make a UI for the fuctions.On revit, it is quite easy to make ribbon.</p>
+<p>This part is easy, quite similar as the AutoCAD API, I have written the comments inside the code.</p>
+<h1>2. Full CODE</h1>
+<pre class=" language-language-C#"><code class="language-language-C#">    [Transaction(TransactionMode.Manual)]
+    public class ReNumberTab : IExternalApplication
+    {
+        public Result OnShutdown(UIControlledApplication application)
+        {
+            return Result.Succeeded;
+        }
+
+        public Result OnStartup(UIControlledApplication application)
+        {
+            //create a Ribbon Tab
+            application.CreateRibbonTab("FYTab");//New Tab
+
+
+            //create UIPanel in the Ribbon Tab 
+            RibbonPanel rp = application.CreateRibbonPanel("FYTab", "ReNumber");
+
+            //route of assemble
+            string assemblePath = Assembly.GetExecutingAssembly().Location;
+            
+            //name space and class name of the function
+            string classNameReNumberWindow = "ReNumber.ReNumberWindows";
+
+            //4. Create push button
+            PushButtonData pbd = new PushButtonData("ReNameWindows", "ReNameWindows", assemblePath, classNameReNumberWindow);
+
+            PushButton pushButton = rp.AddItem(pbd) as PushButton;
+
+            // big icon 32px. small icon at 16px
+            string imgPath = @"C:\ProgramData\Autodesk\Revit\Addins\2019\ReNumberWindows\sheep.png";
+            //new Uri("pack://application:,,,/ReNumber;component/pic/sheep.png", UriKind.Absolute)
+
+            //to set the button image to the button object
+            pushButton.LargeImage = new BitmapImage(new Uri(imgPath));
+
+            //to set the reminder when the mouse float on the button
+            pushButton.ToolTip = "Renumber all the Windows from \"EW-01\"";
+
+            return Result.Succeeded;
+        }
+    }
+
+</code></pre>
+<h1>3. Reference</h1>
+<p><a href="http://help.autodesk.com/view/RVT/2019/ENU/?guid=Revit_API_Revit_API_Developers_Guide_html" target="_blank" rel="noopener">http://help.autodesk.com/view/RVT/2019/ENU/?guid=Revit_API_Revit_API_Developers_Guide_html</a></p>
+<script>
+        document.querySelectorAll('.github-emoji')
+          .forEach(el => {
+            if (!el.dataset.src) { return; }
+            const img = document.createElement('img');
+            img.style = 'display:none !important;';
+            img.src = el.dataset.src;
+            img.addEventListener('error', () => {
+              img.remove();
+              el.style.color = 'inherit';
+              el.style.backgroundImage = 'none';
+              el.style.background = 'none';
+            });
+            img.addEventListener('load', () => {
+              img.remove();
+            });
+            document.body.appendChild(img);
+          });
+      </script>]]></content>
+      <categories>
+        <category>January 2020</category>
+      </categories>
+      <tags>
+        <tag>C#</tag>
+        <tag>Revit API</tag>
       </tags>
   </entry>
   <entry>

@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="Revit API -- Show revision on sheet, Python, Pandas">
+    <meta name="keywords" content="Revit API -- Revit Ribbon, Python, Pandas">
     <meta name="description" content="Just to take notes for what I have learnt, and I will be very happy if it helps anyone.">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>Revit API -- Show revision on sheet | Ford Yang&#39;s Blog</title>
+    <title>Revit API -- Revit Ribbon | Ford Yang&#39;s Blog</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -220,7 +220,7 @@
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">Revit API -- Show revision on sheet</h1>
+                    <h1 class="description center-align post-title">Revit API -- Revit Ribbon</h1>
                 </div>
             </div>
         </div>
@@ -366,7 +366,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>Publish Date:&nbsp;&nbsp;
-                    2021-01-20
+                    2021-01-25
                 </div>
                 
 
@@ -375,14 +375,14 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>Word Count:&nbsp;&nbsp;
-                    530
+                    283
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>Read Times:&nbsp;&nbsp;
-                    3 Min
+                    1 Min
                 </div>
                 
 
@@ -394,90 +394,58 @@
             <div id="articleContent">
                 <ul>
 <li><a href="#1-background">1. Background</a></li>
-<li><a href="#2-show-revision-on-viewsheet">2. Show revision on viewsheet</a>
-<ul>
-<li><a href="#21-selecting">2.1. Selecting</a></li>
-<li><a href="#22-revision-property">2.2. Revision “Property”</a></li>
-<li><a href="#23-full-code">2.3. Full CODE</a></li>
-</ul>
-</li>
-<li><a href="#3-summary">3. Summary</a></li>
-<li><a href="#4-reference">4. Reference</a></li>
+<li><a href="#2-full-code">2. Full CODE</a></li>
+<li><a href="#3-reference">3. Reference</a></li>
 </ul>
 <h1>1. Background</h1>
-<p>The same archi friend proposed a new request,</p>
-<blockquote>
-<p>He want to show the default revision(BC LODGEMENT) on sheet when creating the sheet.</p>
-</blockquote>
-<p>He explained that when creating a sheet, there is no default revision as below.<br>
-<img src="/2021/01/20/20210125Revit%20UI%20Ribbon/1.png" alt=""></p>
-<p>Unless you mark the plan with cloud line, then the version will show on the same sheet as below.<br>
-<img src="/2021/01/20/20210125Revit%20UI%20Ribbon/2.png" alt=""></p>
-<p>Hence, he can intentionly click <em>shown in Revision Schedule</em> one by one on each sheet, which will be quite time-consuming</p>
-<p>At first I think it will be a easy task, but it takes me several hours to understand how the data structure is.</p>
-<h1>2. Show revision on viewsheet</h1>
-<h2 id="2-1-Selecting">2.1. Selecting</h2>
-<p>Firstly, what we need to do is to select all the sheet view , which I have explained clearly in the last part.</p>
-<pre class=" language-language-C#"><code class="language-language-C#">var viewSheets = new FilteredElementCollector(doc).OfClass(typeof(ViewSheet)
-
-</code></pre>
-<h2 id="2-2-Revision-“Property”">2.2. Revision “Property”</h2>
-<p>At first, using the *<strong><a href="https://github.com/jeremytammik/RevitLookup" target="_blank" rel="noopener">Revit Lookup</a></strong> to find the properties of the viewsheet. We can find as below , all the revions of a sheet will be accessed by <strong>GetAllRevisionIds</strong>,<br>
-<img src="/2021/01/20/20210125Revit%20UI%20Ribbon/3.png" alt=""><br>
-but how to set the revisions of a sheet, let’s look into the ViewSheet</p>
-<pre class=" language-language-C#"><code class="language-language-C#">    public class ViewSheet : View
-    {
-        public string GetRevisionCloudNumberOnSheet(ElementId revisionCloudId);
-        public string GetRevisionNumberOnSheet(ElementId revisionId);
-        public void SetAdditionalRevisionIds(ICollection<ElementId> projectRevisionIds);
-    }
-
-</code></pre>
-<p>We can tell that we can use the function <strong>SetAdditionalRevisionIds(ICollection<elementid> projectRevisionIds);</elementid></strong></p>
-<p>But what is the <strong>projectRevisionIds</strong>, to further understand this, you can refer to <a href="https://thebuildingcoder.typepad.com/blog/2014/06/the-revision-api-and-a-form-on-the-fly.html" target="_blank" rel="noopener">Jeremy’s blog</a>, but now we can get from the way below:</p>
-<p><img src="/2021/01/20/20210125Revit%20UI%20Ribbon/4.png" alt=""></p>
-<p>Hence, we can get the all the revisions by</p>
-<pre class=" language-language-C#"><code class="language-language-C#">public static IList<ElementId> GetAllRevisionIds(Document document);
-</code></pre>
-<p>We can make if statement to decide which revisions need to add into the current sheet. My friend want all the revisions.The code is as below.</p>
-<h2 id="2-3-Full-CODE">2.3. Full CODE</h2>
+<p>After writing several tools for Reivt, for myself, I can use it by coding, but to make it more friendly for other users, we need to make a UI for the fuctions.On revit, it is quite easy to make ribbon.</p>
+<p>This part is easy, quite similar as the AutoCAD API, I have written the comments inside the code.</p>
+<h1>2. Full CODE</h1>
 <pre class=" language-language-C#"><code class="language-language-C#">    [Transaction(TransactionMode.Manual)]
-    public class RevisionShown:IExternalCommand
+    public class ReNumberTab : IExternalApplication
     {
-        public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
+        public Result OnShutdown(UIControlledApplication application)
         {
-            //1. Select the current document
-            UIDocument uidoc = commandData.Application.ActiveUIDocument;
-            Document doc = commandData.Application.ActiveUIDocument.Document;
+            return Result.Succeeded;
+        }
 
-            IList<ElementId> ids = Revision.GetAllRevisionIds(doc);
+        public Result OnStartup(UIControlledApplication application)
+        {
+            //create a Ribbon Tab
+            application.CreateRibbonTab("FYTab");//New Tab
 
-            int count = 0;
-            using (Transaction t = new Transaction(doc, "ClearMark"))
-            {
-                t.Start();
 
-                foreach (ViewSheet item in new FilteredElementCollector(doc).OfClass(typeof(ViewSheet)).Cast<ViewSheet>())
-                {
+            //create UIPanel in the Ribbon Tab 
+            RibbonPanel rp = application.CreateRibbonPanel("FYTab", "ReNumber");
 
-                    item.SetAdditionalRevisionIds(ids);
-                    count += 1;
+            //route of assemble
+            string assemblePath = Assembly.GetExecutingAssembly().Location;
+            
+            //name space and class name of the function
+            string classNameReNumberWindow = "ReNumber.ReNumberWindows";
 
-                }
-                t.Commit();
-            }
-            TaskDialog.Show("Result", String.Format("{0} sheets has been modified to BC lodgement, done", count));
+            //4. Create push button
+            PushButtonData pbd = new PushButtonData("ReNameWindows", "ReNameWindows", assemblePath, classNameReNumberWindow);
+
+            PushButton pushButton = rp.AddItem(pbd) as PushButton;
+
+            // big icon 32px. small icon at 16px
+            string imgPath = @"C:\ProgramData\Autodesk\Revit\Addins\2019\ReNumberWindows\sheep.png";
+            //new Uri("pack://application:,,,/ReNumber;component/pic/sheep.png", UriKind.Absolute)
+
+            //to set the button image to the button object
+            pushButton.LargeImage = new BitmapImage(new Uri(imgPath));
+
+            //to set the reminder when the mouse float on the button
+            pushButton.ToolTip = "Renumber all the Windows from \"EW-01\"";
+
             return Result.Succeeded;
         }
     }
+
 </code></pre>
-<h1>3. Summary</h1>
-<p>Most of the objects can be found and modified from this way, and  Dynamo can achieve the  same goal, but maybe even easier.</p>
-<p>Next time, I will analyze how to modify the revision of the sheet, which I didnot find a way in Dynamo.</p>
-<h1>4. Reference</h1>
-<p><a href="https://github.com/jeremytammik/RevitLookup" target="_blank" rel="noopener">https://github.com/jeremytammik/RevitLookup</a></p>
+<h1>3. Reference</h1>
 <p><a href="http://help.autodesk.com/view/RVT/2019/ENU/?guid=Revit_API_Revit_API_Developers_Guide_html" target="_blank" rel="noopener">http://help.autodesk.com/view/RVT/2019/ENU/?guid=Revit_API_Revit_API_Developers_Guide_html</a></p>
-<p><a href="https://thebuildingcoder.typepad.com/blog/2014/06/the-revision-api-and-a-form-on-the-fly.html" target="_blank" rel="noopener">https://thebuildingcoder.typepad.com/blog/2014/06/the-revision-api-and-a-form-on-the-fly.html</a></p>
 <script>
         document.querySelectorAll('.github-emoji')
           .forEach(el => {
@@ -521,7 +489,7 @@ but how to set the revisions of a sheet, let’s look into the ViewSheet</p>
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://fordy7014.github.io/2021/01/20/20210125Revit%20UI%20Ribbon/">https://fordy7014.github.io/2021/01/20/20210125Revit%20UI%20Ribbon/</a>
+                    <a href="https://fordy7014.github.io/2021/01/25/20210125Revit%20UI%20Ribbon/">https://fordy7014.github.io/2021/01/25/20210125Revit%20UI%20Ribbon/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -611,13 +579,13 @@ but how to set the revisions of a sheet, let’s look into the ViewSheet</p>
                 <i class="far fa-dot-circle"></i>&nbsp;Current
             </div>
             <div class="card">
-                <a href="/2021/01/20/20210125Revit%20UI%20Ribbon/">
+                <a href="/2021/01/25/20210125Revit%20UI%20Ribbon/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/16.jpg" class="responsive-img" alt="Revit API -- Show revision on sheet">
+                        <img src="/medias/featureimages/16.jpg" class="responsive-img" alt="Revit API -- Revit Ribbon">
                         
-                        <span class="card-title">Revit API -- Show revision on sheet</span>
+                        <span class="card-title">Revit API -- Revit Ribbon</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -625,20 +593,16 @@ but how to set the revisions of a sheet, let’s look into the ViewSheet</p>
                         
                             
 1. Background
-2. Show revision on viewsheet
+2. Full CODE
+3. Reference
 
-2.1. Selecting
-2.2. Revision “Property”
-2.3. Full CODE
-
-
-3. Summary
-4. Ref
+1. Background
+After writing several tools for Reivt, for myself, I can use it 
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2021-01-20
+                                <i class="far fa-clock fa-fw icon-date"></i>2021-01-25
                             </span>
                         <span class="publish-author">
                             
