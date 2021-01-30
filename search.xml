@@ -1559,6 +1559,102 @@ ax.legend()
       </tags>
   </entry>
   <entry>
+    <title>How to autoload *.dll in AutoCAD</title>
+    <url>/2020/06/01/20200602How%20to%20autoload%20dll%20in%20AutoCAD/</url>
+    <content><![CDATA[<hr>
+<h3 id="Enter-the-folder">Enter the folder</h3>
+<p>First step is to create a bundle folder in “%ProgramData%/Autodesk/ApplicationPlugins”. the bundle folder is a normal windows folder that ends with .bundle (ex. MyApp.bundle)</p>
+<p><img src="/2020/06/01/20200602How%20to%20autoload%20dll%20in%20AutoCAD/11.PNG" alt="FlolderLocation"></p>
+<hr>
+<h3 id="Folder-contents">Folder contents</h3>
+<p>Inside this folder there should be a folder named (“Contents”) and a file named (“PackageContents.xml”).</p>
+<p>Place *.dll inside the contents folder</p>
+<p><img src="/2020/06/01/20200602How%20to%20autoload%20dll%20in%20AutoCAD/22.PNG" alt="folderContent"></p>
+<hr>
+<h3 id="Modify-the-XML-file">Modify the XML file</h3>
+<p>code inside PackageContents.xml can be as simple as the following (Change things like “MyApp”, “MyName”, etc… and it works):</p>
+<pre class=" language-language-xml"><code class="language-language-xml"><?xml version="1.0" encoding="utf-8"?>
+<ApplicationPackage SchemaVersion="1.0" ProductType="Application" Name="MyAPP" AppVersion="1.0" Description="MyAPP, My description" Author="My Name" Icon="./Contents/MyAPPIcon.ico" OnlineDocumentation="http://MyWebSite.com" HelpFile="" ProductCode="{xxxxxx-xxxx-xxxx-xxxx-xxxxxxxxx}" FriendlyVersion="1.0" SupportedLocales="Enu" AutodeskProduct="AutoCAD">
+  <CompanyDetails Name="My Name" Phone=" " Url="http://MyWebsite.com" Email="MyName@MyWebSite.com" />
+  <Components Description="Main">
+    <RuntimeRequirements SupportPath="./Contents" OS="Win32|Win64" Platform="AutoCAD*" SeriesMin="R19.0" SeriesMax="R22.0" />
+    <ComponentEntry AppName="MyAPP" Version="1.0" ModuleName="./Contents/MyAPP.dll" AppDescription="My description" LoadOnAppearance="True" LoadOnAutoCADStartup="True" LoadOnCommandInvocation="True">
+    </ComponentEntry>
+  </Components>
+</ApplicationPackage>
+</code></pre>
+<p>Put the *.dll file inside the Contents folder.</p>
+<hr>
+<h3 id="ProductCode-GUID">ProductCode(GUID)</h3>
+<pre class=" language-language-csharp"><code class="language-language-csharp">private string getGUID()
+   {
+       System.Guid guid = new Guid();
+       guid = Guid.NewGuid();
+       string str = guid.ToString();
+       return str;
+   }
+</code></pre>
+<p>or on the visual Studio</p>
+<pre><code>Tools ----Create GUID
+</code></pre>
+<hr>
+<h3 id="Auto-Run-Command-when-loading-dll-file">Auto Run Command when loading .dll file</h3>
+<pre><code>&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;ApplicationPackage SchemaVersion="1.0" AppVersion="1.0.0" ProductType="Application"
+    ProductCode="{6A1C1EAE-3744-4BD8-AF08-F322E92D9B3B}"
+    Name="RibbonTest"  Description="MyAPP, My description"  SupportedLocales="Enu" AutodeskProduct="AutoCAD"&gt;
+  &lt;CompanyDetails Name="myribbontest" Email="yangfan7014@gmail.com" /&gt;
+  &lt;RuntimeRequirements SupportPath="./Contents" OS="Win32|Win64" Platform="AutoCAD*|AutoCAD" SeriesMin="R20.1" SeriesMax="R24.0"/&gt;
+  &lt;Components Description="Main"&gt;
+
+    &lt;ComponentEntry  AppName="MyAPP" Version="1.0.0" ModuleName="./Contents/18RibbonT.dll" LoadOnAppearance="True" LoadOnAutoCADStartup="True" LoadOnCommandInvocation="True"&gt;
+      &lt;Commands GroupName="_18RibbonT"&gt;
+        &lt;Command Local="RibbonDemo" Global="RibbonDemo" StartupCommand = "True" /&gt;
+      &lt;/Commands&gt;
+	  &lt;/ComponentEntry&gt;
+
+    &lt;ComponentEntry  AppName="Ramps" Version="1.0.0" ModuleName="./Contents/Ramps.dll" LoadOnAutoCADStartup="True"&gt;
+      &lt;Commands GroupName="Commands"&gt;
+        &lt;Command Local="CRAMPS" Global="CRAMPS" /&gt;
+      &lt;/Commands&gt;
+    &lt;/ComponentEntry&gt;		
+
+  &lt;/Components&gt;
+&lt;/ApplicationPackage&gt;
+</code></pre>
+<h1>Reference</h1>
+<p><a href="https://adndevblog.typepad.com/autocad/2013/01/autodesk-autoloader-white-paper.html" target="_blank" rel="noopener">https://adndevblog.typepad.com/autocad/2013/01/autodesk-autoloader-white-paper.html</a><br>
+<a href="https://stackoverflow.com/questions/46282189/autocad-2018-autoload-dll" target="_blank" rel="noopener">https://stackoverflow.com/questions/46282189/autocad-2018-autoload-dll</a><br>
+<a href="https://stackoverflow.com/questions/46282189/autocad-2018-autoload-dll" target="_blank" rel="noopener">https://stackoverflow.com/questions/46282189/autocad-2018-autoload-dll</a><br>
+<a href="https://www.cnblogs.com/linzheng/archive/2010/12/14/1905906.html" target="_blank" rel="noopener">https://www.cnblogs.com/linzheng/archive/2010/12/14/1905906.html</a></p>
+<script>
+        document.querySelectorAll('.github-emoji')
+          .forEach(el => {
+            if (!el.dataset.src) { return; }
+            const img = document.createElement('img');
+            img.style = 'display:none !important;';
+            img.src = el.dataset.src;
+            img.addEventListener('error', () => {
+              img.remove();
+              el.style.color = 'inherit';
+              el.style.backgroundImage = 'none';
+              el.style.background = 'none';
+            });
+            img.addEventListener('load', () => {
+              img.remove();
+            });
+            document.body.appendChild(img);
+          });
+      </script>]]></content>
+      <categories>
+        <category>June 2020</category>
+      </categories>
+      <tags>
+        <tag>Civil 3d</tag>
+        <tag>AutoCAD API</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Set Viewport in AutoCad .Net API</title>
     <url>/2020/06/15/20200615Set%20Viewport%20in%20AutoCad%20.Net%20API/</url>
     <content><![CDATA[<hr>
@@ -1657,74 +1753,58 @@ Mostly we have different plans such as drainage or driveway plan on same site, i
       </tags>
   </entry>
   <entry>
-    <title>How to autoload *.dll in AutoCAD</title>
-    <url>/2020/06/01/20200602How%20to%20autoload%20dll%20in%20AutoCAD/</url>
+    <title>Prompt to Select one type of object in .NetAPI(Ironpython)</title>
+    <url>/2020/06/16/20200616Prompt%20to%20Select%20one%20type%20of%20object/</url>
     <content><![CDATA[<hr>
-<h3 id="Enter-the-folder">Enter the folder</h3>
-<p>First step is to create a bundle folder in “%ProgramData%/Autodesk/ApplicationPlugins”. the bundle folder is a normal windows folder that ends with .bundle (ex. MyApp.bundle)</p>
-<p><img src="/2020/06/01/20200602How%20to%20autoload%20dll%20in%20AutoCAD/11.PNG" alt="FlolderLocation"></p>
-<hr>
-<h3 id="Folder-contents">Folder contents</h3>
-<p>Inside this folder there should be a folder named (“Contents”) and a file named (“PackageContents.xml”).</p>
-<p>Place *.dll inside the contents folder</p>
-<p><img src="/2020/06/01/20200602How%20to%20autoload%20dll%20in%20AutoCAD/22.PNG" alt="folderContent"></p>
-<hr>
-<h3 id="Modify-the-XML-file">Modify the XML file</h3>
-<p>code inside PackageContents.xml can be as simple as the following (Change things like “MyApp”, “MyName”, etc… and it works):</p>
-<pre class=" language-language-xml"><code class="language-language-xml"><?xml version="1.0" encoding="utf-8"?>
-<ApplicationPackage SchemaVersion="1.0" ProductType="Application" Name="MyAPP" AppVersion="1.0" Description="MyAPP, My description" Author="My Name" Icon="./Contents/MyAPPIcon.ico" OnlineDocumentation="http://MyWebSite.com" HelpFile="" ProductCode="{xxxxxx-xxxx-xxxx-xxxx-xxxxxxxxx}" FriendlyVersion="1.0" SupportedLocales="Enu" AutodeskProduct="AutoCAD">
-  <CompanyDetails Name="My Name" Phone=" " Url="http://MyWebsite.com" Email="MyName@MyWebSite.com" />
-  <Components Description="Main">
-    <RuntimeRequirements SupportPath="./Contents" OS="Win32|Win64" Platform="AutoCAD*" SeriesMin="R19.0" SeriesMax="R22.0" />
-    <ComponentEntry AppName="MyAPP" Version="1.0" ModuleName="./Contents/MyAPP.dll" AppDescription="My description" LoadOnAppearance="True" LoadOnAutoCADStartup="True" LoadOnCommandInvocation="True">
-    </ComponentEntry>
-  </Components>
-</ApplicationPackage>
-</code></pre>
-<p>Put the *.dll file inside the Contents folder.</p>
-<hr>
-<h3 id="ProductCode-GUID">ProductCode(GUID)</h3>
-<pre class=" language-language-csharp"><code class="language-language-csharp">private string getGUID()
-   {
-       System.Guid guid = new Guid();
-       guid = Guid.NewGuid();
-       string str = guid.ToString();
-       return str;
-   }
-</code></pre>
-<p>or on the visual Studio</p>
-<pre><code>Tools ----Create GUID
+<h2 id="Function">Function</h2>
+<pre class=" language-language-python"><code class="language-language-python">def PromptForEntity( prompt, filetype):
+	global adoc
+	global ed
+
+	options = PromptEntityOptions("%s"%prompt)
+	options.SetRejectMessage("\nThe selected object is not a %s\n"%str(filetype))
+	options.AddAllowedClass(clr.GetClrType(filetype), True)
+
+
+	result = doc.Editor.GetEntity(options)
+
+	if result.Status != PromptStatus.OK:
+		ed.WriteMessage("\n The select target is " +str(filetype) +" please select "  +str(filetype) + "  \n")
+
+	if result.Status == PromptStatus.OK:
+		ed.WriteMessage("\ntarget has been selected\n")
+		ed.WriteMessage("\ntarget has been selected%s\n\n\n\n"%str(result.ObjectId))
+		return result.ObjectId
+
+	ed.WriteMessage("I will return Null  ")
+	return ObjectId.Null
 </code></pre>
 <hr>
-<h3 id="Auto-Run-Command-when-loading-dll-file">Auto Run Command when loading .dll file</h3>
-<pre><code>&lt;?xml version="1.0" encoding="utf-8"?&gt;
-&lt;ApplicationPackage SchemaVersion="1.0" AppVersion="1.0.0" ProductType="Application"
-    ProductCode="{6A1C1EAE-3744-4BD8-AF08-F322E92D9B3B}"
-    Name="RibbonTest"  Description="MyAPP, My description"  SupportedLocales="Enu" AutodeskProduct="AutoCAD"&gt;
-  &lt;CompanyDetails Name="myribbontest" Email="yangfan7014@gmail.com" /&gt;
-  &lt;RuntimeRequirements SupportPath="./Contents" OS="Win32|Win64" Platform="AutoCAD*|AutoCAD" SeriesMin="R20.1" SeriesMax="R24.0"/&gt;
-  &lt;Components Description="Main"&gt;
+<h2 id="Example">Example</h2>
+<pre><code>try:
+	surfaceId = PromptForEntity("Select the surface to add a boundary to", TinSurface)
+	plineId = PromptForEntity("Select the object to use as a boundary", Polyline)
 
-    &lt;ComponentEntry  AppName="MyAPP" Version="1.0.0" ModuleName="./Contents/18RibbonT.dll" LoadOnAppearance="True" LoadOnAutoCADStartup="True" LoadOnCommandInvocation="True"&gt;
-      &lt;Commands GroupName="_18RibbonT"&gt;
-        &lt;Command Local="RibbonDemo" Global="RibbonDemo" StartupCommand = "True" /&gt;
-      &lt;/Commands&gt;
-	  &lt;/ComponentEntry&gt;
+	coll = ObjectIdCollection()
+	coll.Add(plineId)
+	ed.WriteMessage("pLINE COLLECTION HAS BEEN MADE")
 
-    &lt;ComponentEntry  AppName="Ramps" Version="1.0.0" ModuleName="./Contents/Ramps.dll" LoadOnAutoCADStartup="True"&gt;
-      &lt;Commands GroupName="Commands"&gt;
-        &lt;Command Local="CRAMPS" Global="CRAMPS" /&gt;
-      &lt;/Commands&gt;
-    &lt;/ComponentEntry&gt;		
+	oSurface = t.GetObject(surfaceId, OpenMode.ForWrite)
 
-  &lt;/Components&gt;
-&lt;/ApplicationPackage&gt;
+	#
+	oSurface.BoundariesDefinition.AddBoundaries(coll, 100, SurfaceBoundaryType.Outer, True)
+
+	oSurface.Rebuild()
+	ed.WriteMessage("Rebuilt Done")
+
+	# Commit before end transaction
+	t.Commit()
+except:
+	ed.WriteMessage("Failed to add the boundary")
+
 </code></pre>
 <h1>Reference</h1>
-<p><a href="https://adndevblog.typepad.com/autocad/2013/01/autodesk-autoloader-white-paper.html" target="_blank" rel="noopener">https://adndevblog.typepad.com/autocad/2013/01/autodesk-autoloader-white-paper.html</a><br>
-<a href="https://stackoverflow.com/questions/46282189/autocad-2018-autoload-dll" target="_blank" rel="noopener">https://stackoverflow.com/questions/46282189/autocad-2018-autoload-dll</a><br>
-<a href="https://stackoverflow.com/questions/46282189/autocad-2018-autoload-dll" target="_blank" rel="noopener">https://stackoverflow.com/questions/46282189/autocad-2018-autoload-dll</a><br>
-<a href="https://www.cnblogs.com/linzheng/archive/2010/12/14/1905906.html" target="_blank" rel="noopener">https://www.cnblogs.com/linzheng/archive/2010/12/14/1905906.html</a></p>
+<p><a href="http://help.autodesk.com/view/CIV3D/2020/ENU/?guid=GUID-7C32E309-9B54-42A0-A4DC-C6FD592071F2" target="_blank" rel="noopener">http://help.autodesk.com/view/CIV3D/2020/ENU/?guid=GUID-7C32E309-9B54-42A0-A4DC-C6FD592071F2</a></p>
 <script>
         document.querySelectorAll('.github-emoji')
           .forEach(el => {
@@ -1750,6 +1830,7 @@ Mostly we have different plans such as drainage or driveway plan on same site, i
       <tags>
         <tag>Civil 3d</tag>
         <tag>AutoCAD API</tag>
+        <tag>Ironpython</tag>
       </tags>
   </entry>
   <entry>
@@ -1854,126 +1935,6 @@ public static void MultipleSelectionFilter()
       </tags>
   </entry>
   <entry>
-    <title>Civil3d Ribbon Demo (Automate the repetitive tasks)</title>
-    <url>/2020/06/22/20200622Civil3D%20Ribbon%20Demo/</url>
-    <content><![CDATA[<p>Recently I create a custom #Civil3D ribbon menu with #.NET API for the script I wrote. Now it is easier to use and can save us time for repetitive tasks.</p>
-<hr>
-<h2 id="Edit-Reference-Surface-Of-Network">Edit Reference Surface Of Network</h2>
-<h2 id="Edit-Reference-Surface-Of-Network-2"><img src="/2020/06/22/20200622Civil3D%20Ribbon%20Demo/EditReferenceSurfaceOfNetwork.gif" alt="Edit Reference Surface Of Network"></h2>
-<h2 id="Adjust-the-multiple-viewports-by-several-clicks">Adjust the multiple viewports by several clicks</h2>
-<p><img src="/2020/06/22/20200622Civil3D%20Ribbon%20Demo/Adjustthemultipleviewportsinseconds2.gif" alt="Adjust the multiple viewports by several clicks"></p>
-<h2 id="get-Lot-Area-Info-and-export-to-Excel-file">get Lot Area Info and export to Excel file</h2>
-<p><img src="/2020/06/22/20200622Civil3D%20Ribbon%20Demo/LotAreaTableGeneration3.gif" alt="get Lot Area Info and export to Excel file"></p>
-<script>
-        document.querySelectorAll('.github-emoji')
-          .forEach(el => {
-            if (!el.dataset.src) { return; }
-            const img = document.createElement('img');
-            img.style = 'display:none !important;';
-            img.src = el.dataset.src;
-            img.addEventListener('error', () => {
-              img.remove();
-              el.style.color = 'inherit';
-              el.style.backgroundImage = 'none';
-              el.style.background = 'none';
-            });
-            img.addEventListener('load', () => {
-              img.remove();
-            });
-            document.body.appendChild(img);
-          });
-      </script>]]></content>
-      <categories>
-        <category>June 2020</category>
-      </categories>
-      <tags>
-        <tag>Civil 3d</tag>
-        <tag>AutoCAD API</tag>
-        <tag>C#</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Prompt to Select one type of object in .NetAPI(Ironpython)</title>
-    <url>/2020/06/16/20200616Prompt%20to%20Select%20one%20type%20of%20object/</url>
-    <content><![CDATA[<hr>
-<h2 id="Function">Function</h2>
-<pre class=" language-language-python"><code class="language-language-python">def PromptForEntity( prompt, filetype):
-	global adoc
-	global ed
-
-	options = PromptEntityOptions("%s"%prompt)
-	options.SetRejectMessage("\nThe selected object is not a %s\n"%str(filetype))
-	options.AddAllowedClass(clr.GetClrType(filetype), True)
-
-
-	result = doc.Editor.GetEntity(options)
-
-	if result.Status != PromptStatus.OK:
-		ed.WriteMessage("\n The select target is " +str(filetype) +" please select "  +str(filetype) + "  \n")
-
-	if result.Status == PromptStatus.OK:
-		ed.WriteMessage("\ntarget has been selected\n")
-		ed.WriteMessage("\ntarget has been selected%s\n\n\n\n"%str(result.ObjectId))
-		return result.ObjectId
-
-	ed.WriteMessage("I will return Null  ")
-	return ObjectId.Null
-</code></pre>
-<hr>
-<h2 id="Example">Example</h2>
-<pre><code>try:
-	surfaceId = PromptForEntity("Select the surface to add a boundary to", TinSurface)
-	plineId = PromptForEntity("Select the object to use as a boundary", Polyline)
-
-	coll = ObjectIdCollection()
-	coll.Add(plineId)
-	ed.WriteMessage("pLINE COLLECTION HAS BEEN MADE")
-
-	oSurface = t.GetObject(surfaceId, OpenMode.ForWrite)
-
-	#
-	oSurface.BoundariesDefinition.AddBoundaries(coll, 100, SurfaceBoundaryType.Outer, True)
-
-	oSurface.Rebuild()
-	ed.WriteMessage("Rebuilt Done")
-
-	# Commit before end transaction
-	t.Commit()
-except:
-	ed.WriteMessage("Failed to add the boundary")
-
-</code></pre>
-<h1>Reference</h1>
-<p><a href="http://help.autodesk.com/view/CIV3D/2020/ENU/?guid=GUID-7C32E309-9B54-42A0-A4DC-C6FD592071F2" target="_blank" rel="noopener">http://help.autodesk.com/view/CIV3D/2020/ENU/?guid=GUID-7C32E309-9B54-42A0-A4DC-C6FD592071F2</a></p>
-<script>
-        document.querySelectorAll('.github-emoji')
-          .forEach(el => {
-            if (!el.dataset.src) { return; }
-            const img = document.createElement('img');
-            img.style = 'display:none !important;';
-            img.src = el.dataset.src;
-            img.addEventListener('error', () => {
-              img.remove();
-              el.style.color = 'inherit';
-              el.style.backgroundImage = 'none';
-              el.style.background = 'none';
-            });
-            img.addEventListener('load', () => {
-              img.remove();
-            });
-            document.body.appendChild(img);
-          });
-      </script>]]></content>
-      <categories>
-        <category>June 2020</category>
-      </categories>
-      <tags>
-        <tag>Civil 3d</tag>
-        <tag>AutoCAD API</tag>
-        <tag>Ironpython</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Move the selected objects to the current layer</title>
     <url>/2020/06/17/20200617Move%20the%20selected%20objects%20to%20the%20current%20layer/</url>
     <content><![CDATA[<hr>
@@ -2072,6 +2033,79 @@ public static DBObjectCollection GetSelection(FilterType[] tps)
       </script>]]></content>
       <categories>
         <category>June 2020</category>
+      </categories>
+      <tags>
+        <tag>Civil 3d</tag>
+        <tag>AutoCAD API</tag>
+        <tag>C#</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Civil3d Ribbon Demo (Automate the repetitive tasks)</title>
+    <url>/2020/06/22/20200622Civil3D%20Ribbon%20Demo/</url>
+    <content><![CDATA[<p>Recently I create a custom #Civil3D ribbon menu with #.NET API for the script I wrote. Now it is easier to use and can save us time for repetitive tasks.</p>
+<hr>
+<h2 id="Edit-Reference-Surface-Of-Network">Edit Reference Surface Of Network</h2>
+<h2 id="Edit-Reference-Surface-Of-Network-2"><img src="/2020/06/22/20200622Civil3D%20Ribbon%20Demo/EditReferenceSurfaceOfNetwork.gif" alt="Edit Reference Surface Of Network"></h2>
+<h2 id="Adjust-the-multiple-viewports-by-several-clicks">Adjust the multiple viewports by several clicks</h2>
+<p><img src="/2020/06/22/20200622Civil3D%20Ribbon%20Demo/Adjustthemultipleviewportsinseconds2.gif" alt="Adjust the multiple viewports by several clicks"></p>
+<h2 id="get-Lot-Area-Info-and-export-to-Excel-file">get Lot Area Info and export to Excel file</h2>
+<p><img src="/2020/06/22/20200622Civil3D%20Ribbon%20Demo/LotAreaTableGeneration3.gif" alt="get Lot Area Info and export to Excel file"></p>
+<script>
+        document.querySelectorAll('.github-emoji')
+          .forEach(el => {
+            if (!el.dataset.src) { return; }
+            const img = document.createElement('img');
+            img.style = 'display:none !important;';
+            img.src = el.dataset.src;
+            img.addEventListener('error', () => {
+              img.remove();
+              el.style.color = 'inherit';
+              el.style.backgroundImage = 'none';
+              el.style.background = 'none';
+            });
+            img.addEventListener('load', () => {
+              img.remove();
+            });
+            document.body.appendChild(img);
+          });
+      </script>]]></content>
+      <categories>
+        <category>June 2020</category>
+      </categories>
+      <tags>
+        <tag>Civil 3d</tag>
+        <tag>AutoCAD API</tag>
+        <tag>C#</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>My route on AutoCAD .NET Developer&#39;s tools</title>
+    <url>/2020/08/15/20200815My%20route%20on%20AutoCAD%20DOTNET%20Developer/</url>
+    <content><![CDATA[<p>I have applied AutoCAD .NetAPI for writing some tools in the recent several month, but I still have not understand it so well. Every time I had to waste lots of time on searching for related information.  Therefore, I decided to write learning notes for what I have learnt and build my personal knowledge system on this topic from now on.</p>
+<h1>Reference</h1>
+<p><a href="http://docs.autodesk.com/ACD/2010/ENU/AutoCAD%20.NET%20Developer' target=" _blank"="" rel="noopener" s%20guide="" index.html?url="WS1a9193826455f5ff2566ffd511ff6f8c7ca-3e30.htm,topicNumber=d0e26245" "="">http://docs.autodesk.com/ACD/2010/ENU/AutoCAD .NET Developer’s Guide/index.html?url=WS1a9193826455f5ff2566ffd511ff6f8c7ca-3e30.htm,topicNumber=d0e26245</a></p>
+<script>
+        document.querySelectorAll('.github-emoji')
+          .forEach(el => {
+            if (!el.dataset.src) { return; }
+            const img = document.createElement('img');
+            img.style = 'display:none !important;';
+            img.src = el.dataset.src;
+            img.addEventListener('error', () => {
+              img.remove();
+              el.style.color = 'inherit';
+              el.style.backgroundImage = 'none';
+              el.style.background = 'none';
+            });
+            img.addEventListener('load', () => {
+              img.remove();
+            });
+            document.body.appendChild(img);
+          });
+      </script>]]></content>
+      <categories>
+        <category>August 2020</category>
       </categories>
       <tags>
         <tag>Civil 3d</tag>
@@ -2191,40 +2225,6 @@ then the .dll file will be built up.<br>
         <category>August 2020</category>
       </categories>
       <tags>
-        <tag>AutoCAD API</tag>
-        <tag>C#</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>My route on AutoCAD .NET Developer&#39;s tools</title>
-    <url>/2020/08/15/20200815My%20route%20on%20AutoCAD%20DOTNET%20Developer/</url>
-    <content><![CDATA[<p>I have applied AutoCAD .NetAPI for writing some tools in the recent several month, but I still have not understand it so well. Every time I had to waste lots of time on searching for related information.  Therefore, I decided to write learning notes for what I have learnt and build my personal knowledge system on this topic from now on.</p>
-<h1>Reference</h1>
-<p><a href="http://docs.autodesk.com/ACD/2010/ENU/AutoCAD%20.NET%20Developer' target=" _blank"="" rel="noopener" s%20guide="" index.html?url="WS1a9193826455f5ff2566ffd511ff6f8c7ca-3e30.htm,topicNumber=d0e26245" "="">http://docs.autodesk.com/ACD/2010/ENU/AutoCAD .NET Developer’s Guide/index.html?url=WS1a9193826455f5ff2566ffd511ff6f8c7ca-3e30.htm,topicNumber=d0e26245</a></p>
-<script>
-        document.querySelectorAll('.github-emoji')
-          .forEach(el => {
-            if (!el.dataset.src) { return; }
-            const img = document.createElement('img');
-            img.style = 'display:none !important;';
-            img.src = el.dataset.src;
-            img.addEventListener('error', () => {
-              img.remove();
-              el.style.color = 'inherit';
-              el.style.backgroundImage = 'none';
-              el.style.background = 'none';
-            });
-            img.addEventListener('load', () => {
-              img.remove();
-            });
-            document.body.appendChild(img);
-          });
-      </script>]]></content>
-      <categories>
-        <category>August 2020</category>
-      </categories>
-      <tags>
-        <tag>Civil 3d</tag>
         <tag>AutoCAD API</tag>
         <tag>C#</tag>
       </tags>
@@ -2458,6 +2458,266 @@ namespace _03.Create_Line
 <hr>
 <h1>Reference</h1>
 <p><a href="http://docs.autodesk.com/ACD/2010/ENU/AutoCAD%20.NET%20Developer' target=" _blank"="" rel="noopener" s%20guide="" index.html?url="WS1a9193826455f5ff2566ffd511ff6f8c7ca-3e30.htm,topicNumber=d0e26245" "="">http://docs.autodesk.com/ACD/2010/ENU/AutoCAD .NET Developer’s Guide/index.html?url=WS1a9193826455f5ff2566ffd511ff6f8c7ca-3e30.htm,topicNumber=d0e26245</a></p>
+<script>
+        document.querySelectorAll('.github-emoji')
+          .forEach(el => {
+            if (!el.dataset.src) { return; }
+            const img = document.createElement('img');
+            img.style = 'display:none !important;';
+            img.src = el.dataset.src;
+            img.addEventListener('error', () => {
+              img.remove();
+              el.style.color = 'inherit';
+              el.style.backgroundImage = 'none';
+              el.style.background = 'none';
+            });
+            img.addEventListener('load', () => {
+              img.remove();
+            });
+            document.body.appendChild(img);
+          });
+      </script>]]></content>
+      <categories>
+        <category>August 2020</category>
+      </categories>
+      <tags>
+        <tag>AutoCAD API</tag>
+        <tag>C#</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>04. Modify the drawable object</title>
+    <url>/2020/08/25/20200825AutoCAD%20developer&#39;s%20tools%20--%20Modify%20the%20drawable%20object/</url>
+    <content><![CDATA[<h2 id="Introduction">Introduction</h2>
+<p>After learning how to draw a line with AutoCAD API, we can use similar way to create other drawable objects. We only need to go into the content of the objects’ class, and we just feed the objects what they need, the objects can be created.<br>
+<img src="/2020/08/25/20200825AutoCAD%20developer's%20tools%20--%20Modify%20the%20drawable%20object/1.png" alt="Arc Class"></p>
+<p>For example, from the figure above, we can see how to create the Arc.<br>
+There are three method</p>
+<blockquote>
+<p>WAY1</p>
+<ol>
+<li>Create the empty Arc Object</li>
+<li>The we assign the empty object with other properties</li>
+</ol>
+</blockquote>
+<blockquote>
+<p>WAY2</p>
+<ol>
+<li>While creating the Arc object, we give the center point and radius</li>
+<li>start angle and end angle of the Arc</li>
+</ol>
+</blockquote>
+<blockquote>
+<p>WAY3</p>
+<ol>
+<li>While creating the Arc object, we give the center point, vector and radius</li>
+<li>start angle and end angle of the Arc</li>
+</ol>
+</blockquote>
+<pre class=" language-language-C#"><code class="language-language-C#">public Arc();
+public Arc(Point3d center, double radius, double startAngle, double endAngle);
+public Arc(Point3d center, Vector3d normal, double radius, double startAngle, double endAngle);
+</code></pre>
+<p>Apparently, in AutoCAD we have many more ways to create Arc, since the software helped us to calculate the input values to the parameters for the mothod to create the Arc objects.</p>
+<p>Now we go to the next topic.</p>
+<h2 id="Object-Modification">Object Modification</h2>
+<p>As mentioned before, the object has some methods and properties for us to modify it.</p>
+<h3 id="01-Derivatives">01. Derivatives</h3>
+<p>When checking the inheritage chain, we can find other methods and properties from the derived classes.</p>
+<p><img src="/2020/08/25/20200825AutoCAD%20developer's%20tools%20--%20Modify%20the%20drawable%20object/2.png" alt="Inheritage Class"></p>
+<p>Let’s have a look at the properties of the entity</p>
+<pre class=" language-language-C#"><code class="language-language-C#">namespace Autodesk.AutoCAD.DatabaseServices
+{
+    [TypeDescriptionProvider("Autodesk.AutoCAD.ComponentModel.TypeDescriptionProvider`1[[Autodesk.AutoCAD.DatabaseServices.Entity, acdbmgd]], acdbmgd")]
+    [Wrapper("AcDbEntity")]
+    public abstract class Entity : DBObject
+    {
+        protected internal Entity(IntPtr unmanagedObjPtr, bool autoDelete);
+
+        [Category("3D Visualization")]
+        public ObjectId FaceStyleId { get; set; }
+        [Category("3D Visualization")]
+        public ObjectId VisualStyleId { get; set; }
+        public virtual bool ForceAnnoAllVisible { get; set; }
+        [Category("Misc")]
+        public string BlockName { get; }
+        [Category("3D Visualization")]
+        public Mapper MaterialMapper { get; set; }
+        [Category("3D Visualization")]
+        public ObjectId MaterialId { get; set; }
+        [Category("3D Visualization")]
+        public string Material { get; set; }
+        [Category("3D Visualization")]
+        public virtual bool ReceiveShadows { get; set; }
+        [Category("3D Visualization")]
+        public virtual bool CastShadows { get; set; }
+        [Category("General")]
+        public HyperLinkCollection Hyperlinks { get; }
+        public virtual bool CloneMeForDragging { get; }
+        [Category("Geometry")]
+        public virtual Matrix3d CompoundObjectTransform { get; }
+        [Category("Geometry")]
+        public virtual Extents3d GeometricExtents { get; }
+        [Category("3D Visualization")]
+        public ObjectId EdgeStyleId { get; set; }
+        public virtual Matrix3d Ecs { get; }
+        [Category("Geometry")]
+        public virtual CollisionType CollisionType { get; }
+        [Category("General")]
+        public virtual LineWeight LineWeight { get; set; }
+        [Category("General")]
+        public virtual bool Visible { get; set; }
+        [Category("General")]
+        [UnitType(UnitType.Unitless)]
+        public virtual double LinetypeScale { get; set; }
+        [Category("General")]
+        public virtual ObjectId LinetypeId { get; set; }
+        [Category("General")]
+        public virtual string Linetype { get; set; }
+        [Category("General")]
+        public virtual ObjectId LayerId { get; set; }
+        [Category("General")]
+        public virtual string Layer { get; set; }
+        [Category("General")]
+        public virtual PlotStyleDescriptor PlotStyleNameId { get; set; }
+        [Category("General")]
+        public virtual string PlotStyleName { get; set; }
+        [Category("General")]
+        public virtual Transparency Transparency { get; set; }
+        [Category("General")]
+        public EntityColor EntityColor { get; }
+        [Category("General")]
+        public virtual int ColorIndex { get; set; }
+        [Category("Geometry")]
+        public virtual bool IsPlanar { get; }
+        [Category("General")]
+        public virtual Color Color { get; set; }
+        [Category("Misc")]
+        public ObjectId BlockId { get; }
+</code></pre>
+<p>Hence, all the derivatives of the entity</p>
+<p>The main property we can modify is listed as below.</p>
+<ul>
+<li>Color</li>
+<li>Layer</li>
+<li>Linetype</li>
+<li>Linetype scale</li>
+<li>Lineweight</li>
+<li>Plot style name</li>
+<li>Visibility</li>
+<li>Transparency</li>
+</ul>
+<p><strong>Entity Derivative</strong></p>
+<blockquote>
+<p>Curve</p>
+</blockquote>
+<pre><code> Line
+ Arc
+ Circle
+ PolyLine
+ Ellipse
+</code></pre>
+<blockquote>
+<p>Hatch</p>
+</blockquote>
+<p>Then, we can modify the entity by its property.</p>
+<h3 id="02-Color-Modification">02. Color Modification</h3>
+<pre class=" language-language-C#"><code class="language-language-C#">/// <summary>
+/// Change entity color
+/// </summary>
+/// <param name="c1Id">Entity ObjectId</param>
+/// <param name="colorIndex">Color Index</param>
+/// <returns>Entity ObjectId</returns> 
+
+public static ObjectId ChangeEntityColor(this ObjectId c1Id, short colorIndex)
+{
+    // Current Database
+    Database db = HostApplicationServices.WorkingDatabase;
+    // Open a transaction
+    using (Transaction trans = db.TransactionManager.StartTransaction())
+    {
+        // Open block table
+        BlockTable bt = (BlockTable)trans.GetObject(db.BlockTableId, OpenMode.ForRead);
+        // Open blocktable record
+        BlockTableRecord btr = (BlockTableRecord)trans.GetObject(bt[BlockTableRecord.ModelSpace], OpenMode.ForWrite);
+        // Get the object
+        Entity ent1 = (Entity)c1Id.GetObject(OpenMode.ForWrite);
+        // Set object color
+        ent1.ColorIndex = colorIndex;
+        trans.Commit();
+    }
+    return c1Id;
+}
+
+</code></pre>
+<h3 id="03-Copy-Entity">03. Copy Entity</h3>
+<pre class=" language-language-C#"><code class="language-language-C#">// <summary>
+///  Copy one entity, and add the copied one into blocktable record
+/// </summary>
+/// <param name="entId">Entity ObjectId</param>
+/// <param name="sourcePoint">Reference source Point</param>
+/// <param name="targetPoint">Reference Target Point</param>
+public static Entity CopyEntity(this ObjectId entId, Point3d sourcePoint, Point3d targetPoint)
+{
+    // Declare a object
+    Entity entR;
+    // Current database
+    Database db = HostApplicationServices.WorkingDatabase; 
+    using (Transaction tr = db.TransactionManager.StartTransaction())
+    {
+        // Open Blocktable
+        BlockTable bt = (BlockTable)tr.GetObject(db.BlockTableId, OpenMode.ForRead);
+        // Open Blocktable Record
+        BlockTableRecord btr = (BlockTableRecord)tr.GetObject(bt[BlockTableRecord.ModelSpace], OpenMode.ForRead);
+
+        // Entity ent = (Entity)tr.GetObject(entId, OpenMode.ForWrite);
+        // Open the entity
+        Entity ent = (Entity)entId.GetObject(OpenMode.ForWrite);
+        // Calculate the Vector from source point to the target point
+        Vector3d vectoc = sourcePoint.GetVectorTo(targetPoint);
+        Matrix3d mt = Matrix3d.Displacement(vectoc);
+        entR = ent.GetTransformedCopy(mt);
+        // Commit the transaction
+        tr.Commit();
+    }
+    return entR;
+}
+
+</code></pre>
+<h3 id="04-Rotate-the-object">04. Rotate the object</h3>
+<pre class=" language-language-C#"><code class="language-language-C#">/// <summary>
+/// Rotate the entity 
+/// </summary>
+/// <param name="ent">Object</param>
+/// <param name="center">Rotate base point </param>
+/// <param name="degree">Rotating angle</param>
+public static void RotateEntity(this ObjectId entId, Point3d center, double degree)
+{
+    // Current database
+    Database db = HostApplicationServices.WorkingDatabase;
+    using (Transaction trans = db.TransactionManager.StartTransaction())
+    {
+        // Open BlockTable
+        BlockTable bt = (BlockTable)trans.GetObject(db.BlockTableId, OpenMode.ForRead);
+        // Open BlockTable Record
+        BlockTableRecord btr = (BlockTableRecord)trans.GetObject(bt[BlockTableRecord.ModelSpace], OpenMode.ForRead);
+        //Entity ent = (Entity)trans.GetObject(entId, OpenMode.ForWrite);
+        // Open the entity
+        Entity ent = (Entity)entId.GetObject(OpenMode.ForWrite);
+        // Calculate the vector and Matrix
+        Vector3d vectoc = sourcePoint.GetVectorTo(targetPoint);
+        Matrix3d mt = Matrix3d.Rotation(degree.DegreeToAngle(), Vector3d.ZAxis, center);
+        ent.TransformedCopy(mt);
+        // 提交事务处理
+        trans.Commit();
+    }
+}
+
+</code></pre>
+<hr>
+<h1>Reference</h1>
+<p><a href="http://docs.autodesk.com/ACD/2010/ENU/AutoCAD%20.NET%20Developer' target=" _blank"="" rel="noopener" s%20guide="" index.html?url="WS1a9193826455f5ff2566ffd511ff6f8c7ca-3e30.htm,topicNumber=d0e26245" "="">http://docs.autodesk.com/ACD/2010/ENU/AutoCAD .NET Developer’s Guide/index.html?url=WS1a9193826455f5ff2566ffd511ff6f8c7ca-3e30.htm,topicNumber=d0e26245</a><br>
+<a href="https://github.com/ADN-DevTech/ObjectARXTrainingMaterial" target="_blank" rel="noopener">https://github.com/ADN-DevTech/ObjectARXTrainingMaterial</a></p>
 <script>
         document.querySelectorAll('.github-emoji')
           .forEach(el => {
@@ -2791,266 +3051,6 @@ namespace SelectionDemo
       </tags>
   </entry>
   <entry>
-    <title>04. Modify the drawable object</title>
-    <url>/2020/08/25/20200825AutoCAD%20developer&#39;s%20tools%20--%20Modify%20the%20drawable%20object/</url>
-    <content><![CDATA[<h2 id="Introduction">Introduction</h2>
-<p>After learning how to draw a line with AutoCAD API, we can use similar way to create other drawable objects. We only need to go into the content of the objects’ class, and we just feed the objects what they need, the objects can be created.<br>
-<img src="/2020/08/25/20200825AutoCAD%20developer's%20tools%20--%20Modify%20the%20drawable%20object/1.png" alt="Arc Class"></p>
-<p>For example, from the figure above, we can see how to create the Arc.<br>
-There are three method</p>
-<blockquote>
-<p>WAY1</p>
-<ol>
-<li>Create the empty Arc Object</li>
-<li>The we assign the empty object with other properties</li>
-</ol>
-</blockquote>
-<blockquote>
-<p>WAY2</p>
-<ol>
-<li>While creating the Arc object, we give the center point and radius</li>
-<li>start angle and end angle of the Arc</li>
-</ol>
-</blockquote>
-<blockquote>
-<p>WAY3</p>
-<ol>
-<li>While creating the Arc object, we give the center point, vector and radius</li>
-<li>start angle and end angle of the Arc</li>
-</ol>
-</blockquote>
-<pre class=" language-language-C#"><code class="language-language-C#">public Arc();
-public Arc(Point3d center, double radius, double startAngle, double endAngle);
-public Arc(Point3d center, Vector3d normal, double radius, double startAngle, double endAngle);
-</code></pre>
-<p>Apparently, in AutoCAD we have many more ways to create Arc, since the software helped us to calculate the input values to the parameters for the mothod to create the Arc objects.</p>
-<p>Now we go to the next topic.</p>
-<h2 id="Object-Modification">Object Modification</h2>
-<p>As mentioned before, the object has some methods and properties for us to modify it.</p>
-<h3 id="01-Derivatives">01. Derivatives</h3>
-<p>When checking the inheritage chain, we can find other methods and properties from the derived classes.</p>
-<p><img src="/2020/08/25/20200825AutoCAD%20developer's%20tools%20--%20Modify%20the%20drawable%20object/2.png" alt="Inheritage Class"></p>
-<p>Let’s have a look at the properties of the entity</p>
-<pre class=" language-language-C#"><code class="language-language-C#">namespace Autodesk.AutoCAD.DatabaseServices
-{
-    [TypeDescriptionProvider("Autodesk.AutoCAD.ComponentModel.TypeDescriptionProvider`1[[Autodesk.AutoCAD.DatabaseServices.Entity, acdbmgd]], acdbmgd")]
-    [Wrapper("AcDbEntity")]
-    public abstract class Entity : DBObject
-    {
-        protected internal Entity(IntPtr unmanagedObjPtr, bool autoDelete);
-
-        [Category("3D Visualization")]
-        public ObjectId FaceStyleId { get; set; }
-        [Category("3D Visualization")]
-        public ObjectId VisualStyleId { get; set; }
-        public virtual bool ForceAnnoAllVisible { get; set; }
-        [Category("Misc")]
-        public string BlockName { get; }
-        [Category("3D Visualization")]
-        public Mapper MaterialMapper { get; set; }
-        [Category("3D Visualization")]
-        public ObjectId MaterialId { get; set; }
-        [Category("3D Visualization")]
-        public string Material { get; set; }
-        [Category("3D Visualization")]
-        public virtual bool ReceiveShadows { get; set; }
-        [Category("3D Visualization")]
-        public virtual bool CastShadows { get; set; }
-        [Category("General")]
-        public HyperLinkCollection Hyperlinks { get; }
-        public virtual bool CloneMeForDragging { get; }
-        [Category("Geometry")]
-        public virtual Matrix3d CompoundObjectTransform { get; }
-        [Category("Geometry")]
-        public virtual Extents3d GeometricExtents { get; }
-        [Category("3D Visualization")]
-        public ObjectId EdgeStyleId { get; set; }
-        public virtual Matrix3d Ecs { get; }
-        [Category("Geometry")]
-        public virtual CollisionType CollisionType { get; }
-        [Category("General")]
-        public virtual LineWeight LineWeight { get; set; }
-        [Category("General")]
-        public virtual bool Visible { get; set; }
-        [Category("General")]
-        [UnitType(UnitType.Unitless)]
-        public virtual double LinetypeScale { get; set; }
-        [Category("General")]
-        public virtual ObjectId LinetypeId { get; set; }
-        [Category("General")]
-        public virtual string Linetype { get; set; }
-        [Category("General")]
-        public virtual ObjectId LayerId { get; set; }
-        [Category("General")]
-        public virtual string Layer { get; set; }
-        [Category("General")]
-        public virtual PlotStyleDescriptor PlotStyleNameId { get; set; }
-        [Category("General")]
-        public virtual string PlotStyleName { get; set; }
-        [Category("General")]
-        public virtual Transparency Transparency { get; set; }
-        [Category("General")]
-        public EntityColor EntityColor { get; }
-        [Category("General")]
-        public virtual int ColorIndex { get; set; }
-        [Category("Geometry")]
-        public virtual bool IsPlanar { get; }
-        [Category("General")]
-        public virtual Color Color { get; set; }
-        [Category("Misc")]
-        public ObjectId BlockId { get; }
-</code></pre>
-<p>Hence, all the derivatives of the entity</p>
-<p>The main property we can modify is listed as below.</p>
-<ul>
-<li>Color</li>
-<li>Layer</li>
-<li>Linetype</li>
-<li>Linetype scale</li>
-<li>Lineweight</li>
-<li>Plot style name</li>
-<li>Visibility</li>
-<li>Transparency</li>
-</ul>
-<p><strong>Entity Derivative</strong></p>
-<blockquote>
-<p>Curve</p>
-</blockquote>
-<pre><code> Line
- Arc
- Circle
- PolyLine
- Ellipse
-</code></pre>
-<blockquote>
-<p>Hatch</p>
-</blockquote>
-<p>Then, we can modify the entity by its property.</p>
-<h3 id="02-Color-Modification">02. Color Modification</h3>
-<pre class=" language-language-C#"><code class="language-language-C#">/// <summary>
-/// Change entity color
-/// </summary>
-/// <param name="c1Id">Entity ObjectId</param>
-/// <param name="colorIndex">Color Index</param>
-/// <returns>Entity ObjectId</returns> 
-
-public static ObjectId ChangeEntityColor(this ObjectId c1Id, short colorIndex)
-{
-    // Current Database
-    Database db = HostApplicationServices.WorkingDatabase;
-    // Open a transaction
-    using (Transaction trans = db.TransactionManager.StartTransaction())
-    {
-        // Open block table
-        BlockTable bt = (BlockTable)trans.GetObject(db.BlockTableId, OpenMode.ForRead);
-        // Open blocktable record
-        BlockTableRecord btr = (BlockTableRecord)trans.GetObject(bt[BlockTableRecord.ModelSpace], OpenMode.ForWrite);
-        // Get the object
-        Entity ent1 = (Entity)c1Id.GetObject(OpenMode.ForWrite);
-        // Set object color
-        ent1.ColorIndex = colorIndex;
-        trans.Commit();
-    }
-    return c1Id;
-}
-
-</code></pre>
-<h3 id="03-Copy-Entity">03. Copy Entity</h3>
-<pre class=" language-language-C#"><code class="language-language-C#">// <summary>
-///  Copy one entity, and add the copied one into blocktable record
-/// </summary>
-/// <param name="entId">Entity ObjectId</param>
-/// <param name="sourcePoint">Reference source Point</param>
-/// <param name="targetPoint">Reference Target Point</param>
-public static Entity CopyEntity(this ObjectId entId, Point3d sourcePoint, Point3d targetPoint)
-{
-    // Declare a object
-    Entity entR;
-    // Current database
-    Database db = HostApplicationServices.WorkingDatabase; 
-    using (Transaction tr = db.TransactionManager.StartTransaction())
-    {
-        // Open Blocktable
-        BlockTable bt = (BlockTable)tr.GetObject(db.BlockTableId, OpenMode.ForRead);
-        // Open Blocktable Record
-        BlockTableRecord btr = (BlockTableRecord)tr.GetObject(bt[BlockTableRecord.ModelSpace], OpenMode.ForRead);
-
-        // Entity ent = (Entity)tr.GetObject(entId, OpenMode.ForWrite);
-        // Open the entity
-        Entity ent = (Entity)entId.GetObject(OpenMode.ForWrite);
-        // Calculate the Vector from source point to the target point
-        Vector3d vectoc = sourcePoint.GetVectorTo(targetPoint);
-        Matrix3d mt = Matrix3d.Displacement(vectoc);
-        entR = ent.GetTransformedCopy(mt);
-        // Commit the transaction
-        tr.Commit();
-    }
-    return entR;
-}
-
-</code></pre>
-<h3 id="04-Rotate-the-object">04. Rotate the object</h3>
-<pre class=" language-language-C#"><code class="language-language-C#">/// <summary>
-/// Rotate the entity 
-/// </summary>
-/// <param name="ent">Object</param>
-/// <param name="center">Rotate base point </param>
-/// <param name="degree">Rotating angle</param>
-public static void RotateEntity(this ObjectId entId, Point3d center, double degree)
-{
-    // Current database
-    Database db = HostApplicationServices.WorkingDatabase;
-    using (Transaction trans = db.TransactionManager.StartTransaction())
-    {
-        // Open BlockTable
-        BlockTable bt = (BlockTable)trans.GetObject(db.BlockTableId, OpenMode.ForRead);
-        // Open BlockTable Record
-        BlockTableRecord btr = (BlockTableRecord)trans.GetObject(bt[BlockTableRecord.ModelSpace], OpenMode.ForRead);
-        //Entity ent = (Entity)trans.GetObject(entId, OpenMode.ForWrite);
-        // Open the entity
-        Entity ent = (Entity)entId.GetObject(OpenMode.ForWrite);
-        // Calculate the vector and Matrix
-        Vector3d vectoc = sourcePoint.GetVectorTo(targetPoint);
-        Matrix3d mt = Matrix3d.Rotation(degree.DegreeToAngle(), Vector3d.ZAxis, center);
-        ent.TransformedCopy(mt);
-        // 提交事务处理
-        trans.Commit();
-    }
-}
-
-</code></pre>
-<hr>
-<h1>Reference</h1>
-<p><a href="http://docs.autodesk.com/ACD/2010/ENU/AutoCAD%20.NET%20Developer' target=" _blank"="" rel="noopener" s%20guide="" index.html?url="WS1a9193826455f5ff2566ffd511ff6f8c7ca-3e30.htm,topicNumber=d0e26245" "="">http://docs.autodesk.com/ACD/2010/ENU/AutoCAD .NET Developer’s Guide/index.html?url=WS1a9193826455f5ff2566ffd511ff6f8c7ca-3e30.htm,topicNumber=d0e26245</a><br>
-<a href="https://github.com/ADN-DevTech/ObjectARXTrainingMaterial" target="_blank" rel="noopener">https://github.com/ADN-DevTech/ObjectARXTrainingMaterial</a></p>
-<script>
-        document.querySelectorAll('.github-emoji')
-          .forEach(el => {
-            if (!el.dataset.src) { return; }
-            const img = document.createElement('img');
-            img.style = 'display:none !important;';
-            img.src = el.dataset.src;
-            img.addEventListener('error', () => {
-              img.remove();
-              el.style.color = 'inherit';
-              el.style.backgroundImage = 'none';
-              el.style.background = 'none';
-            });
-            img.addEventListener('load', () => {
-              img.remove();
-            });
-            document.body.appendChild(img);
-          });
-      </script>]]></content>
-      <categories>
-        <category>August 2020</category>
-      </categories>
-      <tags>
-        <tag>AutoCAD API</tag>
-        <tag>C#</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>06. Selection Filters</title>
     <url>/2020/11/22/20201201AutoCAD%20developer&#39;s%20tools%20--%20Selection%20Filters/</url>
     <content><![CDATA[<h1>Introduction</h1>
@@ -3272,6 +3272,77 @@ TypedValue[] typeValue = {
       </tags>
   </entry>
   <entry>
+    <title>08. Renumbering the manholes and pipelines</title>
+    <url>/2020/12/10/20201210AutoCAD%20developer&#39;s%20tools%20--%20Renumber%20the%20Objects/</url>
+    <content><![CDATA[<h2 id="Introduction">Introduction</h2>
+<p>In my work, I always use the past Civil3d template to continue my design, hence the initial number of some objects are usually high, for example, manholes and pipelines. What is worse, sometimes I would delete some of them, hence their names are not continuous.</p>
+<p>Hence, I write a plugin to rename the object. It should be a easy job, I just</p>
+<h2 id="SOME-CODE">SOME CODE</h2>
+<pre class=" language-language-C#"><code class="language-language-C#">        [CommandMethod("RenameWW")]
+        public static void RenameWWPipes()
+        {
+            Editor ed = Helper.Ed();
+            CivilDocument civilDoc = CivilApplication.ActiveDocument;
+            using (Transaction tr = Application.DocumentManager.MdiActiveDocument.
+                Database.TransactionManager.StartTransaction())
+            {
+
+                ObjectId partId = PipeNetworks.PromptForPart("Please select one of the structures or pipes in targeted Network: ");
+                if (partId != ObjectId.Null)
+                {
+                    //Select one part of the target netowrk
+                    Part part = tr.GetObject(partId, OpenMode.ForRead) as Part;
+                    ObjectId netWorkId = part.NetworkId;
+
+                    //Get the object of the network by object id
+                    Network oNetwork = tr.GetObject(netWorkId, OpenMode.ForWrite) as Network;
+                    ObjectIdCollection pipeIds = oNetwork.GetPipeIds();
+
+                    int count = 1;
+                    foreach (ObjectId pipeId in pipeIds)
+                    {
+                        // get the pipe objects  and rename them
+                        Pipe pipe = tr.GetObject(pipeId, OpenMode.ForWrite) as Pipe;
+                        String name1 = string.Format("LOT{0} WW", count); ;
+                        pipe.Name = name1;
+                        count += 1;
+                    }
+                }
+
+                tr.Commit();
+            }
+        }
+
+</code></pre>
+<script>
+        document.querySelectorAll('.github-emoji')
+          .forEach(el => {
+            if (!el.dataset.src) { return; }
+            const img = document.createElement('img');
+            img.style = 'display:none !important;';
+            img.src = el.dataset.src;
+            img.addEventListener('error', () => {
+              img.remove();
+              el.style.color = 'inherit';
+              el.style.backgroundImage = 'none';
+              el.style.background = 'none';
+            });
+            img.addEventListener('load', () => {
+              img.remove();
+            });
+            document.body.appendChild(img);
+          });
+      </script>]]></content>
+      <categories>
+        <category>December 2020</category>
+      </categories>
+      <tags>
+        <tag>Civil 3d</tag>
+        <tag>AutoCAD API</tag>
+        <tag>C#</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>07. Hatch</title>
     <url>/2020/12/05/20201205AutoCAD%20developer&#39;s%20tools%20--%20Hatch/</url>
     <content><![CDATA[<h2 id="Introduction">Introduction</h2>
@@ -3354,48 +3425,94 @@ It is quite similar as the creation of other objects.</p>
       </tags>
   </entry>
   <entry>
-    <title>08. Renumbering the manholes and pipelines</title>
-    <url>/2020/12/10/20201210AutoCAD%20developer&#39;s%20tools%20--%20Renumber%20the%20Objects/</url>
-    <content><![CDATA[<h2 id="Introduction">Introduction</h2>
-<p>In my work, I always use the past Civil3d template to continue my design, hence the initial number of some objects are usually high, for example, manholes and pipelines. What is worse, sometimes I would delete some of them, hence their names are not continuous.</p>
-<p>Hence, I write a plugin to rename the object. It should be a easy job, I just</p>
-<h2 id="SOME-CODE">SOME CODE</h2>
-<pre class=" language-language-C#"><code class="language-language-C#">        [CommandMethod("RenameWW")]
-        public static void RenameWWPipes()
-        {
-            Editor ed = Helper.Ed();
-            CivilDocument civilDoc = CivilApplication.ActiveDocument;
-            using (Transaction tr = Application.DocumentManager.MdiActiveDocument.
-                Database.TransactionManager.StartTransaction())
-            {
-
-                ObjectId partId = PipeNetworks.PromptForPart("Please select one of the structures or pipes in targeted Network: ");
-                if (partId != ObjectId.Null)
-                {
-                    //Select one part of the target netowrk
-                    Part part = tr.GetObject(partId, OpenMode.ForRead) as Part;
-                    ObjectId netWorkId = part.NetworkId;
-
-                    //Get the object of the network by object id
-                    Network oNetwork = tr.GetObject(netWorkId, OpenMode.ForWrite) as Network;
-                    ObjectIdCollection pipeIds = oNetwork.GetPipeIds();
-
-                    int count = 1;
-                    foreach (ObjectId pipeId in pipeIds)
-                    {
-                        // get the pipe objects  and rename them
-                        Pipe pipe = tr.GetObject(pipeId, OpenMode.ForWrite) as Pipe;
-                        String name1 = string.Format("LOT{0} WW", count); ;
-                        pipe.Name = name1;
-                        count += 1;
-                    }
-                }
-
-                tr.Commit();
-            }
-        }
+    <title>Revit API -- Show revision on sheet</title>
+    <url>/2021/01/20/20210120Revit%20API%20--%20Show%20revision%20on%20sheet/</url>
+    <content><![CDATA[<ul>
+<li><a href="#1-background">1. Background</a></li>
+<li><a href="#2-show-revision-on-viewsheet">2. Show revision on viewsheet</a>
+<ul>
+<li><a href="#21-selecting">2.1. Selecting</a></li>
+<li><a href="#22-revision-property">2.2. Revision “Property”</a></li>
+<li><a href="#23-full-code">2.3. Full CODE</a></li>
+</ul>
+</li>
+<li><a href="#3-summary">3. Summary</a></li>
+<li><a href="#4-reference">4. Reference</a></li>
+</ul>
+<h1>1. Background</h1>
+<p>The same archi friend proposed a new request,</p>
+<blockquote>
+<p>He want to show the default revision(BC LODGEMENT) on sheet when creating the sheet.</p>
+</blockquote>
+<p>He explained that when creating a sheet, there is no default revision as below.<br>
+<img src="/2021/01/20/20210120Revit%20API%20--%20Show%20revision%20on%20sheet/1.png" alt=""></p>
+<p>Unless you mark the plan with cloud line, then the version will show on the same sheet as below.<br>
+<img src="/2021/01/20/20210120Revit%20API%20--%20Show%20revision%20on%20sheet/2.png" alt=""></p>
+<p>Hence, he can intentionly click <em>shown in Revision Schedule</em> one by one on each sheet, which will be quite time-consuming</p>
+<p>At first I think it will be a easy task, but it takes me several hours to understand how the data structure is.</p>
+<h1>2. Show revision on viewsheet</h1>
+<h2 id="2-1-Selecting">2.1. Selecting</h2>
+<p>Firstly, what we need to do is to select all the sheet view , which I have explained clearly in the last part.</p>
+<pre class=" language-language-C#"><code class="language-language-C#">var viewSheets = new FilteredElementCollector(doc).OfClass(typeof(ViewSheet)
 
 </code></pre>
+<h2 id="2-2-Revision-“Property”">2.2. Revision “Property”</h2>
+<p>At first, using the *<strong><a href="https://github.com/jeremytammik/RevitLookup" target="_blank" rel="noopener">Revit Lookup</a></strong> to find the properties of the viewsheet. We can find as below , all the revions of a sheet will be accessed by <strong>GetAllRevisionIds</strong>,<br>
+<img src="/2021/01/20/20210120Revit%20API%20--%20Show%20revision%20on%20sheet/3.png" alt=""><br>
+but how to set the revisions of a sheet, let’s look into the ViewSheet</p>
+<pre class=" language-language-C#"><code class="language-language-C#">    public class ViewSheet : View
+    {
+        public string GetRevisionCloudNumberOnSheet(ElementId revisionCloudId);
+        public string GetRevisionNumberOnSheet(ElementId revisionId);
+        public void SetAdditionalRevisionIds(ICollection<ElementId> projectRevisionIds);
+    }
+
+</code></pre>
+<p>We can tell that we can use the function <strong>SetAdditionalRevisionIds(ICollection<elementid> projectRevisionIds);</elementid></strong></p>
+<p>But what is the <strong>projectRevisionIds</strong>, to understand this,<br>
+<img src="/2021/01/20/20210120Revit%20API%20--%20Show%20revision%20on%20sheet/4.png" alt=""></p>
+<p>Hence, we can get the all the revisions by</p>
+<pre class=" language-language-C#"><code class="language-language-C#">public static IList<ElementId> GetAllRevisionIds(Document document);
+</code></pre>
+<p>We can make if statement to decide which revisions need to add into the current sheet. My friend want all the revisions.The code is as below.</p>
+<h2 id="2-3-Full-CODE">2.3. Full CODE</h2>
+<pre class=" language-language-C#"><code class="language-language-C#">    [Transaction(TransactionMode.Manual)]
+    public class RevisionShown:IExternalCommand
+    {
+        public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
+        {
+            //1. Select the current document
+            UIDocument uidoc = commandData.Application.ActiveUIDocument;
+            Document doc = commandData.Application.ActiveUIDocument.Document;
+
+            IList<ElementId> ids = Revision.GetAllRevisionIds(doc);
+
+            int count = 0;
+            using (Transaction t = new Transaction(doc, "ClearMark"))
+            {
+                t.Start();
+
+                foreach (ViewSheet item in new FilteredElementCollector(doc).OfClass(typeof(ViewSheet)).Cast<ViewSheet>())
+                {
+
+                    item.SetAdditionalRevisionIds(ids);
+                    count += 1;
+
+                }
+                t.Commit();
+            }
+            TaskDialog.Show("Result", String.Format("{0} sheets has been modified to BC lodgement, done", count));
+            return Result.Succeeded;
+        }
+    }
+</code></pre>
+<h1>3. Summary</h1>
+<p>Most of the objects can be found and modified from this way, and  Dynamo can achieve the  same goal, but maybe even easier.</p>
+<p>Next time, I will analyze how to modify the revision of the sheet, which I didnot find a way in Dynamo.</p>
+<h1>4. Reference</h1>
+<p><a href="https://github.com/jeremytammik/RevitLookup" target="_blank" rel="noopener">https://github.com/jeremytammik/RevitLookup</a></p>
+<p><a href="http://help.autodesk.com/view/RVT/2019/ENU/?guid=Revit_API_Revit_API_Developers_Guide_html" target="_blank" rel="noopener">http://help.autodesk.com/view/RVT/2019/ENU/?guid=Revit_API_Revit_API_Developers_Guide_html</a></p>
+<p><a href="https://thebuildingcoder.typepad.com/blog/2014/06/the-revision-api-and-a-form-on-the-fly.html" target="_blank" rel="noopener">https://thebuildingcoder.typepad.com/blog/2014/06/the-revision-api-and-a-form-on-the-fly.html</a></p>
 <script>
         document.querySelectorAll('.github-emoji')
           .forEach(el => {
@@ -3416,12 +3533,11 @@ It is quite similar as the creation of other objects.</p>
           });
       </script>]]></content>
       <categories>
-        <category>December 2020</category>
+        <category>January 2020</category>
       </categories>
       <tags>
-        <tag>Civil 3d</tag>
-        <tag>AutoCAD API</tag>
         <tag>C#</tag>
+        <tag>Revit API</tag>
       </tags>
   </entry>
   <entry>
@@ -4631,6 +4747,58 @@ ax.set_ylim([-42,-36])
       </tags>
   </entry>
   <entry>
+    <title>How to merge many different raster files into one raster</title>
+    <url>/2020/04/20/How%20to%20take%20many%20different%20rasters%20into%20one%20raster/</url>
+    <content><![CDATA[<p>On <a href="https://geomapspublic.aucklandcouncil.govt.nz/viewer/index.html" target="_blank" rel="noopener">Auckland Council Geomap</a>, we can download the high resolution DEM data, but the uplimit area is 6 Square Km. What if the catchment area we are interested in is more than the number, than we can download the DEM data from <a href="https://data.linz.govt.nz/search/?q=DEM" target="_blank" rel="noopener">LINZ</a>.</p>
+<hr>
+<h3 id="Raster-files-check">Raster files check</h3>
+<p>After download the DEM data in Auckland area, we will find that there will be many different raster files, which is not available for analysis. So we need to merge many raster files into one raster file.</p>
+<hr>
+<h3 id="Location-check">Location check</h3>
+<p>Firstly, we need to check the name of related raster files in our interested catchment, find all the raster files and then move them into one folder.</p>
+<p><img src="/2020/04/20/How%20to%20take%20many%20different%20rasters%20into%20one%20raster/1.PNG" alt="Location.png"></p>
+<hr>
+<h3 id="Create-an-empty-Mosaic-Dataset">Create an empty Mosaic Dataset</h3>
+<p>Create an empty Mosaic Dataset as the route in the figure below.</p>
+<p><img src="/2020/04/20/How%20to%20take%20many%20different%20rasters%20into%20one%20raster/22.png" alt="Mosaic Dataset.png"></p>
+<p>Then we need to add the raster data into the empty Mosaic. Directly right-click the file and choose “add raster”.</p>
+<p>Select the files we have picked from the last steps, remember to check the “Upload Overview” box.<br>
+<img src="/2020/04/20/How%20to%20take%20many%20different%20rasters%20into%20one%20raster/44.png" alt="Add Dataset.png"></p>
+<hr>
+<h3 id="Final-result">Final result</h3>
+<p>Wait for several seconds or minutes, the raster will output.</p>
+<p><img src="/2020/04/20/How%20to%20take%20many%20different%20rasters%20into%20one%20raster/55.png" alt="Mosaic Dataset.png"></p>
+<hr>
+<h3 id="Reference">Reference</h3>
+<p><a href="https://data.linz.govt.nz/" target="_blank" rel="noopener">https://data.linz.govt.nz/</a></p>
+<script>
+        document.querySelectorAll('.github-emoji')
+          .forEach(el => {
+            if (!el.dataset.src) { return; }
+            const img = document.createElement('img');
+            img.style = 'display:none !important;';
+            img.src = el.dataset.src;
+            img.addEventListener('error', () => {
+              img.remove();
+              el.style.color = 'inherit';
+              el.style.backgroundImage = 'none';
+              el.style.background = 'none';
+            });
+            img.addEventListener('load', () => {
+              img.remove();
+            });
+            document.body.appendChild(img);
+          });
+      </script>]]></content>
+      <categories>
+        <category>April 2020</category>
+      </categories>
+      <tags>
+        <tag>Arcmap</tag>
+        <tag>Raster</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Land-use TIF file making for HEC-RAS 2D</title>
     <url>/2020/04/20/Land-use%20TIF%20file%20making%20for%20HEC-RAS%202D/</url>
     <content><![CDATA[<p>For 2D analysis in HEC-RAS, we may need to a land use map to assign the manning factor as . How to make it? Of course we can make the detailed land use map by analyzing satellite imagery. But for a simple model, sometime we do not need such a detailed plan. Today I would like to introduce a way to make simple land use map</p>
@@ -4677,8 +4845,8 @@ ax.set_ylim([-42,-36])
       </categories>
       <tags>
         <tag>Arcmap</tag>
-        <tag>HEC-RAS</tag>
         <tag>Raster</tag>
+        <tag>HEC-RAS</tag>
       </tags>
   </entry>
   <entry>
@@ -4795,54 +4963,6 @@ with adoc.LockDocument():
       </categories>
       <tags>
         <tag>Civil 3d</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Present 3D DEM and Building in ArcScene</title>
-    <url>/2020/04/22/Present%20the%20results%20in%20ArcScene/</url>
-    <content><![CDATA[<p>If we want to have an 3D overview of DEM with Building or flooding data, we can use ArcScene.</p>
-<hr>
-<h3 id="Load-DEM">Load DEM</h3>
-<p>Firstly, we need to load the DEM raster files in ArcScene, and right-click the DEM layer and choose “Property”. Select the “Base Height” Tab as the figure below.</p>
-<p><img src="/2020/04/22/Present%20the%20results%20in%20ArcScene/11.PNG" alt="DEM Load"></p>
-<hr>
-<h3 id="Load-Building-Footprint-Dataset">Load Building Footprint Dataset</h3>
-<p>Same as the DEM loading, right-click the “Building Footprint” layer and choose “Property”. Select the “Extrustion” Tab as the figure below. Select the building height filed in the “Expression” box.</p>
-<p><img src="/2020/04/22/Present%20the%20results%20in%20ArcScene/22.PNG" alt="Building Extrusion"></p>
-<p>The result is as shown below.</p>
-<p><img src="/2020/04/22/Present%20the%20results%20in%20ArcScene/33.PNG" alt="Building Extrusion result.png"></p>
-<hr>
-<h3 id="Load-the-buiding-on-the-DEM">Load the buiding on the DEM</h3>
-<p>Select the “Base Height” Tab of the building Footprint Dataset as the figure below. Select the DEM Dataset.</p>
-<p><img src="/2020/04/22/Present%20the%20results%20in%20ArcScene/44.PNG" alt="Mosaic Dataset.png"></p>
-<hr>
-<h3 id="Final-result">Final result</h3>
-<p>In a similar way, we can load Road, drainage pipe or flooding, and have a 3D view for the Dataset.</p>
-<p><img src="/2020/04/22/Present%20the%20results%20in%20ArcScene/55.PNG" alt="result.png"></p>
-<script>
-        document.querySelectorAll('.github-emoji')
-          .forEach(el => {
-            if (!el.dataset.src) { return; }
-            const img = document.createElement('img');
-            img.style = 'display:none !important;';
-            img.src = el.dataset.src;
-            img.addEventListener('error', () => {
-              img.remove();
-              el.style.color = 'inherit';
-              el.style.backgroundImage = 'none';
-              el.style.background = 'none';
-            });
-            img.addEventListener('load', () => {
-              img.remove();
-            });
-            document.body.appendChild(img);
-          });
-      </script>]]></content>
-      <categories>
-        <category>May 2020</category>
-      </categories>
-      <tags>
-        <tag>Arcmap</tag>
       </tags>
   </entry>
   <entry>
@@ -5507,30 +5627,27 @@ states_with_cities.head()
       </tags>
   </entry>
   <entry>
-    <title>How to merge many different raster files into one raster</title>
-    <url>/2020/04/20/How%20to%20take%20many%20different%20rasters%20into%20one%20raster/</url>
-    <content><![CDATA[<p>On <a href="https://geomapspublic.aucklandcouncil.govt.nz/viewer/index.html" target="_blank" rel="noopener">Auckland Council Geomap</a>, we can download the high resolution DEM data, but the uplimit area is 6 Square Km. What if the catchment area we are interested in is more than the number, than we can download the DEM data from <a href="https://data.linz.govt.nz/search/?q=DEM" target="_blank" rel="noopener">LINZ</a>.</p>
+    <title>Present 3D DEM and Building in ArcScene</title>
+    <url>/2020/04/22/Present%20the%20results%20in%20ArcScene/</url>
+    <content><![CDATA[<p>If we want to have an 3D overview of DEM with Building or flooding data, we can use ArcScene.</p>
 <hr>
-<h3 id="Raster-files-check">Raster files check</h3>
-<p>After download the DEM data in Auckland area, we will find that there will be many different raster files, which is not available for analysis. So we need to merge many raster files into one raster file.</p>
+<h3 id="Load-DEM">Load DEM</h3>
+<p>Firstly, we need to load the DEM raster files in ArcScene, and right-click the DEM layer and choose “Property”. Select the “Base Height” Tab as the figure below.</p>
+<p><img src="/2020/04/22/Present%20the%20results%20in%20ArcScene/11.PNG" alt="DEM Load"></p>
 <hr>
-<h3 id="Location-check">Location check</h3>
-<p>Firstly, we need to check the name of related raster files in our interested catchment, find all the raster files and then move them into one folder.</p>
-<p><img src="/2020/04/20/How%20to%20take%20many%20different%20rasters%20into%20one%20raster/1.PNG" alt="Location.png"></p>
+<h3 id="Load-Building-Footprint-Dataset">Load Building Footprint Dataset</h3>
+<p>Same as the DEM loading, right-click the “Building Footprint” layer and choose “Property”. Select the “Extrustion” Tab as the figure below. Select the building height filed in the “Expression” box.</p>
+<p><img src="/2020/04/22/Present%20the%20results%20in%20ArcScene/22.PNG" alt="Building Extrusion"></p>
+<p>The result is as shown below.</p>
+<p><img src="/2020/04/22/Present%20the%20results%20in%20ArcScene/33.PNG" alt="Building Extrusion result.png"></p>
 <hr>
-<h3 id="Create-an-empty-Mosaic-Dataset">Create an empty Mosaic Dataset</h3>
-<p>Create an empty Mosaic Dataset as the route in the figure below.</p>
-<p><img src="/2020/04/20/How%20to%20take%20many%20different%20rasters%20into%20one%20raster/22.png" alt="Mosaic Dataset.png"></p>
-<p>Then we need to add the raster data into the empty Mosaic. Directly right-click the file and choose “add raster”.</p>
-<p>Select the files we have picked from the last steps, remember to check the “Upload Overview” box.<br>
-<img src="/2020/04/20/How%20to%20take%20many%20different%20rasters%20into%20one%20raster/44.png" alt="Add Dataset.png"></p>
+<h3 id="Load-the-buiding-on-the-DEM">Load the buiding on the DEM</h3>
+<p>Select the “Base Height” Tab of the building Footprint Dataset as the figure below. Select the DEM Dataset.</p>
+<p><img src="/2020/04/22/Present%20the%20results%20in%20ArcScene/44.PNG" alt="Mosaic Dataset.png"></p>
 <hr>
 <h3 id="Final-result">Final result</h3>
-<p>Wait for several seconds or minutes, the raster will output.</p>
-<p><img src="/2020/04/20/How%20to%20take%20many%20different%20rasters%20into%20one%20raster/55.png" alt="Mosaic Dataset.png"></p>
-<hr>
-<h3 id="Reference">Reference</h3>
-<p><a href="https://data.linz.govt.nz/" target="_blank" rel="noopener">https://data.linz.govt.nz/</a></p>
+<p>In a similar way, we can load Road, drainage pipe or flooding, and have a 3D view for the Dataset.</p>
+<p><img src="/2020/04/22/Present%20the%20results%20in%20ArcScene/55.PNG" alt="result.png"></p>
 <script>
         document.querySelectorAll('.github-emoji')
           .forEach(el => {
@@ -5551,11 +5668,10 @@ states_with_cities.head()
           });
       </script>]]></content>
       <categories>
-        <category>April 2020</category>
+        <category>May 2020</category>
       </categories>
       <tags>
         <tag>Arcmap</tag>
-        <tag>Raster</tag>
       </tags>
   </entry>
   <entry>

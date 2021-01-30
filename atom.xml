@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://fordy7014.github.io/"/>
-  <updated>2021-01-30T20:43:18.825Z</updated>
+  <updated>2021-01-30T21:36:10.513Z</updated>
   <id>https://fordy7014.github.io/</id>
   
   <author>
@@ -17,11 +17,42 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>Revit API -- Show revision on sheet</title>
+    <link href="https://fordy7014.github.io/2021/01/20/20210120Revit%20API%20--%20Show%20revision%20on%20sheet/"/>
+    <id>https://fordy7014.github.io/2021/01/20/20210120Revit%20API%20--%20Show%20revision%20on%20sheet/</id>
+    <published>2021-01-20T03:04:57.000Z</published>
+    <updated>2021-01-30T21:36:10.513Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;#1-background&quot;&gt;1. Background&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#2-show-revision-on-viewsheet&quot;&gt;2. Show revision on
+        
+      
+    
+    </summary>
+    
+    
+      <category term="January 2020" scheme="https://fordy7014.github.io/categories/January-2020/"/>
+    
+    
+      <category term="C#" scheme="https://fordy7014.github.io/tags/C/"/>
+    
+      <category term="Revit API" scheme="https://fordy7014.github.io/tags/Revit-API/"/>
+    
+  </entry>
+  
+  <entry>
     <title>01. Revit API -- Rename the window</title>
     <link href="https://fordy7014.github.io/2021/01/15/20210115Revit%20API%20--%20Rename%20the%20windown%20name/"/>
     <id>https://fordy7014.github.io/2021/01/15/20210115Revit%20API%20--%20Rename%20the%20windown%20name/</id>
     <published>2021-01-15T03:04:57.000Z</published>
-    <updated>2021-01-30T20:43:18.825Z</updated>
+    <updated>2021-01-30T21:16:03.962Z</updated>
     
     <summary type="html">
     
@@ -592,36 +623,6 @@
     
     
       <category term="C#" scheme="https://fordy7014.github.io/tags/C/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Covid-19 Cases Analysis in New Zealand</title>
-    <link href="https://fordy7014.github.io/2020/04/26/20200426%20Covid-19%20Cases%20Figure%20in%20New%20Zealand/"/>
-    <id>https://fordy7014.github.io/2020/04/26/20200426%20Covid-19%20Cases%20Figure%20in%20New%20Zealand/</id>
-    <published>2020-04-26T04:04:57.000Z</published>
-    <updated>2020-07-18T07:50:45.244Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;pre class=&quot; language-language-python&quot;&gt;&lt;code class=&quot;language-language-python&quot;&gt;from lxml.html import parse
-from urllib.request import
-        
-      
-    
-    </summary>
-    
-    
-      <category term="April 2020" scheme="https://fordy7014.github.io/categories/April-2020/"/>
-    
-    
-      <category term="Pandas" scheme="https://fordy7014.github.io/tags/Pandas/"/>
-    
-      <category term="Matplotlib" scheme="https://fordy7014.github.io/tags/Matplotlib/"/>
     
   </entry>
   
