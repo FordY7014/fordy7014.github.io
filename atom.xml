@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://fordy7014.github.io/"/>
-  <updated>2021-01-30T21:36:10.513Z</updated>
+  <updated>2021-01-30T21:41:59.198Z</updated>
   <id>https://fordy7014.github.io/</id>
   
   <author>
@@ -18,10 +18,41 @@
   
   <entry>
     <title>Revit API -- Show revision on sheet</title>
+    <link href="https://fordy7014.github.io/2021/01/20/20210125Revit%20UI%20Ribbon/"/>
+    <id>https://fordy7014.github.io/2021/01/20/20210125Revit%20UI%20Ribbon/</id>
+    <published>2021-01-20T03:04:57.000Z</published>
+    <updated>2021-01-30T21:41:59.198Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;#1-background&quot;&gt;1. Background&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#2-show-revision-on-viewsheet&quot;&gt;2. Show revision on
+        
+      
+    
+    </summary>
+    
+    
+      <category term="January 2020" scheme="https://fordy7014.github.io/categories/January-2020/"/>
+    
+    
+      <category term="C#" scheme="https://fordy7014.github.io/tags/C/"/>
+    
+      <category term="Revit API" scheme="https://fordy7014.github.io/tags/Revit-API/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Revit API -- Show revision on sheet</title>
     <link href="https://fordy7014.github.io/2021/01/20/20210120Revit%20API%20--%20Show%20revision%20on%20sheet/"/>
     <id>https://fordy7014.github.io/2021/01/20/20210120Revit%20API%20--%20Show%20revision%20on%20sheet/</id>
     <published>2021-01-20T03:04:57.000Z</published>
-    <updated>2021-01-30T21:36:10.513Z</updated>
+    <updated>2021-01-30T21:44:48.962Z</updated>
     
     <summary type="html">
     
@@ -602,27 +633,6 @@
     
     
       <category term="Civil 3d" scheme="https://fordy7014.github.io/tags/Civil-3d/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Visual Studio Shortcut in C#</title>
-    <link href="https://fordy7014.github.io/2020/05/13/Visual%20Studio%20C#%20Code%20Snippet/"/>
-    <id>https://fordy7014.github.io/2020/05/13/Visual%20Studio%20C#%20Code%20Snippet/</id>
-    <published>2020-05-13T04:04:57.000Z</published>
-    <updated>2020-06-06T01:37:26.835Z</updated>
-    
-    <summary type="html">
-    
-      Here&#39;s something encrypted, password is required to continue reading.
-    
-    </summary>
-    
-    
-      <category term="May 2020" scheme="https://fordy7014.github.io/categories/May-2020/"/>
-    
-    
-      <category term="C#" scheme="https://fordy7014.github.io/tags/C/"/>
     
   </entry>
   

@@ -410,9 +410,9 @@
 <p>He want to show the default revision(BC LODGEMENT) on sheet when creating the sheet.</p>
 </blockquote>
 <p>He explained that when creating a sheet, there is no default revision as below.<br>
-<img src="/2021/01/20/20210120Revit%20API%20--%20Show%20revision%20on%20sheet/1.png" alt=""></p>
+<img src="/2021/01/20/20210125Revit%20UI%20Ribbon/1.png" alt=""></p>
 <p>Unless you mark the plan with cloud line, then the version will show on the same sheet as below.<br>
-<img src="/2021/01/20/20210120Revit%20API%20--%20Show%20revision%20on%20sheet/2.png" alt=""></p>
+<img src="/2021/01/20/20210125Revit%20UI%20Ribbon/2.png" alt=""></p>
 <p>Hence, he can intentionly click <em>shown in Revision Schedule</em> one by one on each sheet, which will be quite time-consuming</p>
 <p>At first I think it will be a easy task, but it takes me several hours to understand how the data structure is.</p>
 <h1>2. Show revision on viewsheet</h1>
@@ -423,7 +423,7 @@
 </code></pre>
 <h2 id="2-2-Revision-“Property”">2.2. Revision “Property”</h2>
 <p>At first, using the *<strong><a href="https://github.com/jeremytammik/RevitLookup" target="_blank" rel="noopener">Revit Lookup</a></strong> to find the properties of the viewsheet. We can find as below , all the revions of a sheet will be accessed by <strong>GetAllRevisionIds</strong>,<br>
-<img src="/2021/01/20/20210120Revit%20API%20--%20Show%20revision%20on%20sheet/3.png" alt=""><br>
+<img src="/2021/01/20/20210125Revit%20UI%20Ribbon/3.png" alt=""><br>
 but how to set the revisions of a sheet, let’s look into the ViewSheet</p>
 <pre class=" language-language-C#"><code class="language-language-C#">    public class ViewSheet : View
     {
@@ -435,7 +435,7 @@ but how to set the revisions of a sheet, let’s look into the ViewSheet</p>
 </code></pre>
 <p>We can tell that we can use the function <strong>SetAdditionalRevisionIds(ICollection<elementid> projectRevisionIds);</elementid></strong></p>
 <p>But what is the <strong>projectRevisionIds</strong>, to further understand this, you can refer to <a href="https://thebuildingcoder.typepad.com/blog/2014/06/the-revision-api-and-a-form-on-the-fly.html" target="_blank" rel="noopener">Jeremy’s blog</a>, but now we can get from the way below:</p>
-<p><img src="/2021/01/20/20210120Revit%20API%20--%20Show%20revision%20on%20sheet/4.png" alt=""></p>
+<p><img src="/2021/01/20/20210125Revit%20UI%20Ribbon/4.png" alt=""></p>
 <p>Hence, we can get the all the revisions by</p>
 <pre class=" language-language-C#"><code class="language-language-C#">public static IList<ElementId> GetAllRevisionIds(Document document);
 </code></pre>
@@ -521,7 +521,7 @@ but how to set the revisions of a sheet, let’s look into the ViewSheet</p>
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://fordy7014.github.io/2021/01/20/20210120Revit%20API%20--%20Show%20revision%20on%20sheet/">https://fordy7014.github.io/2021/01/20/20210120Revit%20API%20--%20Show%20revision%20on%20sheet/</a>
+                    <a href="https://fordy7014.github.io/2021/01/20/20210125Revit%20UI%20Ribbon/">https://fordy7014.github.io/2021/01/20/20210125Revit%20UI%20Ribbon/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -606,9 +606,10 @@ but how to set the revisions of a sheet, let’s look into the ViewSheet</p>
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;Previous</div>
+                <i class="far fa-dot-circle"></i>&nbsp;Current
+            </div>
             <div class="card">
                 <a href="/2021/01/20/20210125Revit%20UI%20Ribbon/">
                     <div class="card-image">
@@ -636,9 +637,9 @@ but how to set the revisions of a sheet, let’s look into the ViewSheet</p>
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2021-01-20
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2021-01-20
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
@@ -651,6 +652,7 @@ but how to set the revisions of a sheet, let’s look into the ViewSheet</p>
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
@@ -673,13 +675,13 @@ but how to set the revisions of a sheet, let’s look into the ViewSheet</p>
                 Next&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2021/01/15/20210115Revit%20API%20--%20Rename%20the%20windown%20name/">
+                <a href="/2021/01/20/20210120Revit%20API%20--%20Show%20revision%20on%20sheet/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/4.jpg" class="responsive-img" alt="01. Revit API -- Rename the window">
+                        <img src="/medias/featureimages/16.jpg" class="responsive-img" alt="Revit API -- Show revision on sheet">
                         
-                        <span class="card-title">01. Revit API -- Rename the window</span>
+                        <span class="card-title">Revit API -- Show revision on sheet</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -687,22 +689,20 @@ but how to set the revisions of a sheet, let’s look into the ViewSheet</p>
                         
                             
 1. Background
-2. RENAMING
+2. Show revision on viewsheet
 
-2.1. Family Hierachy
-2.2. Selection
-
-2.2.1. Way1
-2.2.2. Way2
+2.1. Selecting
+2.2. Revision “Property”
+2.3. Full CODE
 
 
-2.3. Category Name
-2.4. Name 
+3. Summary
+4. Ref
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2021-01-15
+                                <i class="far fa-clock fa-fw icon-date"></i>2021-01-20
                             </span>
                         <span class="publish-author">
                             
