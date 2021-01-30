@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="08. Renumbering the manholes and pipelines, Python, Pandas">
+    <meta name="keywords" content="01. Revit API -- Rename the window, Python, Pandas">
     <meta name="description" content="Just to take notes for what I have learnt, and I will be very happy if it helps anyone.">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>08. Renumbering the manholes and pipelines | Ford Yang&#39;s Blog</title>
+    <title>01. Revit API -- Rename the window | Ford Yang&#39;s Blog</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -215,12 +215,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/20.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/4.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">08. Renumbering the manholes and pipelines</h1>
+                    <h1 class="description center-align post-title">01. Revit API -- Rename the window</h1>
                 </div>
             </div>
         </div>
@@ -337,16 +337,12 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/Civil-3d/">
-                                <span class="chip bg-color">Civil 3d</span>
-                            </a>
-                        
-                            <a href="/tags/AutoCAD-API/">
-                                <span class="chip bg-color">AutoCAD API</span>
-                            </a>
-                        
                             <a href="/tags/C/">
                                 <span class="chip bg-color">C#</span>
+                            </a>
+                        
+                            <a href="/tags/Revit-API/">
+                                <span class="chip bg-color">Revit API</span>
                             </a>
                         
                     </div>
@@ -357,8 +353,8 @@
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/December-2020/" class="post-category">
-                                December 2020
+                            <a href="/categories/January-2020/" class="post-category">
+                                January 2020
                             </a>
                         
                     </div>
@@ -370,7 +366,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>Publish Date:&nbsp;&nbsp;
-                    2020-12-10
+                    2021-01-15
                 </div>
                 
 
@@ -379,14 +375,14 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>Word Count:&nbsp;&nbsp;
-                    240
+                    453
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>Read Times:&nbsp;&nbsp;
-                    1 Min
+                    2 Min
                 </div>
                 
 
@@ -396,46 +392,123 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="Introduction">Introduction</h2>
-<p>In my work, I always use the past Civil3d template to continue my design, hence the initial number of some objects are usually high, for example, manholes and pipelines. What is worse, sometimes I would delete some of them, hence their names are not continuous.</p>
-<p>Hence, I write a plugin to rename the object. It should be a easy job, I just</p>
-<h2 id="SOME-CODE">SOME CODE</h2>
-<pre class=" language-language-C#"><code class="language-language-C#">        [CommandMethod("RenameWW")]
-        public static void RenameWWPipes()
-        {
-            Editor ed = Helper.Ed();
-            CivilDocument civilDoc = CivilApplication.ActiveDocument;
-            using (Transaction tr = Application.DocumentManager.MdiActiveDocument.
-                Database.TransactionManager.StartTransaction())
-            {
-
-                ObjectId partId = PipeNetworks.PromptForPart("Please select one of the structures or pipes in targeted Network: ");
-                if (partId != ObjectId.Null)
-                {
-                    //Select one part of the target netowrk
-                    Part part = tr.GetObject(partId, OpenMode.ForRead) as Part;
-                    ObjectId netWorkId = part.NetworkId;
-
-                    //Get the object of the network by object id
-                    Network oNetwork = tr.GetObject(netWorkId, OpenMode.ForWrite) as Network;
-                    ObjectIdCollection pipeIds = oNetwork.GetPipeIds();
-
-                    int count = 1;
-                    foreach (ObjectId pipeId in pipeIds)
-                    {
-                        // get the pipe objects  and rename them
-                        Pipe pipe = tr.GetObject(pipeId, OpenMode.ForWrite) as Pipe;
-                        String name1 = string.Format("LOT{0} WW", count); ;
-                        pipe.Name = name1;
-                        count += 1;
-                    }
-                }
-
-                tr.Commit();
-            }
-        }
+                <ul>
+<li><a href="#1-background">1. Background</a></li>
+<li><a href="#2-working">2. Working</a>
+<ul>
+<li><a href="#21-family-hierachy">2.1. Family Hierachy</a></li>
+<li><a href="#22-selection">2.2. Selection</a>
+<ul>
+<li><a href="#221-way1">2.2.1. Way1</a></li>
+<li><a href="#222-way2">2.2.2. Way2</a></li>
+</ul>
+</li>
+<li><a href="#23-category-name">2.3. Category Name</a></li>
+<li><a href="#24-name-of-property">2.4. Name of property</a></li>
+<li><a href="#25-full-code">2.5. Full CODE</a></li>
+</ul>
+</li>
+<li><a href="#3-reference">3. Reference</a></li>
+</ul>
+<h1>1. Background</h1>
+<p>Recently, one of my archi friends wants a tool to rename all the widnows. Mostly, he would delete some the wondows during the design stage, hence, he need a tool to reset the windows number to be continuous when finishing the drafting.</p>
+<p>I think the job should be easy, what I need to do is just to select the windows out, and then rename them, quite similar as the pipe job posted before. But the data structure of Revit database is slightly different. Let’s look into this.</p>
+<h1>2. Working</h1>
+<h2 id="2-1-Family-Hierachy">2.1. Family Hierachy</h2>
+<p>Firstly, we need to get all the windows object in the reivt document.<br>
+As we all know, the Reivt family hierarchy is as below</p>
+<blockquote>
+<p>CATEGORY</p>
+<blockquote>
+<p>FAMILY</p>
+<blockquote>
+<p>TYPE(WALL TYPE, ROOF TYPE)</p>
+<blockquote>
+<pre><code>       WALL
+</code></pre>
+</blockquote>
+<p>FamilySymbol</p>
+<blockquote>
+<pre><code>       INSTANCE
+</code></pre>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+<p>![1.png]</p>
+<h2 id="2-2-Selection">2.2. Selection</h2>
+<blockquote>
+<p>OfCategory</p>
+<blockquote>
+<p>FamilySymbol, FamilyInstance<br>
+OfClass<br>
+FamilySymbol, FamilyInstance, and Family</p>
+</blockquote>
+</blockquote>
+<h3 id="2-2-1-Way1">2.2.1. Way1</h3>
+<pre class=" language-language-C#"><code class="language-language-C#">collector.OfCategory(BuiltInCategory.OST_Windows).OfClass(typeof(FamilyInstance));
+</code></pre>
+<h3 id="2-2-2-Way2">2.2.2. Way2</h3>
+<pre class=" language-language-C#"><code class="language-language-C#">
+    ElementCategoryFilter elementCategoryFilter = new ElementCategoryFilter(BuiltInCategory.OST_Walls);
+    ElementClassFilter elementClassFilter = new ElementClassFilter(typeof(FamilyInstance));
+    collector.WherePasses(elementClassFilter).WherePasses(elementCategoryFilter);
 
 </code></pre>
+<h2 id="2-3-Category-Name">2.3. Category Name</h2>
+<p>But how do we know the <em>BuiltInCategory</em> name is <em>OST_Windows</em> of  the window. We can use the way below.</p>
+<p>![2.png]<br>
+![3.png]</p>
+<h2 id="2-4-Name-of-property">2.4. Name of property</h2>
+<p>When we select any window, we can tell that which property will be the tag name on the plan, then we only need to modify this property of the window to rename.<br>
+![3.png]</p>
+<h2 id="2-5-Full-CODE">2.5. Full CODE</h2>
+<pre class=" language-language-C#"><code class="language-language-C#">    [Transaction(TransactionMode.Manual)]
+    class ReNumberWindows : IExternalCommand
+    {
+        public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
+        {
+            //1. Select the interactive document
+            UIDocument uidoc = commandData.Application.ActiveUIDocument;
+            //database document
+            Document doc = commandData.Application.ActiveUIDocument.Document;
+
+            //2 create collector
+            FilteredElementCollector collector = new FilteredElementCollector(doc);
+            //filter to get the Window element
+
+            //2.1
+            collector.OfCategory(BuiltInCategory.OST_Windows).OfClass(typeof(FamilyInstance));//FamilyInstance if it is a tree
+
+            
+
+            List<Element> elementList = new List<Element>();
+            int count = 0;
+
+            using (Transaction t = new Transaction(doc, "ClearMark"))
+            {
+                t.Start();
+                foreach(var item in collector)
+                {
+                    if (item is Element)
+                    {
+                        count += 1;
+                        Element windowInstance = item as Element;
+                        windowInstance.LookupParameter("Mark").Set(String.Format("EW-{0}", count));
+                    }
+                }
+                t.Commit();
+            }
+
+            TaskDialog.Show("Result", String.Format("{0} windows have been renamed", count));
+
+            return Result.Succeeded;
+        }
+
+    }
+
+</code></pre>
+<h1>3. Reference</h1>
 <script>
         document.querySelectorAll('.github-emoji')
           .forEach(el => {
@@ -479,7 +552,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://fordy7014.github.io/2020/12/10/20201210AutoCAD%20developer's%20tools%20--%20Renumber%20the%20Objects/">https://fordy7014.github.io/2020/12/10/20201210AutoCAD%20developer's%20tools%20--%20Renumber%20the%20Objects/</a>
+                    <a href="https://fordy7014.github.io/2021/01/15/20210115Revit%20API%20--%20Rename%20the%20windown%20name/">https://fordy7014.github.io/2021/01/15/20210115Revit%20API%20--%20Rename%20the%20windown%20name/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -517,16 +590,12 @@
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/Civil-3d/">
-                                    <span class="chip bg-color">Civil 3d</span>
-                                </a>
-                            
-                                <a href="/tags/AutoCAD-API/">
-                                    <span class="chip bg-color">AutoCAD API</span>
-                                </a>
-                            
                                 <a href="/tags/C/">
                                     <span class="chip bg-color">C#</span>
+                                </a>
+                            
+                                <a href="/tags/Revit-API/">
+                                    <span class="chip bg-color">Revit API</span>
                                 </a>
                             
                         </div>
@@ -568,9 +637,10 @@
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;Previous</div>
+                <i class="far fa-dot-circle"></i>&nbsp;Current
+            </div>
             <div class="card">
                 <a href="/2021/01/15/20210115Revit%20API%20--%20Rename%20the%20windown%20name/">
                     <div class="card-image">
@@ -600,9 +670,9 @@
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2021-01-15
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2021-01-15
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
@@ -615,6 +685,7 @@
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
@@ -637,25 +708,25 @@
                 Next&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/12/05/20201205AutoCAD%20developer's%20tools%20--%20Hatch/">
+                <a href="/2020/12/10/20201210AutoCAD%20developer's%20tools%20--%20Renumber%20the%20Objects/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/9.jpg" class="responsive-img" alt="07. Hatch">
+                        <img src="/medias/featureimages/20.jpg" class="responsive-img" alt="08. Renumbering the manholes and pipelines">
                         
-                        <span class="card-title">07. Hatch</span>
+                        <span class="card-title">08. Renumbering the manholes and pipelines</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
                             Introduction
-After learning how to select the objects from the drawings, now we begin to learn how to do something to th
+In my work, I always use the past Civil3d template to continue my design, hence the initial number of some 
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-12-05
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-12-10
                             </span>
                         <span class="publish-author">
                             
@@ -671,6 +742,10 @@ After learning how to select the objects from the drawings, now we begin to lear
                 </div>
                 
                 <div class="card-action article-tags">
+                    
+                    <a href="/tags/Civil-3d/">
+                        <span class="chip bg-color">Civil 3d</span>
+                    </a>
                     
                     <a href="/tags/AutoCAD-API/">
                         <span class="chip bg-color">AutoCAD API</span>

@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://fordy7014.github.io/"/>
-  <updated>2021-01-08T04:23:50.846Z</updated>
+  <updated>2021-01-30T10:49:54.410Z</updated>
   <id>https://fordy7014.github.io/</id>
   
   <author>
@@ -15,6 +15,39 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>01. Revit API -- Rename the window</title>
+    <link href="https://fordy7014.github.io/2021/01/15/20210115Revit%20API%20--%20Rename%20the%20windown%20name/"/>
+    <id>https://fordy7014.github.io/2021/01/15/20210115Revit%20API%20--%20Rename%20the%20windown%20name/</id>
+    <published>2021-01-15T03:04:57.000Z</published>
+    <updated>2021-01-30T10:49:54.410Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;#1-background&quot;&gt;1. Background&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#2-working&quot;&gt;2. Working&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;#21-family-hierachy&quot;&gt;2.1.
+        
+      
+    
+    </summary>
+    
+    
+      <category term="January 2020" scheme="https://fordy7014.github.io/categories/January-2020/"/>
+    
+    
+      <category term="C#" scheme="https://fordy7014.github.io/tags/C/"/>
+    
+      <category term="Revit API" scheme="https://fordy7014.github.io/tags/Revit-API/"/>
+    
+  </entry>
   
   <entry>
     <title>08. Renumbering the manholes and pipelines</title>
@@ -577,36 +610,6 @@
         
           &lt;pre class=&quot; language-language-python&quot;&gt;&lt;code class=&quot;language-language-python&quot;&gt;from lxml.html import parse
 from urllib.request import
-        
-      
-    
-    </summary>
-    
-    
-      <category term="April 2020" scheme="https://fordy7014.github.io/categories/April-2020/"/>
-    
-    
-      <category term="Pandas" scheme="https://fordy7014.github.io/tags/Pandas/"/>
-    
-      <category term="Matplotlib" scheme="https://fordy7014.github.io/tags/Matplotlib/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>the Covid19 case Number Growth by DHB in NZ</title>
-    <link href="https://fordy7014.github.io/2020/04/25/Generate%20the%20Covid19%20case%20growth%20video/"/>
-    <id>https://fordy7014.github.io/2020/04/25/Generate%20the%20Covid19%20case%20growth%20video/</id>
-    <published>2020-04-25T06:04:57.000Z</published>
-    <updated>2020-07-18T07:43:44.083Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;h2 id=&quot;Read-the-data-from-excel&quot;&gt;Read the data from excel&lt;/h2&gt;
-&lt;pre class=&quot; language-language-python&quot;&gt;&lt;code
         
       
     
