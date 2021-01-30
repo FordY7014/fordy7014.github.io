@@ -3429,7 +3429,7 @@ It is quite similar as the creation of other objects.</p>
     <url>/2021/01/15/20210115Revit%20API%20--%20Rename%20the%20windown%20name/</url>
     <content><![CDATA[<ul>
 <li><a href="#1-background">1. Background</a></li>
-<li><a href="#2-working">2. Working</a>
+<li><a href="#2-renaming">2. RENAMING</a>
 <ul>
 <li><a href="#21-family-hierachy">2.1. Family Hierachy</a></li>
 <li><a href="#22-selection">2.2. Selection</a>
@@ -3443,12 +3443,13 @@ It is quite similar as the creation of other objects.</p>
 <li><a href="#25-full-code">2.5. Full CODE</a></li>
 </ul>
 </li>
-<li><a href="#3-reference">3. Reference</a></li>
+<li><a href="#3-summary">3. Summary</a></li>
+<li><a href="#4-reference">4. Reference</a></li>
 </ul>
 <h1>1. Background</h1>
 <p>Recently, one of my archi friends wants a tool to rename all the widnows. Mostly, he would delete some the wondows during the design stage, hence, he need a tool to reset the windows number to be continuous when finishing the drafting.</p>
 <p>I think the job should be easy, what I need to do is just to select the windows out, and then rename them, quite similar as the pipe job posted before. But the data structure of Revit database is slightly different. Let’s look into this.</p>
-<h1>2. Working</h1>
+<h1>2. RENAMING</h1>
 <h2 id="2-1-Family-Hierachy">2.1. Family Hierachy</h2>
 <p>Firstly, we need to get all the windows object in the reivt document.<br>
 As we all know, the Reivt family hierarchy is as below</p>
@@ -3470,7 +3471,7 @@ As we all know, the Reivt family hierarchy is as below</p>
 </blockquote>
 </blockquote>
 </blockquote>
-<p>![1.png]</p>
+<p><img src="/2021/01/15/20210115Revit%20API%20--%20Rename%20the%20windown%20name/1.png" alt=""></p>
 <h2 id="2-2-Selection">2.2. Selection</h2>
 <blockquote>
 <p>OfCategory</p>
@@ -3492,11 +3493,14 @@ FamilySymbol, FamilyInstance, and Family</p>
 </code></pre>
 <h2 id="2-3-Category-Name">2.3. Category Name</h2>
 <p>But how do we know the <em>BuiltInCategory</em> name is <em>OST_Windows</em> of  the window. We can use the way below.</p>
-<p>![2.png]<br>
-![3.png]</p>
+<p><img src="/2021/01/15/20210115Revit%20API%20--%20Rename%20the%20windown%20name/2.png" alt=""><br>
+<img src="/2021/01/15/20210115Revit%20API%20--%20Rename%20the%20windown%20name/3.png" alt=""></p>
 <h2 id="2-4-Name-of-property">2.4. Name of property</h2>
-<p>When we select any window, we can tell that which property will be the tag name on the plan, then we only need to modify this property of the window to rename.<br>
-![3.png]</p>
+<p>When selecting any window by tool <strong><a href="https://github.com/jeremytammik/RevitLookup" target="_blank" rel="noopener">Revit Lookup</a></strong> , we can tell that which property will be the tag name on the plan, then we only need to modify this property of the window to rename.<br>
+<img src="/2021/01/15/20210115Revit%20API%20--%20Rename%20the%20windown%20name/4.png" alt=""></p>
+<pre class=" language-language-C"><code class="language-language-C">Element windowInstance = item as Element;
+windowInstance.LookupParameter("Mark").Set(String.Format("EW-{0}", count));
+</code></pre>
 <h2 id="2-5-Full-CODE">2.5. Full CODE</h2>
 <pre class=" language-language-C#"><code class="language-language-C#">    [Transaction(TransactionMode.Manual)]
     class ReNumberWindows : IExternalCommand
@@ -3512,12 +3516,12 @@ FamilySymbol, FamilyInstance, and Family</p>
             FilteredElementCollector collector = new FilteredElementCollector(doc);
             //filter to get the Window element
 
-            //2.1
+            //Selection
             collector.OfCategory(BuiltInCategory.OST_Windows).OfClass(typeof(FamilyInstance));//FamilyInstance if it is a tree
 
             
 
-            List<Element> elementList = new List<Element>();
+
             int count = 0;
 
             using (Transaction t = new Transaction(doc, "ClearMark"))
@@ -3543,7 +3547,12 @@ FamilySymbol, FamilyInstance, and Family</p>
     }
 
 </code></pre>
-<h1>3. Reference</h1>
+<h1>3. Summary</h1>
+<p>Most of the objects can be found and modified from this way, and  Dynamo can achieve the  same goal, but maybe even easier.</p>
+<p>Next time, I will analyze how to modify the revision of the sheet, which I didnot find a way in Dynamo.</p>
+<h1>4. Reference</h1>
+<p><a href="https://github.com/jeremytammik/RevitLookup" target="_blank" rel="noopener">https://github.com/jeremytammik/RevitLookup</a></p>
+<p><a href="http://help.autodesk.com/view/RVT/2019/ENU/?guid=Revit_API_Revit_API_Developers_Guide_html" target="_blank" rel="noopener">http://help.autodesk.com/view/RVT/2019/ENU/?guid=Revit_API_Revit_API_Developers_Guide_html</a></p>
 <script>
         document.querySelectorAll('.github-emoji')
           .forEach(el => {
