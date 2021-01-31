@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://fordy7014.github.io/"/>
-  <updated>2021-01-30T21:50:15.540Z</updated>
+  <updated>2021-01-30T21:52:51.623Z</updated>
   <id>https://fordy7014.github.io/</id>
   
   <author>
@@ -17,11 +17,11 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>Revit API -- Revit Ribbon</title>
+    <title>03.Revit API -- Revit Ribbon</title>
     <link href="https://fordy7014.github.io/2021/01/25/20210125Revit%20UI%20Ribbon/"/>
     <id>https://fordy7014.github.io/2021/01/25/20210125Revit%20UI%20Ribbon/</id>
     <published>2021-01-25T03:04:57.000Z</published>
-    <updated>2021-01-30T21:50:15.540Z</updated>
+    <updated>2021-01-30T21:52:51.623Z</updated>
     
     <summary type="html">
     
@@ -49,11 +49,11 @@
   </entry>
   
   <entry>
-    <title>Revit API -- Show revision on sheet</title>
+    <title>02.Revit API -- Show revisions on each viewsheet</title>
     <link href="https://fordy7014.github.io/2021/01/20/20210120Revit%20API%20--%20Show%20revision%20on%20sheet/"/>
     <id>https://fordy7014.github.io/2021/01/20/20210120Revit%20API%20--%20Show%20revision%20on%20sheet/</id>
     <published>2021-01-20T03:04:57.000Z</published>
-    <updated>2021-01-30T21:44:48.962Z</updated>
+    <updated>2021-01-30T21:52:30.164Z</updated>
     
     <summary type="html">
     
