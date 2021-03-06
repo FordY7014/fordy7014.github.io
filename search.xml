@@ -1753,112 +1753,6 @@ Mostly we have different plans such as drainage or driveway plan on same site, i
       </tags>
   </entry>
   <entry>
-    <title>Move the selected objects to the current layer</title>
-    <url>/2020/06/17/20200617Move%20the%20selected%20objects%20to%20the%20current%20layer/</url>
-    <content><![CDATA[<hr>
-<h2 id="Build-a-FilterType-to-select">Build a FilterType[] to select</h2>
-<pre class=" language-language-csharp"><code class="language-language-csharp">public enum FilterType
-    {
-        Curve, Dimension, Polyline, BlockRef, Circle, Line, Arc, Text, MText
-    }
-
-
-public static DBObjectCollection GetSelection(FilterType[] tps)
-        {
-            Document doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
-            Database db = doc.Database;
-            Editor ed = doc.Editor;
-            Entity entity = null;
-            DBObjectCollection EntityCollection = new DBObjectCollection();
-            PromptSelectionOptions selops = new PromptSelectionOptions();
-
-            // Name the filter contents
-            TypedValue[] filList = new TypedValue[tps.Length + 2];
-            filList[0] = new TypedValue((int)DxfCode.Operator, "<or");
-            filList[tps.Length + 1] = new TypedValue((int)DxfCode.Operator, "or>");
-            for (int i = 0; i < tps.Length; i++)
-            {
-                filList[i + 1] = new TypedValue((int)DxfCode.Start, tps[i].ToString());
-            }
-
-
-             // Build the filter
-            SelectionFilter filter = new SelectionFilter(filList);
-            // 按照过滤器进行选择
-            PromptSelectionResult ents = ed.GetSelection(selops, filter);
-            if  (ents.Status == PromptStatus.OK)  
-            {
-                using  (Transaction transaction = db.TransactionManager.StartTransaction())
-                 {
-                    SelectionSet SS = ents.Value;
-                    foreach (ObjectId id in   SS.GetObjectIds())
-                    {
-                        entity = (Entity) transaction.GetObject(id, OpenMode.ForWrite,  true );  
-                        if(entity!=null)
-                        {
-                            LayerTableRecord ltr = LayerTools.GetCurrentLayer(db);
-                            entity.Layer = ltr.Name;
-                            EntityCollection.Add(entity);
-                            ed = Autodesk.AutoCAD.ApplicationServices. Application .DocumentManager.MdiActiveDocument.Editor;
-                            ed.SelectPrevious();
-                        }
-                    }
-                    transaction.Commit( );  
-                }
-            }
-            return   EntityCollection;
-        }
-</code></pre>
-<hr>
-<h2 id="Select-Lines-and-Polylines">Select Lines and Polylines</h2>
-<pre><code>public void SelectLines()
-        {
-            Database db = HostApplicationServices.WorkingDatabase;
-            LayerTableRecord ltr = new LayerTableRecord();
-            ltr = LayerTools.GetCurrentLayer(db);
-
-
-            FilterType LineType = FilterType.Line;
-            FilterType PolyLineType = FilterType.Polyline;
-            FilterType CircleType = FilterType.Circle;
-
-            FilterType[] Types = new FilterType[3];
-            Types[0] = LineType;
-            Types[1] = PolyLineType;
-            Types[2] = CircleType;
-            DBObjectCollection EntityCollection = Selection.GetSelection(Types);
-        }
-
-</code></pre>
-<script>
-        document.querySelectorAll('.github-emoji')
-          .forEach(el => {
-            if (!el.dataset.src) { return; }
-            const img = document.createElement('img');
-            img.style = 'display:none !important;';
-            img.src = el.dataset.src;
-            img.addEventListener('error', () => {
-              img.remove();
-              el.style.color = 'inherit';
-              el.style.backgroundImage = 'none';
-              el.style.background = 'none';
-            });
-            img.addEventListener('load', () => {
-              img.remove();
-            });
-            document.body.appendChild(img);
-          });
-      </script>]]></content>
-      <categories>
-        <category>June 2020</category>
-      </categories>
-      <tags>
-        <tag>Civil 3d</tag>
-        <tag>AutoCAD API</tag>
-        <tag>C#</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Prompt to Select one type of object in .NetAPI(Ironpython)</title>
     <url>/2020/06/16/20200616Prompt%20to%20Select%20one%20type%20of%20object/</url>
     <content><![CDATA[<hr>
@@ -1940,16 +1834,83 @@ except:
       </tags>
   </entry>
   <entry>
-    <title>Civil3d Ribbon Demo (Automate the repetitive tasks)</title>
-    <url>/2020/06/22/20200622Civil3D%20Ribbon%20Demo/</url>
-    <content><![CDATA[<p>Recently I create a custom #Civil3D ribbon menu with #.NET API for the script I wrote. Now it is easier to use and can save us time for repetitive tasks.</p>
+    <title>Move the selected objects to the current layer</title>
+    <url>/2020/06/17/20200617Move%20the%20selected%20objects%20to%20the%20current%20layer/</url>
+    <content><![CDATA[<hr>
+<h2 id="Build-a-FilterType-to-select">Build a FilterType[] to select</h2>
+<pre class=" language-language-csharp"><code class="language-language-csharp">public enum FilterType
+    {
+        Curve, Dimension, Polyline, BlockRef, Circle, Line, Arc, Text, MText
+    }
+
+
+public static DBObjectCollection GetSelection(FilterType[] tps)
+        {
+            Document doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
+            Database db = doc.Database;
+            Editor ed = doc.Editor;
+            Entity entity = null;
+            DBObjectCollection EntityCollection = new DBObjectCollection();
+            PromptSelectionOptions selops = new PromptSelectionOptions();
+
+            // Name the filter contents
+            TypedValue[] filList = new TypedValue[tps.Length + 2];
+            filList[0] = new TypedValue((int)DxfCode.Operator, "<or");
+            filList[tps.Length + 1] = new TypedValue((int)DxfCode.Operator, "or>");
+            for (int i = 0; i < tps.Length; i++)
+            {
+                filList[i + 1] = new TypedValue((int)DxfCode.Start, tps[i].ToString());
+            }
+
+
+             // Build the filter
+            SelectionFilter filter = new SelectionFilter(filList);
+            // 按照过滤器进行选择
+            PromptSelectionResult ents = ed.GetSelection(selops, filter);
+            if  (ents.Status == PromptStatus.OK)  
+            {
+                using  (Transaction transaction = db.TransactionManager.StartTransaction())
+                 {
+                    SelectionSet SS = ents.Value;
+                    foreach (ObjectId id in   SS.GetObjectIds())
+                    {
+                        entity = (Entity) transaction.GetObject(id, OpenMode.ForWrite,  true );  
+                        if(entity!=null)
+                        {
+                            LayerTableRecord ltr = LayerTools.GetCurrentLayer(db);
+                            entity.Layer = ltr.Name;
+                            EntityCollection.Add(entity);
+                            ed = Autodesk.AutoCAD.ApplicationServices. Application .DocumentManager.MdiActiveDocument.Editor;
+                            ed.SelectPrevious();
+                        }
+                    }
+                    transaction.Commit( );  
+                }
+            }
+            return   EntityCollection;
+        }
+</code></pre>
 <hr>
-<h2 id="Edit-Reference-Surface-Of-Network">Edit Reference Surface Of Network</h2>
-<h2 id="Edit-Reference-Surface-Of-Network-2"><img src="/2020/06/22/20200622Civil3D%20Ribbon%20Demo/EditReferenceSurfaceOfNetwork.gif" alt="Edit Reference Surface Of Network"></h2>
-<h2 id="Adjust-the-multiple-viewports-by-several-clicks">Adjust the multiple viewports by several clicks</h2>
-<p><img src="/2020/06/22/20200622Civil3D%20Ribbon%20Demo/Adjustthemultipleviewportsinseconds2.gif" alt="Adjust the multiple viewports by several clicks"></p>
-<h2 id="get-Lot-Area-Info-and-export-to-Excel-file">get Lot Area Info and export to Excel file</h2>
-<p><img src="/2020/06/22/20200622Civil3D%20Ribbon%20Demo/LotAreaTableGeneration3.gif" alt="get Lot Area Info and export to Excel file"></p>
+<h2 id="Select-Lines-and-Polylines">Select Lines and Polylines</h2>
+<pre><code>public void SelectLines()
+        {
+            Database db = HostApplicationServices.WorkingDatabase;
+            LayerTableRecord ltr = new LayerTableRecord();
+            ltr = LayerTools.GetCurrentLayer(db);
+
+
+            FilterType LineType = FilterType.Line;
+            FilterType PolyLineType = FilterType.Polyline;
+            FilterType CircleType = FilterType.Circle;
+
+            FilterType[] Types = new FilterType[3];
+            Types[0] = LineType;
+            Types[1] = PolyLineType;
+            Types[2] = CircleType;
+            DBObjectCollection EntityCollection = Selection.GetSelection(Types);
+        }
+
+</code></pre>
 <script>
         document.querySelectorAll('.github-emoji')
           .forEach(el => {
@@ -2075,6 +2036,161 @@ public static void MultipleSelectionFilter()
       </categories>
       <tags>
         <tag>Civil 3d</tag>
+        <tag>AutoCAD API</tag>
+        <tag>C#</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Civil3d Ribbon Demo (Automate the repetitive tasks)</title>
+    <url>/2020/06/22/20200622Civil3D%20Ribbon%20Demo/</url>
+    <content><![CDATA[<p>Recently I create a custom #Civil3D ribbon menu with #.NET API for the script I wrote. Now it is easier to use and can save us time for repetitive tasks.</p>
+<hr>
+<h2 id="Edit-Reference-Surface-Of-Network">Edit Reference Surface Of Network</h2>
+<h2 id="Edit-Reference-Surface-Of-Network-2"><img src="/2020/06/22/20200622Civil3D%20Ribbon%20Demo/EditReferenceSurfaceOfNetwork.gif" alt="Edit Reference Surface Of Network"></h2>
+<h2 id="Adjust-the-multiple-viewports-by-several-clicks">Adjust the multiple viewports by several clicks</h2>
+<p><img src="/2020/06/22/20200622Civil3D%20Ribbon%20Demo/Adjustthemultipleviewportsinseconds2.gif" alt="Adjust the multiple viewports by several clicks"></p>
+<h2 id="get-Lot-Area-Info-and-export-to-Excel-file">get Lot Area Info and export to Excel file</h2>
+<p><img src="/2020/06/22/20200622Civil3D%20Ribbon%20Demo/LotAreaTableGeneration3.gif" alt="get Lot Area Info and export to Excel file"></p>
+<script>
+        document.querySelectorAll('.github-emoji')
+          .forEach(el => {
+            if (!el.dataset.src) { return; }
+            const img = document.createElement('img');
+            img.style = 'display:none !important;';
+            img.src = el.dataset.src;
+            img.addEventListener('error', () => {
+              img.remove();
+              el.style.color = 'inherit';
+              el.style.backgroundImage = 'none';
+              el.style.background = 'none';
+            });
+            img.addEventListener('load', () => {
+              img.remove();
+            });
+            document.body.appendChild(img);
+          });
+      </script>]]></content>
+      <categories>
+        <category>June 2020</category>
+      </categories>
+      <tags>
+        <tag>Civil 3d</tag>
+        <tag>AutoCAD API</tag>
+        <tag>C#</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>01. &quot;Hello world&quot; message in AutoCAD editor Example</title>
+    <url>/2020/08/22/20200822AutoCAD%20developer&#39;s%20tools%20--%20Environment/</url>
+    <content><![CDATA[<h2 id="01-Start-up-with-the-Environment">01.Start up with the Environment</h2>
+<ul>
+<li>Language: C#</li>
+<li>IDE: VS2019</li>
+<li>CAD: 2019</li>
+</ul>
+<p>The relationship between CAD edition and product codes for installation</p>
+<pre><code>R19.0: 2013
+R19.1: 2014
+R20.0: 2015
+R20.1:2016
+R21.0:2017
+R22.0:2018
+R23.0:2019
+R23.1:2020  
+R24.0:2021
+
+</code></pre>
+<hr>
+<h2 id="02-Create-a-new-project">02. Create a new project</h2>
+<p>Build up  a class file which can be loaded by AutoCAD later for use.</p>
+<ol>
+<li>Start Visual Studio</li>
+</ol>
+<p><img src="/2020/08/22/20200822AutoCAD%20developer's%20tools%20--%20Environment/1.png" alt="Create new project"></p>
+<ol start="2">
+<li>Create new project with .NetFramework 4.7<br>
+<img src="/2020/08/22/20200822AutoCAD%20developer's%20tools%20--%20Environment/2.png" alt="Input the Project name"></li>
+</ol>
+<hr>
+<h2 id="03-Load-the-files">03. Load the files</h2>
+<p>The we load the .dll file in the AutoCAD root folder into the projects, then the code we write can use them to command AutoCAD.</p>
+<p><img src="/2020/08/22/20200822AutoCAD%20developer's%20tools%20--%20Environment/4.png" alt="Load AutoCAD assembly files"></p>
+<blockquote>
+<p>turn “copy Local” to False</p>
+</blockquote>
+<p>The brief info the main three .dll files are listed as below.</p>
+<pre><code>AcDbMgd.dll. Use when working with objects in a drawing file.
+AcMgd.dll. Use when working with the AutoCAD application.
+AcCui.dll. Use when working with customization files.
+</code></pre>
+<hr>
+<h2 id="04-Write-the-code">04. Write the code</h2>
+<p>Once we load the .dll files, Visual Studio is smart enough to remind us to using the right assembly as show in the figure below.</p>
+<p><img src="/2020/08/22/20200822AutoCAD%20developer's%20tools%20--%20Environment/5.png" alt="Using the assembly"></p>
+<pre class=" language-language-C#"><code class="language-language-C#">namespace _01.Environment_Build_up_Demo
+{
+    public class Class1
+    {
+        [CommandMethod("CommandDemo")]
+        public void Demo1()
+        {
+            Editor ed = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument.Editor;
+            ed.WriteMessage("Hello World");
+        }
+
+    }
+}
+
+</code></pre>
+<hr>
+<h2 id="05-Build-up-the-code">05. Build up the code</h2>
+<p>Main Menu -&gt; Build -&gt; Rebuild solution<br>
+then the .dll file will be built up.<br>
+<img src="/2020/08/22/20200822AutoCAD%20developer's%20tools%20--%20Environment/6.png" alt="Build up the first .dll file"></p>
+<p>Several seconds later, we can see the “succeeded” information.</p>
+<p><img src="/2020/08/22/20200822AutoCAD%20developer's%20tools%20--%20Environment/7.png" alt="Succeeded in Build-up"></p>
+<hr>
+<h2 id="06-Run-the-code-in-AutoCAD">06. Run the code in AutoCAD</h2>
+<p>The we need to start up AutoCAD, and then input netload to load the .dll we write into CAD,</p>
+<p><img src="/2020/08/22/20200822AutoCAD%20developer's%20tools%20--%20Environment/8.png" alt="Load our dll file"></p>
+<p>The we input the command into the</p>
+<blockquote>
+<p><em>CommandDemo</em></p>
+</blockquote>
+<p><img src="/2020/08/22/20200822AutoCAD%20developer's%20tools%20--%20Environment/9.png" alt="Show up the message"></p>
+<hr>
+<h2 id="07-Solution-files-in-VS">07. Solution files in VS</h2>
+<p>Project and solution files have the following file extensions:</p>
+<ol>
+<li>VBPROJ - Microsoft Visual Basic (VB) .NET project file</li>
+<li>CSPROJ - Microsoft Visual C# project file</li>
+<li>SLN - Microsoft Visual Studio solution file```</li>
+</ol>
+<h1>Reference</h1>
+<p><a href="http://docs.autodesk.com/ACD/2010/ENU/AutoCAD%20.NET%20Developer' target=" _blank"="" rel="noopener" s%20guide="" index.html?url="WS1a9193826455f5ff2566ffd511ff6f8c7ca-3e30.htm,topicNumber=d0e26245" "="">http://docs.autodesk.com/ACD/2010/ENU/AutoCAD .NET Developer’s Guide/index.html?url=WS1a9193826455f5ff2566ffd511ff6f8c7ca-3e30.htm,topicNumber=d0e26245</a></p>
+<script>
+        document.querySelectorAll('.github-emoji')
+          .forEach(el => {
+            if (!el.dataset.src) { return; }
+            const img = document.createElement('img');
+            img.style = 'display:none !important;';
+            img.src = el.dataset.src;
+            img.addEventListener('error', () => {
+              img.remove();
+              el.style.color = 'inherit';
+              el.style.backgroundImage = 'none';
+              el.style.background = 'none';
+            });
+            img.addEventListener('load', () => {
+              img.remove();
+            });
+            document.body.appendChild(img);
+          });
+      </script>]]></content>
+      <categories>
+        <category>August 2020</category>
+      </categories>
+      <tags>
         <tag>AutoCAD API</tag>
         <tag>C#</tag>
       </tags>
@@ -2241,122 +2357,6 @@ tr.Commit();  // commit the transaction
       </tags>
   </entry>
   <entry>
-    <title>01. &quot;Hello world&quot; message in AutoCAD editor Example</title>
-    <url>/2020/08/22/20200822AutoCAD%20developer&#39;s%20tools%20--%20Environment/</url>
-    <content><![CDATA[<h2 id="01-Start-up-with-the-Environment">01.Start up with the Environment</h2>
-<ul>
-<li>Language: C#</li>
-<li>IDE: VS2019</li>
-<li>CAD: 2019</li>
-</ul>
-<p>The relationship between CAD edition and product codes for installation</p>
-<pre><code>R19.0: 2013
-R19.1: 2014
-R20.0: 2015
-R20.1:2016
-R21.0:2017
-R22.0:2018
-R23.0:2019
-R23.1:2020  
-R24.0:2021
-
-</code></pre>
-<hr>
-<h2 id="02-Create-a-new-project">02. Create a new project</h2>
-<p>Build up  a class file which can be loaded by AutoCAD later for use.</p>
-<ol>
-<li>Start Visual Studio</li>
-</ol>
-<p><img src="/2020/08/22/20200822AutoCAD%20developer's%20tools%20--%20Environment/1.png" alt="Create new project"></p>
-<ol start="2">
-<li>Create new project with .NetFramework 4.7<br>
-<img src="/2020/08/22/20200822AutoCAD%20developer's%20tools%20--%20Environment/2.png" alt="Input the Project name"></li>
-</ol>
-<hr>
-<h2 id="03-Load-the-files">03. Load the files</h2>
-<p>The we load the .dll file in the AutoCAD root folder into the projects, then the code we write can use them to command AutoCAD.</p>
-<p><img src="/2020/08/22/20200822AutoCAD%20developer's%20tools%20--%20Environment/4.png" alt="Load AutoCAD assembly files"></p>
-<blockquote>
-<p>turn “copy Local” to False</p>
-</blockquote>
-<p>The brief info the main three .dll files are listed as below.</p>
-<pre><code>AcDbMgd.dll. Use when working with objects in a drawing file.
-AcMgd.dll. Use when working with the AutoCAD application.
-AcCui.dll. Use when working with customization files.
-</code></pre>
-<hr>
-<h2 id="04-Write-the-code">04. Write the code</h2>
-<p>Once we load the .dll files, Visual Studio is smart enough to remind us to using the right assembly as show in the figure below.</p>
-<p><img src="/2020/08/22/20200822AutoCAD%20developer's%20tools%20--%20Environment/5.png" alt="Using the assembly"></p>
-<pre class=" language-language-C#"><code class="language-language-C#">namespace _01.Environment_Build_up_Demo
-{
-    public class Class1
-    {
-        [CommandMethod("CommandDemo")]
-        public void Demo1()
-        {
-            Editor ed = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument.Editor;
-            ed.WriteMessage("Hello World");
-        }
-
-    }
-}
-
-</code></pre>
-<hr>
-<h2 id="05-Build-up-the-code">05. Build up the code</h2>
-<p>Main Menu -&gt; Build -&gt; Rebuild solution<br>
-then the .dll file will be built up.<br>
-<img src="/2020/08/22/20200822AutoCAD%20developer's%20tools%20--%20Environment/6.png" alt="Build up the first .dll file"></p>
-<p>Several seconds later, we can see the “succeeded” information.</p>
-<p><img src="/2020/08/22/20200822AutoCAD%20developer's%20tools%20--%20Environment/7.png" alt="Succeeded in Build-up"></p>
-<hr>
-<h2 id="06-Run-the-code-in-AutoCAD">06. Run the code in AutoCAD</h2>
-<p>The we need to start up AutoCAD, and then input netload to load the .dll we write into CAD,</p>
-<p><img src="/2020/08/22/20200822AutoCAD%20developer's%20tools%20--%20Environment/8.png" alt="Load our dll file"></p>
-<p>The we input the command into the</p>
-<blockquote>
-<p><em>CommandDemo</em></p>
-</blockquote>
-<p><img src="/2020/08/22/20200822AutoCAD%20developer's%20tools%20--%20Environment/9.png" alt="Show up the message"></p>
-<hr>
-<h2 id="07-Solution-files-in-VS">07. Solution files in VS</h2>
-<p>Project and solution files have the following file extensions:</p>
-<ol>
-<li>VBPROJ - Microsoft Visual Basic (VB) .NET project file</li>
-<li>CSPROJ - Microsoft Visual C# project file</li>
-<li>SLN - Microsoft Visual Studio solution file```</li>
-</ol>
-<h1>Reference</h1>
-<p><a href="http://docs.autodesk.com/ACD/2010/ENU/AutoCAD%20.NET%20Developer' target=" _blank"="" rel="noopener" s%20guide="" index.html?url="WS1a9193826455f5ff2566ffd511ff6f8c7ca-3e30.htm,topicNumber=d0e26245" "="">http://docs.autodesk.com/ACD/2010/ENU/AutoCAD .NET Developer’s Guide/index.html?url=WS1a9193826455f5ff2566ffd511ff6f8c7ca-3e30.htm,topicNumber=d0e26245</a></p>
-<script>
-        document.querySelectorAll('.github-emoji')
-          .forEach(el => {
-            if (!el.dataset.src) { return; }
-            const img = document.createElement('img');
-            img.style = 'display:none !important;';
-            img.src = el.dataset.src;
-            img.addEventListener('error', () => {
-              img.remove();
-              el.style.color = 'inherit';
-              el.style.backgroundImage = 'none';
-              el.style.background = 'none';
-            });
-            img.addEventListener('load', () => {
-              img.remove();
-            });
-            document.body.appendChild(img);
-          });
-      </script>]]></content>
-      <categories>
-        <category>August 2020</category>
-      </categories>
-      <tags>
-        <tag>AutoCAD API</tag>
-        <tag>C#</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>03. Create the line</title>
     <url>/2020/08/24/20200824AutoCAD%20developer&#39;s%20tools%20--%20Create%20the%20line/</url>
     <content><![CDATA[<h2 id="Class-Inheritance-Tree">Class Inheritance Tree</h2>
@@ -2458,6 +2458,266 @@ namespace _03.Create_Line
 <hr>
 <h1>Reference</h1>
 <p><a href="http://docs.autodesk.com/ACD/2010/ENU/AutoCAD%20.NET%20Developer' target=" _blank"="" rel="noopener" s%20guide="" index.html?url="WS1a9193826455f5ff2566ffd511ff6f8c7ca-3e30.htm,topicNumber=d0e26245" "="">http://docs.autodesk.com/ACD/2010/ENU/AutoCAD .NET Developer’s Guide/index.html?url=WS1a9193826455f5ff2566ffd511ff6f8c7ca-3e30.htm,topicNumber=d0e26245</a></p>
+<script>
+        document.querySelectorAll('.github-emoji')
+          .forEach(el => {
+            if (!el.dataset.src) { return; }
+            const img = document.createElement('img');
+            img.style = 'display:none !important;';
+            img.src = el.dataset.src;
+            img.addEventListener('error', () => {
+              img.remove();
+              el.style.color = 'inherit';
+              el.style.backgroundImage = 'none';
+              el.style.background = 'none';
+            });
+            img.addEventListener('load', () => {
+              img.remove();
+            });
+            document.body.appendChild(img);
+          });
+      </script>]]></content>
+      <categories>
+        <category>August 2020</category>
+      </categories>
+      <tags>
+        <tag>AutoCAD API</tag>
+        <tag>C#</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>04. Modify the drawable object</title>
+    <url>/2020/08/25/20200825AutoCAD%20developer&#39;s%20tools%20--%20Modify%20the%20drawable%20object/</url>
+    <content><![CDATA[<h2 id="Introduction">Introduction</h2>
+<p>After learning how to draw a line with AutoCAD API, we can use similar way to create other drawable objects. We only need to go into the content of the objects’ class, and we just feed the objects what they need, the objects can be created.<br>
+<img src="/2020/08/25/20200825AutoCAD%20developer's%20tools%20--%20Modify%20the%20drawable%20object/1.png" alt="Arc Class"></p>
+<p>For example, from the figure above, we can see how to create the Arc.<br>
+There are three method</p>
+<blockquote>
+<p>WAY1</p>
+<ol>
+<li>Create the empty Arc Object</li>
+<li>The we assign the empty object with other properties</li>
+</ol>
+</blockquote>
+<blockquote>
+<p>WAY2</p>
+<ol>
+<li>While creating the Arc object, we give the center point and radius</li>
+<li>start angle and end angle of the Arc</li>
+</ol>
+</blockquote>
+<blockquote>
+<p>WAY3</p>
+<ol>
+<li>While creating the Arc object, we give the center point, vector and radius</li>
+<li>start angle and end angle of the Arc</li>
+</ol>
+</blockquote>
+<pre class=" language-language-C#"><code class="language-language-C#">public Arc();
+public Arc(Point3d center, double radius, double startAngle, double endAngle);
+public Arc(Point3d center, Vector3d normal, double radius, double startAngle, double endAngle);
+</code></pre>
+<p>Apparently, in AutoCAD we have many more ways to create Arc, since the software helped us to calculate the input values to the parameters for the mothod to create the Arc objects.</p>
+<p>Now we go to the next topic.</p>
+<h2 id="Object-Modification">Object Modification</h2>
+<p>As mentioned before, the object has some methods and properties for us to modify it.</p>
+<h3 id="01-Derivatives">01. Derivatives</h3>
+<p>When checking the inheritage chain, we can find other methods and properties from the derived classes.</p>
+<p><img src="/2020/08/25/20200825AutoCAD%20developer's%20tools%20--%20Modify%20the%20drawable%20object/2.png" alt="Inheritage Class"></p>
+<p>Let’s have a look at the properties of the entity</p>
+<pre class=" language-language-C#"><code class="language-language-C#">namespace Autodesk.AutoCAD.DatabaseServices
+{
+    [TypeDescriptionProvider("Autodesk.AutoCAD.ComponentModel.TypeDescriptionProvider`1[[Autodesk.AutoCAD.DatabaseServices.Entity, acdbmgd]], acdbmgd")]
+    [Wrapper("AcDbEntity")]
+    public abstract class Entity : DBObject
+    {
+        protected internal Entity(IntPtr unmanagedObjPtr, bool autoDelete);
+
+        [Category("3D Visualization")]
+        public ObjectId FaceStyleId { get; set; }
+        [Category("3D Visualization")]
+        public ObjectId VisualStyleId { get; set; }
+        public virtual bool ForceAnnoAllVisible { get; set; }
+        [Category("Misc")]
+        public string BlockName { get; }
+        [Category("3D Visualization")]
+        public Mapper MaterialMapper { get; set; }
+        [Category("3D Visualization")]
+        public ObjectId MaterialId { get; set; }
+        [Category("3D Visualization")]
+        public string Material { get; set; }
+        [Category("3D Visualization")]
+        public virtual bool ReceiveShadows { get; set; }
+        [Category("3D Visualization")]
+        public virtual bool CastShadows { get; set; }
+        [Category("General")]
+        public HyperLinkCollection Hyperlinks { get; }
+        public virtual bool CloneMeForDragging { get; }
+        [Category("Geometry")]
+        public virtual Matrix3d CompoundObjectTransform { get; }
+        [Category("Geometry")]
+        public virtual Extents3d GeometricExtents { get; }
+        [Category("3D Visualization")]
+        public ObjectId EdgeStyleId { get; set; }
+        public virtual Matrix3d Ecs { get; }
+        [Category("Geometry")]
+        public virtual CollisionType CollisionType { get; }
+        [Category("General")]
+        public virtual LineWeight LineWeight { get; set; }
+        [Category("General")]
+        public virtual bool Visible { get; set; }
+        [Category("General")]
+        [UnitType(UnitType.Unitless)]
+        public virtual double LinetypeScale { get; set; }
+        [Category("General")]
+        public virtual ObjectId LinetypeId { get; set; }
+        [Category("General")]
+        public virtual string Linetype { get; set; }
+        [Category("General")]
+        public virtual ObjectId LayerId { get; set; }
+        [Category("General")]
+        public virtual string Layer { get; set; }
+        [Category("General")]
+        public virtual PlotStyleDescriptor PlotStyleNameId { get; set; }
+        [Category("General")]
+        public virtual string PlotStyleName { get; set; }
+        [Category("General")]
+        public virtual Transparency Transparency { get; set; }
+        [Category("General")]
+        public EntityColor EntityColor { get; }
+        [Category("General")]
+        public virtual int ColorIndex { get; set; }
+        [Category("Geometry")]
+        public virtual bool IsPlanar { get; }
+        [Category("General")]
+        public virtual Color Color { get; set; }
+        [Category("Misc")]
+        public ObjectId BlockId { get; }
+</code></pre>
+<p>Hence, all the derivatives of the entity</p>
+<p>The main property we can modify is listed as below.</p>
+<ul>
+<li>Color</li>
+<li>Layer</li>
+<li>Linetype</li>
+<li>Linetype scale</li>
+<li>Lineweight</li>
+<li>Plot style name</li>
+<li>Visibility</li>
+<li>Transparency</li>
+</ul>
+<p><strong>Entity Derivative</strong></p>
+<blockquote>
+<p>Curve</p>
+</blockquote>
+<pre><code> Line
+ Arc
+ Circle
+ PolyLine
+ Ellipse
+</code></pre>
+<blockquote>
+<p>Hatch</p>
+</blockquote>
+<p>Then, we can modify the entity by its property.</p>
+<h3 id="02-Color-Modification">02. Color Modification</h3>
+<pre class=" language-language-C#"><code class="language-language-C#">/// <summary>
+/// Change entity color
+/// </summary>
+/// <param name="c1Id">Entity ObjectId</param>
+/// <param name="colorIndex">Color Index</param>
+/// <returns>Entity ObjectId</returns> 
+
+public static ObjectId ChangeEntityColor(this ObjectId c1Id, short colorIndex)
+{
+    // Current Database
+    Database db = HostApplicationServices.WorkingDatabase;
+    // Open a transaction
+    using (Transaction trans = db.TransactionManager.StartTransaction())
+    {
+        // Open block table
+        BlockTable bt = (BlockTable)trans.GetObject(db.BlockTableId, OpenMode.ForRead);
+        // Open blocktable record
+        BlockTableRecord btr = (BlockTableRecord)trans.GetObject(bt[BlockTableRecord.ModelSpace], OpenMode.ForWrite);
+        // Get the object
+        Entity ent1 = (Entity)c1Id.GetObject(OpenMode.ForWrite);
+        // Set object color
+        ent1.ColorIndex = colorIndex;
+        trans.Commit();
+    }
+    return c1Id;
+}
+
+</code></pre>
+<h3 id="03-Copy-Entity">03. Copy Entity</h3>
+<pre class=" language-language-C#"><code class="language-language-C#">// <summary>
+///  Copy one entity, and add the copied one into blocktable record
+/// </summary>
+/// <param name="entId">Entity ObjectId</param>
+/// <param name="sourcePoint">Reference source Point</param>
+/// <param name="targetPoint">Reference Target Point</param>
+public static Entity CopyEntity(this ObjectId entId, Point3d sourcePoint, Point3d targetPoint)
+{
+    // Declare a object
+    Entity entR;
+    // Current database
+    Database db = HostApplicationServices.WorkingDatabase; 
+    using (Transaction tr = db.TransactionManager.StartTransaction())
+    {
+        // Open Blocktable
+        BlockTable bt = (BlockTable)tr.GetObject(db.BlockTableId, OpenMode.ForRead);
+        // Open Blocktable Record
+        BlockTableRecord btr = (BlockTableRecord)tr.GetObject(bt[BlockTableRecord.ModelSpace], OpenMode.ForRead);
+
+        // Entity ent = (Entity)tr.GetObject(entId, OpenMode.ForWrite);
+        // Open the entity
+        Entity ent = (Entity)entId.GetObject(OpenMode.ForWrite);
+        // Calculate the Vector from source point to the target point
+        Vector3d vectoc = sourcePoint.GetVectorTo(targetPoint);
+        Matrix3d mt = Matrix3d.Displacement(vectoc);
+        entR = ent.GetTransformedCopy(mt);
+        // Commit the transaction
+        tr.Commit();
+    }
+    return entR;
+}
+
+</code></pre>
+<h3 id="04-Rotate-the-object">04. Rotate the object</h3>
+<pre class=" language-language-C#"><code class="language-language-C#">/// <summary>
+/// Rotate the entity 
+/// </summary>
+/// <param name="ent">Object</param>
+/// <param name="center">Rotate base point </param>
+/// <param name="degree">Rotating angle</param>
+public static void RotateEntity(this ObjectId entId, Point3d center, double degree)
+{
+    // Current database
+    Database db = HostApplicationServices.WorkingDatabase;
+    using (Transaction trans = db.TransactionManager.StartTransaction())
+    {
+        // Open BlockTable
+        BlockTable bt = (BlockTable)trans.GetObject(db.BlockTableId, OpenMode.ForRead);
+        // Open BlockTable Record
+        BlockTableRecord btr = (BlockTableRecord)trans.GetObject(bt[BlockTableRecord.ModelSpace], OpenMode.ForRead);
+        //Entity ent = (Entity)trans.GetObject(entId, OpenMode.ForWrite);
+        // Open the entity
+        Entity ent = (Entity)entId.GetObject(OpenMode.ForWrite);
+        // Calculate the vector and Matrix
+        Vector3d vectoc = sourcePoint.GetVectorTo(targetPoint);
+        Matrix3d mt = Matrix3d.Rotation(degree.DegreeToAngle(), Vector3d.ZAxis, center);
+        ent.TransformedCopy(mt);
+        // 提交事务处理
+        trans.Commit();
+    }
+}
+
+</code></pre>
+<hr>
+<h1>Reference</h1>
+<p><a href="http://docs.autodesk.com/ACD/2010/ENU/AutoCAD%20.NET%20Developer' target=" _blank"="" rel="noopener" s%20guide="" index.html?url="WS1a9193826455f5ff2566ffd511ff6f8c7ca-3e30.htm,topicNumber=d0e26245" "="">http://docs.autodesk.com/ACD/2010/ENU/AutoCAD .NET Developer’s Guide/index.html?url=WS1a9193826455f5ff2566ffd511ff6f8c7ca-3e30.htm,topicNumber=d0e26245</a><br>
+<a href="https://github.com/ADN-DevTech/ObjectARXTrainingMaterial" target="_blank" rel="noopener">https://github.com/ADN-DevTech/ObjectARXTrainingMaterial</a></p>
 <script>
         document.querySelectorAll('.github-emoji')
           .forEach(el => {
@@ -2763,266 +3023,6 @@ namespace SelectionDemo
 <h1>Reference</h1>
 <p><a href="http://docs.autodesk.com/ACD/2010/ENU/AutoCAD%20.NET%20Developer' target=" _blank"="" rel="noopener" s%20guide="" index.html?url="WS1a9193826455f5ff2566ffd511ff6f8c7ca-3e30.htm,topicNumber=d0e26245" "="">http://docs.autodesk.com/ACD/2010/ENU/AutoCAD .NET Developer’s Guide/index.html?url=WS1a9193826455f5ff2566ffd511ff6f8c7ca-3e30.htm,topicNumber=d0e26245</a></p>
 <p><a href="http://docs.autodesk.com/ACD/2011/CHS/filesDXF/WSfacf1429558a55de185c428100849a0ab7-5f35.htm" target="_blank" rel="noopener">http://docs.autodesk.com/ACD/2011/CHS/filesDXF/WSfacf1429558a55de185c428100849a0ab7-5f35.htm</a></p>
-<script>
-        document.querySelectorAll('.github-emoji')
-          .forEach(el => {
-            if (!el.dataset.src) { return; }
-            const img = document.createElement('img');
-            img.style = 'display:none !important;';
-            img.src = el.dataset.src;
-            img.addEventListener('error', () => {
-              img.remove();
-              el.style.color = 'inherit';
-              el.style.backgroundImage = 'none';
-              el.style.background = 'none';
-            });
-            img.addEventListener('load', () => {
-              img.remove();
-            });
-            document.body.appendChild(img);
-          });
-      </script>]]></content>
-      <categories>
-        <category>August 2020</category>
-      </categories>
-      <tags>
-        <tag>AutoCAD API</tag>
-        <tag>C#</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>04. Modify the drawable object</title>
-    <url>/2020/08/25/20200825AutoCAD%20developer&#39;s%20tools%20--%20Modify%20the%20drawable%20object/</url>
-    <content><![CDATA[<h2 id="Introduction">Introduction</h2>
-<p>After learning how to draw a line with AutoCAD API, we can use similar way to create other drawable objects. We only need to go into the content of the objects’ class, and we just feed the objects what they need, the objects can be created.<br>
-<img src="/2020/08/25/20200825AutoCAD%20developer's%20tools%20--%20Modify%20the%20drawable%20object/1.png" alt="Arc Class"></p>
-<p>For example, from the figure above, we can see how to create the Arc.<br>
-There are three method</p>
-<blockquote>
-<p>WAY1</p>
-<ol>
-<li>Create the empty Arc Object</li>
-<li>The we assign the empty object with other properties</li>
-</ol>
-</blockquote>
-<blockquote>
-<p>WAY2</p>
-<ol>
-<li>While creating the Arc object, we give the center point and radius</li>
-<li>start angle and end angle of the Arc</li>
-</ol>
-</blockquote>
-<blockquote>
-<p>WAY3</p>
-<ol>
-<li>While creating the Arc object, we give the center point, vector and radius</li>
-<li>start angle and end angle of the Arc</li>
-</ol>
-</blockquote>
-<pre class=" language-language-C#"><code class="language-language-C#">public Arc();
-public Arc(Point3d center, double radius, double startAngle, double endAngle);
-public Arc(Point3d center, Vector3d normal, double radius, double startAngle, double endAngle);
-</code></pre>
-<p>Apparently, in AutoCAD we have many more ways to create Arc, since the software helped us to calculate the input values to the parameters for the mothod to create the Arc objects.</p>
-<p>Now we go to the next topic.</p>
-<h2 id="Object-Modification">Object Modification</h2>
-<p>As mentioned before, the object has some methods and properties for us to modify it.</p>
-<h3 id="01-Derivatives">01. Derivatives</h3>
-<p>When checking the inheritage chain, we can find other methods and properties from the derived classes.</p>
-<p><img src="/2020/08/25/20200825AutoCAD%20developer's%20tools%20--%20Modify%20the%20drawable%20object/2.png" alt="Inheritage Class"></p>
-<p>Let’s have a look at the properties of the entity</p>
-<pre class=" language-language-C#"><code class="language-language-C#">namespace Autodesk.AutoCAD.DatabaseServices
-{
-    [TypeDescriptionProvider("Autodesk.AutoCAD.ComponentModel.TypeDescriptionProvider`1[[Autodesk.AutoCAD.DatabaseServices.Entity, acdbmgd]], acdbmgd")]
-    [Wrapper("AcDbEntity")]
-    public abstract class Entity : DBObject
-    {
-        protected internal Entity(IntPtr unmanagedObjPtr, bool autoDelete);
-
-        [Category("3D Visualization")]
-        public ObjectId FaceStyleId { get; set; }
-        [Category("3D Visualization")]
-        public ObjectId VisualStyleId { get; set; }
-        public virtual bool ForceAnnoAllVisible { get; set; }
-        [Category("Misc")]
-        public string BlockName { get; }
-        [Category("3D Visualization")]
-        public Mapper MaterialMapper { get; set; }
-        [Category("3D Visualization")]
-        public ObjectId MaterialId { get; set; }
-        [Category("3D Visualization")]
-        public string Material { get; set; }
-        [Category("3D Visualization")]
-        public virtual bool ReceiveShadows { get; set; }
-        [Category("3D Visualization")]
-        public virtual bool CastShadows { get; set; }
-        [Category("General")]
-        public HyperLinkCollection Hyperlinks { get; }
-        public virtual bool CloneMeForDragging { get; }
-        [Category("Geometry")]
-        public virtual Matrix3d CompoundObjectTransform { get; }
-        [Category("Geometry")]
-        public virtual Extents3d GeometricExtents { get; }
-        [Category("3D Visualization")]
-        public ObjectId EdgeStyleId { get; set; }
-        public virtual Matrix3d Ecs { get; }
-        [Category("Geometry")]
-        public virtual CollisionType CollisionType { get; }
-        [Category("General")]
-        public virtual LineWeight LineWeight { get; set; }
-        [Category("General")]
-        public virtual bool Visible { get; set; }
-        [Category("General")]
-        [UnitType(UnitType.Unitless)]
-        public virtual double LinetypeScale { get; set; }
-        [Category("General")]
-        public virtual ObjectId LinetypeId { get; set; }
-        [Category("General")]
-        public virtual string Linetype { get; set; }
-        [Category("General")]
-        public virtual ObjectId LayerId { get; set; }
-        [Category("General")]
-        public virtual string Layer { get; set; }
-        [Category("General")]
-        public virtual PlotStyleDescriptor PlotStyleNameId { get; set; }
-        [Category("General")]
-        public virtual string PlotStyleName { get; set; }
-        [Category("General")]
-        public virtual Transparency Transparency { get; set; }
-        [Category("General")]
-        public EntityColor EntityColor { get; }
-        [Category("General")]
-        public virtual int ColorIndex { get; set; }
-        [Category("Geometry")]
-        public virtual bool IsPlanar { get; }
-        [Category("General")]
-        public virtual Color Color { get; set; }
-        [Category("Misc")]
-        public ObjectId BlockId { get; }
-</code></pre>
-<p>Hence, all the derivatives of the entity</p>
-<p>The main property we can modify is listed as below.</p>
-<ul>
-<li>Color</li>
-<li>Layer</li>
-<li>Linetype</li>
-<li>Linetype scale</li>
-<li>Lineweight</li>
-<li>Plot style name</li>
-<li>Visibility</li>
-<li>Transparency</li>
-</ul>
-<p><strong>Entity Derivative</strong></p>
-<blockquote>
-<p>Curve</p>
-</blockquote>
-<pre><code> Line
- Arc
- Circle
- PolyLine
- Ellipse
-</code></pre>
-<blockquote>
-<p>Hatch</p>
-</blockquote>
-<p>Then, we can modify the entity by its property.</p>
-<h3 id="02-Color-Modification">02. Color Modification</h3>
-<pre class=" language-language-C#"><code class="language-language-C#">/// <summary>
-/// Change entity color
-/// </summary>
-/// <param name="c1Id">Entity ObjectId</param>
-/// <param name="colorIndex">Color Index</param>
-/// <returns>Entity ObjectId</returns> 
-
-public static ObjectId ChangeEntityColor(this ObjectId c1Id, short colorIndex)
-{
-    // Current Database
-    Database db = HostApplicationServices.WorkingDatabase;
-    // Open a transaction
-    using (Transaction trans = db.TransactionManager.StartTransaction())
-    {
-        // Open block table
-        BlockTable bt = (BlockTable)trans.GetObject(db.BlockTableId, OpenMode.ForRead);
-        // Open blocktable record
-        BlockTableRecord btr = (BlockTableRecord)trans.GetObject(bt[BlockTableRecord.ModelSpace], OpenMode.ForWrite);
-        // Get the object
-        Entity ent1 = (Entity)c1Id.GetObject(OpenMode.ForWrite);
-        // Set object color
-        ent1.ColorIndex = colorIndex;
-        trans.Commit();
-    }
-    return c1Id;
-}
-
-</code></pre>
-<h3 id="03-Copy-Entity">03. Copy Entity</h3>
-<pre class=" language-language-C#"><code class="language-language-C#">// <summary>
-///  Copy one entity, and add the copied one into blocktable record
-/// </summary>
-/// <param name="entId">Entity ObjectId</param>
-/// <param name="sourcePoint">Reference source Point</param>
-/// <param name="targetPoint">Reference Target Point</param>
-public static Entity CopyEntity(this ObjectId entId, Point3d sourcePoint, Point3d targetPoint)
-{
-    // Declare a object
-    Entity entR;
-    // Current database
-    Database db = HostApplicationServices.WorkingDatabase; 
-    using (Transaction tr = db.TransactionManager.StartTransaction())
-    {
-        // Open Blocktable
-        BlockTable bt = (BlockTable)tr.GetObject(db.BlockTableId, OpenMode.ForRead);
-        // Open Blocktable Record
-        BlockTableRecord btr = (BlockTableRecord)tr.GetObject(bt[BlockTableRecord.ModelSpace], OpenMode.ForRead);
-
-        // Entity ent = (Entity)tr.GetObject(entId, OpenMode.ForWrite);
-        // Open the entity
-        Entity ent = (Entity)entId.GetObject(OpenMode.ForWrite);
-        // Calculate the Vector from source point to the target point
-        Vector3d vectoc = sourcePoint.GetVectorTo(targetPoint);
-        Matrix3d mt = Matrix3d.Displacement(vectoc);
-        entR = ent.GetTransformedCopy(mt);
-        // Commit the transaction
-        tr.Commit();
-    }
-    return entR;
-}
-
-</code></pre>
-<h3 id="04-Rotate-the-object">04. Rotate the object</h3>
-<pre class=" language-language-C#"><code class="language-language-C#">/// <summary>
-/// Rotate the entity 
-/// </summary>
-/// <param name="ent">Object</param>
-/// <param name="center">Rotate base point </param>
-/// <param name="degree">Rotating angle</param>
-public static void RotateEntity(this ObjectId entId, Point3d center, double degree)
-{
-    // Current database
-    Database db = HostApplicationServices.WorkingDatabase;
-    using (Transaction trans = db.TransactionManager.StartTransaction())
-    {
-        // Open BlockTable
-        BlockTable bt = (BlockTable)trans.GetObject(db.BlockTableId, OpenMode.ForRead);
-        // Open BlockTable Record
-        BlockTableRecord btr = (BlockTableRecord)trans.GetObject(bt[BlockTableRecord.ModelSpace], OpenMode.ForRead);
-        //Entity ent = (Entity)trans.GetObject(entId, OpenMode.ForWrite);
-        // Open the entity
-        Entity ent = (Entity)entId.GetObject(OpenMode.ForWrite);
-        // Calculate the vector and Matrix
-        Vector3d vectoc = sourcePoint.GetVectorTo(targetPoint);
-        Matrix3d mt = Matrix3d.Rotation(degree.DegreeToAngle(), Vector3d.ZAxis, center);
-        ent.TransformedCopy(mt);
-        // 提交事务处理
-        trans.Commit();
-    }
-}
-
-</code></pre>
-<hr>
-<h1>Reference</h1>
-<p><a href="http://docs.autodesk.com/ACD/2010/ENU/AutoCAD%20.NET%20Developer' target=" _blank"="" rel="noopener" s%20guide="" index.html?url="WS1a9193826455f5ff2566ffd511ff6f8c7ca-3e30.htm,topicNumber=d0e26245" "="">http://docs.autodesk.com/ACD/2010/ENU/AutoCAD .NET Developer’s Guide/index.html?url=WS1a9193826455f5ff2566ffd511ff6f8c7ca-3e30.htm,topicNumber=d0e26245</a><br>
-<a href="https://github.com/ADN-DevTech/ObjectARXTrainingMaterial" target="_blank" rel="noopener">https://github.com/ADN-DevTech/ObjectARXTrainingMaterial</a></p>
 <script>
         document.querySelectorAll('.github-emoji')
           .forEach(el => {
@@ -3425,6 +3425,209 @@ It is quite similar as the creation of other objects.</p>
       </tags>
   </entry>
   <entry>
+    <title>02.Revit API -- Show revisions on each viewsheet</title>
+    <url>/2021/01/20/20210120Revit%20API%20--%20Show%20revision%20on%20sheet/</url>
+    <content><![CDATA[<ul>
+<li><a href="#1-background">1. Background</a></li>
+<li><a href="#2-show-revision-on-viewsheet">2. Show revision on viewsheet</a>
+<ul>
+<li><a href="#21-selecting">2.1. Selecting</a></li>
+<li><a href="#22-revision-property">2.2. Revision “Property”</a></li>
+<li><a href="#23-full-code">2.3. Full CODE</a></li>
+</ul>
+</li>
+<li><a href="#3-summary">3. Summary</a></li>
+<li><a href="#4-reference">4. Reference</a></li>
+</ul>
+<h1>1. Background</h1>
+<p>The same archi friend proposed a new request,</p>
+<blockquote>
+<p>He want to show the default revision(eg. BC LODGEMENT) on sheet when creating the sheet.</p>
+</blockquote>
+<p>He explained that when creating a sheet, there is no default revision as below.<br>
+<img src="/2021/01/20/20210120Revit%20API%20--%20Show%20revision%20on%20sheet/1.png" alt=""></p>
+<p>Unless you mark the plan with cloud line, then the version will show on the same sheet as below.<br>
+<img src="/2021/01/20/20210120Revit%20API%20--%20Show%20revision%20on%20sheet/2.png" alt=""></p>
+<p>Hence, he can intentionly click <em>shown in Revision Schedule</em> one by one on each sheet, which will be quite time-consuming</p>
+<p>At first I think it will be a easy task, but it takes me several hours to understand how the data structure is.</p>
+<h1>2. Show revision on viewsheet</h1>
+<h2 id="2-1-Selecting">2.1. Selecting</h2>
+<p>Firstly, what we need to do is to select all the sheet view , which I have explained clearly in the last part.</p>
+<pre class=" language-language-C#"><code class="language-language-C#">var viewSheets = new FilteredElementCollector(doc).OfClass(typeof(ViewSheet)
+
+</code></pre>
+<h2 id="2-2-Revision-“Property”">2.2. Revision “Property”</h2>
+<p>At first, using the *<strong><a href="https://github.com/jeremytammik/RevitLookup" target="_blank" rel="noopener">Revit Lookup</a></strong> to find the properties of the viewsheet. We can find as below , all the revions of a sheet will be accessed by <strong>GetAllRevisionIds</strong>,<br>
+<img src="/2021/01/20/20210120Revit%20API%20--%20Show%20revision%20on%20sheet/3.png" alt=""><br>
+but how to set the revisions of a sheet, let’s look into the ViewSheet</p>
+<pre class=" language-language-C#"><code class="language-language-C#">    public class ViewSheet : View
+    {
+        public string GetRevisionCloudNumberOnSheet(ElementId revisionCloudId);
+        public string GetRevisionNumberOnSheet(ElementId revisionId);
+        public void SetAdditionalRevisionIds(ICollection<ElementId> projectRevisionIds);
+    }
+
+</code></pre>
+<p>We can tell that we can use the function <strong>SetAdditionalRevisionIds(ICollection<elementid> projectRevisionIds);</elementid></strong></p>
+<p>But what is the <strong>projectRevisionIds</strong>, to further understand this, you can refer to <a href="https://thebuildingcoder.typepad.com/blog/2014/06/the-revision-api-and-a-form-on-the-fly.html" target="_blank" rel="noopener">Jeremy’s blog</a>, but now we can get from the way below:</p>
+<p><img src="/2021/01/20/20210120Revit%20API%20--%20Show%20revision%20on%20sheet/4.png" alt=""></p>
+<p>Hence, we can get the all the revisions by</p>
+<pre class=" language-language-C#"><code class="language-language-C#">public static IList<ElementId> GetAllRevisionIds(Document document);
+</code></pre>
+<p>We can make if statement to decide which revisions need to add into the current sheet. My friend want all the revisions.The code is as below.</p>
+<h2 id="2-3-Full-CODE">2.3. Full CODE</h2>
+<pre class=" language-language-C#"><code class="language-language-C#">    [Transaction(TransactionMode.Manual)]
+    public class RevisionShown:IExternalCommand
+    {
+        public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
+        {
+            //1. Select the current document
+            UIDocument uidoc = commandData.Application.ActiveUIDocument;
+            Document doc = commandData.Application.ActiveUIDocument.Document;
+
+            IList<ElementId> ids = Revision.GetAllRevisionIds(doc);
+
+            int count = 0;
+            using (Transaction t = new Transaction(doc, "ClearMark"))
+            {
+                t.Start();
+
+                foreach (ViewSheet item in new FilteredElementCollector(doc).OfClass(typeof(ViewSheet)).Cast<ViewSheet>())
+                {
+
+                    item.SetAdditionalRevisionIds(ids);
+                    count += 1;
+
+                }
+                t.Commit();
+            }
+            TaskDialog.Show("Result", String.Format("{0} sheets has been modified to BC lodgement, done", count));
+            return Result.Succeeded;
+        }
+    }
+</code></pre>
+<h1>3. Summary</h1>
+<p>Most of the objects can be found and modified from this way, and  Dynamo can achieve the  same goal, but maybe even easier.</p>
+<p>Next time, I will analyze how to modify the revision of the sheet, which I didnot find a way in Dynamo.</p>
+<h1>4. Reference</h1>
+<p><a href="https://github.com/jeremytammik/RevitLookup" target="_blank" rel="noopener">https://github.com/jeremytammik/RevitLookup</a></p>
+<p><a href="http://help.autodesk.com/view/RVT/2019/ENU/?guid=Revit_API_Revit_API_Developers_Guide_html" target="_blank" rel="noopener">http://help.autodesk.com/view/RVT/2019/ENU/?guid=Revit_API_Revit_API_Developers_Guide_html</a></p>
+<p><a href="https://thebuildingcoder.typepad.com/blog/2014/06/the-revision-api-and-a-form-on-the-fly.html" target="_blank" rel="noopener">https://thebuildingcoder.typepad.com/blog/2014/06/the-revision-api-and-a-form-on-the-fly.html</a></p>
+<script>
+        document.querySelectorAll('.github-emoji')
+          .forEach(el => {
+            if (!el.dataset.src) { return; }
+            const img = document.createElement('img');
+            img.style = 'display:none !important;';
+            img.src = el.dataset.src;
+            img.addEventListener('error', () => {
+              img.remove();
+              el.style.color = 'inherit';
+              el.style.backgroundImage = 'none';
+              el.style.background = 'none';
+            });
+            img.addEventListener('load', () => {
+              img.remove();
+            });
+            document.body.appendChild(img);
+          });
+      </script>]]></content>
+      <categories>
+        <category>January 2020</category>
+      </categories>
+      <tags>
+        <tag>C#</tag>
+        <tag>Revit API</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>03.Revit API -- Revit Ribbon</title>
+    <url>/2021/01/25/20210125Revit%20UI%20Ribbon/</url>
+    <content><![CDATA[<ul>
+<li><a href="#1-background">1. Background</a></li>
+<li><a href="#2-full-code">2. Full CODE</a></li>
+<li><a href="#3-final-result">3. Final Result</a></li>
+<li><a href="#4-reference">4. Reference</a></li>
+</ul>
+<h1>1. Background</h1>
+<p>After writing several tools for Reivt, for myself, I can use it by coding, but to make it more friendly for other users, we need to make a UI for the fuctions.On revit, it is quite easy to make ribbon.</p>
+<p>This part is easy, quite similar as the AutoCAD API, I have written the comments inside the code.</p>
+<h1>2. Full CODE</h1>
+<pre class=" language-language-C#"><code class="language-language-C#">    [Transaction(TransactionMode.Manual)]
+    public class ReNumberTab : IExternalApplication
+    {
+        public Result OnShutdown(UIControlledApplication application)
+        {
+            return Result.Succeeded;
+        }
+
+        public Result OnStartup(UIControlledApplication application)
+        {
+            //create a Ribbon Tab
+            application.CreateRibbonTab("FYTab");//New Tab
+
+
+            //create UIPanel in the Ribbon Tab 
+            RibbonPanel rp = application.CreateRibbonPanel("FYTab", "ReNumber");
+
+            //route of assemble
+            string assemblePath = Assembly.GetExecutingAssembly().Location;
+            
+            //name space and class name of the function
+            string classNameReNumberWindow = "ReNumber.ReNumberWindows";
+
+            //4. Create push button
+            PushButtonData pbd = new PushButtonData("ReNameWindows", "ReNameWindows", assemblePath, classNameReNumberWindow);
+
+            PushButton pushButton = rp.AddItem(pbd) as PushButton;
+
+            // big icon 32px. small icon at 16px
+            string imgPath = @"C:\ProgramData\Autodesk\Revit\Addins\2019\ReNumberWindows\sheep.png";
+            //new Uri("pack://application:,,,/ReNumber;component/pic/sheep.png", UriKind.Absolute)
+
+            //to set the button image to the button object
+            pushButton.LargeImage = new BitmapImage(new Uri(imgPath));
+
+            //to set the reminder when the mouse float on the button
+            pushButton.ToolTip = "Renumber all the Windows from \"EW-01\"";
+
+            return Result.Succeeded;
+        }
+    }
+
+</code></pre>
+<h1>3. Final Result</h1>
+<p><img src="/2021/01/25/20210125Revit%20UI%20Ribbon/1.png" alt=""></p>
+<h1>4. Reference</h1>
+<p><a href="http://help.autodesk.com/view/RVT/2019/ENU/?guid=Revit_API_Revit_API_Developers_Guide_html" target="_blank" rel="noopener">http://help.autodesk.com/view/RVT/2019/ENU/?guid=Revit_API_Revit_API_Developers_Guide_html</a></p>
+<script>
+        document.querySelectorAll('.github-emoji')
+          .forEach(el => {
+            if (!el.dataset.src) { return; }
+            const img = document.createElement('img');
+            img.style = 'display:none !important;';
+            img.src = el.dataset.src;
+            img.addEventListener('error', () => {
+              img.remove();
+              el.style.color = 'inherit';
+              el.style.backgroundImage = 'none';
+              el.style.background = 'none';
+            });
+            img.addEventListener('load', () => {
+              img.remove();
+            });
+            document.body.appendChild(img);
+          });
+      </script>]]></content>
+      <categories>
+        <category>January 2020</category>
+      </categories>
+      <tags>
+        <tag>C#</tag>
+        <tag>Revit API</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>01. Revit API -- Rename the window</title>
     <url>/2021/01/15/20210115Revit%20API%20--%20Rename%20the%20windown%20name/</url>
     <content><![CDATA[<ul>
@@ -3548,127 +3751,11 @@ windowInstance.LookupParameter("Mark").Set(String.Format("EW-{0}", count));
 
 </code></pre>
 <h1>3. Summary</h1>
-<p>Most of the objects can be found and modified from this way, and  Dynamo can achieve the  same goal, but maybe even easier.</p>
+<p>Most of the objects can be found and modified from this way, and  Dynamo can achieve the  same goal.</p>
 <p>Next time, I will analyze how to modify the revision of the sheet, which I didnot find a way in Dynamo.</p>
 <h1>4. Reference</h1>
 <p><a href="https://github.com/jeremytammik/RevitLookup" target="_blank" rel="noopener">https://github.com/jeremytammik/RevitLookup</a></p>
 <p><a href="http://help.autodesk.com/view/RVT/2019/ENU/?guid=Revit_API_Revit_API_Developers_Guide_html" target="_blank" rel="noopener">http://help.autodesk.com/view/RVT/2019/ENU/?guid=Revit_API_Revit_API_Developers_Guide_html</a></p>
-<script>
-        document.querySelectorAll('.github-emoji')
-          .forEach(el => {
-            if (!el.dataset.src) { return; }
-            const img = document.createElement('img');
-            img.style = 'display:none !important;';
-            img.src = el.dataset.src;
-            img.addEventListener('error', () => {
-              img.remove();
-              el.style.color = 'inherit';
-              el.style.backgroundImage = 'none';
-              el.style.background = 'none';
-            });
-            img.addEventListener('load', () => {
-              img.remove();
-            });
-            document.body.appendChild(img);
-          });
-      </script>]]></content>
-      <categories>
-        <category>January 2020</category>
-      </categories>
-      <tags>
-        <tag>C#</tag>
-        <tag>Revit API</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>02.Revit API -- Show revisions on each viewsheet</title>
-    <url>/2021/01/20/20210120Revit%20API%20--%20Show%20revision%20on%20sheet/</url>
-    <content><![CDATA[<ul>
-<li><a href="#1-background">1. Background</a></li>
-<li><a href="#2-show-revision-on-viewsheet">2. Show revision on viewsheet</a>
-<ul>
-<li><a href="#21-selecting">2.1. Selecting</a></li>
-<li><a href="#22-revision-property">2.2. Revision “Property”</a></li>
-<li><a href="#23-full-code">2.3. Full CODE</a></li>
-</ul>
-</li>
-<li><a href="#3-summary">3. Summary</a></li>
-<li><a href="#4-reference">4. Reference</a></li>
-</ul>
-<h1>1. Background</h1>
-<p>The same archi friend proposed a new request,</p>
-<blockquote>
-<p>He want to show the default revision(eg. BC LODGEMENT) on sheet when creating the sheet.</p>
-</blockquote>
-<p>He explained that when creating a sheet, there is no default revision as below.<br>
-<img src="/2021/01/20/20210120Revit%20API%20--%20Show%20revision%20on%20sheet/1.png" alt=""></p>
-<p>Unless you mark the plan with cloud line, then the version will show on the same sheet as below.<br>
-<img src="/2021/01/20/20210120Revit%20API%20--%20Show%20revision%20on%20sheet/2.png" alt=""></p>
-<p>Hence, he can intentionly click <em>shown in Revision Schedule</em> one by one on each sheet, which will be quite time-consuming</p>
-<p>At first I think it will be a easy task, but it takes me several hours to understand how the data structure is.</p>
-<h1>2. Show revision on viewsheet</h1>
-<h2 id="2-1-Selecting">2.1. Selecting</h2>
-<p>Firstly, what we need to do is to select all the sheet view , which I have explained clearly in the last part.</p>
-<pre class=" language-language-C#"><code class="language-language-C#">var viewSheets = new FilteredElementCollector(doc).OfClass(typeof(ViewSheet)
-
-</code></pre>
-<h2 id="2-2-Revision-“Property”">2.2. Revision “Property”</h2>
-<p>At first, using the *<strong><a href="https://github.com/jeremytammik/RevitLookup" target="_blank" rel="noopener">Revit Lookup</a></strong> to find the properties of the viewsheet. We can find as below , all the revions of a sheet will be accessed by <strong>GetAllRevisionIds</strong>,<br>
-<img src="/2021/01/20/20210120Revit%20API%20--%20Show%20revision%20on%20sheet/3.png" alt=""><br>
-but how to set the revisions of a sheet, let’s look into the ViewSheet</p>
-<pre class=" language-language-C#"><code class="language-language-C#">    public class ViewSheet : View
-    {
-        public string GetRevisionCloudNumberOnSheet(ElementId revisionCloudId);
-        public string GetRevisionNumberOnSheet(ElementId revisionId);
-        public void SetAdditionalRevisionIds(ICollection<ElementId> projectRevisionIds);
-    }
-
-</code></pre>
-<p>We can tell that we can use the function <strong>SetAdditionalRevisionIds(ICollection<elementid> projectRevisionIds);</elementid></strong></p>
-<p>But what is the <strong>projectRevisionIds</strong>, to further understand this, you can refer to <a href="https://thebuildingcoder.typepad.com/blog/2014/06/the-revision-api-and-a-form-on-the-fly.html" target="_blank" rel="noopener">Jeremy’s blog</a>, but now we can get from the way below:</p>
-<p><img src="/2021/01/20/20210120Revit%20API%20--%20Show%20revision%20on%20sheet/4.png" alt=""></p>
-<p>Hence, we can get the all the revisions by</p>
-<pre class=" language-language-C#"><code class="language-language-C#">public static IList<ElementId> GetAllRevisionIds(Document document);
-</code></pre>
-<p>We can make if statement to decide which revisions need to add into the current sheet. My friend want all the revisions.The code is as below.</p>
-<h2 id="2-3-Full-CODE">2.3. Full CODE</h2>
-<pre class=" language-language-C#"><code class="language-language-C#">    [Transaction(TransactionMode.Manual)]
-    public class RevisionShown:IExternalCommand
-    {
-        public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
-        {
-            //1. Select the current document
-            UIDocument uidoc = commandData.Application.ActiveUIDocument;
-            Document doc = commandData.Application.ActiveUIDocument.Document;
-
-            IList<ElementId> ids = Revision.GetAllRevisionIds(doc);
-
-            int count = 0;
-            using (Transaction t = new Transaction(doc, "ClearMark"))
-            {
-                t.Start();
-
-                foreach (ViewSheet item in new FilteredElementCollector(doc).OfClass(typeof(ViewSheet)).Cast<ViewSheet>())
-                {
-
-                    item.SetAdditionalRevisionIds(ids);
-                    count += 1;
-
-                }
-                t.Commit();
-            }
-            TaskDialog.Show("Result", String.Format("{0} sheets has been modified to BC lodgement, done", count));
-            return Result.Succeeded;
-        }
-    }
-</code></pre>
-<h1>3. Summary</h1>
-<p>Most of the objects can be found and modified from this way, and  Dynamo can achieve the  same goal, but maybe even easier.</p>
-<p>Next time, I will analyze how to modify the revision of the sheet, which I didnot find a way in Dynamo.</p>
-<h1>4. Reference</h1>
-<p><a href="https://github.com/jeremytammik/RevitLookup" target="_blank" rel="noopener">https://github.com/jeremytammik/RevitLookup</a></p>
-<p><a href="http://help.autodesk.com/view/RVT/2019/ENU/?guid=Revit_API_Revit_API_Developers_Guide_html" target="_blank" rel="noopener">http://help.autodesk.com/view/RVT/2019/ENU/?guid=Revit_API_Revit_API_Developers_Guide_html</a></p>
-<p><a href="https://thebuildingcoder.typepad.com/blog/2014/06/the-revision-api-and-a-form-on-the-fly.html" target="_blank" rel="noopener">https://thebuildingcoder.typepad.com/blog/2014/06/the-revision-api-and-a-form-on-the-fly.html</a></p>
 <script>
         document.querySelectorAll('.github-emoji')
           .forEach(el => {
@@ -3859,90 +3946,6 @@ osurface.Rebuild()
       </categories>
       <tags>
         <tag>Arcmap</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>03.Revit API -- Revit Ribbon</title>
-    <url>/2021/01/25/20210125Revit%20UI%20Ribbon/</url>
-    <content><![CDATA[<ul>
-<li><a href="#1-background">1. Background</a></li>
-<li><a href="#2-full-code">2. Full CODE</a></li>
-<li><a href="#3-reference">3. Reference</a></li>
-</ul>
-<h1>1. Background</h1>
-<p>After writing several tools for Reivt, for myself, I can use it by coding, but to make it more friendly for other users, we need to make a UI for the fuctions.On revit, it is quite easy to make ribbon.</p>
-<p>This part is easy, quite similar as the AutoCAD API, I have written the comments inside the code.</p>
-<h1>2. Full CODE</h1>
-<pre class=" language-language-C#"><code class="language-language-C#">    [Transaction(TransactionMode.Manual)]
-    public class ReNumberTab : IExternalApplication
-    {
-        public Result OnShutdown(UIControlledApplication application)
-        {
-            return Result.Succeeded;
-        }
-
-        public Result OnStartup(UIControlledApplication application)
-        {
-            //create a Ribbon Tab
-            application.CreateRibbonTab("FYTab");//New Tab
-
-
-            //create UIPanel in the Ribbon Tab 
-            RibbonPanel rp = application.CreateRibbonPanel("FYTab", "ReNumber");
-
-            //route of assemble
-            string assemblePath = Assembly.GetExecutingAssembly().Location;
-            
-            //name space and class name of the function
-            string classNameReNumberWindow = "ReNumber.ReNumberWindows";
-
-            //4. Create push button
-            PushButtonData pbd = new PushButtonData("ReNameWindows", "ReNameWindows", assemblePath, classNameReNumberWindow);
-
-            PushButton pushButton = rp.AddItem(pbd) as PushButton;
-
-            // big icon 32px. small icon at 16px
-            string imgPath = @"C:\ProgramData\Autodesk\Revit\Addins\2019\ReNumberWindows\sheep.png";
-            //new Uri("pack://application:,,,/ReNumber;component/pic/sheep.png", UriKind.Absolute)
-
-            //to set the button image to the button object
-            pushButton.LargeImage = new BitmapImage(new Uri(imgPath));
-
-            //to set the reminder when the mouse float on the button
-            pushButton.ToolTip = "Renumber all the Windows from \"EW-01\"";
-
-            return Result.Succeeded;
-        }
-    }
-
-</code></pre>
-<h1>3. Reference</h1>
-<p><a href="http://help.autodesk.com/view/RVT/2019/ENU/?guid=Revit_API_Revit_API_Developers_Guide_html" target="_blank" rel="noopener">http://help.autodesk.com/view/RVT/2019/ENU/?guid=Revit_API_Revit_API_Developers_Guide_html</a></p>
-<script>
-        document.querySelectorAll('.github-emoji')
-          .forEach(el => {
-            if (!el.dataset.src) { return; }
-            const img = document.createElement('img');
-            img.style = 'display:none !important;';
-            img.src = el.dataset.src;
-            img.addEventListener('error', () => {
-              img.remove();
-              el.style.color = 'inherit';
-              el.style.backgroundImage = 'none';
-              el.style.background = 'none';
-            });
-            img.addEventListener('load', () => {
-              img.remove();
-            });
-            document.body.appendChild(img);
-          });
-      </script>]]></content>
-      <categories>
-        <category>January 2020</category>
-      </categories>
-      <tags>
-        <tag>C#</tag>
-        <tag>Revit API</tag>
       </tags>
   </entry>
   <entry>
@@ -4831,6 +4834,57 @@ plt.show()
       </tags>
   </entry>
   <entry>
+    <title>Land-use TIF file making for HEC-RAS 2D</title>
+    <url>/2020/04/20/Land-use%20TIF%20file%20making%20for%20HEC-RAS%202D/</url>
+    <content><![CDATA[<p>For 2D analysis in HEC-RAS, we may need to a land use map to assign the manning factor as . How to make it? Of course we can make the detailed land use map by analyzing satellite imagery. But for a simple model, sometime we do not need such a detailed plan. Today I would like to introduce a way to make simple land use map</p>
+<p><img src="/2020/04/20/Land-use%20TIF%20file%20making%20for%20HEC-RAS%202D/11.PNG" alt="HEC-RAS manning.png"></p>
+<p>First, we should download DEM data, building footprint and road information from <a href="https://geomapspublic.aucklandcouncil.govt.nz/viewer/index.html" target="_blank" rel="noopener">Auckland Council Geomap</a>.</p>
+<hr>
+<h3 id="Data-Loading">Data Loading</h3>
+<p>After loading all the data, we can have a map as below.</p>
+<p><img src="/2020/04/20/Land-use%20TIF%20file%20making%20for%20HEC-RAS%202D/22.PNG" alt="HEC-RAS manning.png"></p>
+<p>Now we need to assign different area with different values, and then merge them together.</p>
+<hr>
+<h3 id="Raster-Calculator">Raster Calculator</h3>
+<p>Firstly, we treat the whole catchment area by assigning “1”.</p>
+<p><img src="/2020/04/20/Land-use%20TIF%20file%20making%20for%20HEC-RAS%202D/catchment.PNG" alt="catchment.png"></p>
+<p>Secondly, we apply <em>.\3D Analyst Tools.tbx\Triangulated Surface\Interpolate Polygon to Multipatch</em> to assign the footprint area with value “4”.<br>
+<img src="/2020/04/20/Land-use%20TIF%20file%20making%20for%20HEC-RAS%202D/BFraster.PNG" alt="building footprint.png"></p>
+<p>Similarly, we apply <em>.\3D Analyst Tools.tbx\Triangulated Surface\Interpolate Polygon to Multipatch</em> to assign the roading area with value “3”.<br>
+<img src="/2020/04/20/Land-use%20TIF%20file%20making%20for%20HEC-RAS%202D/roadraster.PNG" alt="road.png"></p>
+<hr>
+<h3 id="Merging-the-files">Merging the files</h3>
+<p><em>.\Spatial Analyst Tools.tbx\Local\Cell Statistics</em> is used to merge the three raster together.Final result will be as the First Photo.</p>
+<p>We just finished a simple one, but the complex one is same, just to merge more seperate raster files.</p>
+<script>
+        document.querySelectorAll('.github-emoji')
+          .forEach(el => {
+            if (!el.dataset.src) { return; }
+            const img = document.createElement('img');
+            img.style = 'display:none !important;';
+            img.src = el.dataset.src;
+            img.addEventListener('error', () => {
+              img.remove();
+              el.style.color = 'inherit';
+              el.style.backgroundImage = 'none';
+              el.style.background = 'none';
+            });
+            img.addEventListener('load', () => {
+              img.remove();
+            });
+            document.body.appendChild(img);
+          });
+      </script>]]></content>
+      <categories>
+        <category>April 2020</category>
+      </categories>
+      <tags>
+        <tag>Arcmap</tag>
+        <tag>HEC-RAS</tag>
+        <tag>Raster</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>How to merge many different raster files into one raster</title>
     <url>/2020/04/20/How%20to%20take%20many%20different%20rasters%20into%20one%20raster/</url>
     <content><![CDATA[<p>On <a href="https://geomapspublic.aucklandcouncil.govt.nz/viewer/index.html" target="_blank" rel="noopener">Auckland Council Geomap</a>, we can download the high resolution DEM data, but the uplimit area is 6 Square Km. What if the catchment area we are interested in is more than the number, than we can download the DEM data from <a href="https://data.linz.govt.nz/search/?q=DEM" target="_blank" rel="noopener">LINZ</a>.</p>
@@ -4883,28 +4937,27 @@ plt.show()
       </tags>
   </entry>
   <entry>
-    <title>Land-use TIF file making for HEC-RAS 2D</title>
-    <url>/2020/04/20/Land-use%20TIF%20file%20making%20for%20HEC-RAS%202D/</url>
-    <content><![CDATA[<p>For 2D analysis in HEC-RAS, we may need to a land use map to assign the manning factor as . How to make it? Of course we can make the detailed land use map by analyzing satellite imagery. But for a simple model, sometime we do not need such a detailed plan. Today I would like to introduce a way to make simple land use map</p>
-<p><img src="/2020/04/20/Land-use%20TIF%20file%20making%20for%20HEC-RAS%202D/11.PNG" alt="HEC-RAS manning.png"></p>
-<p>First, we should download DEM data, building footprint and road information from <a href="https://geomapspublic.aucklandcouncil.govt.nz/viewer/index.html" target="_blank" rel="noopener">Auckland Council Geomap</a>.</p>
+    <title>Present 3D DEM and Building in ArcScene</title>
+    <url>/2020/04/22/Present%20the%20results%20in%20ArcScene/</url>
+    <content><![CDATA[<p>If we want to have an 3D overview of DEM with Building or flooding data, we can use ArcScene.</p>
 <hr>
-<h3 id="Data-Loading">Data Loading</h3>
-<p>After loading all the data, we can have a map as below.</p>
-<p><img src="/2020/04/20/Land-use%20TIF%20file%20making%20for%20HEC-RAS%202D/22.PNG" alt="HEC-RAS manning.png"></p>
-<p>Now we need to assign different area with different values, and then merge them together.</p>
+<h3 id="Load-DEM">Load DEM</h3>
+<p>Firstly, we need to load the DEM raster files in ArcScene, and right-click the DEM layer and choose “Property”. Select the “Base Height” Tab as the figure below.</p>
+<p><img src="/2020/04/22/Present%20the%20results%20in%20ArcScene/11.PNG" alt="DEM Load"></p>
 <hr>
-<h3 id="Raster-Calculator">Raster Calculator</h3>
-<p>Firstly, we treat the whole catchment area by assigning “1”.</p>
-<p><img src="/2020/04/20/Land-use%20TIF%20file%20making%20for%20HEC-RAS%202D/catchment.PNG" alt="catchment.png"></p>
-<p>Secondly, we apply <em>.\3D Analyst Tools.tbx\Triangulated Surface\Interpolate Polygon to Multipatch</em> to assign the footprint area with value “4”.<br>
-<img src="/2020/04/20/Land-use%20TIF%20file%20making%20for%20HEC-RAS%202D/BFraster.PNG" alt="building footprint.png"></p>
-<p>Similarly, we apply <em>.\3D Analyst Tools.tbx\Triangulated Surface\Interpolate Polygon to Multipatch</em> to assign the roading area with value “3”.<br>
-<img src="/2020/04/20/Land-use%20TIF%20file%20making%20for%20HEC-RAS%202D/roadraster.PNG" alt="road.png"></p>
+<h3 id="Load-Building-Footprint-Dataset">Load Building Footprint Dataset</h3>
+<p>Same as the DEM loading, right-click the “Building Footprint” layer and choose “Property”. Select the “Extrustion” Tab as the figure below. Select the building height filed in the “Expression” box.</p>
+<p><img src="/2020/04/22/Present%20the%20results%20in%20ArcScene/22.PNG" alt="Building Extrusion"></p>
+<p>The result is as shown below.</p>
+<p><img src="/2020/04/22/Present%20the%20results%20in%20ArcScene/33.PNG" alt="Building Extrusion result.png"></p>
 <hr>
-<h3 id="Merging-the-files">Merging the files</h3>
-<p><em>.\Spatial Analyst Tools.tbx\Local\Cell Statistics</em> is used to merge the three raster together.Final result will be as the First Photo.</p>
-<p>We just finished a simple one, but the complex one is same, just to merge more seperate raster files.</p>
+<h3 id="Load-the-buiding-on-the-DEM">Load the buiding on the DEM</h3>
+<p>Select the “Base Height” Tab of the building Footprint Dataset as the figure below. Select the DEM Dataset.</p>
+<p><img src="/2020/04/22/Present%20the%20results%20in%20ArcScene/44.PNG" alt="Mosaic Dataset.png"></p>
+<hr>
+<h3 id="Final-result">Final result</h3>
+<p>In a similar way, we can load Road, drainage pipe or flooding, and have a 3D view for the Dataset.</p>
+<p><img src="/2020/04/22/Present%20the%20results%20in%20ArcScene/55.PNG" alt="result.png"></p>
 <script>
         document.querySelectorAll('.github-emoji')
           .forEach(el => {
@@ -4925,12 +4978,10 @@ plt.show()
           });
       </script>]]></content>
       <categories>
-        <category>April 2020</category>
+        <category>May 2020</category>
       </categories>
       <tags>
         <tag>Arcmap</tag>
-        <tag>Raster</tag>
-        <tag>HEC-RAS</tag>
       </tags>
   </entry>
   <entry>
@@ -5047,54 +5098,6 @@ with adoc.LockDocument():
       </categories>
       <tags>
         <tag>Civil 3d</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Present 3D DEM and Building in ArcScene</title>
-    <url>/2020/04/22/Present%20the%20results%20in%20ArcScene/</url>
-    <content><![CDATA[<p>If we want to have an 3D overview of DEM with Building or flooding data, we can use ArcScene.</p>
-<hr>
-<h3 id="Load-DEM">Load DEM</h3>
-<p>Firstly, we need to load the DEM raster files in ArcScene, and right-click the DEM layer and choose “Property”. Select the “Base Height” Tab as the figure below.</p>
-<p><img src="/2020/04/22/Present%20the%20results%20in%20ArcScene/11.PNG" alt="DEM Load"></p>
-<hr>
-<h3 id="Load-Building-Footprint-Dataset">Load Building Footprint Dataset</h3>
-<p>Same as the DEM loading, right-click the “Building Footprint” layer and choose “Property”. Select the “Extrustion” Tab as the figure below. Select the building height filed in the “Expression” box.</p>
-<p><img src="/2020/04/22/Present%20the%20results%20in%20ArcScene/22.PNG" alt="Building Extrusion"></p>
-<p>The result is as shown below.</p>
-<p><img src="/2020/04/22/Present%20the%20results%20in%20ArcScene/33.PNG" alt="Building Extrusion result.png"></p>
-<hr>
-<h3 id="Load-the-buiding-on-the-DEM">Load the buiding on the DEM</h3>
-<p>Select the “Base Height” Tab of the building Footprint Dataset as the figure below. Select the DEM Dataset.</p>
-<p><img src="/2020/04/22/Present%20the%20results%20in%20ArcScene/44.PNG" alt="Mosaic Dataset.png"></p>
-<hr>
-<h3 id="Final-result">Final result</h3>
-<p>In a similar way, we can load Road, drainage pipe or flooding, and have a 3D view for the Dataset.</p>
-<p><img src="/2020/04/22/Present%20the%20results%20in%20ArcScene/55.PNG" alt="result.png"></p>
-<script>
-        document.querySelectorAll('.github-emoji')
-          .forEach(el => {
-            if (!el.dataset.src) { return; }
-            const img = document.createElement('img');
-            img.style = 'display:none !important;';
-            img.src = el.dataset.src;
-            img.addEventListener('error', () => {
-              img.remove();
-              el.style.color = 'inherit';
-              el.style.backgroundImage = 'none';
-              el.style.background = 'none';
-            });
-            img.addEventListener('load', () => {
-              img.remove();
-            });
-            document.body.appendChild(img);
-          });
-      </script>]]></content>
-      <categories>
-        <category>May 2020</category>
-      </categories>
-      <tags>
-        <tag>Arcmap</tag>
       </tags>
   </entry>
   <entry>
@@ -5759,6 +5762,25 @@ states_with_cities.head()
       </tags>
   </entry>
   <entry>
+    <title>Visual Studio Shortcut in C#</title>
+    <url>/2020/05/13/Visual%20Studio%20C#%20Code%20Snippet/</url>
+    <content><![CDATA[<div id="hexo-blog-encrypt" data-wpm="Oh, this is an invalid password. Check and try again, please." data-whm="OOPS, these decrypted content may changed, but you can still have a look.">
+  <div class="hbe-input-container">
+  <input type="password" id="hbePass" placeholder="" />
+    <label for="hbePass">Hey, password is required here.</label>
+    <div class="bottom-line"></div>
+  </div>
+  <script id="hbeData" type="hbeData" data-hmacdigest="f4e230db7f895e83807b4683001f0ca385e6e51b963ab46395c16289cfa20e68">9818994cc23b9627459a1ad4ecd373487638ddb07293fb7afd06e1bca8f3e84dc718f85f9e72843f57195504930d2c9269181f17dca7ae6a4d27de71c5a4bc060f012b9390ea49ec79b0465e40f99594178b4b9d53fda2cbf44aace39b34069c6fce4a20ec7bc3cefe84269ba302ec3e490a8921a680bc9190d5eba091b8359ab16cb1db098f39fd1e30921c8f82f2bff703299a4a7f9d485184b43f6941c3e1e4fecc284d9610ea910e2098bce49cf286823809eaf685d1db7a84ef11e8b5ab0778e6028bd8ddc7c13c4f1a94d051780cdd6f240f142ca64192dc91583a8f98bb508d7f6b228bdc4dfc65decbc12c82ee8d71779180a0fb1329efda94440ee7985dc4277f8e7f1c61a38c11a732b271d97720572bfce5e1ad0095ded10492dbe4c6f7dcd8030804db276eeeef97a5e0a9542d785b627d6b7db96502d01db77bd3104843309d787c2e28426f7b02701373db7bcf2a9bce27018502f4092947dfb91384e158574cc2cb53c2cd1cf1344b55490e54920851f14ccf5919cd535eaa02c31f7bbdc13ff7d81f0e25850129f9f7980eff266b659002170164f5e0163ca45f123f6f0bf3c77a3ae0b39c0a86a2903670fca80f7d2f5fc50a568e34c91247359b32d0bd1be23a5592cad29dc373fed7e4e0dacdea1b56d4f1b46c7a1e8be747948f8a63851c92cf904161d4cbb982cbd840035c5fcbdbde59153e86633211f9aa26805307da7882fae89bc9f5b4b880a74184b49b496690f8c561e71e87ef2106a757cd1aca0f23316a1bac1a5059d1a211c4126d159e1570ddf90a46846d9bc0773175096bc986fe7ce352c1c4459482abcc4494a3c06a494ccdab6ead3b3dbbbe81bc370e1f5d400c0784d83f42136fb0b0aed60b5f973d6a08e7149ffce35cd1bde65c1991494865ce696657d15f5aa926e20d4dd510838fca103c8dc75b9f7a1207c1357be1ffe9afa3a11d2befd0a6993b64d5d880ae0a4ca7da20aed206db1e595a65ce216c50b180929489b5fbd92c1ea342d522c64d9562f29f09a8e5c36ee6b3369c2c12895448a7c1988056b2ad3597fcb604ab1d959457bf5f4f37944bba968fab98b7e3c9e6cdb2ef80e2990621b2b33dd2578753ce8b355785f3a20aaa428c455c9d8d1e53c10e2a9c0220e8f99d94db1cf7e8fb367450e20285b6ff69f41e302d8178a7cce2f821cb7ffb78896cb625c554bdfe62098fe5b632aea251ab88a05874536071007b4d7648748bfa19fbd1082dcea1bc67f983a1cb82cf003efb46a00ee4b6c9efa3f00971e4505df9baa6e418eb26fa8bf679454183e53d1f9ae62928702e0cf551</script>
+</div>
+<script src="/lib/blog-encrypt.js"></script><link href="/css/blog-encrypt.css" rel="stylesheet" type="text/css">]]></content>
+      <categories>
+        <category>May 2020</category>
+      </categories>
+      <tags>
+        <tag>C#</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Hello World</title>
     <url>/2020/04/10/hello-world/</url>
     <content><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
@@ -5801,25 +5823,6 @@ states_with_cities.head()
       <categories>
         <category>April 2020</category>
       </categories>
-  </entry>
-  <entry>
-    <title>Visual Studio Shortcut in C#</title>
-    <url>/2020/05/13/Visual%20Studio%20C#%20Code%20Snippet/</url>
-    <content><![CDATA[<div id="hexo-blog-encrypt" data-wpm="Oh, this is an invalid password. Check and try again, please." data-whm="OOPS, these decrypted content may changed, but you can still have a look.">
-  <div class="hbe-input-container">
-  <input type="password" id="hbePass" placeholder="" />
-    <label for="hbePass">Hey, password is required here.</label>
-    <div class="bottom-line"></div>
-  </div>
-  <script id="hbeData" type="hbeData" data-hmacdigest="f4e230db7f895e83807b4683001f0ca385e6e51b963ab46395c16289cfa20e68">9818994cc23b9627459a1ad4ecd373487638ddb07293fb7afd06e1bca8f3e84dc718f85f9e72843f57195504930d2c9269181f17dca7ae6a4d27de71c5a4bc060f012b9390ea49ec79b0465e40f99594178b4b9d53fda2cbf44aace39b34069c6fce4a20ec7bc3cefe84269ba302ec3e490a8921a680bc9190d5eba091b8359ab16cb1db098f39fd1e30921c8f82f2bff703299a4a7f9d485184b43f6941c3e1e4fecc284d9610ea910e2098bce49cf286823809eaf685d1db7a84ef11e8b5ab0778e6028bd8ddc7c13c4f1a94d051780cdd6f240f142ca64192dc91583a8f98bb508d7f6b228bdc4dfc65decbc12c82ee8d71779180a0fb1329efda94440ee7985dc4277f8e7f1c61a38c11a732b271d97720572bfce5e1ad0095ded10492dbe4c6f7dcd8030804db276eeeef97a5e0a9542d785b627d6b7db96502d01db77bd3104843309d787c2e28426f7b02701373db7bcf2a9bce27018502f4092947dfb91384e158574cc2cb53c2cd1cf1344b55490e54920851f14ccf5919cd535eaa02c31f7bbdc13ff7d81f0e25850129f9f7980eff266b659002170164f5e0163ca45f123f6f0bf3c77a3ae0b39c0a86a2903670fca80f7d2f5fc50a568e34c91247359b32d0bd1be23a5592cad29dc373fed7e4e0dacdea1b56d4f1b46c7a1e8be747948f8a63851c92cf904161d4cbb982cbd840035c5fcbdbde59153e86633211f9aa26805307da7882fae89bc9f5b4b880a74184b49b496690f8c561e71e87ef2106a757cd1aca0f23316a1bac1a5059d1a211c4126d159e1570ddf90a46846d9bc0773175096bc986fe7ce352c1c4459482abcc4494a3c06a494ccdab6ead3b3dbbbe81bc370e1f5d400c0784d83f42136fb0b0aed60b5f973d6a08e7149ffce35cd1bde65c1991494865ce696657d15f5aa926e20d4dd510838fca103c8dc75b9f7a1207c1357be1ffe9afa3a11d2befd0a6993b64d5d880ae0a4ca7da20aed206db1e595a65ce216c50b180929489b5fbd92c1ea342d522c64d9562f29f09a8e5c36ee6b3369c2c12895448a7c1988056b2ad3597fcb604ab1d959457bf5f4f37944bba968fab98b7e3c9e6cdb2ef80e2990621b2b33dd2578753ce8b355785f3a20aaa428c455c9d8d1e53c10e2a9c0220e8f99d94db1cf7e8fb367450e20285b6ff69f41e302d8178a7cce2f821cb7ffb78896cb625c554bdfe62098fe5b632aea251ab88a05874536071007b4d7648748bfa19fbd1082dcea1bc67f983a1cb82cf003efb46a00ee4b6c9efa3f00971e4505df9baa6e418eb26fa8bf679454183e53d1f9ae62928702e0cf551</script>
-</div>
-<script src="/lib/blog-encrypt.js"></script><link href="/css/blog-encrypt.css" rel="stylesheet" type="text/css">]]></content>
-      <categories>
-        <category>May 2020</category>
-      </categories>
-      <tags>
-        <tag>C#</tag>
-      </tags>
   </entry>
   <entry>
     <title>Introduction to Matplotlib and Line Plots</title>
