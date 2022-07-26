@@ -1,57 +1,98 @@
 <!doctype html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
-        <meta name="mobile-web-app-capable" content="yes">
-        <meta name="apple-mobile-web-app-capable" content="yes">
-        <link rel="stylesheet" href="mapbox/mapbox-gl.css">
-        <link rel="stylesheet" href="css/qgis2web.css">
-        <link rel="stylesheet" href="css/MarkerCluster.css">
-        <link rel="stylesheet" href="css/MarkerCluster.Default.css">
-        <link rel="stylesheet" href="mapbox/mapbox-gl-generic-geocoder.css">
-        <style>
-        html, body, #map {
+<!-- <script lang=JavaScript>
+    function password() {
+        var testV = 1;
+
+        var pass1 = prompt("Please type in the password:", "");
+
+        while (testV < 3) {
+            if (!pass1)
+                history.go(-1);
+            if (pass1 == "pk.eyJ1IjoiODA3NTczNTE1IiwiYSI6ImNqZmJ5bXZ6ODBtdnMzM21zZGFwMW9kMncifQ.qVjod6pfoKs35WrQ7zmnLA") {
+                alert("Password is right");
+                break;
+            }
+            testV += -1;
+            var pass1 = prompt("The password is wrong, please input new one");
+        }
+
+        if (pass1 = "password" & testV == 3)
+            history.go(-1);
+
+        return " "
+    }
+    document.write(password())
+
+</script> -->
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <link rel="stylesheet" href="mapbox/mapbox-gl.css">
+    <link rel="stylesheet" href="css/qgis2web.css">
+    <link rel="stylesheet" href="css/MarkerCluster.css">
+    <link rel="stylesheet" href="css/MarkerCluster.Default.css">
+    <link rel="stylesheet" href="mapbox/mapbox-gl-generic-geocoder.css">
+    <style>
+        html,
+        body,
+        #map {
             width: 100%;
             height: 100%;
             padding: 0;
             margin: 0;
         }
-        </style>
-        <title></title>
-    </head>
-    <body>
-        <div id="map">
-            <nav id="menu"></nav>
-              <div id="distance" class="distance-container"></div>
-        </div>
-        <script src="js/qgis2web_expressions.js"></script>
-        <script src="./mapbox/mapbox-gl.js"></script>
-        <script src="mapbox/mapbox-gl-generic-geocoder.min.js"></script>
-        <script src="js/leaflet.markercluster.js"></script>
-        <script src="data/TRIAL_TABLE_1.js"></script>
-        <script src="data/AC_Parcel_polygon_2.js"></script>
-<script src="./mapbox/style.js"></script>
-<script src="./js/Autolinker.min.js"></script>
-<script>
-var map = new mapboxgl.Map({
- container: 'map',
- style: styleJSON,
- center: [174.678526836402,-36.89028440504415],
- zoom: 18,
- bearing: 360.0,
- attributionControl: false
-});
-map.addControl(new mapboxgl.NavigationControl(), 'top-left');
-map.addControl(new mapboxgl.AttributionControl({
-    customAttribution: '<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://github.com/mapbox/mapbox-gl-js" target="_blank">Mapbox GL JS</a> &middot; <a href="https://qgis.org" target="_blank">QGIS</a>',
-    compact: false
-}));
-var autolinker = new Autolinker({truncate: {length: 30, location: 'smart'}});
+    </style>
+    <title></title>
+</head>
 
-map.on('click', 'lyr_TRIAL_TABLE_1_0', function (e) {
-    var description = '<table>\
+<body>
+    <style>
+        .mapboxgl-popup {
+            width: 100%;
+            height: 100px;
+            padding: 10, 8, 10, 7;
+            top: 200px;
+            bottom: 100px;
+            right: 200px;
+            transform: translate(120px, 50%);
+        }
+    </style>
+
+    <div id="map">
+        <nav id="menu"></nav>
+        <div id="distance" class="distance-container"></div>
+    </div>
+    <script src="js/qgis2web_expressions.js"></script>
+    <script src="./mapbox/mapbox-gl.js"></script>
+    <script src="mapbox/mapbox-gl-generic-geocoder.min.js"></script>
+    <script src="js/leaflet.markercluster.js"></script>
+    <script src="data/TRIAL_TABLE_1.js"></script>
+    <script src="data/AC_Parcel_polygon_2.js"></script>
+    <script src="./mapbox/style.js"></script>
+    <script src="./js/Autolinker.min.js"></script>
+    <script>
+        var map = new mapboxgl.Map({
+            container: 'map',
+            style: styleJSON,
+            center: [174.678526836402, -36.89028440504415],
+            zoom: 18,
+            bearing: 360.0,
+            attributionControl: false
+        });
+        map.addControl(new mapboxgl.NavigationControl(), 'top-left');
+        map.addControl(new mapboxgl.AttributionControl({
+            customAttribution: '<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://github.com/mapbox/mapbox-gl-js" target="_blank">Mapbox GL JS</a> &middot; <a href="https://qgis.org" target="_blank">QGIS</a>',
+            compact: false
+        }));
+        var autolinker = new Autolinker({ truncate: { length: 30, location: 'smart' } });
+
+        map.on('click', 'lyr_TRIAL_TABLE_1_0', function (e) {
+            var description = '<table>\
                     <tr>\
                         <th scope="row">aaa</th>\
                         <td>' + (e.features[0].properties['aaa'] !== null ? autolinker.link(e.features[0].properties['aaa'].toLocaleString()) : '') + '</td>\
@@ -62,23 +103,23 @@ map.on('click', 'lyr_TRIAL_TABLE_1_0', function (e) {
                     </tr>\
                 </table>'
 
-    new mapboxgl.Popup()
-        .setLngLat(e.lngLat)
-        .setHTML(description)
-        .addTo(map);
-});
+            new mapboxgl.Popup()
+                .setLngLat(e.lngLat)
+                .setHTML(description)
+                .addTo(map);
+        });
 
-// Change the cursor to a pointer when the mouse is over the places layer.
-map.on('mouseenter', 'lyr_TRIAL_TABLE_1_0', function () {
-    map.getCanvas().style.cursor = 'pointer';
-});
+        // Change the cursor to a pointer when the mouse is over the places layer.
+        map.on('mouseenter', 'lyr_TRIAL_TABLE_1_0', function () {
+            map.getCanvas().style.cursor = 'pointer';
+        });
 
-// Change it back to a pointer when it leaves.
-map.on('mouseleave', 'lyr_TRIAL_TABLE_1_0', function () {
-    map.getCanvas().style.cursor = '';
-});
-map.on('click', 'lyr_AC_Parcel_polygon_2_0', function (e) {
-    var description = '<table>\
+        // Change it back to a pointer when it leaves.
+        map.on('mouseleave', 'lyr_TRIAL_TABLE_1_0', function () {
+            map.getCanvas().style.cursor = '';
+        });
+        map.on('click', 'lyr_AC_Parcel_polygon_2_0', function (e) {
+            var description = '<table>\
                     <tr>\
                         <td colspan="2">' + (e.features[0].properties['OBJECTID'] !== null ? autolinker.link(e.features[0].properties['OBJECTID'].toLocaleString()) : '') + '</td>\
                     </tr>\
@@ -91,79 +132,79 @@ map.on('click', 'lyr_AC_Parcel_polygon_2_0', function (e) {
                     </tr>\
                 </table>'
 
-    new mapboxgl.Popup()
-        .setLngLat(e.lngLat)
-        .setHTML(description)
-        .addTo(map);
-});
+            new mapboxgl.Popup()
+                .setLngLat(e.lngLat)
+                .setHTML(description)
+                .addTo(map);
+        });
 
-// Change the cursor to a pointer when the mouse is over the places layer.
-map.on('mouseenter', 'lyr_AC_Parcel_polygon_2_0', function () {
-    map.getCanvas().style.cursor = 'pointer';
-});
+        // Change the cursor to a pointer when the mouse is over the places layer.
+        map.on('mouseenter', 'lyr_AC_Parcel_polygon_2_0', function () {
+            map.getCanvas().style.cursor = 'pointer';
+        });
 
-// Change it back to a pointer when it leaves.
-map.on('mouseleave', 'lyr_AC_Parcel_polygon_2_0', function () {
-    map.getCanvas().style.cursor = '';
-});
-    var toggleableLayerIds = ['lyr_AC_Parcel_polygon_2_0', 'AC_Parcel_polygon','lyr_TRIAL_TABLE_1_0', 'TRIAL_TABLE','lyr_GoogleRoad_0_0', 'Google Road'];
+        // Change it back to a pointer when it leaves.
+        map.on('mouseleave', 'lyr_AC_Parcel_polygon_2_0', function () {
+            map.getCanvas().style.cursor = '';
+        });
+        var toggleableLayerIds = ['lyr_AC_Parcel_polygon_2_0', 'AC_Parcel_polygon', 'lyr_TRIAL_TABLE_1_0', 'TRIAL_TABLE', 'lyr_GoogleRoad_0_0', 'Google Road'];
 
-    for (var i = 0; i < toggleableLayerIds.length; i=i+2) {
-        var id = toggleableLayerIds[i];
-        var layerName = toggleableLayerIds[i+1]
+        for (var i = 0; i < toggleableLayerIds.length; i = i + 2) {
+            var id = toggleableLayerIds[i];
+            var layerName = toggleableLayerIds[i + 1]
 
-        var link = document.createElement('a');
-        link.href = '#';
-        link.className = 'active';
-        link.layer = id;
-        link.textContent = layerName;
+            var link = document.createElement('a');
+            link.href = '#';
+            link.className = 'active';
+            link.layer = id;
+            link.textContent = layerName;
 
-        link.onclick = function (e) {
-            var clickedLayer = this.layer;
-            e.preventDefault();
-            e.stopPropagation();
+            link.onclick = function (e) {
+                var clickedLayer = this.layer;
+                e.preventDefault();
+                e.stopPropagation();
 
-            var visibility = map.getLayoutProperty(clickedLayer, 'visibility');
+                var visibility = map.getLayoutProperty(clickedLayer, 'visibility');
 
-            if (typeof visibility === 'undefined' || visibility == 'visible') {
-                map.setLayoutProperty(clickedLayer, 'visibility', 'none');
-                this.className = '';
-            } else {
-                this.className = 'active';
-                map.setLayoutProperty(clickedLayer, 'visibility', 'visible');
-            }
-        };
-
-        var layers = document.getElementById('menu');
-        layers.appendChild(link);
-    }
-        var geocodeNominatimRequest = function(query, mapBounds, options) {
-        var params = { format: "json", q: query, limit: options.limit };
-        var urlParams = new URLSearchParams(Object.entries(params));
-
-        return fetch("http://nominatim.openstreetmap.org/search?" + urlParams)
-            .then(function(response) {
-                if(response.ok) {
-                    return response.json();
+                if (typeof visibility === 'undefined' || visibility == 'visible') {
+                    map.setLayoutProperty(clickedLayer, 'visibility', 'none');
+                    this.className = '';
                 } else {
-                    return [];
+                    this.className = 'active';
+                    map.setLayoutProperty(clickedLayer, 'visibility', 'visible');
                 }
-            }).then(function(json) {
-                return json.map(function(result) {
-                    return {
-                        name: result.display_name,
-                        lat: result.lat,
-                        lon: result.lon,
-                        bbox: [result.boundingbox[2], result.boundingbox[0],
-                               result.boundingbox[3], result.boundingbox[1]]
-                    };
+            };
+
+            var layers = document.getElementById('menu');
+            layers.appendChild(link);
+        }
+        var geocodeNominatimRequest = function (query, mapBounds, options) {
+            var params = { format: "json", q: query, limit: options.limit };
+            var urlParams = new URLSearchParams(Object.entries(params));
+
+            return fetch("http://nominatim.openstreetmap.org/search?" + urlParams)
+                .then(function (response) {
+                    if (response.ok) {
+                        return response.json();
+                    } else {
+                        return [];
+                    }
+                }).then(function (json) {
+                    return json.map(function (result) {
+                        return {
+                            name: result.display_name,
+                            lat: result.lat,
+                            lon: result.lon,
+                            bbox: [result.boundingbox[2], result.boundingbox[0],
+                            result.boundingbox[3], result.boundingbox[1]]
+                        };
+                    });
                 });
-            });
         };
 
         map.addControl(new MapboxGenericGeocoder({}, geocodeNominatimRequest));
-</script>
-        <script>
+    </script>
+    <script>
         map.addControl(
             new mapboxgl.GeolocateControl({
                 positionOptions: {
@@ -172,6 +213,7 @@ map.on('mouseleave', 'lyr_AC_Parcel_polygon_2_0', function () {
                 trackUserLocation: true
             })
         );
-        </script>
-    </body>
+    </script>
+</body>
+
 </html>
