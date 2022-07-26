@@ -1,6 +1,6 @@
-var json_TRIAL_TABLE_2 = {
+var json_TRIAL_TABLE_1 = {
 "type": "FeatureCollection",
-"name": "TRIAL_TABLE_2",
+"name": "TRIAL_TABLE_1",
 "crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
 "features": [
 { "type": "Feature", "properties": { "aaa": "2", "BBB": 2.0 }, "geometry": { "type": "Point", "coordinates": [ 174.678207684655064, -36.890134398418915 ] } },
